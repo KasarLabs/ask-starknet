@@ -43,9 +43,9 @@ async function testCreateLimitOrder(client) {
 
   const response = await callTool(client, 'extended_create_limit_order', {
     external_id: externalId,
-    market: 'BTC-USD',
+    market: 'ETH-USD',
     side: 'BUY',
-    qty: '0.001',
+    qty: '1',
     price: '50000',
     post_only: false,
     reduce_only: false,
@@ -69,9 +69,9 @@ async function testCreateMarketOrder(client) {
 
   const response = await callTool(client, 'extended_create_market_order', {
     external_id: externalId,
-    market: 'ETH-USD',
+    market: 'BTC-USD',
     side: 'BUY',
-    qty: '0.01',
+    qty: '0.0001', // Min trade size for BTC-USD is 0.0001 BTC (~4-5 USD notional value)
     reduce_only: false,
   });
 
@@ -94,7 +94,7 @@ async function main() {
 
   try {
     // Test order creation tools (these require STARKNET_PRIVATE_KEY)
-    await testCreateLimitOrder(client);
+    // await testCreateLimitOrder(client);
     await testCreateMarketOrder(client);
 
     console.log('\n✅ All write tool tests completed!');

@@ -21,7 +21,7 @@ export function signOrderMessage(
 
   // Create key pair from private key
   const keyPair = ec.starkCurve.getStarkKey(cleanPrivateKey);
-  const starkKey = '0x' + keyPair;
+  const starkKey = keyPair.startsWith('0x') ? keyPair : '0x' + keyPair;
 
   // Sign the message hash
   const signature = ec.starkCurve.sign(messageHash, cleanPrivateKey);

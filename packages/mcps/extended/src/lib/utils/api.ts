@@ -44,7 +44,11 @@ export async function apiPost<T>(
     'X-Api-Key': env.apiKey,
     'Content-Type': 'application/json',
   };
-
+  console.error(url, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(body),
+  });
   const response = await fetch(url, {
     method: 'POST',
     headers,
