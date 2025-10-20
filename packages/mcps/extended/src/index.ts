@@ -19,12 +19,16 @@ import { getPositionsHistory } from './tools/read/getPositionsHistory.js';
 import { getFundingPayments } from './tools/read/getFundingPayments.js';
 import { getLeverage } from './tools/read/getLeverage.js';
 import { getFees } from './tools/read/getFees.js';
+import { getBridgeConfig } from './tools/read/getBridgeConfig.js';
+import { getBridgeQuote } from './tools/read/getBridgeQuote.js';
 
 // Import WRITE tools (Trading)
 import { createLimitOrder } from './tools/write/createLimitOrder.js';
 import { createMarketOrder } from './tools/write/createMarketOrder.js';
 import { cancelOrder } from './tools/write/cancelOrder.js';
 import { updateLeverage } from './tools/write/updateLeverage.js';
+import { createWithdrawal } from './tools/write/createWithdrawal.js';
+import { confirmBridgeQuote } from './tools/write/confirmBridgeQuote.js';
 
 // Import schemas
 import {
@@ -39,10 +43,14 @@ import {
   GetFundingPaymentsSchema,
   GetLeverageSchema,
   GetFeesSchema,
+  GetBridgeConfigSchema,
+  GetBridgeQuoteSchema,
   CreateLimitOrderSchema,
   CreateMarketOrderSchema,
   CancelOrderSchema,
-  UpdateLeverageSchema
+  UpdateLeverageSchema,
+  CreateWithdrawalSchema,
+  ConfirmBridgeQuoteSchema
 } from './schemas/index.js';
 
 dotenv.config();
@@ -173,6 +181,24 @@ const registerTools = (env: ExtendedApiEnv, tools: mcpTool[]) => {
     },
   });
 
+  tools.push({
+    name: 'extended_get_bridge_config',
+    description: 'Get supported EVM chains and bridge contract addresses for cross-chain deposits/withdrawals',
+    schema: GetBridgeConfigSchema,
+    execute: async (params) => {
+      return await getBridgeConfig(env);
+    },
+  });
+
+  tools.push({
+    name: 'extended_get_bridge_quote',
+    description: 'Get a quote for bridging funds between EVM chains and Starknet. Returns quote ID and estimated fees.',
+    schema: GetBridgeQuoteSchema,
+    execute: async (params) => {
+      return await getBridgeQuote(env, params);
+    },
+  });
+
   // ========================================
   // WRITE TOOLS (Trading)
   // ========================================
@@ -210,6 +236,24 @@ const registerTools = (env: ExtendedApiEnv, tools: mcpTool[]) => {
     schema: UpdateLeverageSchema,
     execute: async (params) => {
       return await updateLeverage(env, params);
+    },
+  });
+
+  tools.push({
+    name: 'extended_create_withdrawal',
+    description: 'Create a Starknet withdrawal. Requires STARKNET_PRIVATE_KEY to be set. WARNING: This implementation is incomplete - signature generation needs proper implementation following Extended SDK.',
+    schema: CreateWithdrawalSchema,
+    execute: async (params) => {
+      return await createWithdrawal(env, params);
+    },
+  });
+
+  tools.push({
+    name: 'extended_confirm_bridge_quote',
+    description: 'Confirm a bridge quote obtained from extended_get_bridge_quote. This tells Rhino.fi to start watching for the deposit transaction on the source chain.',
+    schema: ConfirmBridgeQuoteSchema,
+    execute: async (params) => {
+      return await confirmBridgeQuote(env, params);
     },
   });
 };

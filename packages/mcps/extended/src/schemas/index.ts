@@ -154,3 +154,41 @@ export const UpdateLeverageSchema = z.object({
   leverage: z.number().describe('The new leverage multiplier (e.g., 10 for 10x)'),
 });
 export type UpdateLeverageSchema = z.infer<typeof UpdateLeverageSchema>;
+
+/**
+ * Schema for creating a Starknet withdrawal
+ */
+export const CreateWithdrawalSchema = z.object({
+  account_id: z.number().describe('Source account ID'),
+  amount: z.string().describe('Withdrawal amount in collateral asset (e.g., "10.50")'),
+  amount_in_wei: z.string().describe('Withdrawal amount in wei/smallest unit (e.g., "10500000" for USDC with 6 decimals)'),
+  asset: z.string().optional().default('USD').describe('Collateral asset name (default: USD)'),
+  recipient_address: z.string().describe('Starknet address to receive the withdrawal'),
+  position_id: z.number().describe('Position ID for settlement'),
+  collateral_id: z.string().optional().describe('Collateral asset ID (hex string, default: USDC)'),
+});
+export type CreateWithdrawalSchema = z.infer<typeof CreateWithdrawalSchema>;
+
+/**
+ * Schema for getting bridge configuration
+ */
+export const GetBridgeConfigSchema = z.object({});
+export type GetBridgeConfigSchema = z.infer<typeof GetBridgeConfigSchema>;
+
+/**
+ * Schema for getting a bridge quote
+ */
+export const GetBridgeQuoteSchema = z.object({
+  chain_in: z.string().describe('Chain where bridge will accept funds (e.g., "ARB" for Arbitrum, "ETH" for Ethereum). For deposits use EVM chain, for withdrawals use "STRK"'),
+  chain_out: z.string().describe('Chain where bridge will send funds (e.g., "STRK" for Starknet). For deposits use "STRK", for withdrawals use EVM chain'),
+  amount: z.number().describe('Amount in USD to bridge'),
+});
+export type GetBridgeQuoteSchema = z.infer<typeof GetBridgeQuoteSchema>;
+
+/**
+ * Schema for confirming a bridge quote
+ */
+export const ConfirmBridgeQuoteSchema = z.object({
+  quote_id: z.string().describe('Quote ID obtained from getBridgeQuote'),
+});
+export type ConfirmBridgeQuoteSchema = z.infer<typeof ConfirmBridgeQuoteSchema>;
