@@ -64,7 +64,7 @@ const server = new McpServer({
 const createApiEnv = (): ExtendedApiEnv => {
   const apiKey = process.env.EXTENDED_API_KEY;
   const apiUrl = process.env.EXTENDED_API_URL || 'https://api.starknet.extended.exchange';
-  const privateKey = process.env.STARKNET_PRIVATE_KEY;
+  const privateKey = process.env.EXTENDED_STARKKEY_PRIVATE;
 
   if (!apiKey) {
     throw new Error('EXTENDED_API_KEY environment variable is required');
@@ -73,7 +73,7 @@ const createApiEnv = (): ExtendedApiEnv => {
   return {
     apiKey,
     apiUrl,
-    STARKNET_PRIVATE_KEY: privateKey,
+    EXTENDED_STARKKEY_PRIVATE: privateKey,
   };
 };
 

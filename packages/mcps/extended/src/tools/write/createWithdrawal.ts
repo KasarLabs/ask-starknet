@@ -13,7 +13,7 @@ export const createWithdrawal = async (
   params: CreateWithdrawalSchema
 ): Promise<ExtendedApiResponse<{ withdrawalId: number }>> => {
   try {
-    if (!env.STARKNET_PRIVATE_KEY) {
+    if (!env.EXTENDED_STARKKEY_PRIVATE) {
       throw new Error('STARKNET_PRIVATE_KEY is required for withdrawal creation');
     }
 

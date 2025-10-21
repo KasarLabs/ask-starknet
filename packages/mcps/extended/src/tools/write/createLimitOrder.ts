@@ -8,8 +8,8 @@ export const createLimitOrder = async (
   params: CreateLimitOrderSchema
 ): Promise<ExtendedApiResponse<Order>> => {
   try {
-    if (!env.STARKNET_PRIVATE_KEY) {
-      throw new Error('STARKNET_PRIVATE_KEY is required for order creation');
+    if (!env.EXTENDED_STARKKEY_PRIVATE) {
+      throw new Error('EXTENDED_STARKKEY_PRIVATE is required for order creation');
     }
 
     // Generate nonce (must be >= 1 and <= 2^31)
@@ -29,7 +29,7 @@ export const createLimitOrder = async (
     });
 
     // Sign the order
-    const signature = signOrderMessage(env.STARKNET_PRIVATE_KEY, messageHash);
+    const signature = signOrderMessage(env.EXTENDED_STARKKEY_PRIVATE, messageHash);
 
     // Build order payload
     const orderPayload = {

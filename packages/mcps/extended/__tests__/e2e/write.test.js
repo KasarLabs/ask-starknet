@@ -69,9 +69,9 @@ async function testCreateMarketOrder(client) {
 
   const response = await callTool(client, 'extended_create_market_order', {
     external_id: externalId,
-    market: 'BTC-USD',
+    market: 'ARB-USD',
     side: 'BUY',
-    qty: '0.0001', // Min trade size for BTC-USD is 0.0001 BTC (~4-5 USD notional value)
+    qty: '10', // Min trade size for BTC-USD is 0.0001 BTC (~4-5 USD notional value)
     reduce_only: false,
   });
 

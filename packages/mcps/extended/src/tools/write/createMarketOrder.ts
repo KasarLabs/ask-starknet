@@ -8,8 +8,8 @@ export const createMarketOrder = async (
   params: CreateMarketOrderSchema
 ): Promise<ExtendedApiResponse<Order>> => {
   try {
-    if (!env.STARKNET_PRIVATE_KEY) {
-      throw new Error('STARKNET_PRIVATE_KEY is required for order creation');
+    if (!env.EXTENDED_STARKKEY_PRIVATE) {
+      throw new Error('EXTENDED_STARKKEY_PRIVATE is required for order creation');
     }
 
     // Get user account info to retrieve vault (collateralPosition)
@@ -86,7 +86,7 @@ export const createMarketOrder = async (
     });
 
     // Sign the order
-    const signature = signOrderMessage(env.STARKNET_PRIVATE_KEY, messageHash);
+    const signature = signOrderMessage(env.EXTENDED_STARKKEY_PRIVATE, messageHash);
     console.error(signature);
     // Build order payload - all fields are required including price for market orders
     const orderPayload = {
