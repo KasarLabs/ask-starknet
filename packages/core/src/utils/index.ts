@@ -68,9 +68,7 @@ export const getOnchainWrite = (): onchainWrite => {
   const account = new Account(
     provider,
     accountAddress,
-    privateKey,
-    undefined,
-    constants.TRANSACTION_VERSION.V3
+    privateKey
   );
 
   return {

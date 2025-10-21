@@ -23,7 +23,7 @@ import { getBridgeConfig } from './tools/read/getBridgeConfig.js';
 import { getBridgeQuote } from './tools/read/getBridgeQuote.js';
 
 // Import WRITE tools (Trading)
-import { createLimitOrder } from './tools/write/createLimitOrder.js';
+// import { createLimitOrder } from './tools/write/createLimitOrder.js';
 import { createMarketOrder } from './tools/write/createMarketOrder.js';
 import { cancelOrder } from './tools/write/cancelOrder.js';
 import { updateLeverage } from './tools/write/updateLeverage.js';
@@ -203,14 +203,14 @@ const registerTools = (env: ExtendedApiEnv, tools: mcpTool[]) => {
   // WRITE TOOLS (Trading)
   // ========================================
 
-  tools.push({
-    name: 'extended_create_limit_order',
-    description: 'Create a new limit order with Starknet signature. Requires STARKNET_PRIVATE_KEY to be set. The order will be signed using Stark curve cryptography.',
-    schema: CreateLimitOrderSchema,
-    execute: async (params) => {
-      return await createLimitOrder(env, params);
-    },
-  });
+  // tools.push({
+  //   name: 'extended_create_limit_order',
+  //   description: 'Create a new limit order with Starknet signature. Requires STARKNET_PRIVATE_KEY to be set. The order will be signed using Stark curve cryptography.',
+  //   schema: CreateLimitOrderSchema,
+  //   execute: async (params) => {
+  //     return await createLimitOrder(env, params);
+  //   },
+  // });
 
   tools.push({
     name: 'extended_create_market_order',
