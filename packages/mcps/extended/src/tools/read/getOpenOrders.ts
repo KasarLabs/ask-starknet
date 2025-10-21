@@ -1,11 +1,11 @@
-import { ExtendedApiEnv, ExtendedApiResponse, Order } from '../../lib/types/index.js';
+import { ExtendedApiEnv, ExtendedApiResponse, OrderReturn } from '../../lib/types/index.js';
 import { apiGet } from '../../lib/utils/api.js';
 import { GetOpenOrdersSchema } from '../../schemas/index.js';
 
 export const getOpenOrders = async (
   env: ExtendedApiEnv,
   params: GetOpenOrdersSchema
-): Promise<ExtendedApiResponse<Order[]>> => {
+): Promise<ExtendedApiResponse<OrderReturn[]>> => {
   try {
     const queryParams = new URLSearchParams();
     if (params.market) queryParams.append('market', params.market);
@@ -14,7 +14,7 @@ export const getOpenOrders = async (
 
     const endpoint = `/api/v1/user/orders${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
 
-    const response = await apiGet<{ orders: Order[] }>(
+    const response = await apiGet<{ orders: OrderReturn[] }>(
       env,
       endpoint,
       true

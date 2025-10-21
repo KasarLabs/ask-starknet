@@ -29,9 +29,9 @@ export const createMarketOrder = async (
       '/api/v1/user/account/info',
       true
     );
-    const vault = accountInfoResponse.data.l2Vault;
 
-      const { starkPrivateKey, vaultId } = await init()
+    const vaultId = accountInfoResponse.data.l2Vault;
+    const starkPrivateKey = process.env.STARKNET_PRIVATE_KEY as `0x${string}`;
 
     const market = await getMarket(params.market)
     const fees = await getFees({ marketName: params.market })

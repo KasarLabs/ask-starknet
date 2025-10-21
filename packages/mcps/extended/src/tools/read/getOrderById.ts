@@ -1,13 +1,13 @@
-import { ExtendedApiEnv, ExtendedApiResponse, Order } from '../../lib/types/index.js';
+import { ExtendedApiEnv, ExtendedApiResponse, OrderReturn } from '../../lib/types/index.js';
 import { apiGet } from '../../lib/utils/api.js';
 import { GetOrderByIdSchema } from '../../schemas/index.js';
 
 export const getOrderById = async (
   env: ExtendedApiEnv,
   params: GetOrderByIdSchema
-): Promise<ExtendedApiResponse<Order>> => {
+): Promise<ExtendedApiResponse<OrderReturn>> => {
   try {
-    const response = await apiGet<{ order: Order }>(
+    const response = await apiGet<{ order: OrderReturn }>(
       env,
       `/api/v1/user/orders/${params.order_id}`,
       true
