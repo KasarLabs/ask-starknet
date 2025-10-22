@@ -129,12 +129,11 @@ export type CreateLimitOrderSchema = z.infer<typeof CreateLimitOrderSchema>;
  * Schema for creating a market order
  */
 export const CreateMarketOrderSchema = z.object({
-  external_id: z.string().describe('External unique identifier for the order'),
   market: z.string().describe('Trading pair (e.g., "BTC-USD", "ETH-USD")'),
-  side: z.enum(['BUY', 'SELL']).describe('Order side'),
-  qty: z.string().describe('Order quantity'),
-  reduce_only: z.boolean().optional().default(false).describe('If true, order will only reduce existing position'),
-  nonce: z.number().optional().describe('Order nonce for signature (auto-generated if not provided, must be ≥1 and ≤2^31)'),
+  side: z.enum(['BUY', 'SELL']).describe('Order side: BUY or SELL'),
+  qty: z.string().describe('Order quantity in base asset (e.g., "0.1" for 0.1 BTC)'),
+  reduce_only: z.boolean().optional().default(false).describe('If true, order will only reduce existing position (cannot increase position size)'),
+  slippage: z.number().optional().default(0.75).describe('Maximum slippage percentage (e.g., 0.75 for 0.75%). Default: 0.75%'),
 });
 export type CreateMarketOrderSchema = z.infer<typeof CreateMarketOrderSchema>;
 

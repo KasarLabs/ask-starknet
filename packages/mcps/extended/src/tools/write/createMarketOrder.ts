@@ -13,8 +13,6 @@ import { roundToMinChange,
   axiosClient,
  } from '@snaknet/lib-extended';
 
-const SLIPPAGE = 0.0075
-
 export const createMarketOrder = async (
   env: ExtendedApiEnv,
   params: CreateMarketOrderSchema
@@ -55,10 +53,18 @@ export const createMarketOrder = async (
       false
     );
     const starknetDomain = starknetDomainResponse.data;
-    console.error(starknetDomain);
-    console.error((market.marketStats as any).askPrice);
-    const orderSize = market.tradingConfig.minOrderSize
-    const orderPrice = new Decimal((market.marketStats as any).askPrice).times(1 + SLIPPAGE)
+
+    // Convert slippage from percentage to decimal (0.75 -> 0.0075)
+    const slippageDecimal = params.slippage / 100;
+
+    // Calculate price with slippage based on side
+    const basePrice = params.side === 'BUY'
+      ? new Decimal(market.marketStats.askPrice)
+      : new Decimal(market.marketStats.bidPrice);
+
+    const orderPrice = params.side === 'BUY'
+      ? basePrice.times(1 + slippageDecimal)  // Buy: add slippage
+      : basePrice.times(1 - slippageDecimal); // Sell: subtract slippage
 
     const ctx = createOrderContext({
       market,
@@ -70,9 +76,9 @@ export const createMarketOrder = async (
     const orderPayload = Order.create({
       marketName: params.market,
       orderType: 'MARKET',
-      side: 'BUY',
+      side: params.side,
       amountOfSynthetic: roundToMinChange(
-        new Decimal(orderSize),
+        new Decimal(params.qty),
         new Decimal(market.tradingConfig.minOrderSizeChange),
         Decimal.ROUND_DOWN,
       ),
@@ -82,7 +88,7 @@ export const createMarketOrder = async (
         Decimal.ROUND_DOWN,
       ),
       timeInForce: 'IOC',
-      reduceOnly: false,
+      reduceOnly: params.reduce_only,
       postOnly: false,
       ctx,
     })
