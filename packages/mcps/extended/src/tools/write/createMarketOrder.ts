@@ -10,6 +10,7 @@ import { roundToMinChange,
   getStarknetDomain,
   createOrderContext,
   Order,
+  axiosClient,
  } from '@snaknet/lib-extended';
 
 const SLIPPAGE = 0.0075
@@ -22,6 +23,7 @@ export const createMarketOrder = async (
     if (!env.EXTENDED_STARKKEY_PRIVATE) {
       throw new Error('EXTENDED_STARKKEY_PRIVATE is required for order creation');
     }
+    axiosClient.defaults.baseURL = env.apiUrl;
 
     // Get user account info to retrieve vault (collateralPosition)
     const accountInfoResponse = await apiGet<{ data: AccountInfo }>(
@@ -31,14 +33,32 @@ export const createMarketOrder = async (
     );
 
     const vaultId = accountInfoResponse.data.l2Vault;
-    const starkPrivateKey = process.env.STARKNET_PRIVATE_KEY as `0x${string}`;
+    const starkPrivateKey = env.EXTENDED_STARKKEY_PRIVATE as `0x${string}`;
 
-    const market = await getMarket(params.market)
-    const fees = await getFees({ marketName: params.market })
-    const starknetDomain = await getStarknetDomain()
+    const marketResponse = await apiGet<{ data: any[] }>(
+      env,
+      `/api/v1/info/markets?market=${params.market}`,
+      false
+    );
+    const market = marketResponse.data[0];
 
+    const feesResponse = await apiGet<{ data: any[] }>(
+      env,
+      `/api/v1/user/fees?market=${params.market}`,
+      true
+    );
+    const fees = feesResponse.data[0];
+
+    const starknetDomainResponse = await apiGet<{ data: any }>(
+      env,
+      '/api/v1/info/starknet',
+      false
+    );
+    const starknetDomain = starknetDomainResponse.data;
+    console.error(starknetDomain);
+    console.error((market.marketStats as any).askPrice);
     const orderSize = market.tradingConfig.minOrderSize
-    const orderPrice = (market.marketStats as any).askPrice.times(1 + SLIPPAGE)
+    const orderPrice = new Decimal((market.marketStats as any).askPrice).times(1 + SLIPPAGE)
 
     const ctx = createOrderContext({
       market,
@@ -52,13 +72,13 @@ export const createMarketOrder = async (
       orderType: 'MARKET',
       side: 'BUY',
       amountOfSynthetic: roundToMinChange(
-        orderSize,
-        market.tradingConfig.minOrderSizeChange,
+        new Decimal(orderSize),
+        new Decimal(market.tradingConfig.minOrderSizeChange),
         Decimal.ROUND_DOWN,
       ),
       price: roundToMinChange(
         orderPrice,
-        market.tradingConfig.minPriceChange,
+        new Decimal(market.tradingConfig.minPriceChange),
         Decimal.ROUND_DOWN,
       ),
       timeInForce: 'IOC',
