@@ -2,22 +2,18 @@
   "name": "@snaknet/lib-extended",
   "version": "1.0.0",
   "private": true,
-  "type": "module",
   "engines": {
-    "node": ">=22.18.0"
+    "node": ">=20.0.0"
   },
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "type": "module",
   "scripts": {
-    "example:01-create-limit-order": "node ./src/01-create-limit-order.ts",
-    "example:02-create-market-order": "node ./src/02-create-market-order.ts",
-    "example:03-create-limit-order-with-partial-tpsl": "node ./src/03-create-limit-order-with-partial-tpsl.ts",
-    "example:04-create-partial-tpsl-order": "node ./src/04-create-partial-tpsl-order.ts",
-    "example:05-sub-accounts-transfer": "node ./src/05-sub-accounts-transfer.ts",
-    "example:06-update-untriggered-position-tpsl": "node ./src/06-update-untriggered-position-tpsl.ts",
-    "example:07-create-limit-order-with-builder-id": "node ./src/07-create-limit-order-with-builder-id.ts",
-    "format": "prettier --config .prettierrc.mjs --write \"*.{js,ts}\" \"src/**/*.ts\"",
-    "typecheck": "tsc",
-    "lint": "eslint .",
-    "test": "vitest"
+    "build": "tsc",
+    "clean": "rm -rf build",
+    "clean:all": "rm -rf build node_modules",
+    "dev": "tsc --watch",
+    "format": "prettier --config .prettierrc.mjs --write \"*.{js,ts}\" \"src/**/*.ts\""
   },
   "dependencies": {
     "@x10xchange/stark-crypto-wrapper-wasm": "0.1.6",
@@ -33,6 +29,7 @@
   "devDependencies": {
     "@eslint/js": "9.36.0",
     "@ianvs/prettier-plugin-sort-imports": "4.7.0",
+    "@types/lodash-es": "^4.17.12",
     "@types/node": "24.5.2",
     "eslint": "9.36.0",
     "prettier": "3.6.2",

@@ -1,6 +1,6 @@
 import { z } from 'zod/v4'
 
-import { zodDecimal, zodLong } from '../utils/zod.ts'
+import { zodDecimal, zodLong } from '../utils/zod.js'
 
 const PlacedOrderSchema = z.object({
   id: zodLong(),

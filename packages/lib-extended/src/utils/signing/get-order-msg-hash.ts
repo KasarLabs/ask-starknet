@@ -1,11 +1,11 @@
 import { get_order_msg as wasmLibGetOrderMsgHash } from '@x10xchange/stark-crypto-wrapper-wasm'
 
-import { type StarknetDomain } from '../../api/starknet.schema.ts'
-import { type OrderSide } from '../../models/order.types.ts'
-import { fromHexString, toHexString, type HexString } from '../hex.ts'
-import { type Decimal, type Long } from '../number.ts'
-import { calcStarknetExpiration } from './calc-starknet-expiration.ts'
-import { jsGetOrderMsgHash } from './js/js-get-order-msg-hash.ts'
+import { type StarknetDomain } from '../../api/starknet.schema.js'
+import { type OrderSide } from '../../models/order.types.js'
+import { fromHexString, toHexString, type HexString } from '../hex.js'
+import { type Decimal, type Long } from '../number.js'
+import { calcStarknetExpiration } from './calc-starknet-expiration.js'
+import { jsGetOrderMsgHash } from './js/js-get-order-msg-hash.js'
 
 type GetStarknetOrderMsgHashArgs = {
   side: OrderSide

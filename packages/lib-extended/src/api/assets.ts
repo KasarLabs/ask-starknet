@@ -1,5 +1,5 @@
-import { AssetsResponseSchema } from './assets.schema.ts'
-import { axiosClient } from './axios.ts'
+import { AssetsResponseSchema } from './assets.schema.js'
+import { axiosClient } from './axios.js'
 
 export const getAssets = async ({
   assetsNames,

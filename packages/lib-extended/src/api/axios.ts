@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { parseJsonWithBigNumber } from '../utils/json.ts'
+import { parseJsonWithBigNumber } from '../utils/json.js'
 
 const safeParseResponse = (data: unknown) => {
   if (!data || typeof data !== 'string') {
@@ -25,7 +25,7 @@ axiosClient.interceptors.response.use(
     return response
   },
   (error) => {
-    if (axios.isAxiosError(error)) {
+    if (axios.isAxiosError(error) && error.response) {
       return Promise.reject({
         url: error.response.config.url,
         status: error.response.status,

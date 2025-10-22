@@ -1,4 +1,4 @@
-import { type Long } from '../utils/number.ts'
+import { type Long } from '../utils/number.js'
 
 export class OrderDebuggingAmounts {
   private readonly collateralAmount: Long

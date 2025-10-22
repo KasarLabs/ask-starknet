@@ -1,6 +1,6 @@
 import { parse } from 'json-custom-numbers'
 
-import { Long } from './number.ts'
+import { Long } from './number.js'
 
 function numberParser(_k: string | number | undefined, s: string) {
   const n = +s

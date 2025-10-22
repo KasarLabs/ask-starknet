@@ -1,4 +1,4 @@
-import { getRandomInt } from './get-random-int.ts'
+import { getRandomInt } from './get-random-int.js'
 
 export const generateNonce = () => {
   // https://github.com/starkware-libs/starkware-crypto-utils/blob/dev/src/js/signature.ts#L327

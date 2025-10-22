@@ -1,6 +1,6 @@
 import { z } from 'zod/v4'
 
-import { zodDecimal } from '../utils/zod.ts'
+import { zodDecimal } from '../utils/zod.js'
 
 export const FeesSchema = z.object({
   market: z.string(),

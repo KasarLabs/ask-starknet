@@ -1,6 +1,6 @@
-import { Long } from '../utils/number.ts'
-import { axiosClient } from './axios.ts'
-import { FeesResponseSchema } from './fees.schema.ts'
+import { Long } from '../utils/number.js'
+import { axiosClient } from './axios.js'
+import { FeesResponseSchema } from './fees.schema.js'
 
 export const getFees = async ({
   marketName,

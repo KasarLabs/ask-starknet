@@ -1,9 +1,9 @@
 import dotenv from 'dotenv'
 
-import { setApiKey, setHost } from './api/axios.ts'
-import { isHexString } from './utils/hex.ts'
-import { invariant } from './utils/invariant.ts'
-import { tryInitWasm } from './utils/wasm.ts'
+import { setApiKey, setHost } from './api/axios.js'
+import { isHexString } from './utils/hex.js'
+import { invariant } from './utils/invariant.js'
+import { tryInitWasm } from './utils/wasm.js'
 
 export const init = async () => {
   await tryInitWasm()

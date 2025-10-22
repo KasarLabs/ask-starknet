@@ -1,6 +1,6 @@
 import { z } from 'zod/v4'
 
-import { zodLong } from '../utils/zod.ts'
+import { zodLong } from '../utils/zod.js'
 
 const TransferSchema = z.object({
   id: zodLong(),

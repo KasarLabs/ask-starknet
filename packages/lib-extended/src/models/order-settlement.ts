@@ -1,6 +1,6 @@
-import { toHexString } from '../utils/hex.ts'
-import { type Long } from '../utils/number.ts'
-import { type SettlementSignature } from './order.types.ts'
+import { toHexString } from '../utils/hex.js'
+import { type Long } from '../utils/number.js'
+import { type SettlementSignature } from './order.types.js'
 
 export class OrderSettlement {
   private readonly signature: SettlementSignature

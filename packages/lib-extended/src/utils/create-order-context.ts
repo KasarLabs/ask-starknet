@@ -1,8 +1,8 @@
-import { type Fees } from '../api/fees.schema.ts'
-import { type Market } from '../api/markets.schema.ts'
-import { type StarknetDomain } from '../api/starknet.schema.ts'
-import { type HexString } from './hex.ts'
-import { Decimal, Long } from './number.ts'
+import { type Fees } from '../api/fees.schema.js'
+import { type Market } from '../api/markets.schema.js'
+import { type StarknetDomain } from '../api/starknet.schema.js'
+import { type HexString } from './hex.js'
+import { Decimal, Long } from './number.js'
 
 export const createOrderContext = ({
   market,

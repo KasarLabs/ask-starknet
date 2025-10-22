@@ -1,8 +1,8 @@
 import type { get_transfer_msg as wasmGetTransferMsgHash } from '@x10xchange/stark-crypto-wrapper-wasm'
 import { hash as starkHash, selector as starkSelector } from 'starknet'
 
-import { jsGetObjMsgHash } from './js-get-obj-msg-hash.ts'
-import { jsGetStarknetDomainObjHash } from './js-get-starknet-domain-obj-hash.ts'
+import { jsGetObjMsgHash } from './js-get-obj-msg-hash.js'
+import { jsGetStarknetDomainObjHash } from './js-get-starknet-domain-obj-hash.js'
 
 export const jsGetTransferMsgHash = (
   ...args: Parameters<typeof wasmGetTransferMsgHash>

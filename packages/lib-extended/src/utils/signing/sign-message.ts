@@ -1,8 +1,8 @@
 import { sign_message as wasmLibSignMessage } from '@x10xchange/stark-crypto-wrapper-wasm'
 import { ec as starkEc } from 'starknet'
 
-import { fromHexString, type HexString } from '../hex.ts'
-import { getStarkPublicKey } from './get-stark-public-key.ts'
+import { fromHexString, type HexString } from '../hex.js'
+import { getStarkPublicKey } from './get-stark-public-key.js'
 
 const wasmSignMessage = (
   messageHash: string,

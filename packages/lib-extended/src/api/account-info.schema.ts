@@ -1,6 +1,6 @@
 import { z } from 'zod/v4'
 
-import { zodHexString, zodLong } from '../utils/zod.ts'
+import { zodHexString, zodLong } from '../utils/zod.js'
 
 export const AccountInfoSchema = z.object({
   accountId: zodLong(),

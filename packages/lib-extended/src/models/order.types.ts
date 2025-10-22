@@ -1,6 +1,6 @@
-import type { StarknetDomain } from '../api/starknet.schema.ts'
-import type { HexString } from '../utils/hex.ts'
-import { type Decimal, type Long } from '../utils/number.ts'
+import type { StarknetDomain } from '../api/starknet.schema.js'
+import type { HexString } from '../utils/hex.js'
+import { type Decimal, type Long } from '../utils/number.js'
 
 export type OrderSide = 'BUY' | 'SELL'
 export type OrderType = 'LIMIT' | 'MARKET' | 'TPSL'

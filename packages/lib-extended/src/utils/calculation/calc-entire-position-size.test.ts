@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest'
 
-import { Decimal } from '../number.ts'
-import { calcEntirePositionSize } from './calc-entire-position-size.ts'
+import { Decimal } from '../number.js'
+import { calcEntirePositionSize } from './calc-entire-position-size.js'
 
 test('calc entire position size', () => {
   expect(

@@ -1,24 +1,24 @@
 import { addHours } from 'date-fns'
 
-import { calcEntirePositionSize } from '../utils/calculation/calc-entire-position-size.ts'
-import { generateNonce } from '../utils/generate-nonce.ts'
-import { toHexString } from '../utils/hex.ts'
-import { Decimal, Long } from '../utils/number.ts'
-import { omitUndefined } from '../utils/omit-undefined.ts'
-import { getOppositeOrderSide } from '../utils/side.ts'
-import { getStarknetOrderMsgHash } from '../utils/signing/get-order-msg-hash.ts'
-import { getStarkPublicKey } from '../utils/signing/get-stark-public-key.ts'
-import { signMessage } from '../utils/signing/sign-message.ts'
-import { OrderDebuggingAmounts } from './order-debugging-amounts.ts'
-import { OrderSettlement } from './order-settlement.ts'
-import { OrderTpSlTrigger, type OrderTpSlTriggerParam } from './order-tp-sl-trigger.ts'
+import { calcEntirePositionSize } from '../utils/calculation/calc-entire-position-size.js'
+import { generateNonce } from '../utils/generate-nonce.js'
+import { toHexString } from '../utils/hex.js'
+import { Decimal, Long } from '../utils/number.js'
+import { omitUndefined } from '../utils/omit-undefined.js'
+import { getOppositeOrderSide } from '../utils/side.js'
+import { getStarknetOrderMsgHash } from '../utils/signing/get-order-msg-hash.js'
+import { getStarkPublicKey } from '../utils/signing/get-stark-public-key.js'
+import { signMessage } from '../utils/signing/sign-message.js'
+import { OrderDebuggingAmounts } from './order-debugging-amounts.js'
+import { OrderSettlement } from './order-settlement.js'
+import { OrderTpSlTrigger, type OrderTpSlTriggerParam } from './order-tp-sl-trigger.js'
 import {
   type OrderContext,
   type OrderSide,
   type OrderTimeInForce,
   type OrderTpSlType,
   type OrderType,
-} from './order.types.ts'
+} from './order.types.js'
 
 const ORDER_EXPIRATION_HOURS = 1
 const ROUNDING_MODE_SELL = Decimal.ROUND_DOWN

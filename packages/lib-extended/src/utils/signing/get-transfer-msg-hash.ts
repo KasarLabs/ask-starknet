@@ -1,9 +1,9 @@
 import { get_transfer_msg as wasmLibGetTransferMsgHash } from '@x10xchange/stark-crypto-wrapper-wasm'
 
-import { type StarknetDomain } from '../../api/starknet.schema.ts'
-import { fromHexString, type HexString } from '../hex.ts'
-import { type Long } from '../number.ts'
-import { jsGetTransferMsgHash } from './js/js-get-transfer-msg-hash.ts'
+import { type StarknetDomain } from '../../api/starknet.schema.js'
+import { fromHexString, type HexString } from '../hex.js'
+import { type Long } from '../number.js'
+import { jsGetTransferMsgHash } from './js/js-get-transfer-msg-hash.js'
 
 type GetStarknetTransferMsgHashArgs = {
   amount: Long

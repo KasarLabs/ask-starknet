@@ -1,8 +1,8 @@
 import type { get_order_msg as wasmGetOrderMsgHash } from '@x10xchange/stark-crypto-wrapper-wasm'
 import { hash as starkHash, selector as starkSelector } from 'starknet'
 
-import { jsGetObjMsgHash } from './js-get-obj-msg-hash.ts'
-import { jsGetStarknetDomainObjHash } from './js-get-starknet-domain-obj-hash.ts'
+import { jsGetObjMsgHash } from './js-get-obj-msg-hash.js'
+import { jsGetStarknetDomainObjHash } from './js-get-starknet-domain-obj-hash.js'
 
 export const jsGetOrderMsgHash = (...args: Parameters<typeof wasmGetOrderMsgHash>) => {
   const [

@@ -1,9 +1,9 @@
 import { afterAll, beforeAll, expect, test, vi } from 'vitest'
 
-import * as generateNonceModule from '../utils/generate-nonce.ts'
-import { Decimal, Long } from '../utils/number.ts'
-import { Order } from './order.ts'
-import { type OrderContext } from './order.types.ts'
+import * as generateNonceModule from '../utils/generate-nonce.js'
+import { Decimal, Long } from '../utils/number.js'
+import { Order } from './order.js'
+import { type OrderContext } from './order.types.js'
 
 const CTX: OrderContext = {
   assetIdCollateral: Decimal(

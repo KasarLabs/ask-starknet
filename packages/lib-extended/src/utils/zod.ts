@@ -1,8 +1,8 @@
 import { z } from 'zod'
 
-import { isHexString } from './hex.ts'
-import { invariant } from './invariant.ts'
-import { Decimal, Long } from './number.ts'
+import { isHexString } from './hex.js'
+import { invariant } from './invariant.js'
+import { Decimal, Long } from './number.js'
 
 export const zodDecimal = () => z.string().transform((value) => Decimal(value))
 

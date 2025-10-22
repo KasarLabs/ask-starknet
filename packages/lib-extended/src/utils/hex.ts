@@ -1,4 +1,4 @@
-import { invariant } from './invariant.ts'
+import { invariant } from './invariant.js'
 
 export type HexString = `0x${string}`
 

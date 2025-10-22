@@ -4,7 +4,7 @@ import {
   shortString as starkShortString,
 } from 'starknet'
 
-import { type StarknetDomain } from '../../../api/starknet.schema.ts'
+import { type StarknetDomain } from '../../../api/starknet.schema.js'
 
 export const jsGetStarknetDomainObjHash = (domain: StarknetDomain) => {
   const selector = starkSelector.getSelector(

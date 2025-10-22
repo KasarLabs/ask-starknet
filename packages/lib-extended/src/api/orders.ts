@@ -1,5 +1,5 @@
-import { axiosClient } from './axios.ts'
-import { UserOrdersResponseSchema } from './orders.schema.ts'
+import { axiosClient } from './axios.js'
+import { UserOrdersResponseSchema } from './orders.schema.js'
 
 export const getOrders = async ({ marketsNames }: { marketsNames?: string[] }) => {
   const { data } = await axiosClient.get<unknown>('/api/v1/user/orders', {

@@ -1,10 +1,10 @@
 import { addDays } from 'date-fns'
 
-import { generateNonce } from '../utils/generate-nonce.ts'
-import { getAccountById } from '../utils/get-account-by-id.ts'
-import { Long, type Decimal } from '../utils/number.ts'
-import { TransferSettlement } from './transfer-settlement.ts'
-import { type TransferContext } from './transfer.types.ts'
+import { generateNonce } from '../utils/generate-nonce.js'
+import { getAccountById } from '../utils/get-account-by-id.js'
+import { Long, type Decimal } from '../utils/number.js'
+import { TransferSettlement } from './transfer-settlement.js'
+import { type TransferContext } from './transfer.types.js'
 
 const TRANSFER_EXPIRATION_DAYS = 7
 

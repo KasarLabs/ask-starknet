@@ -1,5 +1,5 @@
-import { invariant } from '../invariant.ts'
-import { Decimal } from '../number.ts'
+import { invariant } from '../invariant.js'
+import { Decimal } from '../number.js'
 
 /**
  * This calculation is required to avoid a case when the position at
@@ -18,5 +18,5 @@ export const calcEntirePositionSize = (
   return maxPositionValue
     .times(50)
     .div(price)
-    .decimalPlaces(minOrderSizeChange.decimalPlaces(), Decimal.ROUND_DOWN)
+    .decimalPlaces(minOrderSizeChange.decimalPlaces() ?? 0, Decimal.ROUND_DOWN)
 }
