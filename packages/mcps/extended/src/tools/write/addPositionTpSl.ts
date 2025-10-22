@@ -1,6 +1,6 @@
 import { ExtendedApiEnv, ExtendedApiResponse, OrderReturn, AccountInfo } from '../../lib/types/index.js';
 import { apiPost, apiGet } from '../../lib/utils/api.js';
-import { CreateLimitOrderSchema } from '../../schemas/index.js';
+import { AddPositionTpSlSchema } from '../../schemas/index.js';
 
 import { roundToMinChange,
   Decimal,
@@ -9,9 +9,9 @@ import { roundToMinChange,
   axiosClient,
 } from '@snaknet/lib-extended';
 
-export const createLimitOrder = async (
+export const addPositionTpSl = async (
   env: ExtendedApiEnv,
-  params: CreateLimitOrderSchema
+  params: AddPositionTpSlSchema
 ): Promise<ExtendedApiResponse<OrderReturn>> => {
   try {
     if (!env.EXTENDED_STARKKEY_PRIVATE) {
@@ -19,7 +19,7 @@ export const createLimitOrder = async (
     }
     axiosClient.defaults.baseURL = env.apiUrl;
 
-    // Get user account info to retrieve vault (collateralPosition)
+    // Get user account info
     const accountInfoResponse = await apiGet<{ data: AccountInfo }>(
       env,
       '/api/v1/user/account/info',
@@ -58,33 +58,46 @@ export const createLimitOrder = async (
       starkPrivateKey,
     });
 
-    // Calculate expiry time if GTT
-    let expiryTime: Date | undefined;
-    if (params.time_in_force === 'GTT') {
-      if (!params.expiry_epoch_millis) {
-        throw new Error('expiry_epoch_millis is required for GTT orders');
-      }
-      expiryTime = new Date(params.expiry_epoch_millis);
-    }
+    // Helper to round prices
+    const roundPrice = (value: Decimal) => {
+      return roundToMinChange(
+        value,
+        new Decimal(market.tradingConfig.minPriceChange),
+        Decimal.ROUND_DOWN,
+      );
+    };
+
+    // Build TP/SL configurations
+    const takeProfit = params.take_profit ? {
+      triggerPrice: roundPrice(new Decimal(params.take_profit.trigger_price)),
+      triggerPriceType: params.take_profit.trigger_price_type,
+      price: roundPrice(new Decimal(params.take_profit.price)),
+      priceType: params.take_profit.price_type,
+    } : undefined;
+
+    const stopLoss = params.stop_loss ? {
+      triggerPrice: roundPrice(new Decimal(params.stop_loss.trigger_price)),
+      triggerPriceType: params.stop_loss.trigger_price_type,
+      price: roundPrice(new Decimal(params.stop_loss.price)),
+      priceType: params.stop_loss.price_type,
+    } : undefined;
 
     const orderPayload = Order.create({
       marketName: params.market,
-      orderType: 'LIMIT',
+      orderType: 'TPSL',
       side: params.side,
       amountOfSynthetic: roundToMinChange(
         new Decimal(params.qty),
         new Decimal(market.tradingConfig.minOrderSizeChange),
         Decimal.ROUND_DOWN,
       ),
-      price: roundToMinChange(
-        new Decimal(params.price),
-        new Decimal(market.tradingConfig.minPriceChange),
-        Decimal.ROUND_DOWN,
-      ),
-      timeInForce: params.time_in_force,
-      expiryTime,
-      reduceOnly: params.reduce_only,
-      postOnly: params.post_only,
+      price: new Decimal(0), // Ignored for TPSL orders
+      timeInForce: 'GTT',
+      reduceOnly: true, // TPSL orders must be reduce-only
+      postOnly: false,
+      tpSlType: 'ORDER',
+      takeProfit,
+      stopLoss,
       ctx,
     });
 
@@ -99,10 +112,10 @@ export const createLimitOrder = async (
       data: response.data,
     };
   } catch (error: any) {
-    console.error('Error creating limit order:', error);
+    console.error('Error creating position TP/SL:', error);
     return {
       status: 'failure',
-      error: error.message || 'Failed to create limit order',
+      error: error.message || 'Failed to create position TP/SL',
     };
   }
 };

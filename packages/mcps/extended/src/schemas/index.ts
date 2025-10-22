@@ -112,16 +112,14 @@ export type GetFeesSchema = z.infer<typeof GetFeesSchema>;
  * Schema for creating a limit order
  */
 export const CreateLimitOrderSchema = z.object({
-  external_id: z.string().describe('External unique identifier for the order'),
   market: z.string().describe('Trading pair (e.g., "BTC-USD", "ETH-USD")'),
-  side: z.enum(['BUY', 'SELL']).describe('Order side'),
-  qty: z.string().describe('Order quantity'),
-  price: z.string().describe('Limit price for the order'),
-  post_only: z.boolean().optional().default(false).describe('If true, order will only be placed if it does not immediately match'),
+  side: z.enum(['BUY', 'SELL']).describe('Order side: BUY or SELL'),
+  qty: z.string().describe('Order quantity in base asset (e.g., "0.1" for 0.1 BTC)'),
+  price: z.string().describe('Limit price for the order in quote asset (e.g., "42000" for $42,000)'),
+  post_only: z.boolean().optional().default(false).describe('If true, order will only be placed if it does not immediately match (maker-only)'),
   reduce_only: z.boolean().optional().default(false).describe('If true, order will only reduce existing position'),
-  time_in_force: z.enum(['GTC', 'IOC', 'FOK', 'GTT']).optional().default('GTC').describe('Time in force: GTC (Good Till Cancel), IOC (Immediate or Cancel), FOK (Fill or Kill), GTT (Good Till Time)'),
+  time_in_force: z.enum(['IOC', 'FOK', 'GTT']).optional().default('GTT').describe('Time in force : IOC (Immediate or Cancel), FOK (Fill or Kill), GTT (Good Till Time). Default: GTT'),
   expiry_epoch_millis: z.number().optional().describe('Expiry time for GTT orders (Unix timestamp in milliseconds)'),
-  nonce: z.number().optional().describe('Order nonce for signature (auto-generated if not provided, must be ≥1 and ≤2^31)'),
 });
 export type CreateLimitOrderSchema = z.infer<typeof CreateLimitOrderSchema>;
 
@@ -136,6 +134,45 @@ export const CreateMarketOrderSchema = z.object({
   slippage: z.number().optional().default(0.75).describe('Maximum slippage percentage (e.g., 0.75 for 0.75%). Default: 0.75%'),
 });
 export type CreateMarketOrderSchema = z.infer<typeof CreateMarketOrderSchema>;
+
+/**
+ * Schema for TP/SL configuration
+ */
+const TpSlConfigSchema = z.object({
+  trigger_price: z.string().describe('Trigger price for the TP/SL'),
+  trigger_price_type: z.enum(['LAST', 'MARK', 'INDEX']).optional().default('LAST').describe('Price type to watch for trigger'),
+  price: z.string().describe('Execution price when triggered'),
+  price_type: z.enum(['LIMIT', 'MARKET']).optional().default('LIMIT').describe('Execute as LIMIT or MARKET order when triggered'),
+});
+
+/**
+ * Schema for creating a limit order with TP/SL
+ */
+export const CreateLimitOrderWithTpSlSchema = z.object({
+  market: z.string().describe('Trading pair (e.g., "BTC-USD", "ETH-USD")'),
+  side: z.enum(['BUY', 'SELL']).describe('Order side: BUY or SELL'),
+  qty: z.string().describe('Order quantity in base asset'),
+  price: z.string().describe('Limit price for the order'),
+  post_only: z.boolean().optional().default(false).describe('If true, order will only be maker'),
+  reduce_only: z.boolean().optional().default(false).describe('If true, order will only reduce position'),
+  time_in_force: z.enum(['IOC', 'FOK', 'GTT']).optional().default('GTT').describe('Time in force : IOC (Immediate or Cancel), FOK (Fill or Kill), GTT (Good Till Time) (default: GTT)'),
+  expiry_epoch_millis: z.number().optional().describe('Expiry time for GTT orders'),
+  take_profit: TpSlConfigSchema.optional().describe('Take profit configuration. Triggers when price moves favorably.'),
+  stop_loss: TpSlConfigSchema.optional().describe('Stop loss configuration. Triggers when price moves unfavorably.'),
+});
+export type CreateLimitOrderWithTpSlSchema = z.infer<typeof CreateLimitOrderWithTpSlSchema>;
+
+/**
+ * Schema for creating TP/SL for existing position
+ */
+export const AddPositionTpSlSchema = z.object({
+  market: z.string().describe('Trading pair of the existing position'),
+  side: z.enum(['BUY', 'SELL']).describe('Order side (opposite of your position). If you have LONG position, use SELL.'),
+  qty: z.string().describe('Quantity to close (must be ≤ position size)'),
+  take_profit: TpSlConfigSchema.optional().describe('Take profit configuration'),
+  stop_loss: TpSlConfigSchema.optional().describe('Stop loss configuration'),
+});
+export type AddPositionTpSlSchema = z.infer<typeof AddPositionTpSlSchema>;
 
 /**
  * Schema for canceling an order

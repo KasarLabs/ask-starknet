@@ -23,12 +23,12 @@ import { getBridgeConfig } from './tools/read/getBridgeConfig.js';
 import { getBridgeQuote } from './tools/read/getBridgeQuote.js';
 
 // Import WRITE tools (Trading)
-// import { createLimitOrder } from './tools/write/createLimitOrder.js';
+import { createLimitOrder } from './tools/write/createLimitOrder.js';
+import { createLimitOrderWithTpSl } from './tools/write/createLimitOrderWithTpSl.js';
 import { createMarketOrder } from './tools/write/createMarketOrder.js';
+import { addPositionTpSl } from './tools/write/addPositionTpSl.js';
 import { cancelOrder } from './tools/write/cancelOrder.js';
 import { updateLeverage } from './tools/write/updateLeverage.js';
-import { createWithdrawal } from './tools/write/createWithdrawal.js';
-import { confirmBridgeQuote } from './tools/write/confirmBridgeQuote.js';
 
 // Import schemas
 import {
@@ -46,11 +46,11 @@ import {
   GetBridgeConfigSchema,
   GetBridgeQuoteSchema,
   CreateLimitOrderSchema,
+  CreateLimitOrderWithTpSlSchema,
   CreateMarketOrderSchema,
+  AddPositionTpSlSchema,
   CancelOrderSchema,
   UpdateLeverageSchema,
-  CreateWithdrawalSchema,
-  ConfirmBridgeQuoteSchema
 } from './schemas/index.js';
 
 dotenv.config();
@@ -203,21 +203,39 @@ const registerTools = (env: ExtendedApiEnv, tools: mcpTool[]) => {
   // WRITE TOOLS (Trading)
   // ========================================
 
-  // tools.push({
-  //   name: 'extended_create_limit_order',
-  //   description: 'Create a new limit order with Starknet signature. Requires STARKNET_PRIVATE_KEY to be set. The order will be signed using Stark curve cryptography.',
-  //   schema: CreateLimitOrderSchema,
-  //   execute: async (params) => {
-  //     return await createLimitOrder(env, params);
-  //   },
-  // });
+  tools.push({
+    name: 'extended_create_limit_order',
+    description: 'Create a new limit order with Starknet signature. Allows setting a specific price and advanced options like post-only, time-in-force. Requires STARKNET_PRIVATE_KEY to be set.',
+    schema: CreateLimitOrderSchema,
+    execute: async (params) => {
+      return await createLimitOrder(env, params);
+    },
+  });
+
+  tools.push({
+    name: 'extended_create_limit_order_with_tpsl',
+    description: 'Create a limit order with attached Take Profit and Stop Loss. TP/SL triggers are based on this specific order. Requires STARKNET_PRIVATE_KEY to be set.',
+    schema: CreateLimitOrderWithTpSlSchema,
+    execute: async (params) => {
+      return await createLimitOrderWithTpSl(env, params);
+    },
+  });
 
   tools.push({
     name: 'extended_create_market_order',
-    description: 'Create a new market order with Starknet signature. Requires STARKNET_PRIVATE_KEY to be set. The order will be signed using Stark curve cryptography.',
+    description: 'Create a new market order with Starknet signature. Executes immediately at current market price with configurable slippage. Requires STARKNET_PRIVATE_KEY to be set.',
     schema: CreateMarketOrderSchema,
     execute: async (params) => {
       return await createMarketOrder(env, params);
+    },
+  });
+
+  tools.push({
+    name: 'extended_add_position_tpsl',
+    description: 'Add Take Profit and Stop Loss orders to an existing position. Used to manage risk on open positions. Requires STARKNET_PRIVATE_KEY to be set.',
+    schema: AddPositionTpSlSchema,
+    execute: async (params) => {
+      return await addPositionTpSl(env, params);
     },
   });
 
@@ -236,24 +254,6 @@ const registerTools = (env: ExtendedApiEnv, tools: mcpTool[]) => {
     schema: UpdateLeverageSchema,
     execute: async (params) => {
       return await updateLeverage(env, params);
-    },
-  });
-
-  tools.push({
-    name: 'extended_create_withdrawal',
-    description: 'Create a Starknet withdrawal. Requires STARKNET_PRIVATE_KEY to be set. WARNING: This implementation is incomplete - signature generation needs proper implementation following Extended SDK.',
-    schema: CreateWithdrawalSchema,
-    execute: async (params) => {
-      return await createWithdrawal(env, params);
-    },
-  });
-
-  tools.push({
-    name: 'extended_confirm_bridge_quote',
-    description: 'Confirm a bridge quote obtained from extended_get_bridge_quote. This tells Rhino.fi to start watching for the deposit transaction on the source chain.',
-    schema: ConfirmBridgeQuoteSchema,
-    execute: async (params) => {
-      return await confirmBridgeQuote(env, params);
     },
   });
 };

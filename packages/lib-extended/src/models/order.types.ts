@@ -4,10 +4,10 @@ import { type Decimal, type Long } from '../utils/number.js'
 
 export type OrderSide = 'BUY' | 'SELL'
 export type OrderType = 'LIMIT' | 'MARKET' | 'TPSL'
-export type OrderTimeInForce = 'GTT' | 'IOC'
+export type OrderTimeInForce = 'GTT' | 'IOC' | 'FOK'
 export type OrderTpSlType = 'ORDER' | 'POSITION'
 export type OrderTriggerPriceType = 'MARK' | 'INDEX' | 'LAST'
-export type OrderPriceType = 'LIMIT'
+export type OrderPriceType = 'LIMIT' | 'MARKET'
 
 export type SettlementSignature = { r: string; s: string }
 export type OrderContext = {
