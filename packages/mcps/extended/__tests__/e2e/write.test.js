@@ -135,7 +135,7 @@ async function testAddPositionTpSl(client) {
 
   console.log(`   Found ${positionSide} position with size ${positionQty}`);
 
-  const response = await callTool(client, 'extended_add_position_tp_sl', {
+  const response = await callTool(client, 'extended_add_position_tpsl', {
     market: 'ARB-USD',
     side: orderSide,
     qty: String(positionQty), // Close entire position
@@ -154,10 +154,10 @@ async function testAddPositionTpSl(client) {
   });
 
   if (response.status !== 'success') {
-    console.log(`⚠️  extended_add_position_tp_sl failed: ${response.error}`);
+    console.log(`⚠️  extended_add_position_tpsl failed: ${response.error}`);
     return null;
   } else {
-    console.log('✅ extended_add_position_tp_sl test passed');
+    console.log('✅ extended_add_position_tpsl test passed');
     console.log('   Order ID:', response.data.id);
     return response.data;
   }
@@ -195,27 +195,18 @@ async function main() {
   const client = await createClient();
 
   try {
-    // console.log('\n--- Test 1: Create Limit Order ---');
-    // const limitOrder = await testCreateLimitOrder(client);
-
-    console.log('\n--- Test 2: Create Limit Order with TP/SL ---');
+    let limitOrder;
+    // limitOrder = await testCreateLimitOrder(client);
     const limitOrderWithTpSl = await testCreateLimitOrderWithTpSl(client);
-
-    // console.log('\n--- Test 3: Create Market Order ---');
     // const marketOrder = await testCreateMarketOrder(client);
 
-    // Wait a bit for the order to be processed
-    if (marketOrder) {
-      console.log('\n   Waiting 3 seconds for order to be processed...');
-      await new Promise(resolve => setTimeout(resolve, 3000));
-    }
+    // if (marketOrder) {
+    //   console.log('\n   Waiting 3 seconds for order to be processed...');
+    //   await new Promise(resolve => setTimeout(resolve, 3000));
+    // }
 
-    // Test 4: Add TP/SL to the position created by the market order
-    console.log('\n--- Test 4: Add TP/SL to Position ---');
     await testAddPositionTpSl(client);
 
-    // Test 5: Cancel one of the limit orders
-    console.log('\n--- Test 5: Cancel Order ---');
     if (limitOrder) {
       await testCancelOrder(client, limitOrder.id);
     } else if (limitOrderWithTpSl) {

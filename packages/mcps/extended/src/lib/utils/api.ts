@@ -42,6 +42,7 @@ export async function apiGet<T>(
 
 /**
  * Makes a POST request to the Extended API
+ * Automatically extracts the 'data' field from Extended API responses
  */
 export async function apiPost<T>(
   env: ExtendedApiEnv,
@@ -70,11 +71,21 @@ export async function apiPost<T>(
     throw new Error(`API request failed: ${response.status} ${response.statusText} - ${errorText}`);
   }
 
-  return await response.json();
+  const jsonResponse = await response.json();
+
+  // Extended API wraps responses in {"status": "OK", "data": ...}
+  // Extract and return the data field directly
+  if (jsonResponse.status === 'OK' && 'data' in jsonResponse) {
+    return jsonResponse.data as T;
+  }
+
+  // Fallback for responses without the data wrapper
+  return jsonResponse as T;
 }
 
 /**
  * Makes a PUT request to the Extended API
+ * Automatically extracts the 'data' field from Extended API responses
  */
 export async function apiPut<T>(
   env: ExtendedApiEnv,
@@ -99,11 +110,21 @@ export async function apiPut<T>(
     throw new Error(`API request failed: ${response.status} ${response.statusText} - ${errorText}`);
   }
 
-  return await response.json();
+  const jsonResponse = await response.json();
+
+  // Extended API wraps responses in {"status": "OK", "data": ...}
+  // Extract and return the data field directly
+  if (jsonResponse.status === 'OK' && 'data' in jsonResponse) {
+    return jsonResponse.data as T;
+  }
+
+  // Fallback for responses without the data wrapper
+  return jsonResponse as T;
 }
 
 /**
  * Makes a DELETE request to the Extended API
+ * Automatically extracts the 'data' field from Extended API responses
  */
 export async function apiDelete<T>(
   env: ExtendedApiEnv,
@@ -125,5 +146,14 @@ export async function apiDelete<T>(
     throw new Error(`API request failed: ${response.status} ${response.statusText} - ${errorText}`);
   }
 
-  return await response.json();
+  const jsonResponse = await response.json();
+
+  // Extended API wraps responses in {"status": "OK", "data": ...}
+  // Extract and return the data field directly
+  if (jsonResponse.status === 'OK' && 'data' in jsonResponse) {
+    return jsonResponse.data as T;
+  }
+
+  // Fallback for responses without the data wrapper
+  return jsonResponse as T;
 }

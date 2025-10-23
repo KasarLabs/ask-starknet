@@ -24,35 +24,34 @@ export const createMarketOrder = async (
     axiosClient.defaults.baseURL = env.apiUrl;
 
     // Get user account info to retrieve vault (collateralPosition)
-    const accountInfoResponse = await apiGet<{ data: AccountInfo }>(
+    const accountInfo = await apiGet<AccountInfo>(
       env,
       '/api/v1/user/account/info',
       true
     );
 
-    const vaultId = accountInfoResponse.data.l2Vault;
+    const vaultId = accountInfo.l2Vault;
     const starkPrivateKey = env.EXTENDED_STARKKEY_PRIVATE as `0x${string}`;
 
-    const marketResponse = await apiGet<{ data: any[] }>(
+    const markets = await apiGet<any[]>(
       env,
       `/api/v1/info/markets?market=${params.market}`,
       false
     );
-    const market = marketResponse.data[0];
+    const market = markets[0];
 
-    const feesResponse = await apiGet<{ data: any[] }>(
+    const feesList = await apiGet<any[]>(
       env,
       `/api/v1/user/fees?market=${params.market}`,
       true
     );
-    const fees = feesResponse.data[0];
+    const fees = feesList[0];
 
-    const starknetDomainResponse = await apiGet<{ data: any }>(
+    const starknetDomain = await apiGet<any>(
       env,
       '/api/v1/info/starknet',
       false
     );
-    const starknetDomain = starknetDomainResponse.data;
 
     // Convert slippage from percentage to decimal (0.75 -> 0.0075)
     const slippageDecimal = params.slippage / 100;
@@ -93,7 +92,7 @@ export const createMarketOrder = async (
       ctx,
     })
 
-    const response = await apiPost<{ data: OrderReturn }>(
+    const data = await apiPost<OrderReturn>(
       env,
       '/api/v1/user/order',
       orderPayload
@@ -101,7 +100,7 @@ export const createMarketOrder = async (
 
     return {
       status: 'success',
-      data: response.data,
+      data,
     };
   } catch (error: any) {
     console.error('Error creating market order:', error);
