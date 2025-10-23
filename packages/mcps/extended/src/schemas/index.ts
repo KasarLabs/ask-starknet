@@ -228,3 +228,75 @@ export const ConfirmBridgeQuoteSchema = z.object({
   quote_id: z.string().describe('Quote ID obtained from getBridgeQuote'),
 });
 export type ConfirmBridgeQuoteSchema = z.infer<typeof ConfirmBridgeQuoteSchema>;
+
+// ========================================
+// PUBLIC MARKET DATA SCHEMAS
+// ========================================
+
+/**
+ * Schema for getting available markets and their configurations
+ */
+export const GetMarketsSchema = z.object({
+  markets: z.array(z.string()).optional().describe('Optional array of market names to filter (e.g., ["BTC-USD", "ETH-USD"]). If not provided, returns all markets.'),
+});
+export type GetMarketsSchema = z.infer<typeof GetMarketsSchema>;
+
+/**
+ * Schema for getting statistics for a specific market
+ */
+export const GetMarketStatsSchema = z.object({
+  market: z.string().describe('Market name (e.g., "BTC-USD")'),
+});
+export type GetMarketStatsSchema = z.infer<typeof GetMarketStatsSchema>;
+
+/**
+ * Schema for getting order book for a specific market
+ */
+export const GetMarketOrderbookSchema = z.object({
+  market: z.string().describe('Market name (e.g., "BTC-USD")'),
+});
+export type GetMarketOrderbookSchema = z.infer<typeof GetMarketOrderbookSchema>;
+
+/**
+ * Schema for getting recent trades for a specific market
+ */
+export const GetMarketTradesSchema = z.object({
+  market: z.string().describe('Market name (e.g., "BTC-USD")'),
+});
+export type GetMarketTradesSchema = z.infer<typeof GetMarketTradesSchema>;
+
+/**
+ * Schema for getting candles (OHLCV) history data
+ */
+export const GetCandlesHistorySchema = z.object({
+  market: z.string().describe('Market name (e.g., "BTC-USD")'),
+  candleType: z.enum(['trades', 'mark-prices', 'index-prices']).describe('Price type: "trades" for last price, "mark-prices" for mark price, "index-prices" for index price'),
+  interval: z.string().describe('Time interval (e.g., "1m", "5m", "15m", "1h", "4h", "1d")'),
+  limit: z.number().describe('Maximum number of candles to return (max 10,000)'),
+  endTime: z.number().optional().describe('End timestamp in epoch milliseconds. If not provided, uses current time.'),
+});
+export type GetCandlesHistorySchema = z.infer<typeof GetCandlesHistorySchema>;
+
+/**
+ * Schema for getting funding rates history
+ */
+export const GetFundingRatesHistorySchema = z.object({
+  market: z.string().describe('Market name (e.g., "BTC-USD")'),
+  startTime: z.number().describe('Starting timestamp in epoch milliseconds'),
+  endTime: z.number().describe('Ending timestamp in epoch milliseconds'),
+  cursor: z.number().optional().describe('Pagination cursor from previous response'),
+  limit: z.number().optional().describe('Maximum number of records to return (max 10,000)'),
+});
+export type GetFundingRatesHistorySchema = z.infer<typeof GetFundingRatesHistorySchema>;
+
+/**
+ * Schema for getting open interest history
+ */
+export const GetOpenInterestsHistorySchema = z.object({
+  market: z.string().describe('Market name (e.g., "BTC-USD")'),
+  interval: z.enum(['P1H', 'P1D']).describe('Time interval: "P1H" for hourly, "P1D" for daily'),
+  startTime: z.number().describe('Starting timestamp in epoch milliseconds'),
+  endTime: z.number().describe('Ending timestamp in epoch milliseconds'),
+  limit: z.number().optional().describe('Maximum number of records to return (max 300)'),
+});
+export type GetOpenInterestsHistorySchema = z.infer<typeof GetOpenInterestsHistorySchema>;

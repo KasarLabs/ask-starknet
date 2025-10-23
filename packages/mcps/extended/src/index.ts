@@ -22,6 +22,16 @@ import { getFees } from './tools/read/getFees.js';
 import { getBridgeConfig } from './tools/read/getBridgeConfig.js';
 import { getBridgeQuote } from './tools/read/getBridgeQuote.js';
 
+// Import READ tools (Public Market Data)
+import { getMarkets } from './tools/read/getMarkets.js';
+import { getMarketStats } from './tools/read/getMarketStats.js';
+import { getMarketOrderbook } from './tools/read/getMarketOrderbook.js';
+import { getMarketTrades } from './tools/read/getMarketTrades.js';
+import { getCandlesHistory } from './tools/read/getCandlesHistory.js';
+import { getFundingRatesHistory } from './tools/read/getFundingRatesHistory.js';
+// TODO: Re-enable when API fixes the 500 error
+// import { getOpenInterestsHistory } from './tools/read/getOpenInterestsHistory.js';
+
 // Import WRITE tools (Trading)
 import { createLimitOrder } from './tools/write/createLimitOrder.js';
 import { createLimitOrderWithTpSl } from './tools/write/createLimitOrderWithTpSl.js';
@@ -45,6 +55,14 @@ import {
   GetFeesSchema,
   GetBridgeConfigSchema,
   GetBridgeQuoteSchema,
+  GetMarketsSchema,
+  GetMarketStatsSchema,
+  GetMarketOrderbookSchema,
+  GetMarketTradesSchema,
+  GetCandlesHistorySchema,
+  GetFundingRatesHistorySchema,
+  // TODO: Re-enable when API fixes the 500 error
+  // GetOpenInterestsHistorySchema,
   CreateLimitOrderSchema,
   CreateLimitOrderWithTpSlSchema,
   CreateMarketOrderSchema,
@@ -198,6 +216,74 @@ const registerTools = (env: ExtendedApiEnv, tools: mcpTool[]) => {
       return await getBridgeQuote(env, params);
     },
   });
+
+  // ========================================
+  // READ TOOLS (Public Market Data)
+  // ========================================
+
+  tools.push({
+    name: 'extended_get_markets',
+    description: 'Get list of available markets with configurations, trading statistics, and status. No authentication required.',
+    schema: GetMarketsSchema,
+    execute: async (params) => {
+      return await getMarkets(env, params);
+    },
+  });
+
+  tools.push({
+    name: 'extended_get_market_stats',
+    description: 'Get latest trading statistics for a specific market including volume, price changes, funding rate, and open interest. No authentication required.',
+    schema: GetMarketStatsSchema,
+    execute: async (params) => {
+      return await getMarketStats(env, params);
+    },
+  });
+
+  tools.push({
+    name: 'extended_get_market_orderbook',
+    description: 'Get current order book (bids and asks) for a specific market. No authentication required.',
+    schema: GetMarketOrderbookSchema,
+    execute: async (params) => {
+      return await getMarketOrderbook(env, params);
+    },
+  });
+
+  tools.push({
+    name: 'extended_get_market_trades',
+    description: 'Get latest trades for a specific market showing price, quantity, side, and trade type. No authentication required.',
+    schema: GetMarketTradesSchema,
+    execute: async (params) => {
+      return await getMarketTrades(env, params);
+    },
+  });
+
+  tools.push({
+    name: 'extended_get_candles_history',
+    description: 'Get historical OHLCV candles data for a market. Supports trades, mark prices, or index prices with customizable intervals. No authentication required.',
+    schema: GetCandlesHistorySchema,
+    execute: async (params) => {
+      return await getCandlesHistory(env, params);
+    },
+  });
+
+  tools.push({
+    name: 'extended_get_funding_rates_history',
+    description: 'Get historical funding rates for a market. Funding rates are calculated every minute but applied hourly. No authentication required.',
+    schema: GetFundingRatesHistorySchema,
+    execute: async (params) => {
+      return await getFundingRatesHistory(env, params);
+    },
+  });
+
+  // TODO: Re-enable when API fixes the 500 error for this endpoint
+  // tools.push({
+  //   name: 'extended_get_open_interests_history',
+  //   description: 'Get historical open interest data for a market in hourly or daily intervals. No authentication required.',
+  //   schema: GetOpenInterestsHistorySchema,
+  //   execute: async (params) => {
+  //     return await getOpenInterestsHistory(env, params);
+  //   },
+  // });
 
   // ========================================
   // WRITE TOOLS (Trading)
