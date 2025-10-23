@@ -7,7 +7,7 @@ export const getBalance = async (
   params: GetBalanceSchema
 ): Promise<ExtendedApiResponse<Balance>> => {
   try {
-    const response = await apiGet<{ balance: Balance }>(
+    const data = await apiGet<Balance>(
       env,
       '/api/v1/user/balance',
       true
@@ -15,7 +15,7 @@ export const getBalance = async (
 
     return {
       status: 'success',
-      data: response.balance,
+      data,
     };
   } catch (error: any) {
     console.error('Error getting balance:', error);

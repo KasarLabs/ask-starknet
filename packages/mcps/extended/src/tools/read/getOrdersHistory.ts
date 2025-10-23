@@ -16,7 +16,7 @@ export const getOrdersHistory = async (
 
     const endpoint = `/api/v1/user/orders/history${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
 
-    const response = await apiGet<{ orders_history: OrderReturn[] }>(
+    const data = await apiGet<OrderReturn[]>(
       env,
       endpoint,
       true
@@ -24,7 +24,7 @@ export const getOrdersHistory = async (
 
     return {
       status: 'success',
-      data: response.orders_history,
+      data,
     };
   } catch (error: any) {
     console.error('Error getting orders history:', error);

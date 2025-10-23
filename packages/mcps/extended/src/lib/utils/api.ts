@@ -2,6 +2,7 @@ import { ExtendedApiEnv } from '../types/index.js';
 
 /**
  * Makes a GET request to the Extended API
+ * Automatically extracts the 'data' field from Extended API responses
  */
 export async function apiGet<T>(
   env: ExtendedApiEnv,
@@ -27,7 +28,16 @@ export async function apiGet<T>(
     throw new Error(`API request failed: ${response.status} ${response.statusText} - ${errorText}`);
   }
 
-  return await response.json();
+  const jsonResponse = await response.json();
+
+  // Extended API wraps responses in {"status": "OK", "data": ...}
+  // Extract and return the data field directly
+  if (jsonResponse.status === 'OK' && 'data' in jsonResponse) {
+    return jsonResponse.data as T;
+  }
+
+  // Fallback for responses without the data wrapper
+  return jsonResponse as T;
 }
 
 /**

@@ -19,8 +19,8 @@ export const getFundingPayments = async (
     if (params.side) queryParams.append('side', params.side);
 
     const endpoint = `/api/v1/user/funding/history?${queryParams.toString()}`;
-    console.error(endpoint);
-    const response = await apiGet<{ funding_payments: FundingPayment[] }>(
+
+    const data = await apiGet<FundingPayment[]>(
       env,
       endpoint,
       true
@@ -28,7 +28,7 @@ export const getFundingPayments = async (
 
     return {
       status: 'success',
-      data: response.funding_payments,
+      data,
     };
   } catch (error: any) {
     console.error('Error getting funding payments:', error);

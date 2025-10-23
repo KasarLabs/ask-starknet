@@ -13,7 +13,7 @@ export const getPositions = async (
 
     const endpoint = `/api/v1/user/positions${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
 
-    const response = await apiGet<{ positions: Position[] }>(
+    const data = await apiGet<Position[]>(
       env,
       endpoint,
       true
@@ -21,7 +21,7 @@ export const getPositions = async (
 
     return {
       status: 'success',
-      data: response.positions,
+      data,
     };
   } catch (error: any) {
     console.error('Error getting positions:', error);

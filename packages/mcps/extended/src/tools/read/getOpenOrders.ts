@@ -14,7 +14,7 @@ export const getOpenOrders = async (
 
     const endpoint = `/api/v1/user/orders${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
 
-    const response = await apiGet<{ orders: OrderReturn[] }>(
+    const data = await apiGet<OrderReturn[]>(
       env,
       endpoint,
       true
@@ -22,7 +22,7 @@ export const getOpenOrders = async (
 
     return {
       status: 'success',
-      data: response.orders,
+      data,
     };
   } catch (error: any) {
     console.error('Error getting open orders:', error);

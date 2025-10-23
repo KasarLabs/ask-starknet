@@ -16,7 +16,7 @@ export const getPositionsHistory = async (
 
     const endpoint = `/api/v1/user/positions/history${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
 
-    const response = await apiGet<{ positions_history: Position[] }>(
+    const data = await apiGet<Position[]>(
       env,
       endpoint,
       true
@@ -24,7 +24,7 @@ export const getPositionsHistory = async (
 
     return {
       status: 'success',
-      data: response.positions_history,
+      data,
     };
   } catch (error: any) {
     console.error('Error getting positions history:', error);

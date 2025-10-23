@@ -15,7 +15,7 @@ export const getTradesHistory = async (
 
     const endpoint = `/api/v1/user/trades${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
 
-    const response = await apiGet<{ trades: Trade[] }>(
+    const data = await apiGet<Trade[]>(
       env,
       endpoint,
       true
@@ -23,7 +23,7 @@ export const getTradesHistory = async (
 
     return {
       status: 'success',
-      data: response.trades,
+      data,
     };
   } catch (error: any) {
     console.error('Error getting trades history:', error);
