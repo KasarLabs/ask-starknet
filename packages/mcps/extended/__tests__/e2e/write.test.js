@@ -39,49 +39,151 @@ async function callTool(client, name, args) {
  * Test extended_create_limit_order tool
  */
 async function testCreateLimitOrder(client) {
-  const externalId = `test-limit-${Date.now()}`;
-
   const response = await callTool(client, 'extended_create_limit_order', {
-    external_id: externalId,
     market: 'ETH-USD',
     side: 'BUY',
-    qty: '1',
-    price: '50000',
+    qty: '0.01', // Min trade size for ETH = 0.01 ETH
+    price: '1000', // Well below market (~$3000) to avoid execution
     post_only: false,
     reduce_only: false,
-    time_in_force: 'GTC',
+    time_in_force: 'GTT',
+    expiry_epoch_millis: Date.now() + 86400000, // 24h expiry
   });
 
   if (response.status !== 'success') {
-    console.log(`⚠️  extended_create_limit_order failed (expected if no STARKNET_PRIVATE_KEY): ${response.error}`);
+    console.log(`⚠️  extended_create_limit_order failed: ${response.error}`);
+    return null;
   } else {
     console.log('✅ extended_create_limit_order test passed');
+    console.log('   Order ID:', response.data.id);
+    return response.data;
   }
-
-  return response;
 }
 
 /**
  * Test extended_create_market_order tool
  */
 async function testCreateMarketOrder(client) {
-  const externalId = `test-market-${Date.now()}`;
-
   const response = await callTool(client, 'extended_create_market_order', {
-    external_id: externalId,
     market: 'ARB-USD',
     side: 'BUY',
-    qty: '10', // Min trade size for BTC-USD is 0.0001 BTC (~4-5 USD notional value)
+    qty: '10', // Min trade size for ARB = 10 ARB (~$6 at $0.60/ARB)
     reduce_only: false,
+    slippage: 0.75, // 0.75% slippage tolerance
   });
 
   if (response.status !== 'success') {
-    console.log(`⚠️  extended_create_market_order failed (expected if no STARKNET_PRIVATE_KEY): ${response.error}`);
+    console.log(`⚠️  extended_create_market_order failed: ${response.error}`);
+    return null;
   } else {
     console.log('✅ extended_create_market_order test passed');
+    console.log('   Order ID:', response.data.id);
+    return response.data;
+  }
+}
+
+/**
+ * Test extended_create_limit_order_with_tp_sl tool
+ */
+async function testCreateLimitOrderWithTpSl(client) {
+  const response = await callTool(client, 'extended_create_limit_order_with_tpsl', {
+    market: 'ETH-USD',
+    side: 'BUY',
+    qty: '0.01', // Min trade size for ETH = 0.01 ETH
+    price: '1500', // Well below market (~$3000) to avoid execution
+    post_only: false,
+    reduce_only: false,
+    time_in_force: 'GTT',
+    expiry_epoch_millis: Date.now() + 86400000,
+    take_profit: {
+      trigger_price: '10000', // Very high TP (won't trigger)
+      trigger_price_type: 'LAST',
+      price: '10000',
+      price_type: 'LIMIT',
+    },
+    // No stop_loss to avoid "TP/SL open loss exceeds equity" error
+  });
+
+  if (response.status !== 'success') {
+    console.log(`⚠️  extended_create_limit_order_with_tp_sl failed: ${response.error}`);
+    return null;
+  } else {
+    console.log('✅ extended_create_limit_order_with_tp_sl test passed (TP only)');
+    console.log('   Order ID:', response.data.id);
+    return response.data;
+  }
+}
+
+/**
+ * Test extended_add_position_tp_sl tool
+ */
+async function testAddPositionTpSl(client) {
+  // First check if we have an open position
+  const positionsResponse = await callTool(client, 'extended_get_positions', {
+    market: 'ARB-USD',
+  });
+
+  if (positionsResponse.status !== 'success' || !positionsResponse.data || positionsResponse.data.length === 0) {
+    console.log('⚠️  extended_add_position_tp_sl skipped: No open position found');
+    return null;
   }
 
-  return response;
+  const position = positionsResponse.data[0];
+  const positionSide = position.side; // 'LONG' or 'SHORT'
+  const orderSide = positionSide === 'LONG' ? 'SELL' : 'BUY'; // Opposite side to close
+  const positionQty = Math.abs(parseFloat(position.size));
+
+  console.log(`   Found ${positionSide} position with size ${positionQty}`);
+
+  const response = await callTool(client, 'extended_add_position_tp_sl', {
+    market: 'ARB-USD',
+    side: orderSide,
+    qty: String(positionQty), // Close entire position
+    take_profit: {
+      trigger_price: positionSide === 'LONG' ? '10' : '0.1', // Price way out
+      trigger_price_type: 'LAST',
+      price: positionSide === 'LONG' ? '10' : '0.1',
+      price_type: 'LIMIT',
+    },
+    stop_loss: {
+      trigger_price: positionSide === 'LONG' ? '0.1' : '10',
+      trigger_price_type: 'LAST',
+      price: positionSide === 'LONG' ? '0.1' : '10',
+      price_type: 'LIMIT',
+    },
+  });
+
+  if (response.status !== 'success') {
+    console.log(`⚠️  extended_add_position_tp_sl failed: ${response.error}`);
+    return null;
+  } else {
+    console.log('✅ extended_add_position_tp_sl test passed');
+    console.log('   Order ID:', response.data.id);
+    return response.data;
+  }
+}
+
+/**
+ * Test extended_cancel_order tool
+ */
+async function testCancelOrder(client, orderId) {
+  if (!orderId) {
+    console.log('⚠️  extended_cancel_order skipped: No order ID provided');
+    return null;
+  }
+
+  const response = await callTool(client, 'extended_cancel_order', {
+    order_id: orderId,
+  });
+
+  if (response.status !== 'success') {
+    console.log(`⚠️  extended_cancel_order failed: ${response.error}`);
+    return null;
+  } else {
+    console.log('✅ extended_cancel_order test passed');
+    console.log('   Cancelled order ID:', orderId);
+    return response.data;
+  }
 }
 
 /**
@@ -93,9 +195,32 @@ async function main() {
   const client = await createClient();
 
   try {
-    // Test order creation tools (these require STARKNET_PRIVATE_KEY)
-    // await testCreateLimitOrder(client);
-    await testCreateMarketOrder(client);
+    // console.log('\n--- Test 1: Create Limit Order ---');
+    // const limitOrder = await testCreateLimitOrder(client);
+
+    console.log('\n--- Test 2: Create Limit Order with TP/SL ---');
+    const limitOrderWithTpSl = await testCreateLimitOrderWithTpSl(client);
+
+    // console.log('\n--- Test 3: Create Market Order ---');
+    // const marketOrder = await testCreateMarketOrder(client);
+
+    // Wait a bit for the order to be processed
+    if (marketOrder) {
+      console.log('\n   Waiting 3 seconds for order to be processed...');
+      await new Promise(resolve => setTimeout(resolve, 3000));
+    }
+
+    // Test 4: Add TP/SL to the position created by the market order
+    console.log('\n--- Test 4: Add TP/SL to Position ---');
+    await testAddPositionTpSl(client);
+
+    // Test 5: Cancel one of the limit orders
+    console.log('\n--- Test 5: Cancel Order ---');
+    if (limitOrder) {
+      await testCancelOrder(client, limitOrder.id);
+    } else if (limitOrderWithTpSl) {
+      await testCancelOrder(client, limitOrderWithTpSl.id);
+    }
 
     console.log('\n✅ All write tool tests completed!');
   } catch (error) {
