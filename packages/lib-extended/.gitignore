@@ -1,7 +1,0 @@
-# Deps
-node_modules
-
-# Env
-*.local
-
-build/
