@@ -21,12 +21,17 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.11.2",
     "@snaknet/core": "workspace:*",
-    "@snaknet/lib-extended": "workspace:*",
+    "@x10xchange/stark-crypto-wrapper-wasm": "^0.1.6",
+    "bignumber.js": "^9.3.1",
+    "date-fns": "^4.1.0",
     "dotenv": "^16.4.7",
+    "json-custom-numbers": "^3.1.1",
+    "lodash-es": "^4.17.21",
     "starknet": "^7.6.4",
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@types/lodash-es": "^4.17.12",
     "@types/node": "^22.13.10",
     "typescript": "^5.8.2"
   },
