@@ -43,5 +43,5 @@ export const graph = new StateGraph(GraphAnnotation)
   .addNode('specialized', specializedNode)
   .addEdge(START, 'selector')
   .addConditionalEdges('selector', routingFunction)
-  .addEdge('specialized', 'selector')
+  .addEdge('specialized', END)
   .compile({ checkpointer: new MemorySaver() });
