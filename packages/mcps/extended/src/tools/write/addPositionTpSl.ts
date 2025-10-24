@@ -7,7 +7,7 @@ import { roundToMinChange,
   createOrderContext,
   Order,
   axiosClient,
-} from '@snaknet/lib-extended';
+} from '../../lib/utils/lib-extended/index.js';
 
 export const addPositionTpSl = async (
   env: ExtendedApiEnv,

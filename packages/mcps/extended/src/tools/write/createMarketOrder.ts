@@ -4,14 +4,10 @@ import { CreateMarketOrderSchema } from '../../schemas/index.js';
 
 import { roundToMinChange,
   Decimal,
-  init,
-  getMarket,
-  getFees,
-  getStarknetDomain,
   createOrderContext,
   Order,
   axiosClient,
- } from '@snaknet/lib-extended';
+ } from '../../lib/utils/lib-extended/index.js';
 
 export const createMarketOrder = async (
   env: ExtendedApiEnv,
