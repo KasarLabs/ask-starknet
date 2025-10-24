@@ -75,7 +75,7 @@ dotenv.config();
 
 const server = new McpServer({
   name: 'extended-mcp',
-  version: '0.0.1',
+  version: '0.1.0',
 });
 
 // Create API environment from environment variables
