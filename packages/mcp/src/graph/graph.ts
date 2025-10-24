@@ -4,6 +4,7 @@ import {
   Annotation,
   START,
   END,
+  messagesStateReducer,
 } from '@langchain/langgraph';
 import type { BaseMessage } from '@langchain/core/messages';
 
@@ -15,7 +16,7 @@ import { logger } from '../utils/logger.js';
 
 export const GraphAnnotation = Annotation.Root({
   messages: Annotation<BaseMessage[]>({
-    reducer: (x, y) => x.concat(y),
+    reducer: messagesStateReducer,
     default: () => [],
   }),
   next: Annotation<AgentName>({
