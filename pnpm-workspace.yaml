@@ -2,4 +2,3 @@ packages:
   - 'packages/mcps/*'
   - 'packages/mcp'
   - 'packages/core'
-  - 'packages/lib-extended'

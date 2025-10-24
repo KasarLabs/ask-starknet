@@ -26,8 +26,7 @@
     "esModuleInterop": true,
     "paths": {
       "@mcp/*": ["packages/mcps/*"],
-      "@core/*": ["packages/core/*"],
-      "@lib-extended/*": ["packages/lib-extended/*"]
+      "@core/*": ["packages/core/*"]
     }
   }
 }
