@@ -58,7 +58,7 @@ EXTENDED_STARKKEY_PRIVATE=your_stark_private_key_here
 4. Generate a new API key
 5. Add it to your `.env` file in the `EXTENDED_API_KEY` environment variable
 
-#### Getting a Stark Private Key
+#### Getting your Stark Private Key
 
 1. The Stark key is derived from your EVM or starknet private key during account registration
 2. You can export it from your Extended account dashboard in section **More > API > Account > Show API details**
