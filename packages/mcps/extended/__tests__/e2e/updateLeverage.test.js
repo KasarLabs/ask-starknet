@@ -54,13 +54,13 @@ async function testUpdateLeverage(client) {
   if (currentLeverageResponse.data.length > 0) {
     console.log('\nCurrent leverage settings:');
     currentLeverageResponse.data.forEach((setting) => {
-      console.log(`   ${setting.market_id}: ${setting.leverage}x`);
+      console.log(`   ${setting.market}: ${setting.leverage}x`);
     });
   }
 
   // Get market ID from environment or use a default
-  const marketId = process.env.MARKET_ID || 'BTC-USD';
-  const newLeverage = parseInt(process.env.LEVERAGE || '5');
+  const marketId = 'BTC-USD';
+  const newLeverage = 5;
 
   console.log(`\n📋 Step 2: Updating leverage for ${marketId} to ${newLeverage}x...`);
   console.log('⚠️  WARNING: This will modify your actual account settings!');

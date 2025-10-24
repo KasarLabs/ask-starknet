@@ -123,6 +123,45 @@ export async function apiPut<T>(
 }
 
 /**
+ * Makes a PATCH request to the Extended API
+ * Automatically extracts the 'data' field from Extended API responses
+ */
+export async function apiPatch<T>(
+  env: ExtendedApiEnv,
+  endpoint: string,
+  body: any
+): Promise<T> {
+  const url = `${env.apiUrl}${endpoint}`;
+  const headers: Record<string, string> = {
+    'User-Agent': 'SnaknetMCP/1.0',
+    'X-Api-Key': env.apiKey,
+    'Content-Type': 'application/json',
+  };
+
+  const response = await fetch(url, {
+    method: 'PATCH',
+    headers,
+    body: JSON.stringify(body),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`API request failed: ${response.status} ${response.statusText} - ${errorText}`);
+  }
+
+  const jsonResponse = await response.json();
+
+  // Extended API wraps responses in {"status": "OK", "data": ...}
+  // Extract and return the data field directly
+  if (jsonResponse.status === 'OK' && 'data' in jsonResponse) {
+    return jsonResponse.data as T;
+  }
+
+  // Fallback for responses without the data wrapper
+  return jsonResponse as T;
+}
+
+/**
  * Makes a DELETE request to the Extended API
  * Automatically extracts the 'data' field from Extended API responses
  */

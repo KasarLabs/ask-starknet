@@ -1,5 +1,5 @@
 import { ExtendedApiEnv, ExtendedApiResponse } from '../../lib/types/index.js';
-import { apiPut } from '../../lib/utils/api.js';
+import { apiPatch } from '../../lib/utils/api.js';
 import { UpdateLeverageSchema } from '../../schemas/index.js';
 
 interface UpdateLeverageResponse {
@@ -13,11 +13,11 @@ export const updateLeverage = async (
 ): Promise<ExtendedApiResponse<UpdateLeverageResponse>> => {
   try {
     const payload = {
-      market_id: params.market_id,
+      market: params.market_id,
       leverage: params.leverage,
     };
 
-    const response = await apiPut<UpdateLeverageResponse>(
+    const response = await apiPatch<UpdateLeverageResponse>(
       env,
       '/api/v1/user/leverage',
       payload
