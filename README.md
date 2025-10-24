@@ -163,6 +163,7 @@ You can also configure individual MCP servers directly:
 
 - **Token Management**: Transfer ERC20 tokens, check balances, approve spending
 - **DeFi Operations**: Swap tokens, provide liquidity, borrow/lend assets
+- **Perpetual Trading**: Trade derivatives, manage positions, execute limit/market orders on Extended
 - **Wallet Management**: Create accounts, manage transactions, monitor balances
 - **NFT Operations**: Transfer NFTs, manage collections, interact with marketplaces
 - **Smart Contract Development**: Deploy contracts, interact with deployed contracts
@@ -181,6 +182,7 @@ You can also configure individual MCP servers directly:
 - **AVNU** - DEX aggregator and swap functionality
 - **Ekubo** - Next-generation AMM with concentrated liquidity
 - **Endurfi** - Liquid staking protocol (xSTRK, xyWBTC)
+- **Extended** - High-performance perpetuals exchange for derivatives trading
 - **Fibrous** - Token swap router finding optimal routes
 - **Opus** - Collateralized debt positions (Troves) and CASH borrowing
 - **Vesu** - Lending and earning protocol
@@ -192,7 +194,6 @@ You can also configure individual MCP servers directly:
 - **ERC721** - NFT operations (transfer, approve, metadata, etc.)
 - **Transaction** - Transaction management and monitoring
 - **RPC** - Starknet RPC operations and blockchain data
-- **Extended** - Extended Starknet operations
 
 ### Development Tools
 
