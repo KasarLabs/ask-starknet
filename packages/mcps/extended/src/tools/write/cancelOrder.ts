@@ -14,7 +14,7 @@ export const cancelOrder = async (
   try {
     const response = await apiDelete<CancelOrderResponse>(
       env,
-      `/api/v1/user/orders/${params.order_id}`
+      `/api/v1/user/order/${params.order_id}`
     );
 
     return {
