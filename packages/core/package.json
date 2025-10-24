@@ -25,7 +25,8 @@
   "license": "MIT",
   "dependencies": {
     "zod": "^3.24.2",
-    "winston": "^3.17.0"
+    "winston": "^3.17.0",
+    "starknet": "^7.6.4"
   },
   "devDependencies": {
     "@types/node": "^22.13.10",

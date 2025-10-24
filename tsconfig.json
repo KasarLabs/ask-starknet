@@ -25,14 +25,8 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "paths": {
-      // "@config/*": ["config/*"],
-      // "@plugins/*": ["plugins/*"],
-      // "@server/*": ["packages/server/*"],
-      // "@client/*": ["packages/client/*"],
-      // "@agents/*": ["packages/agents/*"],
       "@mcp/*": ["packages/mcps/*"],
       "@core/*": ["packages/core/*"]
-      // "@metrics/*": ["packages/metrics/*"]
     }
   }
 }
