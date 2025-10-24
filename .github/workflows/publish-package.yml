@@ -37,6 +37,11 @@ on:
           - patch
           - minor
           - major
+      create_release:
+        description: 'Create GitHub release'
+        required: true
+        type: boolean
+        default: true
 
 jobs:
   publish:
@@ -135,13 +140,14 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       
       - name: Create GitHub Release
+        if: ${{ github.event.inputs.create_release == 'true' }}
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ steps.path.outputs.tag_prefix }}-v${{ steps.version.outputs.new_version }}
           name: ${{ steps.path.outputs.package_name }} v${{ steps.version.outputs.new_version }}
           body: |
             Release of ${{ steps.path.outputs.package_name }} v${{ steps.version.outputs.new_version }}
-      
+
             Package: `${{ github.event.inputs.package }}`
-          draft: false
+          draft: true
           prerelease: false
