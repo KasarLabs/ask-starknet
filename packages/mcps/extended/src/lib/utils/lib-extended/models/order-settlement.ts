@@ -1,20 +1,20 @@
-import { toHexString } from '../utils/hex.js'
-import { type Long } from '../utils/number.js'
-import { type SettlementSignature } from './order.types.js'
+import { toHexString } from '../utils/hex.js';
+import { type Long } from '../utils/number.js';
+import { type SettlementSignature } from './order.types.js';
 
 export class OrderSettlement {
-  private readonly signature: SettlementSignature
-  private readonly starkKey: string
-  private readonly collateralPosition: Long
+  private readonly signature: SettlementSignature;
+  private readonly starkKey: string;
+  private readonly collateralPosition: Long;
 
   constructor(settlement: {
-    signature: SettlementSignature
-    starkKey: string
-    collateralPosition: Long
+    signature: SettlementSignature;
+    starkKey: string;
+    collateralPosition: Long;
   }) {
-    this.signature = settlement.signature
-    this.starkKey = settlement.starkKey
-    this.collateralPosition = settlement.collateralPosition
+    this.signature = settlement.signature;
+    this.starkKey = settlement.starkKey;
+    this.collateralPosition = settlement.collateralPosition;
   }
 
   toJSON() {
@@ -25,6 +25,6 @@ export class OrderSettlement {
       },
       starkKey: toHexString(this.starkKey),
       collateralPosition: this.collateralPosition.toString(10),
-    }
+    };
   }
 }

@@ -356,12 +356,13 @@
       "transport": "stdio",
       "env": {
         "EXTENDED_API_KEY": "",
-        "EXTENDED_API_URL": "https://api.starknet.extended.exchange"
+        "EXTENDED_API_URL": "",
+        "EXTENDED_STARKKEY_PRIVATE": ""
       }
     },
-    "description": "Extended perpetuals exchange integration for trading and account management on Starknet",
+    "description": "Extended high-performance perpetuals exchange on Starknet for trading derivatives with on-chain settlement",
     "promptInfo": {
-      "expertise": "Perpetual futures trading, position management, and order execution on Extended exchange (Starknet)",
+      "expertise": "Perpetual derivatives trading, market data analysis, position and risk management, order execution, and account management on Extended exchange (Starknet L2)",
       "tools": [
         "extended_get_balance",
         "extended_get_user_account_info",
@@ -374,8 +375,18 @@
         "extended_get_funding_payments",
         "extended_get_leverage",
         "extended_get_fees",
+        "extended_get_bridge_config",
+        "extended_get_bridge_quote",
+        "extended_get_markets",
+        "extended_get_market_stats",
+        "extended_get_market_orderbook",
+        "extended_get_market_trades",
+        "extended_get_candles_history",
+        "extended_get_funding_rates_history",
         "extended_create_limit_order",
+        "extended_create_limit_order_with_tpsl",
         "extended_create_market_order",
+        "extended_add_position_tpsl",
         "extended_cancel_order",
         "extended_update_leverage"
       ]

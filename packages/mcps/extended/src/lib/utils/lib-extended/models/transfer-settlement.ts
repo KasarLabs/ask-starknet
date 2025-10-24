@@ -1,21 +1,21 @@
-import { type StarknetDomain } from '../api/starknet.schema.js'
-import { type HexString } from '../utils/hex.js'
-import { type Long } from '../utils/number.js'
-import { calcStarknetExpiration } from '../utils/signing/calc-starknet-expiration.js'
-import { getStarknetTransferMsgHash } from '../utils/signing/get-transfer-msg-hash.js'
-import { signMessage } from '../utils/signing/sign-message.js'
-import { type SettlementSignature } from './transfer.types.js'
+import { type StarknetDomain } from '../api/starknet.schema.js';
+import { type HexString } from '../utils/hex.js';
+import { type Long } from '../utils/number.js';
+import { calcStarknetExpiration } from '../utils/signing/calc-starknet-expiration.js';
+import { getStarknetTransferMsgHash } from '../utils/signing/get-transfer-msg-hash.js';
+import { signMessage } from '../utils/signing/sign-message.js';
+import { type SettlementSignature } from './transfer.types.js';
 
 export class TransferSettlement {
-  private readonly amount: Long
-  private readonly assetId: HexString
-  private readonly expirationTimestamp: number
-  private readonly nonce: Long
-  private readonly receiverPositionId: Long
-  private readonly receiverPublicKey: HexString
-  private readonly senderPositionId: Long
-  private readonly senderPublicKey: HexString
-  private readonly signature: SettlementSignature
+  private readonly amount: Long;
+  private readonly assetId: HexString;
+  private readonly expirationTimestamp: number;
+  private readonly nonce: Long;
+  private readonly receiverPositionId: Long;
+  private readonly receiverPublicKey: HexString;
+  private readonly senderPositionId: Long;
+  private readonly senderPublicKey: HexString;
+  private readonly signature: SettlementSignature;
 
   private constructor({
     amount,
@@ -28,25 +28,25 @@ export class TransferSettlement {
     senderPublicKey,
     signature,
   }: {
-    amount: Long
-    assetId: HexString
-    expirationTimestamp: number
-    nonce: Long
-    receiverPositionId: Long
-    receiverPublicKey: HexString
-    senderPositionId: Long
-    senderPublicKey: HexString
-    signature: SettlementSignature
+    amount: Long;
+    assetId: HexString;
+    expirationTimestamp: number;
+    nonce: Long;
+    receiverPositionId: Long;
+    receiverPublicKey: HexString;
+    senderPositionId: Long;
+    senderPublicKey: HexString;
+    signature: SettlementSignature;
   }) {
-    this.amount = amount
-    this.assetId = assetId
-    this.expirationTimestamp = expirationTimestamp
-    this.nonce = nonce
-    this.receiverPositionId = receiverPositionId
-    this.receiverPublicKey = receiverPublicKey
-    this.senderPositionId = senderPositionId
-    this.senderPublicKey = senderPublicKey
-    this.signature = signature
+    this.amount = amount;
+    this.assetId = assetId;
+    this.expirationTimestamp = expirationTimestamp;
+    this.nonce = nonce;
+    this.receiverPositionId = receiverPositionId;
+    this.receiverPublicKey = receiverPublicKey;
+    this.senderPositionId = senderPositionId;
+    this.senderPublicKey = senderPublicKey;
+    this.signature = signature;
   }
 
   toJSON() {
@@ -60,7 +60,7 @@ export class TransferSettlement {
       senderPositionId: this.senderPositionId,
       senderPublicKey: this.senderPublicKey,
       signature: this.signature,
-    }
+    };
   }
 
   static create({
@@ -75,18 +75,18 @@ export class TransferSettlement {
     starkPrivateKey,
     starknetDomain,
   }: {
-    amount: Long
-    assetId: HexString
-    expiryEpochMillis: number
-    nonce: Long
-    receiverPositionId: Long
-    receiverPublicKey: HexString
-    senderPositionId: Long
-    senderPublicKey: HexString
-    starkPrivateKey: HexString
-    starknetDomain: StarknetDomain
+    amount: Long;
+    assetId: HexString;
+    expiryEpochMillis: number;
+    nonce: Long;
+    receiverPositionId: Long;
+    receiverPublicKey: HexString;
+    senderPositionId: Long;
+    senderPublicKey: HexString;
+    starkPrivateKey: HexString;
+    starknetDomain: StarknetDomain;
   }) {
-    const expirationTimestamp = calcStarknetExpiration(expiryEpochMillis)
+    const expirationTimestamp = calcStarknetExpiration(expiryEpochMillis);
 
     const transferHash = getStarknetTransferMsgHash({
       amount,
@@ -97,9 +97,9 @@ export class TransferSettlement {
       senderPositionId,
       senderPublicKey,
       starknetDomain,
-    })
+    });
 
-    const transferSignature = signMessage(transferHash, starkPrivateKey)
+    const transferSignature = signMessage(transferHash, starkPrivateKey);
 
     return new TransferSettlement({
       amount,
@@ -111,6 +111,6 @@ export class TransferSettlement {
       senderPositionId,
       senderPublicKey,
       signature: transferSignature.signature,
-    })
+    });
   }
 }

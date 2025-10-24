@@ -19,11 +19,10 @@ export const getBridgeConfig = async (
   env: ExtendedApiEnv
 ): Promise<ExtendedApiResponse<BridgeConfigResponse>> => {
   try {
-    const response = await apiGet<{ status: string; data: { chains: BridgeChain[] } }>(
-      env,
-      '/api/v1/user/bridge/config',
-      true
-    );
+    const response = await apiGet<{
+      status: string;
+      data: { chains: BridgeChain[] };
+    }>(env, '/api/v1/user/bridge/config', true);
 
     return {
       status: 'success',

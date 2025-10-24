@@ -86,29 +86,37 @@ async function testCreateMarketOrder(client) {
  * Test extended_create_limit_order_with_tp_sl tool
  */
 async function testCreateLimitOrderWithTpSl(client) {
-  const response = await callTool(client, 'extended_create_limit_order_with_tpsl', {
-    market: 'ETH-USD',
-    side: 'BUY',
-    qty: '0.01', // Min trade size for ETH = 0.01 ETH
-    price: '1500', // Well below market (~$3000) to avoid execution
-    post_only: false,
-    reduce_only: false,
-    time_in_force: 'GTT',
-    expiry_epoch_millis: Date.now() + 86400000,
-    take_profit: {
-      trigger_price: '10000', // Very high TP (won't trigger)
-      trigger_price_type: 'LAST',
-      price: '10000',
-      price_type: 'LIMIT',
-    },
-    // No stop_loss to avoid "TP/SL open loss exceeds equity" error
-  });
+  const response = await callTool(
+    client,
+    'extended_create_limit_order_with_tpsl',
+    {
+      market: 'ETH-USD',
+      side: 'BUY',
+      qty: '0.01', // Min trade size for ETH = 0.01 ETH
+      price: '1500', // Well below market (~$3000) to avoid execution
+      post_only: false,
+      reduce_only: false,
+      time_in_force: 'GTT',
+      expiry_epoch_millis: Date.now() + 86400000,
+      take_profit: {
+        trigger_price: '10000', // Very high TP (won't trigger)
+        trigger_price_type: 'LAST',
+        price: '10000',
+        price_type: 'LIMIT',
+      },
+      // No stop_loss to avoid "TP/SL open loss exceeds equity" error
+    }
+  );
 
   if (response.status !== 'success') {
-    console.log(`⚠️  extended_create_limit_order_with_tp_sl failed: ${response.error}`);
+    console.log(
+      `⚠️  extended_create_limit_order_with_tp_sl failed: ${response.error}`
+    );
     return null;
   } else {
-    console.log('✅ extended_create_limit_order_with_tp_sl test passed (TP only)');
+    console.log(
+      '✅ extended_create_limit_order_with_tp_sl test passed (TP only)'
+    );
     console.log('   Order ID:', response.data.id);
     return response.data;
   }
@@ -123,8 +131,14 @@ async function testAddPositionTpSl(client) {
     market: 'ARB-USD',
   });
 
-  if (positionsResponse.status !== 'success' || !positionsResponse.data || positionsResponse.data.length === 0) {
-    console.log('⚠️  extended_add_position_tp_sl skipped: No open position found');
+  if (
+    positionsResponse.status !== 'success' ||
+    !positionsResponse.data ||
+    positionsResponse.data.length === 0
+  ) {
+    console.log(
+      '⚠️  extended_add_position_tp_sl skipped: No open position found'
+    );
     return null;
   }
 

@@ -55,7 +55,9 @@ async function testGetMarkets(client) {
   });
 
   if (responseFiltered.status !== 'success') {
-    throw new Error(`extended_get_markets (filtered) failed: ${responseFiltered.error}`);
+    throw new Error(
+      `extended_get_markets (filtered) failed: ${responseFiltered.error}`
+    );
   }
 
   console.log('✅ extended_get_markets (filtered) test passed');
@@ -141,29 +143,41 @@ async function testGetCandlesHistory(client) {
   console.log(`   Found ${response.data.length} candles`);
 
   // Test with mark prices
-  const responseMarkPrice = await callTool(client, 'extended_get_candles_history', {
-    market: 'ETH-USD',
-    candleType: 'mark-prices',
-    interval: '15m',
-    limit: 10,
-  });
+  const responseMarkPrice = await callTool(
+    client,
+    'extended_get_candles_history',
+    {
+      market: 'ETH-USD',
+      candleType: 'mark-prices',
+      interval: '15m',
+      limit: 10,
+    }
+  );
 
   if (responseMarkPrice.status !== 'success') {
-    throw new Error(`extended_get_candles_history (mark-prices) failed: ${responseMarkPrice.error}`);
+    throw new Error(
+      `extended_get_candles_history (mark-prices) failed: ${responseMarkPrice.error}`
+    );
   }
 
   console.log('✅ extended_get_candles_history (mark-prices) test passed');
 
   // Test with index prices
-  const responseIndexPrice = await callTool(client, 'extended_get_candles_history', {
-    market: 'BTC-USD',
-    candleType: 'index-prices',
-    interval: '5m',
-    limit: 10,
-  });
+  const responseIndexPrice = await callTool(
+    client,
+    'extended_get_candles_history',
+    {
+      market: 'BTC-USD',
+      candleType: 'index-prices',
+      interval: '5m',
+      limit: 10,
+    }
+  );
 
   if (responseIndexPrice.status !== 'success') {
-    throw new Error(`extended_get_candles_history (index-prices) failed: ${responseIndexPrice.error}`);
+    throw new Error(
+      `extended_get_candles_history (index-prices) failed: ${responseIndexPrice.error}`
+    );
   }
 
   console.log('✅ extended_get_candles_history (index-prices) test passed');
@@ -176,18 +190,24 @@ async function testGetCandlesHistory(client) {
  */
 async function testGetFundingRatesHistory(client) {
   // Get funding rates for the last 7 days
-  const sevenDaysAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
+  const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
   const now = Date.now();
 
-  const response = await callTool(client, 'extended_get_funding_rates_history', {
-    market: 'BTC-USD',
-    startTime: sevenDaysAgo,
-    endTime: now,
-    limit: 100,
-  });
+  const response = await callTool(
+    client,
+    'extended_get_funding_rates_history',
+    {
+      market: 'BTC-USD',
+      startTime: sevenDaysAgo,
+      endTime: now,
+      limit: 100,
+    }
+  );
 
   if (response.status !== 'success') {
-    throw new Error(`extended_get_funding_rates_history failed: ${response.error}`);
+    throw new Error(
+      `extended_get_funding_rates_history failed: ${response.error}`
+    );
   }
 
   console.log('✅ extended_get_funding_rates_history test passed');
@@ -207,37 +227,49 @@ async function testGetFundingRatesHistory(client) {
 // eslint-disable-next-line no-unused-vars
 async function testGetOpenInterestsHistory(client) {
   // Get hourly open interest for the last 3 days (shorter period to avoid API limits)
-  const threeDaysAgo = Date.now() - (3 * 24 * 60 * 60 * 1000);
+  const threeDaysAgo = Date.now() - 3 * 24 * 60 * 60 * 1000;
   const now = Date.now();
 
-  const response = await callTool(client, 'extended_get_open_interests_history', {
-    market: 'BTC-USD',
-    interval: 'P1H',
-    startTime: threeDaysAgo,
-    endTime: now,
-    limit: 72, // 3 days * 24 hours
-  });
+  const response = await callTool(
+    client,
+    'extended_get_open_interests_history',
+    {
+      market: 'BTC-USD',
+      interval: 'P1H',
+      startTime: threeDaysAgo,
+      endTime: now,
+      limit: 72, // 3 days * 24 hours
+    }
+  );
 
   if (response.status !== 'success') {
-    throw new Error(`extended_get_open_interests_history failed: ${response.error}`);
+    throw new Error(
+      `extended_get_open_interests_history failed: ${response.error}`
+    );
   }
 
   console.log('✅ extended_get_open_interests_history (hourly) test passed');
   console.log(`   Found ${response.data.length} hourly records`);
 
   // Test with daily interval - last 7 days
-  const sevenDaysAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
+  const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
 
-  const responseDaily = await callTool(client, 'extended_get_open_interests_history', {
-    market: 'ETH-USD',
-    interval: 'P1D',
-    startTime: sevenDaysAgo,
-    endTime: now,
-    limit: 7,
-  });
+  const responseDaily = await callTool(
+    client,
+    'extended_get_open_interests_history',
+    {
+      market: 'ETH-USD',
+      interval: 'P1D',
+      startTime: sevenDaysAgo,
+      endTime: now,
+      limit: 7,
+    }
+  );
 
   if (responseDaily.status !== 'success') {
-    throw new Error(`extended_get_open_interests_history (daily) failed: ${responseDaily.error}`);
+    throw new Error(
+      `extended_get_open_interests_history (daily) failed: ${responseDaily.error}`
+    );
   }
 
   console.log('✅ extended_get_open_interests_history (daily) test passed');
@@ -258,9 +290,13 @@ async function testErrorHandling(client) {
   });
 
   if (response.status === 'failure') {
-    console.log('✅ Error handling test: API correctly rejected invalid market');
+    console.log(
+      '✅ Error handling test: API correctly rejected invalid market'
+    );
   } else {
-    console.log('⚠️  Error handling test: API accepted invalid market (unexpected)');
+    console.log(
+      '⚠️  Error handling test: API accepted invalid market (unexpected)'
+    );
   }
 
   return response;
@@ -274,7 +310,9 @@ async function runTests() {
 
   try {
     console.log('🚀 Starting Extended Public Market Data Tools E2E Tests\n');
-    console.log('ℹ️  These tests access public endpoints and do NOT require authentication\n');
+    console.log(
+      'ℹ️  These tests access public endpoints and do NOT require authentication\n'
+    );
 
     client = await createClient();
     console.log('✅ Client connected successfully\n');
@@ -289,7 +327,9 @@ async function runTests() {
 
     // TODO: Re-enable when API fixes the 500 error for this endpoint
     // await testGetOpenInterestsHistory(client);
-    console.log('\n⚠️  Skipping extended_get_open_interests_history - API returns 500 error');
+    console.log(
+      '\n⚠️  Skipping extended_get_open_interests_history - API returns 500 error'
+    );
 
     await testErrorHandling(client);
 

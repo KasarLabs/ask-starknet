@@ -1,8 +1,8 @@
-import type { get_transfer_msg as wasmGetTransferMsgHash } from '@x10xchange/stark-crypto-wrapper-wasm'
-import { hash as starkHash, selector as starkSelector } from 'starknet'
+import type { get_transfer_msg as wasmGetTransferMsgHash } from '@x10xchange/stark-crypto-wrapper-wasm';
+import { hash as starkHash, selector as starkSelector } from 'starknet';
 
-import { jsGetObjMsgHash } from './js-get-obj-msg-hash.js'
-import { jsGetStarknetDomainObjHash } from './js-get-starknet-domain-obj-hash.js'
+import { jsGetObjMsgHash } from './js-get-obj-msg-hash.js';
+import { jsGetStarknetDomainObjHash } from './js-get-starknet-domain-obj-hash.js';
 
 export const jsGetTransferMsgHash = (
   ...args: Parameters<typeof wasmGetTransferMsgHash>
@@ -19,18 +19,18 @@ export const jsGetTransferMsgHash = (
     domainVersion,
     domainChainId,
     domainRevision,
-  ] = args
+  ] = args;
 
   const domainHash = jsGetStarknetDomainObjHash({
     name: domainName,
     version: domainVersion,
     chainId: domainChainId,
     revision: parseInt(domainRevision),
-  })
+  });
 
   const transferSelector = starkSelector.getSelector(
-    '"TransferArgs"("recipient":"PositionId","position_id":"PositionId","collateral_id":"AssetId","amount":"u64","expiration":"Timestamp","salt":"felt")"PositionId"("value":"u32")"AssetId"("value":"felt")"Timestamp"("seconds":"u64")',
-  )
+    '"TransferArgs"("recipient":"PositionId","position_id":"PositionId","collateral_id":"AssetId","amount":"u64","expiration":"Timestamp","salt":"felt")"PositionId"("value":"u32")"AssetId"("value":"felt")"Timestamp"("seconds":"u64")'
+  );
   const transferHash = starkHash.computePoseidonHashOnElements([
     transferSelector,
     recipientPositionId,
@@ -39,7 +39,7 @@ export const jsGetTransferMsgHash = (
     amount,
     expiration,
     salt,
-  ])
+  ]);
 
-  return jsGetObjMsgHash(domainHash, userPublicKeyHex, transferHash)
-}
+  return jsGetObjMsgHash(domainHash, userPublicKeyHex, transferHash);
+};

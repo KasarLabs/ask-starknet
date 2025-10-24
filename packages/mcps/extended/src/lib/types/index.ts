@@ -65,7 +65,12 @@ export interface Position {
 // Order types
 export type OrderType = 'LIMIT' | 'MARKET';
 export type OrderSide = 'BUY' | 'SELL';
-export type OrderStatus = 'NEW' | 'PARTIALLY_FILLED' | 'FILLED' | 'CANCELED' | 'REJECTED';
+export type OrderStatus =
+  | 'NEW'
+  | 'PARTIALLY_FILLED'
+  | 'FILLED'
+  | 'CANCELED'
+  | 'REJECTED';
 export type TimeInForce = 'GTC' | 'IOC' | 'FOK' | 'GTT';
 
 export interface OrderReturn {

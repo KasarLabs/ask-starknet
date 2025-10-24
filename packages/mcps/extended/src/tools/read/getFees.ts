@@ -1,4 +1,8 @@
-import { ExtendedApiEnv, ExtendedApiResponse, FeeSchedule } from '../../lib/types/index.js';
+import {
+  ExtendedApiEnv,
+  ExtendedApiResponse,
+  FeeSchedule,
+} from '../../lib/types/index.js';
 import { apiGet } from '../../lib/utils/api.js';
 import { GetFeesSchema } from '../../schemas/index.js';
 
@@ -12,11 +16,7 @@ export const getFees = async (
 
     const endpoint = `/api/v1/user/fees${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
 
-    const response = await apiGet<FeeSchedule>(
-      env,
-      endpoint,
-      true
-    );
+    const response = await apiGet<FeeSchedule>(env, endpoint, true);
 
     return {
       status: 'success',

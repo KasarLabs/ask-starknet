@@ -1,6 +1,6 @@
-import { z } from 'zod/v4'
+import { z } from 'zod/v4';
 
-import { zodDecimal, zodHexString } from '../utils/zod.js'
+import { zodDecimal, zodHexString } from '../utils/zod.js';
 
 export const MarketStatsSchema = z.object({
   lastPrice: zodDecimal(),
@@ -8,14 +8,14 @@ export const MarketStatsSchema = z.object({
   bidPrice: zodDecimal(),
   markPrice: zodDecimal(),
   indexPrice: zodDecimal(),
-})
+});
 
 const TradingConfigSchema = z.object({
   minOrderSize: zodDecimal(),
   minOrderSizeChange: zodDecimal(),
   minPriceChange: zodDecimal(),
   maxPositionValue: zodDecimal(),
-})
+});
 
 const L2ConfigSchema = z.object({
   type: z.string(),
@@ -23,7 +23,7 @@ const L2ConfigSchema = z.object({
   collateralResolution: z.number(),
   syntheticId: zodHexString(),
   syntheticResolution: z.number(),
-})
+});
 
 export const MarketSchema = z.object({
   name: z.string(),
@@ -33,14 +33,20 @@ export const MarketSchema = z.object({
   collateralAssetName: z.string(),
   collateralAssetPrecision: z.number(),
   active: z.boolean(),
-  status: z.enum(['ACTIVE', 'REDUCE_ONLY', 'DELISTED', 'PRELISTED', 'DISABLED']),
+  status: z.enum([
+    'ACTIVE',
+    'REDUCE_ONLY',
+    'DELISTED',
+    'PRELISTED',
+    'DISABLED',
+  ]),
   visibleOnUi: z.boolean().default(true),
   createdAt: z.coerce.date(),
   marketStats: MarketStatsSchema,
   tradingConfig: TradingConfigSchema,
   l2Config: L2ConfigSchema,
-})
+});
 
-export const MarketsResponseSchema = z.object({ data: z.array(MarketSchema) })
+export const MarketsResponseSchema = z.object({ data: z.array(MarketSchema) });
 
-export type Market = z.infer<typeof MarketSchema>
+export type Market = z.infer<typeof MarketSchema>;

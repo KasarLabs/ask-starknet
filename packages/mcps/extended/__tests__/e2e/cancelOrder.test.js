@@ -89,7 +89,9 @@ async function main() {
     const openOrders = await testGetOpenOrders(client);
 
     if (!openOrders || openOrders.length === 0) {
-      console.log('\n⚠️  No open orders found to cancel. Test completed without cancellation.');
+      console.log(
+        '\n⚠️  No open orders found to cancel. Test completed without cancellation.'
+      );
       return;
     }
 

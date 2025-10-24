@@ -1,4 +1,8 @@
-import { ExtendedApiEnv, ExtendedApiResponse, Balance } from '../../lib/types/index.js';
+import {
+  ExtendedApiEnv,
+  ExtendedApiResponse,
+  Balance,
+} from '../../lib/types/index.js';
 import { apiGet } from '../../lib/utils/api.js';
 import { GetBalanceSchema } from '../../schemas/index.js';
 
@@ -7,11 +11,7 @@ export const getBalance = async (
   params: GetBalanceSchema
 ): Promise<ExtendedApiResponse<Balance>> => {
   try {
-    const data = await apiGet<Balance>(
-      env,
-      '/api/v1/user/balance',
-      true
-    );
+    const data = await apiGet<Balance>(env, '/api/v1/user/balance', true);
 
     return {
       status: 'success',

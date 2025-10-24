@@ -1,52 +1,55 @@
-import { addHours } from 'date-fns'
+import { addHours } from 'date-fns';
 
-import { calcEntirePositionSize } from '../utils/calculation/calc-entire-position-size.js'
-import { generateNonce } from '../utils/generate-nonce.js'
-import { toHexString } from '../utils/hex.js'
-import { Decimal, Long } from '../utils/number.js'
-import { omitUndefined } from '../utils/omit-undefined.js'
-import { getOppositeOrderSide } from '../utils/side.js'
-import { getStarknetOrderMsgHash } from '../utils/signing/get-order-msg-hash.js'
-import { getStarkPublicKey } from '../utils/signing/get-stark-public-key.js'
-import { signMessage } from '../utils/signing/sign-message.js'
-import { OrderDebuggingAmounts } from './order-debugging-amounts.js'
-import { OrderSettlement } from './order-settlement.js'
-import { OrderTpSlTrigger, type OrderTpSlTriggerParam } from './order-tp-sl-trigger.js'
+import { calcEntirePositionSize } from '../utils/calculation/calc-entire-position-size.js';
+import { generateNonce } from '../utils/generate-nonce.js';
+import { toHexString } from '../utils/hex.js';
+import { Decimal, Long } from '../utils/number.js';
+import { omitUndefined } from '../utils/omit-undefined.js';
+import { getOppositeOrderSide } from '../utils/side.js';
+import { getStarknetOrderMsgHash } from '../utils/signing/get-order-msg-hash.js';
+import { getStarkPublicKey } from '../utils/signing/get-stark-public-key.js';
+import { signMessage } from '../utils/signing/sign-message.js';
+import { OrderDebuggingAmounts } from './order-debugging-amounts.js';
+import { OrderSettlement } from './order-settlement.js';
+import {
+  OrderTpSlTrigger,
+  type OrderTpSlTriggerParam,
+} from './order-tp-sl-trigger.js';
 import {
   type OrderContext,
   type OrderSide,
   type OrderTimeInForce,
   type OrderTpSlType,
   type OrderType,
-} from './order.types.js'
+} from './order.types.js';
 
-const ORDER_EXPIRATION_HOURS = 1
-const ROUNDING_MODE_SELL = Decimal.ROUND_DOWN
-const ROUNDING_MODE_BUY = Decimal.ROUND_UP
-const ROUNDING_MODE_FEE = Decimal.ROUND_UP
+const ORDER_EXPIRATION_HOURS = 1;
+const ROUNDING_MODE_SELL = Decimal.ROUND_DOWN;
+const ROUNDING_MODE_BUY = Decimal.ROUND_UP;
+const ROUNDING_MODE_FEE = Decimal.ROUND_UP;
 
 export class Order {
-  public readonly id: string
+  public readonly id: string;
 
-  private readonly market: string
-  private readonly type: OrderType
-  private readonly side: OrderSide
-  private readonly qty: Decimal
-  private readonly price: Decimal
-  private readonly timeInForce: OrderTimeInForce
-  private readonly expiryEpochMillis: number
-  private readonly fee: Decimal
-  private readonly nonce: Long
-  private readonly settlement?: OrderSettlement
-  private readonly reduceOnly?: boolean
-  private readonly postOnly?: boolean
-  private readonly tpSlType?: OrderTpSlType
-  private readonly takeProfit?: OrderTpSlTrigger
-  private readonly stopLoss?: OrderTpSlTrigger
-  private readonly cancelId?: string
-  private readonly builderId?: Long
-  private readonly builderFee?: Decimal
-  private readonly debuggingAmounts?: OrderDebuggingAmounts
+  private readonly market: string;
+  private readonly type: OrderType;
+  private readonly side: OrderSide;
+  private readonly qty: Decimal;
+  private readonly price: Decimal;
+  private readonly timeInForce: OrderTimeInForce;
+  private readonly expiryEpochMillis: number;
+  private readonly fee: Decimal;
+  private readonly nonce: Long;
+  private readonly settlement?: OrderSettlement;
+  private readonly reduceOnly?: boolean;
+  private readonly postOnly?: boolean;
+  private readonly tpSlType?: OrderTpSlType;
+  private readonly takeProfit?: OrderTpSlTrigger;
+  private readonly stopLoss?: OrderTpSlTrigger;
+  private readonly cancelId?: string;
+  private readonly builderId?: Long;
+  private readonly builderFee?: Decimal;
+  private readonly debuggingAmounts?: OrderDebuggingAmounts;
 
   private constructor({
     id,
@@ -70,47 +73,47 @@ export class Order {
     builderFee,
     debuggingAmounts,
   }: {
-    id: string
-    market: string
-    type: OrderType
-    side: OrderSide
-    qty: Decimal
-    price: Decimal
-    timeInForce: OrderTimeInForce
-    expiryEpochMillis: number
-    fee: Decimal
-    nonce: Long
-    settlement?: OrderSettlement
-    reduceOnly?: boolean
-    postOnly?: boolean
-    tpSlType?: OrderTpSlType
-    takeProfit?: OrderTpSlTrigger
-    stopLoss?: OrderTpSlTrigger
-    cancelId?: string
-    builderId?: Long
-    builderFee?: Decimal
-    debuggingAmounts?: OrderDebuggingAmounts
+    id: string;
+    market: string;
+    type: OrderType;
+    side: OrderSide;
+    qty: Decimal;
+    price: Decimal;
+    timeInForce: OrderTimeInForce;
+    expiryEpochMillis: number;
+    fee: Decimal;
+    nonce: Long;
+    settlement?: OrderSettlement;
+    reduceOnly?: boolean;
+    postOnly?: boolean;
+    tpSlType?: OrderTpSlType;
+    takeProfit?: OrderTpSlTrigger;
+    stopLoss?: OrderTpSlTrigger;
+    cancelId?: string;
+    builderId?: Long;
+    builderFee?: Decimal;
+    debuggingAmounts?: OrderDebuggingAmounts;
   }) {
-    this.id = id
-    this.market = market
-    this.type = type
-    this.side = side
-    this.qty = qty
-    this.price = price
-    this.timeInForce = timeInForce
-    this.expiryEpochMillis = expiryEpochMillis
-    this.fee = fee
-    this.nonce = nonce
-    this.settlement = settlement
-    this.reduceOnly = reduceOnly
-    this.postOnly = postOnly
-    this.tpSlType = tpSlType
-    this.takeProfit = takeProfit
-    this.stopLoss = stopLoss
-    this.cancelId = cancelId
-    this.builderId = builderId
-    this.builderFee = builderFee
-    this.debuggingAmounts = debuggingAmounts
+    this.id = id;
+    this.market = market;
+    this.type = type;
+    this.side = side;
+    this.qty = qty;
+    this.price = price;
+    this.timeInForce = timeInForce;
+    this.expiryEpochMillis = expiryEpochMillis;
+    this.fee = fee;
+    this.nonce = nonce;
+    this.settlement = settlement;
+    this.reduceOnly = reduceOnly;
+    this.postOnly = postOnly;
+    this.tpSlType = tpSlType;
+    this.takeProfit = takeProfit;
+    this.stopLoss = stopLoss;
+    this.cancelId = cancelId;
+    this.builderId = builderId;
+    this.builderFee = builderFee;
+    this.debuggingAmounts = debuggingAmounts;
   }
 
   toJSON() {
@@ -135,7 +138,7 @@ export class Order {
       builderId: this.builderId?.toString(10),
       builderFee: this.builderFee?.toString(10),
       debuggingAmounts: this.debuggingAmounts?.toJSON(),
-    })
+    });
   }
 
   static create({
@@ -154,28 +157,30 @@ export class Order {
     cancelId,
     ctx,
   }: {
-    marketName: string
-    orderType: OrderType
-    side: OrderSide
-    amountOfSynthetic: Decimal
-    price: Decimal
-    timeInForce: OrderTimeInForce
-    expiryTime?: Date
-    reduceOnly?: boolean
-    postOnly?: boolean
-    tpSlType?: OrderTpSlType
-    takeProfit?: OrderTpSlTriggerParam
-    stopLoss?: OrderTpSlTriggerParam
-    cancelId?: string
-    ctx: OrderContext
+    marketName: string;
+    orderType: OrderType;
+    side: OrderSide;
+    amountOfSynthetic: Decimal;
+    price: Decimal;
+    timeInForce: OrderTimeInForce;
+    expiryTime?: Date;
+    reduceOnly?: boolean;
+    postOnly?: boolean;
+    tpSlType?: OrderTpSlType;
+    takeProfit?: OrderTpSlTriggerParam;
+    stopLoss?: OrderTpSlTriggerParam;
+    cancelId?: string;
+    ctx: OrderContext;
   }) {
-    const { feeRate, vaultId, minOrderSizeChange, maxPositionValue } = ctx
+    const { feeRate, vaultId, minOrderSizeChange, maxPositionValue } = ctx;
 
-    const nonce = Long(generateNonce())
+    const nonce = Long(generateNonce());
     const expiryEpochMillis = (
       expiryTime ?? addHours(new Date(), ORDER_EXPIRATION_HOURS)
-    ).getTime()
-    const totalFeeRate = ctx.builderFee ? feeRate.plus(ctx.builderFee) : feeRate
+    ).getTime();
+    const totalFeeRate = ctx.builderFee
+      ? feeRate.plus(ctx.builderFee)
+      : feeRate;
     const createOrderParamsArgs = {
       side,
       amountOfSynthetic,
@@ -184,17 +189,25 @@ export class Order {
       nonce,
       totalFeeRate,
       ctx,
-    }
+    };
 
-    const tpSlSide = orderType !== 'TPSL' ? getOppositeOrderSide(side) : side
+    const tpSlSide = orderType !== 'TPSL' ? getOppositeOrderSide(side) : side;
     const tpAmountOfSynthetic =
       takeProfit && tpSlType === 'POSITION'
-        ? calcEntirePositionSize(takeProfit.price, minOrderSizeChange, maxPositionValue)
-        : amountOfSynthetic
+        ? calcEntirePositionSize(
+            takeProfit.price,
+            minOrderSizeChange,
+            maxPositionValue
+          )
+        : amountOfSynthetic;
     const slAmountOfSynthetic =
       stopLoss && tpSlType === 'POSITION'
-        ? calcEntirePositionSize(stopLoss.price, minOrderSizeChange, maxPositionValue)
-        : amountOfSynthetic
+        ? calcEntirePositionSize(
+            stopLoss.price,
+            minOrderSizeChange,
+            maxPositionValue
+          )
+        : amountOfSynthetic;
     const createTpOrderParams = takeProfit
       ? Order.getCreateOrderParams({
           ...createOrderParamsArgs,
@@ -202,7 +215,7 @@ export class Order {
           price: takeProfit.price,
           amountOfSynthetic: tpAmountOfSynthetic,
         })
-      : undefined
+      : undefined;
     const createSlOrderParams = stopLoss
       ? Order.getCreateOrderParams({
           ...createOrderParamsArgs,
@@ -210,9 +223,9 @@ export class Order {
           price: stopLoss.price,
           amountOfSynthetic: slAmountOfSynthetic,
         })
-      : undefined
+      : undefined;
 
-    const createOrderParams = Order.getCreateOrderParams(createOrderParamsArgs)
+    const createOrderParams = Order.getCreateOrderParams(createOrderParamsArgs);
     const settlement =
       orderType !== 'TPSL'
         ? new OrderSettlement({
@@ -220,7 +233,7 @@ export class Order {
             starkKey: createOrderParams.orderSignature.starkKey,
             collateralPosition: vaultId,
           })
-        : undefined
+        : undefined;
 
     return new Order({
       id: createOrderParams.orderHash,
@@ -241,19 +254,19 @@ export class Order {
         vaultId,
         takeProfit,
         createTpOrderParams?.orderSignature,
-        createTpOrderParams?.debuggingAmounts,
+        createTpOrderParams?.debuggingAmounts
       ),
       stopLoss: OrderTpSlTrigger.create(
         vaultId,
         stopLoss,
         createSlOrderParams?.orderSignature,
-        createSlOrderParams?.debuggingAmounts,
+        createSlOrderParams?.debuggingAmounts
       ),
       cancelId,
       builderId: ctx.builderId,
       builderFee: ctx.builderFee,
       debuggingAmounts: createOrderParams.debuggingAmounts,
-    })
+    });
   }
 
   private static getCreateOrderParams({
@@ -265,15 +278,16 @@ export class Order {
     totalFeeRate,
     ctx,
   }: {
-    side: OrderSide
-    amountOfSynthetic: Decimal
-    price: Decimal
-    expiryEpochMillis: number
-    nonce: Long
-    totalFeeRate: Decimal
-    ctx: OrderContext
+    side: OrderSide;
+    amountOfSynthetic: Decimal;
+    price: Decimal;
+    expiryEpochMillis: number;
+    nonce: Long;
+    totalFeeRate: Decimal;
+    ctx: OrderContext;
   }) {
-    const roundingMode = side === 'BUY' ? ROUNDING_MODE_BUY : ROUNDING_MODE_SELL
+    const roundingMode =
+      side === 'BUY' ? ROUNDING_MODE_BUY : ROUNDING_MODE_SELL;
 
     const {
       assetIdCollateral,
@@ -282,20 +296,20 @@ export class Order {
       settlementResolutionSynthetic,
       vaultId,
       starkPrivateKey,
-    } = ctx
+    } = ctx;
 
-    const collateralAmount = amountOfSynthetic.times(price)
-    const fee = totalFeeRate.times(collateralAmount)
+    const collateralAmount = amountOfSynthetic.times(price);
+    const fee = totalFeeRate.times(collateralAmount);
 
     const collateralAmountStark = collateralAmount
       .times(settlementResolutionCollateral)
-      .integerValue(roundingMode)
+      .integerValue(roundingMode);
     const feeStark = fee
       .times(settlementResolutionCollateral)
-      .integerValue(ROUNDING_MODE_FEE)
+      .integerValue(ROUNDING_MODE_FEE);
     const syntheticAmountStark = amountOfSynthetic
       .times(settlementResolutionSynthetic)
-      .integerValue(roundingMode)
+      .integerValue(roundingMode);
 
     const orderHash = getStarknetOrderMsgHash({
       side,
@@ -309,8 +323,8 @@ export class Order {
       vaultId,
       starkPublicKey: toHexString(getStarkPublicKey(starkPrivateKey)),
       starknetDomain: ctx.starknetDomain,
-    })
-    const orderSignature = signMessage(orderHash, starkPrivateKey)
+    });
+    const orderSignature = signMessage(orderHash, starkPrivateKey);
 
     return {
       orderHash,
@@ -320,6 +334,6 @@ export class Order {
         feeAmount: feeStark,
         syntheticAmount: syntheticAmountStark,
       }),
-    }
+    };
   }
 }

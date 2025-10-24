@@ -1,8 +1,14 @@
-import { ExtendedApiEnv, ExtendedApiResponse, OrderReturn, AccountInfo } from '../../lib/types/index.js';
+import {
+  ExtendedApiEnv,
+  ExtendedApiResponse,
+  OrderReturn,
+  AccountInfo,
+} from '../../lib/types/index.js';
 import { apiPost, apiGet } from '../../lib/utils/api.js';
 import { CreateLimitOrderWithTpSlSchema } from '../../schemas/index.js';
 
-import { roundToMinChange,
+import {
+  roundToMinChange,
   Decimal,
   createOrderContext,
   Order,
@@ -15,7 +21,9 @@ export const createLimitOrderWithTpSl = async (
 ): Promise<ExtendedApiResponse<OrderReturn>> => {
   try {
     if (!env.EXTENDED_STARKKEY_PRIVATE) {
-      throw new Error('EXTENDED_STARKKEY_PRIVATE is required for order creation');
+      throw new Error(
+        'EXTENDED_STARKKEY_PRIVATE is required for order creation'
+      );
     }
     axiosClient.defaults.baseURL = env.apiUrl;
 
@@ -62,7 +70,7 @@ export const createLimitOrderWithTpSl = async (
       return roundToMinChange(
         value,
         new Decimal(market.tradingConfig.minPriceChange),
-        Decimal.ROUND_DOWN,
+        Decimal.ROUND_DOWN
       );
     };
 
@@ -76,19 +84,25 @@ export const createLimitOrderWithTpSl = async (
     }
 
     // Build TP/SL configurations
-    const takeProfit = params.take_profit ? {
-      triggerPrice: roundPrice(new Decimal(params.take_profit.trigger_price)),
-      triggerPriceType: params.take_profit.trigger_price_type,
-      price: roundPrice(new Decimal(params.take_profit.price)),
-      priceType: params.take_profit.price_type,
-    } : undefined;
+    const takeProfit = params.take_profit
+      ? {
+          triggerPrice: roundPrice(
+            new Decimal(params.take_profit.trigger_price)
+          ),
+          triggerPriceType: params.take_profit.trigger_price_type,
+          price: roundPrice(new Decimal(params.take_profit.price)),
+          priceType: params.take_profit.price_type,
+        }
+      : undefined;
 
-    const stopLoss = params.stop_loss ? {
-      triggerPrice: roundPrice(new Decimal(params.stop_loss.trigger_price)),
-      triggerPriceType: params.stop_loss.trigger_price_type,
-      price: roundPrice(new Decimal(params.stop_loss.price)),
-      priceType: params.stop_loss.price_type,
-    } : undefined;
+    const stopLoss = params.stop_loss
+      ? {
+          triggerPrice: roundPrice(new Decimal(params.stop_loss.trigger_price)),
+          triggerPriceType: params.stop_loss.trigger_price_type,
+          price: roundPrice(new Decimal(params.stop_loss.price)),
+          priceType: params.stop_loss.price_type,
+        }
+      : undefined;
 
     const orderPayload = Order.create({
       marketName: params.market,
@@ -97,7 +111,7 @@ export const createLimitOrderWithTpSl = async (
       amountOfSynthetic: roundToMinChange(
         new Decimal(params.qty),
         new Decimal(market.tradingConfig.minOrderSizeChange),
-        Decimal.ROUND_DOWN,
+        Decimal.ROUND_DOWN
       ),
       price: roundPrice(new Decimal(params.price)),
       timeInForce: params.time_in_force,

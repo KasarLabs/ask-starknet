@@ -1,15 +1,15 @@
-import { z } from 'zod/v4'
+import { z } from 'zod/v4';
 
-import { zodDecimal, zodLong } from '../utils/zod.js'
+import { zodDecimal, zodLong } from '../utils/zod.js';
 
 const PlacedOrderSchema = z.object({
   id: zodLong(),
   externalId: z.string(),
-})
+});
 
-const TriggerPriceTypeSchema = z.enum(['UNKNOWN', 'MARK', 'INDEX', 'LAST'])
-const ExecutionPriceTypeSchema = z.enum(['UNKNOWN', 'MARKET', 'LIMIT'])
-const OrderPriceTypeSchema = z.enum(['UNKNOWN', 'MARKET', 'LIMIT'])
+const TriggerPriceTypeSchema = z.enum(['UNKNOWN', 'MARK', 'INDEX', 'LAST']);
+const ExecutionPriceTypeSchema = z.enum(['UNKNOWN', 'MARKET', 'LIMIT']);
+const OrderPriceTypeSchema = z.enum(['UNKNOWN', 'MARKET', 'LIMIT']);
 const OrderStatusSchema = z.enum([
   'UNKNOWN',
   'NEW',
@@ -19,22 +19,22 @@ const OrderStatusSchema = z.enum([
   'CANCELLED',
   'EXPIRED',
   'REJECTED',
-])
-const OrderTimeInForceSchema = z.enum(['GTT', 'IOC', 'FOK'])
-const TpSlTypeSchema = z.enum(['UNKNOWN', 'ORDER', 'POSITION'])
+]);
+const OrderTimeInForceSchema = z.enum(['GTT', 'IOC', 'FOK']);
+const TpSlTypeSchema = z.enum(['UNKNOWN', 'ORDER', 'POSITION']);
 
 const OrderConditionalTriggerSchema = z.object({
   triggerPrice: zodDecimal(),
   triggerPriceType: TriggerPriceTypeSchema,
   executionPriceType: ExecutionPriceTypeSchema,
   direction: z.enum(['UP', 'DOWN', 'UNKNOWN']),
-})
+});
 
 const OrderTwapParamsSchema = z.object({
   durationSeconds: z.number(),
   frequencySeconds: z.number(),
   randomise: z.boolean(),
-})
+});
 
 const OrderTpSlTriggerSchema = z.object({
   triggerPrice: zodDecimal(),
@@ -44,7 +44,7 @@ const OrderTpSlTriggerSchema = z.object({
   status: OrderStatusSchema.optional(),
   starkExOrder: z.string().optional(),
   starkExSignature: z.string().optional(),
-})
+});
 
 const UserOrderSchema = z.object({
   id: zodLong(),
@@ -71,7 +71,9 @@ const UserOrderSchema = z.object({
   expireTime: z.number().optional(),
   timeInForce: OrderTimeInForceSchema,
   prevOrderId: z.string().optional(),
-})
+});
 
-export const PlacedOrderResponseSchema = z.object({ data: PlacedOrderSchema })
-export const UserOrdersResponseSchema = z.object({ data: UserOrderSchema.array() })
+export const PlacedOrderResponseSchema = z.object({ data: PlacedOrderSchema });
+export const UserOrdersResponseSchema = z.object({
+  data: UserOrderSchema.array(),
+});

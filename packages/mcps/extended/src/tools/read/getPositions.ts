@@ -1,4 +1,8 @@
-import { ExtendedApiEnv, ExtendedApiResponse, Position } from '../../lib/types/index.js';
+import {
+  ExtendedApiEnv,
+  ExtendedApiResponse,
+  Position,
+} from '../../lib/types/index.js';
 import { apiGet } from '../../lib/utils/api.js';
 import { GetPositionsSchema } from '../../schemas/index.js';
 
@@ -13,11 +17,7 @@ export const getPositions = async (
 
     const endpoint = `/api/v1/user/positions${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
 
-    const data = await apiGet<Position[]>(
-      env,
-      endpoint,
-      true
-    );
+    const data = await apiGet<Position[]>(env, endpoint, true);
 
     return {
       status: 'success',

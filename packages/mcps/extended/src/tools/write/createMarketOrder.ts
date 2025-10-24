@@ -1,13 +1,19 @@
-import { ExtendedApiEnv, ExtendedApiResponse, OrderReturn, AccountInfo } from '../../lib/types/index.js';
+import {
+  ExtendedApiEnv,
+  ExtendedApiResponse,
+  OrderReturn,
+  AccountInfo,
+} from '../../lib/types/index.js';
 import { apiPost, apiGet } from '../../lib/utils/api.js';
 import { CreateMarketOrderSchema } from '../../schemas/index.js';
 
-import { roundToMinChange,
+import {
+  roundToMinChange,
   Decimal,
   createOrderContext,
   Order,
   axiosClient,
- } from '../../lib/utils/lib-extended/index.js';
+} from '../../lib/utils/lib-extended/index.js';
 
 export const createMarketOrder = async (
   env: ExtendedApiEnv,
@@ -15,7 +21,9 @@ export const createMarketOrder = async (
 ): Promise<ExtendedApiResponse<OrderReturn>> => {
   try {
     if (!env.EXTENDED_STARKKEY_PRIVATE) {
-      throw new Error('EXTENDED_STARKKEY_PRIVATE is required for order creation');
+      throw new Error(
+        'EXTENDED_STARKKEY_PRIVATE is required for order creation'
+      );
     }
     axiosClient.defaults.baseURL = env.apiUrl;
 
@@ -53,13 +61,15 @@ export const createMarketOrder = async (
     const slippageDecimal = params.slippage / 100;
 
     // Calculate price with slippage based on side
-    const basePrice = params.side === 'BUY'
-      ? new Decimal(market.marketStats.askPrice)
-      : new Decimal(market.marketStats.bidPrice);
+    const basePrice =
+      params.side === 'BUY'
+        ? new Decimal(market.marketStats.askPrice)
+        : new Decimal(market.marketStats.bidPrice);
 
-    const orderPrice = params.side === 'BUY'
-      ? basePrice.times(1 + slippageDecimal)  // Buy: add slippage
-      : basePrice.times(1 - slippageDecimal); // Sell: subtract slippage
+    const orderPrice =
+      params.side === 'BUY'
+        ? basePrice.times(1 + slippageDecimal) // Buy: add slippage
+        : basePrice.times(1 - slippageDecimal); // Sell: subtract slippage
 
     const ctx = createOrderContext({
       market,
@@ -67,7 +77,7 @@ export const createMarketOrder = async (
       starknetDomain,
       vaultId,
       starkPrivateKey,
-    })
+    });
     const orderPayload = Order.create({
       marketName: params.market,
       orderType: 'MARKET',
@@ -75,18 +85,18 @@ export const createMarketOrder = async (
       amountOfSynthetic: roundToMinChange(
         new Decimal(params.qty),
         new Decimal(market.tradingConfig.minOrderSizeChange),
-        Decimal.ROUND_DOWN,
+        Decimal.ROUND_DOWN
       ),
       price: roundToMinChange(
         orderPrice,
         new Decimal(market.tradingConfig.minPriceChange),
-        Decimal.ROUND_DOWN,
+        Decimal.ROUND_DOWN
       ),
       timeInForce: 'IOC',
       reduceOnly: params.reduce_only,
       postOnly: false,
       ctx,
-    })
+    });
 
     const data = await apiPost<OrderReturn>(
       env,

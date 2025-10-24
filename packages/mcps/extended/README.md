@@ -7,6 +7,7 @@ The Extended MCP provides tools for interacting with Extended, a high-performanc
 This MCP provides the following tools:
 
 ### Public Market Data
+
 - **extended_get_markets**: Get list of available markets with configurations, trading statistics, and Layer 2 settings
 - **extended_get_market_stats**: Get latest trading statistics for a market including volume, price changes, funding rate, and open interest
 - **extended_get_market_orderbook**: Get current order book (bids and asks) for a specific market with configurable depth
@@ -14,7 +15,8 @@ This MCP provides the following tools:
 - **extended_get_candles_history**: Get historical OHLCV candles data for trades, mark prices, or index prices with customizable intervals
 - **extended_get_funding_rates_history**: Get historical funding rates for a market (calculated every minute, applied hourly)
 
-### Account Management (API key required)
+### Account Management (use API key)
+
 - **extended_get_balance**: Get current account balance including collateral, equity, available for trade, unrealized PnL, and margin ratios
 - **extended_get_user_account_info**: Get account details including status, account ID, L2 keys, vault information, and Starknet bridge address
 - **extended_get_positions**: Get all currently open positions with size, PnL, liquidation price, leverage, and TP/SL settings
@@ -29,7 +31,8 @@ This MCP provides the following tools:
 - **extended_get_bridge_config**: Get supported EVM chains and bridge contract addresses for cross-chain deposits/withdrawals
 - **extended_get_bridge_quote**: Get a quote for bridging funds between EVM chains and Starknet with estimated fees
 
-### Trading (API key and private key required)
+### Trading (use API key and private key)
+
 - **extended_create_limit_order**: Create a limit order with configurable price, quantity, time-in-force, post-only, and reduce-only options
 - **extended_create_limit_order_with_tpsl**: Create a limit order with attached Take Profit and Stop Loss triggers based on the order
 - **extended_create_market_order**: Create a market order that executes immediately at current market price with configurable slippage
@@ -42,11 +45,8 @@ This MCP provides the following tools:
 This MCP requires the following environment variables:
 
 ```bash
-# Optional - defaults to production API
 EXTENDED_API_URL=https://api.starknet.extended.exchange
-# Required for all operations except public ones
 EXTENDED_API_KEY=your_api_key_here
-# Required for trading operations
 EXTENDED_STARKKEY_PRIVATE=your_stark_private_key_here
 ```
 
@@ -81,7 +81,6 @@ The Extended MCP is used internally by the Ask-Starknet unified router or can be
 "Create a limit order with take profit at 65000"  // Uses extended_create_limit_order_with_tpsl
 "Add stop loss to my BTC position at 58000"  // Uses extended_add_position_tpsl
 ```
-
 
 ## Resources
 

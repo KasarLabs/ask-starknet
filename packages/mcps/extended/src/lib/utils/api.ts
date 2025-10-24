@@ -25,7 +25,9 @@ export async function apiGet<T>(
 
   if (!response.ok) {
     const errorText = await response.text();
-    throw new Error(`API request failed: ${response.status} ${response.statusText} - ${errorText}`);
+    throw new Error(
+      `API request failed: ${response.status} ${response.statusText} - ${errorText}`
+    );
   }
 
   const jsonResponse = await response.json();
@@ -68,7 +70,9 @@ export async function apiPost<T>(
 
   if (!response.ok) {
     const errorText = await response.text();
-    throw new Error(`API request failed: ${response.status} ${response.statusText} - ${errorText}`);
+    throw new Error(
+      `API request failed: ${response.status} ${response.statusText} - ${errorText}`
+    );
   }
 
   const jsonResponse = await response.json();
@@ -107,7 +111,9 @@ export async function apiPut<T>(
 
   if (!response.ok) {
     const errorText = await response.text();
-    throw new Error(`API request failed: ${response.status} ${response.statusText} - ${errorText}`);
+    throw new Error(
+      `API request failed: ${response.status} ${response.statusText} - ${errorText}`
+    );
   }
 
   const jsonResponse = await response.json();
@@ -146,7 +152,9 @@ export async function apiPatch<T>(
 
   if (!response.ok) {
     const errorText = await response.text();
-    throw new Error(`API request failed: ${response.status} ${response.statusText} - ${errorText}`);
+    throw new Error(
+      `API request failed: ${response.status} ${response.statusText} - ${errorText}`
+    );
   }
 
   const jsonResponse = await response.json();
@@ -182,7 +190,9 @@ export async function apiDelete<T>(
 
   if (!response.ok) {
     const errorText = await response.text();
-    throw new Error(`API request failed: ${response.status} ${response.statusText} - ${errorText}`);
+    throw new Error(
+      `API request failed: ${response.status} ${response.statusText} - ${errorText}`
+    );
   }
 
   const jsonResponse = await response.json();

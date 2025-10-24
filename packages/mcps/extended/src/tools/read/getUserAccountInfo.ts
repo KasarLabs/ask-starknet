@@ -1,4 +1,8 @@
-import { ExtendedApiEnv, ExtendedApiResponse, AccountInfo } from '../../lib/types/index.js';
+import {
+  ExtendedApiEnv,
+  ExtendedApiResponse,
+  AccountInfo,
+} from '../../lib/types/index.js';
 import { apiGet } from '../../lib/utils/api.js';
 import { GetUserAccountInfoSchema } from '../../schemas/index.js';
 

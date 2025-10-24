@@ -1,21 +1,21 @@
-import { parse } from 'json-custom-numbers'
+import { parse } from 'json-custom-numbers';
 
-import { Long } from './number.js'
+import { Long } from './number.js';
 
 function numberParser(_k: string | number | undefined, s: string) {
-  const n = +s
+  const n = +s;
 
   if (n >= Number.MIN_SAFE_INTEGER && n <= Number.MAX_SAFE_INTEGER) {
-    return n
+    return n;
   }
 
   if (s.indexOf('.') !== -1 || s.indexOf('e') !== -1 || s.indexOf('E') !== -1) {
-    return n
+    return n;
   }
 
-  return Long(s)
+  return Long(s);
 }
 
 export const parseJsonWithBigNumber = (data: string) => {
-  return parse(data, undefined, numberParser)
-}
+  return parse(data, undefined, numberParser);
+};

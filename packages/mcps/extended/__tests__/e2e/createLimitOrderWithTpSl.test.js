@@ -43,40 +43,48 @@ async function testCreateLimitOrderWithTpSl(client) {
   const entryPrice = 1000; // Well below market (~$3000) to avoid execution
 
   // Use same values as addPositionTpSl that worked
-  const tpPrice = String((entryPrice * 1.5).toFixed(2));  // 50% profit
+  const tpPrice = String((entryPrice * 1.5).toFixed(2)); // 50% profit
   const slPrice = String((entryPrice * 0.95).toFixed(2)); // 5% loss from entry
 
   console.log(`   Creating BUY limit order at ${entryPrice}`);
   console.log(`   TP: ${tpPrice} (+50%), SL: ${slPrice} (-5%)`);
 
-  const response = await callTool(client, 'extended_create_limit_order_with_tpsl', {
-    market: 'ETH-USD',
-    side: side,
-    qty: '0.01', // Min trade size for ETH = 0.01 ETH (same as createLimitOrder.test.js)
-    price: String(entryPrice),
-    post_only: false,
-    reduce_only: false,
-    time_in_force: 'GTT',
-    expiry_epoch_millis: Date.now() + 86400000,
-    take_profit: {
-      trigger_price: tpPrice,
-      trigger_price_type: 'LAST',
-      price: tpPrice,
-      price_type: 'LIMIT',
-    },
-    stop_loss: {
-      trigger_price: slPrice,
-      trigger_price_type: 'LAST',
-      price: slPrice,
-      price_type: 'LIMIT',
-    },
-  });
+  const response = await callTool(
+    client,
+    'extended_create_limit_order_with_tpsl',
+    {
+      market: 'ETH-USD',
+      side: side,
+      qty: '0.01', // Min trade size for ETH = 0.01 ETH (same as createLimitOrder.test.js)
+      price: String(entryPrice),
+      post_only: false,
+      reduce_only: false,
+      time_in_force: 'GTT',
+      expiry_epoch_millis: Date.now() + 86400000,
+      take_profit: {
+        trigger_price: tpPrice,
+        trigger_price_type: 'LAST',
+        price: tpPrice,
+        price_type: 'LIMIT',
+      },
+      stop_loss: {
+        trigger_price: slPrice,
+        trigger_price_type: 'LAST',
+        price: slPrice,
+        price_type: 'LIMIT',
+      },
+    }
+  );
 
   if (response.status !== 'success') {
-    console.log(`⚠️  extended_create_limit_order_with_tpsl failed: ${response.error}`);
+    console.log(
+      `⚠️  extended_create_limit_order_with_tpsl failed: ${response.error}`
+    );
     return null;
   } else {
-    console.log('✅ extended_create_limit_order_with_tpsl test passed (with TP and SL)');
+    console.log(
+      '✅ extended_create_limit_order_with_tpsl test passed (with TP and SL)'
+    );
     console.log('   Order ID:', response.data.id);
     return response.data;
   }

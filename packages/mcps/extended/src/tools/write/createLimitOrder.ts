@@ -1,8 +1,14 @@
-import { ExtendedApiEnv, ExtendedApiResponse, OrderReturn, AccountInfo } from '../../lib/types/index.js';
+import {
+  ExtendedApiEnv,
+  ExtendedApiResponse,
+  OrderReturn,
+  AccountInfo,
+} from '../../lib/types/index.js';
 import { apiPost, apiGet } from '../../lib/utils/api.js';
 import { CreateLimitOrderSchema } from '../../schemas/index.js';
 
-import { roundToMinChange,
+import {
+  roundToMinChange,
   Decimal,
   createOrderContext,
   Order,
@@ -15,7 +21,9 @@ export const createLimitOrder = async (
 ): Promise<ExtendedApiResponse<OrderReturn>> => {
   try {
     if (!env.EXTENDED_STARKKEY_PRIVATE) {
-      throw new Error('EXTENDED_STARKKEY_PRIVATE is required for order creation');
+      throw new Error(
+        'EXTENDED_STARKKEY_PRIVATE is required for order creation'
+      );
     }
     axiosClient.defaults.baseURL = env.apiUrl;
 
@@ -73,12 +81,12 @@ export const createLimitOrder = async (
       amountOfSynthetic: roundToMinChange(
         new Decimal(params.qty),
         new Decimal(market.tradingConfig.minOrderSizeChange),
-        Decimal.ROUND_DOWN,
+        Decimal.ROUND_DOWN
       ),
       price: roundToMinChange(
         new Decimal(params.price),
         new Decimal(market.tradingConfig.minPriceChange),
-        Decimal.ROUND_DOWN,
+        Decimal.ROUND_DOWN
       ),
       timeInForce: params.time_in_force,
       expiryTime,

@@ -1,3 +1,3 @@
-import { isUndefined, omitBy } from 'lodash-es'
+import { isUndefined, omitBy } from 'lodash-es';
 
-export const omitUndefined = (value: object) => omitBy(value, isUndefined)
+export const omitUndefined = (value: object) => omitBy(value, isUndefined);

@@ -13,7 +13,10 @@ export interface OrderSignature {
 function calcStarknetExpiration(expiryEpochMillis: number): number {
   const STARKNET_SETTLEMENT_BUFFER_SECONDS = 14 * 24 * 60 * 60;
   const MILLIS_IN_SECOND = 1000;
-  return Math.ceil(expiryEpochMillis / MILLIS_IN_SECOND) + STARKNET_SETTLEMENT_BUFFER_SECONDS;
+  return (
+    Math.ceil(expiryEpochMillis / MILLIS_IN_SECOND) +
+    STARKNET_SETTLEMENT_BUFFER_SECONDS
+  );
 }
 
 /**
@@ -51,9 +54,13 @@ function jsGetStarknetDomainObjHash(domain: {
 /**
  * Get object message hash (exact copy from ts-extended)
  */
-function jsGetObjMsgHash(domainHash: string, publicKey: string, objHash: string): string {
+function jsGetObjMsgHash(
+  domainHash: string,
+  publicKey: string,
+  objHash: string
+): string {
   const messageFelt = shortString.encodeShortString('StarkNet Message');
-  
+
   return hash.computePoseidonHashOnElements([
     messageFelt,
     domainHash,
@@ -73,7 +80,9 @@ export function signOrderMessage(
   messageHash: string
 ): OrderSignature {
   // Remove 0x prefix if present
-  const cleanPrivateKey = privateKey.startsWith('0x') ? privateKey.slice(2) : privateKey;
+  const cleanPrivateKey = privateKey.startsWith('0x')
+    ? privateKey.slice(2)
+    : privateKey;
 
   // Get Stark public key
   const starkKey = ec.starkCurve.getStarkKey(cleanPrivateKey);
@@ -142,15 +151,15 @@ export function createOrderMessageHash(params: {
 
   const orderHash = hash.computePoseidonHashOnElements([
     orderSelector,
-    getOrderHashArgs[0],  // position_id
-    getOrderHashArgs[1],   // base_asset_id_hex
-    getOrderHashArgs[2],   // base_amount
-    getOrderHashArgs[3],   // quote_asset_id_hex
-    getOrderHashArgs[4],   // quote_amount
-    getOrderHashArgs[5],   // fee_asset_id_hex
-    getOrderHashArgs[6],   // fee_amount
-    getOrderHashArgs[7],   // expiration
-    getOrderHashArgs[8],   // salt
+    getOrderHashArgs[0], // position_id
+    getOrderHashArgs[1], // base_asset_id_hex
+    getOrderHashArgs[2], // base_amount
+    getOrderHashArgs[3], // quote_asset_id_hex
+    getOrderHashArgs[4], // quote_amount
+    getOrderHashArgs[5], // fee_asset_id_hex
+    getOrderHashArgs[6], // fee_amount
+    getOrderHashArgs[7], // expiration
+    getOrderHashArgs[8], // salt
   ]);
 
   return jsGetObjMsgHash(domainHash, params.starkPublicKey, orderHash);

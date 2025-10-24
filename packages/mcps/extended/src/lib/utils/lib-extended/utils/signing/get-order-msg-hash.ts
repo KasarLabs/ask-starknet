@@ -1,33 +1,33 @@
-import { get_order_msg as wasmLibGetOrderMsgHash } from '@x10xchange/stark-crypto-wrapper-wasm'
+import { get_order_msg as wasmLibGetOrderMsgHash } from '@x10xchange/stark-crypto-wrapper-wasm';
 
-import { type StarknetDomain } from '../../api/starknet.schema.js'
-import { type OrderSide } from '../../models/order.types.js'
-import { fromHexString, toHexString, type HexString } from '../hex.js'
-import { type Decimal, type Long } from '../number.js'
-import { calcStarknetExpiration } from './calc-starknet-expiration.js'
-import { jsGetOrderMsgHash } from './js/js-get-order-msg-hash.js'
+import { type StarknetDomain } from '../../api/starknet.schema.js';
+import { type OrderSide } from '../../models/order.types.js';
+import { fromHexString, toHexString, type HexString } from '../hex.js';
+import { type Decimal, type Long } from '../number.js';
+import { calcStarknetExpiration } from './calc-starknet-expiration.js';
+import { jsGetOrderMsgHash } from './js/js-get-order-msg-hash.js';
 
 type GetStarknetOrderMsgHashArgs = {
-  side: OrderSide
-  nonce: Long
-  assetIdCollateral: Decimal
-  assetIdSynthetic: Decimal
-  collateralAmountStark: Long
-  feeStark: Long
-  syntheticAmountStark: Long
-  expiryEpochMillis: number
-  vaultId: Long
-  starkPublicKey: HexString
-  starknetDomain: StarknetDomain
-}
+  side: OrderSide;
+  nonce: Long;
+  assetIdCollateral: Decimal;
+  assetIdSynthetic: Decimal;
+  collateralAmountStark: Long;
+  feeStark: Long;
+  syntheticAmountStark: Long;
+  expiryEpochMillis: number;
+  vaultId: Long;
+  starkPublicKey: HexString;
+  starknetDomain: StarknetDomain;
+};
 
 export const getStarknetOrderMsgHash = (args: GetStarknetOrderMsgHashArgs) => {
-  const isBuyingSynthetic = args.side === 'BUY'
-  const expirationTimestamp = calcStarknetExpiration(args.expiryEpochMillis)
+  const isBuyingSynthetic = args.side === 'BUY';
+  const expirationTimestamp = calcStarknetExpiration(args.expiryEpochMillis);
 
   const [amountCollateral, amountSynthetic] = isBuyingSynthetic
     ? [args.collateralAmountStark.negated(), args.syntheticAmountStark]
-    : [args.collateralAmountStark, args.syntheticAmountStark.negated()]
+    : [args.collateralAmountStark, args.syntheticAmountStark.negated()];
 
   const getOrderHashArgs = [
     /* position_id         */ args.vaultId.toString(),
@@ -44,15 +44,15 @@ export const getStarknetOrderMsgHash = (args: GetStarknetOrderMsgHashArgs) => {
     /* domain_version      */ args.starknetDomain.version,
     /* domain_chain_id     */ args.starknetDomain.chainId,
     /* domain_revision     */ args.starknetDomain.revision.toString(),
-  ] as const
+  ] as const;
 
   try {
-    const wasmHash = wasmLibGetOrderMsgHash(...getOrderHashArgs)
+    const wasmHash = wasmLibGetOrderMsgHash(...getOrderHashArgs);
 
-    return fromHexString(wasmHash as HexString)
+    return fromHexString(wasmHash as HexString);
   } catch {
-    const jsHash = jsGetOrderMsgHash(...getOrderHashArgs)
+    const jsHash = jsGetOrderMsgHash(...getOrderHashArgs);
 
-    return fromHexString(jsHash as HexString)
+    return fromHexString(jsHash as HexString);
   }
-}
+};

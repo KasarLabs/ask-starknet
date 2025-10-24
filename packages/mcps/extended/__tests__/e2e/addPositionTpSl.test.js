@@ -44,8 +44,14 @@ async function testAddPositionTpSl(client) {
     market: 'ARB-USD',
   });
 
-  if (positionsResponse.status !== 'success' || !positionsResponse.data || positionsResponse.data.length === 0) {
-    console.log('⚠️  extended_add_position_tpsl skipped: No open position found');
+  if (
+    positionsResponse.status !== 'success' ||
+    !positionsResponse.data ||
+    positionsResponse.data.length === 0
+  ) {
+    console.log(
+      '⚠️  extended_add_position_tpsl skipped: No open position found'
+    );
     return null;
   }
 
@@ -62,13 +68,15 @@ async function testAddPositionTpSl(client) {
 
   // For LONG: TP above current price, SL below (but not too far to avoid equity error)
   // For SHORT: TP below current price, SL above
-  const tpPrice = positionSide === 'LONG'
-    ? String((currentPrice * 1.5).toFixed(4))  // 50% profit
-    : String((currentPrice * 0.7).toFixed(4)); // 30% profit
+  const tpPrice =
+    positionSide === 'LONG'
+      ? String((currentPrice * 1.5).toFixed(4)) // 50% profit
+      : String((currentPrice * 0.7).toFixed(4)); // 30% profit
 
-  const slPrice = positionSide === 'LONG'
-    ? String((openPrice * 0.95).toFixed(4))    // 5% loss from entry
-    : String((openPrice * 1.05).toFixed(4));   // 5% loss from entry
+  const slPrice =
+    positionSide === 'LONG'
+      ? String((openPrice * 0.95).toFixed(4)) // 5% loss from entry
+      : String((openPrice * 1.05).toFixed(4)); // 5% loss from entry
 
   console.log(`   Setting TP at ${tpPrice}, SL at ${slPrice}`);
 

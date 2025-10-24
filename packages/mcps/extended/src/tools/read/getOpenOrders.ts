@@ -1,4 +1,8 @@
-import { ExtendedApiEnv, ExtendedApiResponse, OrderReturn } from '../../lib/types/index.js';
+import {
+  ExtendedApiEnv,
+  ExtendedApiResponse,
+  OrderReturn,
+} from '../../lib/types/index.js';
 import { apiGet } from '../../lib/utils/api.js';
 import { GetOpenOrdersSchema } from '../../schemas/index.js';
 
@@ -14,11 +18,7 @@ export const getOpenOrders = async (
 
     const endpoint = `/api/v1/user/orders${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
 
-    const data = await apiGet<OrderReturn[]>(
-      env,
-      endpoint,
-      true
-    );
+    const data = await apiGet<OrderReturn[]>(env, endpoint, true);
 
     return {
       status: 'success',

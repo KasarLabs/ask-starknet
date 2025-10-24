@@ -84,7 +84,9 @@ async function testGetPositions(client) {
   });
 
   if (responseFiltered.status !== 'success') {
-    throw new Error(`extended_get_positions (filtered) failed: ${responseFiltered.error}`);
+    throw new Error(
+      `extended_get_positions (filtered) failed: ${responseFiltered.error}`
+    );
   }
 
   console.log('✅ extended_get_positions (filtered) test passed');
@@ -113,7 +115,9 @@ async function testGetOpenOrders(client) {
   });
 
   if (responseFiltered.status !== 'success') {
-    throw new Error(`extended_get_open_orders (filtered) failed: ${responseFiltered.error}`);
+    throw new Error(
+      `extended_get_open_orders (filtered) failed: ${responseFiltered.error}`
+    );
   }
 
   console.log('✅ extended_get_open_orders (filtered) test passed');
@@ -148,7 +152,9 @@ async function testGetTradesHistoryWithFilter(client) {
   });
 
   if (response.status !== 'success') {
-    throw new Error(`extended_get_trades_history with filter failed: ${response.error}`);
+    throw new Error(
+      `extended_get_trades_history with filter failed: ${response.error}`
+    );
   }
 
   console.log('✅ extended_get_trades_history (filtered) test passed');
@@ -188,14 +194,20 @@ async function testGetPositionsHistory(client) {
   console.log('✅ extended_get_positions_history test passed');
 
   // Test with side filter (optional)
-  const responseFiltered = await callTool(client, 'extended_get_positions_history', {
-    market_id: 'BTC-USD',
-    side: 'LONG',
-    limit: 5,
-  });
+  const responseFiltered = await callTool(
+    client,
+    'extended_get_positions_history',
+    {
+      market_id: 'BTC-USD',
+      side: 'LONG',
+      limit: 5,
+    }
+  );
 
   if (responseFiltered.status !== 'success') {
-    throw new Error(`extended_get_positions_history (filtered) failed: ${responseFiltered.error}`);
+    throw new Error(
+      `extended_get_positions_history (filtered) failed: ${responseFiltered.error}`
+    );
   }
 
   console.log('✅ extended_get_positions_history (filtered) test passed');
@@ -208,10 +220,10 @@ async function testGetPositionsHistory(client) {
  */
 async function testGetFundingPayments(client) {
   // fromTime is required - get funding payments from the last 7 days
-  const sevenDaysAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
+  const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
 
   const response = await callTool(client, 'extended_get_funding_payments', {
-    fromTime: sevenDaysAgo
+    fromTime: sevenDaysAgo,
   });
 
   if (response.status !== 'success') {
@@ -242,7 +254,9 @@ async function testGetLeverage(client) {
   });
 
   if (responseFiltered.status !== 'success') {
-    throw new Error(`extended_get_leverage (filtered) failed: ${responseFiltered.error}`);
+    throw new Error(
+      `extended_get_leverage (filtered) failed: ${responseFiltered.error}`
+    );
   }
 
   console.log('✅ extended_get_leverage (filtered) test passed');
@@ -269,7 +283,9 @@ async function testGetFees(client) {
   });
 
   if (responseFiltered.status !== 'success') {
-    throw new Error(`extended_get_fees (filtered) failed: ${responseFiltered.error}`);
+    throw new Error(
+      `extended_get_fees (filtered) failed: ${responseFiltered.error}`
+    );
   }
 
   console.log('✅ extended_get_fees (filtered) test passed');
@@ -294,7 +310,9 @@ async function testGetOrderById(client, orderId) {
   if (response.status === 'success') {
     console.log('✅ extended_get_order_by_id test passed');
   } else {
-    console.log('⚠️  extended_get_order_by_id failed (expected if order not found)');
+    console.log(
+      '⚠️  extended_get_order_by_id failed (expected if order not found)'
+    );
   }
 
   return response;
@@ -307,7 +325,7 @@ async function testErrorHandling(client) {
   console.log('\n--- Testing error handling ---');
 
   // Test with invalid time range (end before start)
-  const futureTime = Date.now() + (365 * 24 * 60 * 60 * 1000);
+  const futureTime = Date.now() + 365 * 24 * 60 * 60 * 1000;
   const response = await callTool(client, 'extended_get_trades_history', {
     start_time: futureTime,
     end_time: Date.now(),
@@ -332,7 +350,9 @@ async function runTests() {
 
   try {
     console.log('🚀 Starting Extended Read Tools E2E Tests\n');
-    console.log('⚠️  Make sure you have set EXTENDED_API_KEY in your .env file\n');
+    console.log(
+      '⚠️  Make sure you have set EXTENDED_API_KEY in your .env file\n'
+    );
 
     client = await createClient();
     console.log('✅ Client connected successfully\n');
@@ -365,7 +385,9 @@ async function runTests() {
     console.error('Full error:', error);
 
     if (error.message.includes('EXTENDED_API_KEY')) {
-      console.error('\n💡 Tip: Make sure you have set EXTENDED_API_KEY in packages/mcps/extended/.env');
+      console.error(
+        '\n💡 Tip: Make sure you have set EXTENDED_API_KEY in packages/mcps/extended/.env'
+      );
     }
 
     process.exit(1);

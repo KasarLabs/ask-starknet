@@ -1,6 +1,6 @@
-import { z } from 'zod/v4'
+import { z } from 'zod/v4';
 
-import { zodHexString, zodLong } from '../utils/zod.js'
+import { zodHexString, zodLong } from '../utils/zod.js';
 
 export const AssetSchema = z.object({
   id: zodLong(),
@@ -14,6 +14,6 @@ export const AssetSchema = z.object({
   l1Id: z.string(),
   l1Resolution: z.number(),
   version: z.number(),
-})
+});
 
-export const AssetsResponseSchema = z.object({ data: AssetSchema.array() })
+export const AssetsResponseSchema = z.object({ data: AssetSchema.array() });

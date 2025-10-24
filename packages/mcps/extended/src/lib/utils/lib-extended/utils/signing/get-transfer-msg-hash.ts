@@ -1,20 +1,20 @@
-import { get_transfer_msg as wasmLibGetTransferMsgHash } from '@x10xchange/stark-crypto-wrapper-wasm'
+import { get_transfer_msg as wasmLibGetTransferMsgHash } from '@x10xchange/stark-crypto-wrapper-wasm';
 
-import { type StarknetDomain } from '../../api/starknet.schema.js'
-import { fromHexString, type HexString } from '../hex.js'
-import { type Long } from '../number.js'
-import { jsGetTransferMsgHash } from './js/js-get-transfer-msg-hash.js'
+import { type StarknetDomain } from '../../api/starknet.schema.js';
+import { fromHexString, type HexString } from '../hex.js';
+import { type Long } from '../number.js';
+import { jsGetTransferMsgHash } from './js/js-get-transfer-msg-hash.js';
 
 type GetStarknetTransferMsgHashArgs = {
-  amount: Long
-  assetId: HexString
-  expirationTimestamp: number
-  nonce: Long
-  receiverPositionId: Long
-  senderPositionId: Long
-  senderPublicKey: HexString
-  starknetDomain: StarknetDomain
-}
+  amount: Long;
+  assetId: HexString;
+  expirationTimestamp: number;
+  nonce: Long;
+  receiverPositionId: Long;
+  senderPositionId: Long;
+  senderPublicKey: HexString;
+  starknetDomain: StarknetDomain;
+};
 
 export const getStarknetTransferMsgHash = ({
   amount,
@@ -38,15 +38,15 @@ export const getStarknetTransferMsgHash = ({
     /* domain_version        */ starknetDomain.version,
     /* domain_chain_id       */ starknetDomain.chainId,
     /* domain_revision       */ starknetDomain.revision.toString(),
-  ] as const
+  ] as const;
 
   try {
-    const wasmHash = wasmLibGetTransferMsgHash(...getTransferHashArgs)
+    const wasmHash = wasmLibGetTransferMsgHash(...getTransferHashArgs);
 
-    return fromHexString(wasmHash as HexString)
+    return fromHexString(wasmHash as HexString);
   } catch {
-    const jsHash = jsGetTransferMsgHash(...getTransferHashArgs)
+    const jsHash = jsGetTransferMsgHash(...getTransferHashArgs);
 
-    return fromHexString(jsHash as HexString)
+    return fromHexString(jsHash as HexString);
   }
-}
+};

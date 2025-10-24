@@ -5,12 +5,14 @@ E2E tests for the Extended MCP tools.
 ## Setup
 
 1. **Build the MCP server**:
+
    ```bash
    cd packages/mcps/extended
    pnpm build
    ```
 
 2. **Configure your API key**:
+
    ```bash
    cp .env.example .env
    # Edit .env and add your EXTENDED_API_KEY
@@ -25,6 +27,7 @@ E2E tests for the Extended MCP tools.
 ## Running Tests
 
 ### All READ Tools (Safe)
+
 Tests all account management tools without modifying anything:
 
 ```bash
@@ -32,6 +35,7 @@ node __tests__/e2e/read.test.js
 ```
 
 This will test:
+
 - `extended_get_balance`
 - `extended_get_positions`
 - `extended_get_open_orders`
@@ -43,6 +47,7 @@ This will test:
 - `extended_get_fees`
 
 ### Cancel Order (Modifies State)
+
 ⚠️ **WARNING**: This will cancel a real order!
 
 ```bash
@@ -54,6 +59,7 @@ node __tests__/e2e/cancelOrder.test.js
 ```
 
 ### Update Leverage (Modifies State)
+
 ⚠️ **WARNING**: This will modify your leverage settings!
 
 ```bash
@@ -67,6 +73,7 @@ TEST_ALL_VALUES=true MARKET_ID=BTC-USD node __tests__/e2e/updateLeverage.test.js
 ## Test Files
 
 ### `read.test.js`
+
 - Tests all READ-only tools
 - Safe to run anytime
 - Validates API integration
@@ -74,6 +81,7 @@ TEST_ALL_VALUES=true MARKET_ID=BTC-USD node __tests__/e2e/updateLeverage.test.js
 - ~250 lines of comprehensive tests
 
 ### `cancelOrder.test.js`
+
 - Tests `extended_cancel_order` tool
 - ⚠️ Cancels actual orders
 - Includes verification step
@@ -81,6 +89,7 @@ TEST_ALL_VALUES=true MARKET_ID=BTC-USD node __tests__/e2e/updateLeverage.test.js
 - ~180 lines
 
 ### `updateLeverage.test.js`
+
 - Tests `extended_update_leverage` tool
 - ⚠️ Modifies account settings
 - Includes verification step
@@ -102,6 +111,7 @@ All tests follow the same pattern:
 ## Expected Output
 
 ### Successful Test
+
 ```
 🚀 Starting Extended Read Tools E2E Tests
 
@@ -119,6 +129,7 @@ All tests follow the same pattern:
 ```
 
 ### Failed Test
+
 ```
 ❌ Test failed: API request failed: 401 Unauthorized
 💡 Tip: Make sure you have set EXTENDED_API_KEY in packages/mcps/extended/.env
@@ -127,27 +138,35 @@ All tests follow the same pattern:
 ## Common Issues
 
 ### Authentication Error
+
 ```
 Error: EXTENDED_API_KEY environment variable is required
 ```
+
 **Solution**: Add your API key to `.env`
 
 ### Connection Error
+
 ```
 Error: connect ECONNREFUSED
 ```
+
 **Solution**: Check your internet connection and Extended API status
 
 ### No Open Orders
+
 ```
 ⚠️ No open orders found to cancel
 ```
+
 **Solution**: This is expected if you don't have open orders. Create one on Extended first.
 
 ### Invalid Market
+
 ```
 Error: Market not found
 ```
+
 **Solution**: Use a valid market ID like "BTC-USD", "ETH-USD", etc.
 
 ## Notes

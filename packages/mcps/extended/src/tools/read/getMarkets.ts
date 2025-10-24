@@ -61,7 +61,7 @@ export const getMarkets = async (
     // Build query string if markets are specified
     let endpoint = '/api/v1/info/markets';
     if (params.markets && params.markets.length > 0) {
-      const queryParams = params.markets.map(m => `market=${m}`).join('&');
+      const queryParams = params.markets.map((m) => `market=${m}`).join('&');
       endpoint = `${endpoint}?${queryParams}`;
     }
 

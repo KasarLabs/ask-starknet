@@ -1,13 +1,13 @@
-import { afterAll, beforeAll, expect, test, vi } from 'vitest'
+import { afterAll, beforeAll, expect, test, vi } from 'vitest';
 
-import * as generateNonceModule from '../utils/generate-nonce.js'
-import { Decimal, Long } from '../utils/number.js'
-import { Order } from './order.js'
-import { type OrderContext } from './order.types.js'
+import * as generateNonceModule from '../utils/generate-nonce.js';
+import { Decimal, Long } from '../utils/number.js';
+import { Order } from './order.js';
+import { type OrderContext } from './order.types.js';
 
 const CTX: OrderContext = {
   assetIdCollateral: Decimal(
-    '1508159369509269042908118660797226224713309535454600628063900735297932481180',
+    '1508159369509269042908118660797226224713309535454600628063900735297932481180'
   ),
   assetIdSynthetic: Decimal('344400637343183300222065759427231744'),
   settlementResolutionCollateral: Decimal('1000000'),
@@ -16,7 +16,8 @@ const CTX: OrderContext = {
   maxPositionValue: Decimal('10000000000'),
   feeRate: Decimal('2').div(Decimal('10000')),
   vaultId: Long(10002),
-  starkPrivateKey: '0x659127796b268530385f753efee81112c628b2bf266e025d3b52d16204c5504',
+  starkPrivateKey:
+    '0x659127796b268530385f753efee81112c628b2bf266e025d3b52d16204c5504',
   starknetDomain: {
     name: 'Perpetuals',
     version: 'v0',
@@ -25,21 +26,21 @@ const CTX: OrderContext = {
   },
   builderId: Long(2001),
   builderFee: Decimal('0.0012'),
-}
+};
 
 beforeAll(() => {
   vi.useFakeTimers({
     now: Date.parse('2024-01-05 01:08:56.860694'),
-  })
-})
+  });
+});
 
 afterAll(() => {
-  vi.useRealTimers()
-})
+  vi.useRealTimers();
+});
 
 test('creates `LIMIT / SELL` order correctly', () => {
   // given
-  vi.spyOn(generateNonceModule, 'generateNonce').mockReturnValue(1473459052)
+  vi.spyOn(generateNonceModule, 'generateNonce').mockReturnValue(1473459052);
 
   const order = Order.create({
     marketName: 'BTC-USD',
@@ -65,7 +66,7 @@ test('creates `LIMIT / SELL` order correctly', () => {
       priceType: 'LIMIT',
     },
     ctx: CTX,
-  })
+  });
 
   // when / then
   expect(order.toJSON()).toMatchInlineSnapshot(`
@@ -137,5 +138,5 @@ test('creates `LIMIT / SELL` order correctly', () => {
       "tpSlType": "ORDER",
       "type": "LIMIT",
     }
-  `)
-})
+  `);
+});

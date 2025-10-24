@@ -20,11 +20,7 @@ export const getFundingPayments = async (
 
     const endpoint = `/api/v1/user/funding/history?${queryParams.toString()}`;
 
-    const data = await apiGet<FundingPayment[]>(
-      env,
-      endpoint,
-      true
-    );
+    const data = await apiGet<FundingPayment[]>(env, endpoint, true);
 
     return {
       status: 'success',

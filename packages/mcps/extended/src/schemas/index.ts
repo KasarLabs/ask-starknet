@@ -20,8 +20,14 @@ export type GetUserAccountInfoSchema = z.infer<typeof GetUserAccountInfoSchema>;
  * Schema for getting open positions
  */
 export const GetPositionsSchema = z.object({
-  market: z.string().optional().describe('Filter by market name (e.g., "BTC-USD")'),
-  side: z.enum(['LONG', 'SHORT']).optional().describe('Position side: LONG or SHORT'),
+  market: z
+    .string()
+    .optional()
+    .describe('Filter by market name (e.g., "BTC-USD")'),
+  side: z
+    .enum(['LONG', 'SHORT'])
+    .optional()
+    .describe('Position side: LONG or SHORT'),
 });
 export type GetPositionsSchema = z.infer<typeof GetPositionsSchema>;
 
@@ -29,8 +35,14 @@ export type GetPositionsSchema = z.infer<typeof GetPositionsSchema>;
  * Schema for getting open orders
  */
 export const GetOpenOrdersSchema = z.object({
-  market: z.string().optional().describe('Filter by market name (e.g., "BTC-USD")'),
-  type: z.enum(['LIMIT', 'MARKET']).optional().describe('Order type: LIMIT or MARKET'),
+  market: z
+    .string()
+    .optional()
+    .describe('Filter by market name (e.g., "BTC-USD")'),
+  type: z
+    .enum(['LIMIT', 'MARKET'])
+    .optional()
+    .describe('Order type: LIMIT or MARKET'),
   side: z.enum(['BUY', 'SELL']).optional().describe('Order side: BUY or SELL'),
 });
 export type GetOpenOrdersSchema = z.infer<typeof GetOpenOrdersSchema>;
@@ -47,10 +59,22 @@ export type GetOrderByIdSchema = z.infer<typeof GetOrderByIdSchema>;
  * Schema for getting trades history
  */
 export const GetTradesHistorySchema = z.object({
-  market_id: z.string().optional().describe('Filter by market ID (e.g., "BTC-USD")'),
-  start_time: z.number().optional().describe('Unix timestamp in milliseconds to start filtering'),
-  end_time: z.number().optional().describe('Unix timestamp in milliseconds to end filtering'),
-  limit: z.number().optional().describe('Maximum number of records to return (default: 100)'),
+  market_id: z
+    .string()
+    .optional()
+    .describe('Filter by market ID (e.g., "BTC-USD")'),
+  start_time: z
+    .number()
+    .optional()
+    .describe('Unix timestamp in milliseconds to start filtering'),
+  end_time: z
+    .number()
+    .optional()
+    .describe('Unix timestamp in milliseconds to end filtering'),
+  limit: z
+    .number()
+    .optional()
+    .describe('Maximum number of records to return (default: 100)'),
 });
 export type GetTradesHistorySchema = z.infer<typeof GetTradesHistorySchema>;
 
@@ -58,11 +82,26 @@ export type GetTradesHistorySchema = z.infer<typeof GetTradesHistorySchema>;
  * Schema for getting orders history
  */
 export const GetOrdersHistorySchema = z.object({
-  market_id: z.string().optional().describe('Filter by market ID (e.g., "BTC-USD")'),
-  status: z.enum(['FILLED', 'CANCELED', 'REJECTED']).optional().describe('Filter by order status'),
-  start_time: z.number().optional().describe('Unix timestamp in milliseconds to start filtering'),
-  end_time: z.number().optional().describe('Unix timestamp in milliseconds to end filtering'),
-  limit: z.number().optional().describe('Maximum number of records to return (default: 100)'),
+  market_id: z
+    .string()
+    .optional()
+    .describe('Filter by market ID (e.g., "BTC-USD")'),
+  status: z
+    .enum(['FILLED', 'CANCELED', 'REJECTED'])
+    .optional()
+    .describe('Filter by order status'),
+  start_time: z
+    .number()
+    .optional()
+    .describe('Unix timestamp in milliseconds to start filtering'),
+  end_time: z
+    .number()
+    .optional()
+    .describe('Unix timestamp in milliseconds to end filtering'),
+  limit: z
+    .number()
+    .optional()
+    .describe('Maximum number of records to return (default: 100)'),
 });
 export type GetOrdersHistorySchema = z.infer<typeof GetOrdersHistorySchema>;
 
@@ -70,21 +109,46 @@ export type GetOrdersHistorySchema = z.infer<typeof GetOrdersHistorySchema>;
  * Schema for getting positions history
  */
 export const GetPositionsHistorySchema = z.object({
-  market_id: z.string().optional().describe('Filter by market ID (e.g., "BTC-USD")'),
-  side: z.enum(['LONG', 'SHORT']).optional().describe('Position side: LONG or SHORT'),
-  start_time: z.number().optional().describe('Unix timestamp in milliseconds to start filtering'),
-  end_time: z.number().optional().describe('Unix timestamp in milliseconds to end filtering'),
-  limit: z.number().optional().describe('Maximum number of records to return (default: 100)'),
+  market_id: z
+    .string()
+    .optional()
+    .describe('Filter by market ID (e.g., "BTC-USD")'),
+  side: z
+    .enum(['LONG', 'SHORT'])
+    .optional()
+    .describe('Position side: LONG or SHORT'),
+  start_time: z
+    .number()
+    .optional()
+    .describe('Unix timestamp in milliseconds to start filtering'),
+  end_time: z
+    .number()
+    .optional()
+    .describe('Unix timestamp in milliseconds to end filtering'),
+  limit: z
+    .number()
+    .optional()
+    .describe('Maximum number of records to return (default: 100)'),
 });
-export type GetPositionsHistorySchema = z.infer<typeof GetPositionsHistorySchema>;
+export type GetPositionsHistorySchema = z.infer<
+  typeof GetPositionsHistorySchema
+>;
 
 /**
  * Schema for getting funding payments
  */
 export const GetFundingPaymentsSchema = z.object({
-  market: z.string().optional().describe('List of names of the requested markets (e.g., "BTC-USD")'),
-  side: z.enum(['long', 'short']).optional().describe('Position side: long or short'),
-  fromTime: z.number().describe('Starting timestamp in epoch milliseconds (required)'),
+  market: z
+    .string()
+    .optional()
+    .describe('List of names of the requested markets (e.g., "BTC-USD")'),
+  side: z
+    .enum(['long', 'short'])
+    .optional()
+    .describe('Position side: long or short'),
+  fromTime: z
+    .number()
+    .describe('Starting timestamp in epoch milliseconds (required)'),
 });
 export type GetFundingPaymentsSchema = z.infer<typeof GetFundingPaymentsSchema>;
 
@@ -92,7 +156,12 @@ export type GetFundingPaymentsSchema = z.infer<typeof GetFundingPaymentsSchema>;
  * Schema for getting current leverage settings
  */
 export const GetLeverageSchema = z.object({
-  market: z.string().optional().describe('Name of the requested market (e.g., "BTC-USD"). Can request multiple markets by calling the API multiple times.'),
+  market: z
+    .string()
+    .optional()
+    .describe(
+      'Name of the requested market (e.g., "BTC-USD"). Can request multiple markets by calling the API multiple times.'
+    ),
 });
 export type GetLeverageSchema = z.infer<typeof GetLeverageSchema>;
 
@@ -100,7 +169,12 @@ export type GetLeverageSchema = z.infer<typeof GetLeverageSchema>;
  * Schema for getting fee schedule
  */
 export const GetFeesSchema = z.object({
-  market: z.string().optional().describe('Name of the requested market (e.g., "BTC-USD") to get market-specific fees.'),
+  market: z
+    .string()
+    .optional()
+    .describe(
+      'Name of the requested market (e.g., "BTC-USD") to get market-specific fees.'
+    ),
 });
 export type GetFeesSchema = z.infer<typeof GetFeesSchema>;
 
@@ -114,12 +188,37 @@ export type GetFeesSchema = z.infer<typeof GetFeesSchema>;
 export const CreateLimitOrderSchema = z.object({
   market: z.string().describe('Trading pair (e.g., "BTC-USD", "ETH-USD")'),
   side: z.enum(['BUY', 'SELL']).describe('Order side: BUY or SELL'),
-  qty: z.string().describe('Order quantity in base asset (e.g., "0.1" for 0.1 BTC)'),
-  price: z.string().describe('Limit price for the order in quote asset (e.g., "42000" for $42,000)'),
-  post_only: z.boolean().optional().default(false).describe('If true, order will only be placed if it does not immediately match (maker-only)'),
-  reduce_only: z.boolean().optional().default(false).describe('If true, order will only reduce existing position'),
-  time_in_force: z.enum(['IOC', 'FOK', 'GTT']).optional().default('GTT').describe('Time in force : IOC (Immediate or Cancel), FOK (Fill or Kill), GTT (Good Till Time). Default: GTT'),
-  expiry_epoch_millis: z.number().optional().describe('Expiry time for GTT orders (Unix timestamp in milliseconds)'),
+  qty: z
+    .string()
+    .describe('Order quantity in base asset (e.g., "0.1" for 0.1 BTC)'),
+  price: z
+    .string()
+    .describe(
+      'Limit price for the order in quote asset (e.g., "42000" for $42,000)'
+    ),
+  post_only: z
+    .boolean()
+    .optional()
+    .default(false)
+    .describe(
+      'If true, order will only be placed if it does not immediately match (maker-only)'
+    ),
+  reduce_only: z
+    .boolean()
+    .optional()
+    .default(false)
+    .describe('If true, order will only reduce existing position'),
+  time_in_force: z
+    .enum(['IOC', 'FOK', 'GTT'])
+    .optional()
+    .default('GTT')
+    .describe(
+      'Time in force : IOC (Immediate or Cancel), FOK (Fill or Kill), GTT (Good Till Time). Default: GTT'
+    ),
+  expiry_epoch_millis: z
+    .number()
+    .optional()
+    .describe('Expiry time for GTT orders (Unix timestamp in milliseconds)'),
 });
 export type CreateLimitOrderSchema = z.infer<typeof CreateLimitOrderSchema>;
 
@@ -129,9 +228,23 @@ export type CreateLimitOrderSchema = z.infer<typeof CreateLimitOrderSchema>;
 export const CreateMarketOrderSchema = z.object({
   market: z.string().describe('Trading pair (e.g., "BTC-USD", "ETH-USD")'),
   side: z.enum(['BUY', 'SELL']).describe('Order side: BUY or SELL'),
-  qty: z.string().describe('Order quantity in base asset (e.g., "0.1" for 0.1 BTC)'),
-  reduce_only: z.boolean().optional().default(false).describe('If true, order will only reduce existing position (cannot increase position size)'),
-  slippage: z.number().optional().default(0.75).describe('Maximum slippage percentage (e.g., 0.75 for 0.75%). Default: 0.75%'),
+  qty: z
+    .string()
+    .describe('Order quantity in base asset (e.g., "0.1" for 0.1 BTC)'),
+  reduce_only: z
+    .boolean()
+    .optional()
+    .default(false)
+    .describe(
+      'If true, order will only reduce existing position (cannot increase position size)'
+    ),
+  slippage: z
+    .number()
+    .optional()
+    .default(0.75)
+    .describe(
+      'Maximum slippage percentage (e.g., 0.75 for 0.75%). Default: 0.75%'
+    ),
 });
 export type CreateMarketOrderSchema = z.infer<typeof CreateMarketOrderSchema>;
 
@@ -140,9 +253,17 @@ export type CreateMarketOrderSchema = z.infer<typeof CreateMarketOrderSchema>;
  */
 const TpSlConfigSchema = z.object({
   trigger_price: z.string().describe('Trigger price for the TP/SL'),
-  trigger_price_type: z.enum(['LAST', 'MARK', 'INDEX']).optional().default('LAST').describe('Price type to watch for trigger'),
+  trigger_price_type: z
+    .enum(['LAST', 'MARK', 'INDEX'])
+    .optional()
+    .default('LAST')
+    .describe('Price type to watch for trigger'),
   price: z.string().describe('Execution price when triggered'),
-  price_type: z.enum(['LIMIT', 'MARKET']).optional().default('LIMIT').describe('Execute as LIMIT or MARKET order when triggered'),
+  price_type: z
+    .enum(['LIMIT', 'MARKET'])
+    .optional()
+    .default('LIMIT')
+    .describe('Execute as LIMIT or MARKET order when triggered'),
 });
 
 /**
@@ -153,23 +274,52 @@ export const CreateLimitOrderWithTpSlSchema = z.object({
   side: z.enum(['BUY', 'SELL']).describe('Order side: BUY or SELL'),
   qty: z.string().describe('Order quantity in base asset'),
   price: z.string().describe('Limit price for the order'),
-  post_only: z.boolean().optional().default(false).describe('If true, order will only be maker'),
-  reduce_only: z.boolean().optional().default(false).describe('If true, order will only reduce position'),
-  time_in_force: z.enum(['IOC', 'FOK', 'GTT']).optional().default('GTT').describe('Time in force : IOC (Immediate or Cancel), FOK (Fill or Kill), GTT (Good Till Time) (default: GTT)'),
-  expiry_epoch_millis: z.number().optional().describe('Expiry time for GTT orders'),
-  take_profit: TpSlConfigSchema.optional().describe('Take profit configuration. Triggers when price moves favorably.'),
-  stop_loss: TpSlConfigSchema.optional().describe('Stop loss configuration. Triggers when price moves unfavorably.'),
+  post_only: z
+    .boolean()
+    .optional()
+    .default(false)
+    .describe('If true, order will only be maker'),
+  reduce_only: z
+    .boolean()
+    .optional()
+    .default(false)
+    .describe('If true, order will only reduce position'),
+  time_in_force: z
+    .enum(['IOC', 'FOK', 'GTT'])
+    .optional()
+    .default('GTT')
+    .describe(
+      'Time in force : IOC (Immediate or Cancel), FOK (Fill or Kill), GTT (Good Till Time) (default: GTT)'
+    ),
+  expiry_epoch_millis: z
+    .number()
+    .optional()
+    .describe('Expiry time for GTT orders'),
+  take_profit: TpSlConfigSchema.optional().describe(
+    'Take profit configuration. Triggers when price moves favorably.'
+  ),
+  stop_loss: TpSlConfigSchema.optional().describe(
+    'Stop loss configuration. Triggers when price moves unfavorably.'
+  ),
 });
-export type CreateLimitOrderWithTpSlSchema = z.infer<typeof CreateLimitOrderWithTpSlSchema>;
+export type CreateLimitOrderWithTpSlSchema = z.infer<
+  typeof CreateLimitOrderWithTpSlSchema
+>;
 
 /**
  * Schema for creating TP/SL for existing position
  */
 export const AddPositionTpSlSchema = z.object({
   market: z.string().describe('Trading pair of the existing position'),
-  side: z.enum(['BUY', 'SELL']).describe('Order side (opposite of your position). If you have LONG position, use SELL.'),
+  side: z
+    .enum(['BUY', 'SELL'])
+    .describe(
+      'Order side (opposite of your position). If you have LONG position, use SELL.'
+    ),
   qty: z.string().describe('Quantity to close (must be ≤ position size)'),
-  take_profit: TpSlConfigSchema.optional().describe('Take profit configuration'),
+  take_profit: TpSlConfigSchema.optional().describe(
+    'Take profit configuration'
+  ),
   stop_loss: TpSlConfigSchema.optional().describe('Stop loss configuration'),
 });
 export type AddPositionTpSlSchema = z.infer<typeof AddPositionTpSlSchema>;
@@ -186,8 +336,12 @@ export type CancelOrderSchema = z.infer<typeof CancelOrderSchema>;
  * Schema for updating leverage
  */
 export const UpdateLeverageSchema = z.object({
-  market_id: z.string().describe('The market ID to update leverage for (e.g., "BTC-USD")'),
-  leverage: z.number().describe('The new leverage multiplier (e.g., 10 for 10x)'),
+  market_id: z
+    .string()
+    .describe('The market ID to update leverage for (e.g., "BTC-USD")'),
+  leverage: z
+    .number()
+    .describe('The new leverage multiplier (e.g., 10 for 10x)'),
 });
 export type UpdateLeverageSchema = z.infer<typeof UpdateLeverageSchema>;
 
@@ -196,12 +350,27 @@ export type UpdateLeverageSchema = z.infer<typeof UpdateLeverageSchema>;
  */
 export const CreateWithdrawalSchema = z.object({
   account_id: z.number().describe('Source account ID'),
-  amount: z.string().describe('Withdrawal amount in collateral asset (e.g., "10.50")'),
-  amount_in_wei: z.string().describe('Withdrawal amount in wei/smallest unit (e.g., "10500000" for USDC with 6 decimals)'),
-  asset: z.string().optional().default('USD').describe('Collateral asset name (default: USD)'),
-  recipient_address: z.string().describe('Starknet address to receive the withdrawal'),
+  amount: z
+    .string()
+    .describe('Withdrawal amount in collateral asset (e.g., "10.50")'),
+  amount_in_wei: z
+    .string()
+    .describe(
+      'Withdrawal amount in wei/smallest unit (e.g., "10500000" for USDC with 6 decimals)'
+    ),
+  asset: z
+    .string()
+    .optional()
+    .default('USD')
+    .describe('Collateral asset name (default: USD)'),
+  recipient_address: z
+    .string()
+    .describe('Starknet address to receive the withdrawal'),
   position_id: z.number().describe('Position ID for settlement'),
-  collateral_id: z.string().optional().describe('Collateral asset ID (hex string, default: USDC)'),
+  collateral_id: z
+    .string()
+    .optional()
+    .describe('Collateral asset ID (hex string, default: USDC)'),
 });
 export type CreateWithdrawalSchema = z.infer<typeof CreateWithdrawalSchema>;
 
@@ -215,8 +384,16 @@ export type GetBridgeConfigSchema = z.infer<typeof GetBridgeConfigSchema>;
  * Schema for getting a bridge quote
  */
 export const GetBridgeQuoteSchema = z.object({
-  chain_in: z.string().describe('Chain where bridge will accept funds (e.g., "ARB" for Arbitrum, "ETH" for Ethereum). For deposits use EVM chain, for withdrawals use "STRK"'),
-  chain_out: z.string().describe('Chain where bridge will send funds (e.g., "STRK" for Starknet). For deposits use "STRK", for withdrawals use EVM chain'),
+  chain_in: z
+    .string()
+    .describe(
+      'Chain where bridge will accept funds (e.g., "ARB" for Arbitrum, "ETH" for Ethereum). For deposits use EVM chain, for withdrawals use "STRK"'
+    ),
+  chain_out: z
+    .string()
+    .describe(
+      'Chain where bridge will send funds (e.g., "STRK" for Starknet). For deposits use "STRK", for withdrawals use EVM chain'
+    ),
   amount: z.number().describe('Amount in USD to bridge'),
 });
 export type GetBridgeQuoteSchema = z.infer<typeof GetBridgeQuoteSchema>;
@@ -237,7 +414,12 @@ export type ConfirmBridgeQuoteSchema = z.infer<typeof ConfirmBridgeQuoteSchema>;
  * Schema for getting available markets and their configurations
  */
 export const GetMarketsSchema = z.object({
-  markets: z.array(z.string()).optional().describe('Optional array of market names to filter (e.g., ["BTC-USD", "ETH-USD"]). If not provided, returns all markets.'),
+  markets: z
+    .array(z.string())
+    .optional()
+    .describe(
+      'Optional array of market names to filter (e.g., ["BTC-USD", "ETH-USD"]). If not provided, returns all markets.'
+    ),
 });
 export type GetMarketsSchema = z.infer<typeof GetMarketsSchema>;
 
@@ -270,10 +452,23 @@ export type GetMarketTradesSchema = z.infer<typeof GetMarketTradesSchema>;
  */
 export const GetCandlesHistorySchema = z.object({
   market: z.string().describe('Market name (e.g., "BTC-USD")'),
-  candleType: z.enum(['trades', 'mark-prices', 'index-prices']).describe('Price type: "trades" for last price, "mark-prices" for mark price, "index-prices" for index price'),
-  interval: z.string().describe('Time interval (e.g., "1m", "5m", "15m", "1h", "4h", "1d")'),
-  limit: z.number().describe('Maximum number of candles to return (max 10,000)'),
-  endTime: z.number().optional().describe('End timestamp in epoch milliseconds. If not provided, uses current time.'),
+  candleType: z
+    .enum(['trades', 'mark-prices', 'index-prices'])
+    .describe(
+      'Price type: "trades" for last price, "mark-prices" for mark price, "index-prices" for index price'
+    ),
+  interval: z
+    .string()
+    .describe('Time interval (e.g., "1m", "5m", "15m", "1h", "4h", "1d")'),
+  limit: z
+    .number()
+    .describe('Maximum number of candles to return (max 10,000)'),
+  endTime: z
+    .number()
+    .optional()
+    .describe(
+      'End timestamp in epoch milliseconds. If not provided, uses current time.'
+    ),
 });
 export type GetCandlesHistorySchema = z.infer<typeof GetCandlesHistorySchema>;
 
@@ -284,19 +479,34 @@ export const GetFundingRatesHistorySchema = z.object({
   market: z.string().describe('Market name (e.g., "BTC-USD")'),
   startTime: z.number().describe('Starting timestamp in epoch milliseconds'),
   endTime: z.number().describe('Ending timestamp in epoch milliseconds'),
-  cursor: z.number().optional().describe('Pagination cursor from previous response'),
-  limit: z.number().optional().describe('Maximum number of records to return (max 10,000)'),
+  cursor: z
+    .number()
+    .optional()
+    .describe('Pagination cursor from previous response'),
+  limit: z
+    .number()
+    .optional()
+    .describe('Maximum number of records to return (max 10,000)'),
 });
-export type GetFundingRatesHistorySchema = z.infer<typeof GetFundingRatesHistorySchema>;
+export type GetFundingRatesHistorySchema = z.infer<
+  typeof GetFundingRatesHistorySchema
+>;
 
 /**
  * Schema for getting open interest history
  */
 export const GetOpenInterestsHistorySchema = z.object({
   market: z.string().describe('Market name (e.g., "BTC-USD")'),
-  interval: z.enum(['P1H', 'P1D']).describe('Time interval: "P1H" for hourly, "P1D" for daily'),
+  interval: z
+    .enum(['P1H', 'P1D'])
+    .describe('Time interval: "P1H" for hourly, "P1D" for daily'),
   startTime: z.number().describe('Starting timestamp in epoch milliseconds'),
   endTime: z.number().describe('Ending timestamp in epoch milliseconds'),
-  limit: z.number().optional().describe('Maximum number of records to return (max 300)'),
+  limit: z
+    .number()
+    .optional()
+    .describe('Maximum number of records to return (max 300)'),
 });
-export type GetOpenInterestsHistorySchema = z.infer<typeof GetOpenInterestsHistorySchema>;
+export type GetOpenInterestsHistorySchema = z.infer<
+  typeof GetOpenInterestsHistorySchema
+>;

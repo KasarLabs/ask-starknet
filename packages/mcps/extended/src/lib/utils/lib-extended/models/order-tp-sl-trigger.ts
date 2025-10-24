@@ -1,26 +1,26 @@
-import { type Decimal, type Long } from '../utils/number.js'
-import { type OrderDebuggingAmounts } from './order-debugging-amounts.js'
-import { OrderSettlement } from './order-settlement.js'
+import { type Decimal, type Long } from '../utils/number.js';
+import { type OrderDebuggingAmounts } from './order-debugging-amounts.js';
+import { OrderSettlement } from './order-settlement.js';
 import {
   type OrderPriceType,
   type OrderTriggerPriceType,
   type SettlementSignature,
-} from './order.types.js'
+} from './order.types.js';
 
 export type OrderTpSlTriggerParam = {
-  triggerPrice: Decimal
-  triggerPriceType: OrderTriggerPriceType
-  price: Decimal
-  priceType: OrderPriceType
-}
+  triggerPrice: Decimal;
+  triggerPriceType: OrderTriggerPriceType;
+  price: Decimal;
+  priceType: OrderPriceType;
+};
 
 export class OrderTpSlTrigger {
-  private readonly triggerPrice: Decimal
-  private readonly triggerPriceType: OrderTriggerPriceType
-  private readonly price: Decimal
-  private readonly priceType: OrderPriceType
-  private readonly settlement: OrderSettlement
-  private readonly debuggingAmounts: OrderDebuggingAmounts
+  private readonly triggerPrice: Decimal;
+  private readonly triggerPriceType: OrderTriggerPriceType;
+  private readonly price: Decimal;
+  private readonly priceType: OrderPriceType;
+  private readonly settlement: OrderSettlement;
+  private readonly debuggingAmounts: OrderDebuggingAmounts;
 
   private constructor({
     triggerPrice,
@@ -30,19 +30,19 @@ export class OrderTpSlTrigger {
     settlement,
     debuggingAmounts,
   }: {
-    triggerPrice: Decimal
-    triggerPriceType: OrderTriggerPriceType
-    price: Decimal
-    priceType: OrderPriceType
-    settlement: OrderSettlement
-    debuggingAmounts: OrderDebuggingAmounts
+    triggerPrice: Decimal;
+    triggerPriceType: OrderTriggerPriceType;
+    price: Decimal;
+    priceType: OrderPriceType;
+    settlement: OrderSettlement;
+    debuggingAmounts: OrderDebuggingAmounts;
   }) {
-    this.triggerPrice = triggerPrice
-    this.triggerPriceType = triggerPriceType
-    this.price = price
-    this.priceType = priceType
-    this.settlement = settlement
-    this.debuggingAmounts = debuggingAmounts
+    this.triggerPrice = triggerPrice;
+    this.triggerPriceType = triggerPriceType;
+    this.price = price;
+    this.priceType = priceType;
+    this.settlement = settlement;
+    this.debuggingAmounts = debuggingAmounts;
   }
 
   toJSON() {
@@ -53,7 +53,7 @@ export class OrderTpSlTrigger {
       priceType: this.priceType,
       settlement: this.settlement.toJSON(),
       debuggingAmounts: this.debuggingAmounts.toJSON(),
-    }
+    };
   }
 
   static create(
@@ -62,10 +62,10 @@ export class OrderTpSlTrigger {
     orderSettlementSignature:
       | { signature: SettlementSignature; starkKey: string }
       | undefined,
-    debuggingAmounts: OrderDebuggingAmounts | undefined,
+    debuggingAmounts: OrderDebuggingAmounts | undefined
   ) {
     if (!triggerParams || !orderSettlementSignature || !debuggingAmounts) {
-      return undefined
+      return undefined;
     }
 
     return new OrderTpSlTrigger({
@@ -79,6 +79,6 @@ export class OrderTpSlTrigger {
         starkKey: orderSettlementSignature.starkKey,
         collateralPosition: vaultId,
       }),
-    })
+    });
   }
 }

@@ -1,18 +1,18 @@
-import { type Long } from '../utils/number.js'
+import { type Long } from '../utils/number.js';
 
 export class OrderDebuggingAmounts {
-  private readonly collateralAmount: Long
-  private readonly feeAmount: Long
-  private readonly syntheticAmount: Long
+  private readonly collateralAmount: Long;
+  private readonly feeAmount: Long;
+  private readonly syntheticAmount: Long;
 
   constructor(amounts: {
-    collateralAmount: Long
-    feeAmount: Long
-    syntheticAmount: Long
+    collateralAmount: Long;
+    feeAmount: Long;
+    syntheticAmount: Long;
   }) {
-    this.collateralAmount = amounts.collateralAmount
-    this.feeAmount = amounts.feeAmount
-    this.syntheticAmount = amounts.syntheticAmount
+    this.collateralAmount = amounts.collateralAmount;
+    this.feeAmount = amounts.feeAmount;
+    this.syntheticAmount = amounts.syntheticAmount;
   }
 
   toJSON() {
@@ -20,6 +20,6 @@ export class OrderDebuggingAmounts {
       collateralAmount: this.collateralAmount.toString(10),
       feeAmount: this.feeAmount.toString(10),
       syntheticAmount: this.syntheticAmount.toString(10),
-    }
+    };
   }
 }

@@ -1,4 +1,8 @@
-import { ExtendedApiEnv, ExtendedApiResponse, LeverageSetting } from '../../lib/types/index.js';
+import {
+  ExtendedApiEnv,
+  ExtendedApiResponse,
+  LeverageSetting,
+} from '../../lib/types/index.js';
 import { apiGet } from '../../lib/utils/api.js';
 import { GetLeverageSchema } from '../../schemas/index.js';
 
@@ -12,11 +16,7 @@ export const getLeverage = async (
 
     const endpoint = `/api/v1/user/leverage${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
 
-    const data = await apiGet<LeverageSetting[]>(
-      env,
-      endpoint,
-      true
-    );
+    const data = await apiGet<LeverageSetting[]>(env, endpoint, true);
 
     return {
       status: 'success',

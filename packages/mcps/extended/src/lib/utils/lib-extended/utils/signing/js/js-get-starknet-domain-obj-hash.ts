@@ -2,14 +2,14 @@ import {
   hash as starkHash,
   selector as starkSelector,
   shortString as starkShortString,
-} from 'starknet'
+} from 'starknet';
 
-import { type StarknetDomain } from '../../../api/starknet.schema.js'
+import { type StarknetDomain } from '../../../api/starknet.schema.js';
 
 export const jsGetStarknetDomainObjHash = (domain: StarknetDomain) => {
   const selector = starkSelector.getSelector(
-    '"StarknetDomain"("name":"shortstring","version":"shortstring","chainId":"shortstring","revision":"shortstring")',
-  )
+    '"StarknetDomain"("name":"shortstring","version":"shortstring","chainId":"shortstring","revision":"shortstring")'
+  );
 
   return starkHash.computePoseidonHashOnElements([
     selector,
@@ -17,5 +17,5 @@ export const jsGetStarknetDomainObjHash = (domain: StarknetDomain) => {
     starkShortString.encodeShortString(domain.version),
     starkShortString.encodeShortString(domain.chainId),
     domain.revision,
-  ])
-}
+  ]);
+};

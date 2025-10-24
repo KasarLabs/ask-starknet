@@ -1,21 +1,21 @@
-import { addDays } from 'date-fns'
+import { addDays } from 'date-fns';
 
-import { generateNonce } from '../utils/generate-nonce.js'
-import { getAccountById } from '../utils/get-account-by-id.js'
-import { Long, type Decimal } from '../utils/number.js'
-import { TransferSettlement } from './transfer-settlement.js'
-import { type TransferContext } from './transfer.types.js'
+import { generateNonce } from '../utils/generate-nonce.js';
+import { getAccountById } from '../utils/get-account-by-id.js';
+import { Long, type Decimal } from '../utils/number.js';
+import { TransferSettlement } from './transfer-settlement.js';
+import { type TransferContext } from './transfer.types.js';
 
-const TRANSFER_EXPIRATION_DAYS = 7
+const TRANSFER_EXPIRATION_DAYS = 7;
 
-type TransferCollateral = 'USD'
+type TransferCollateral = 'USD';
 
 export class Transfer {
-  private readonly fromAccountId: Long
-  private readonly toAccountId: Long
-  private readonly amount: Decimal
-  private readonly transferredAsset: TransferCollateral
-  private readonly settlement: TransferSettlement
+  private readonly fromAccountId: Long;
+  private readonly toAccountId: Long;
+  private readonly amount: Decimal;
+  private readonly transferredAsset: TransferCollateral;
+  private readonly settlement: TransferSettlement;
 
   private constructor({
     fromAccountId,
@@ -24,17 +24,17 @@ export class Transfer {
     transferredAsset,
     settlement,
   }: {
-    fromAccountId: Long
-    toAccountId: Long
-    amount: Decimal
-    transferredAsset: TransferCollateral
-    settlement: TransferSettlement
+    fromAccountId: Long;
+    toAccountId: Long;
+    amount: Decimal;
+    transferredAsset: TransferCollateral;
+    settlement: TransferSettlement;
   }) {
-    this.fromAccountId = fromAccountId
-    this.toAccountId = toAccountId
-    this.amount = amount
-    this.transferredAsset = transferredAsset
-    this.settlement = settlement
+    this.fromAccountId = fromAccountId;
+    this.toAccountId = toAccountId;
+    this.amount = amount;
+    this.transferredAsset = transferredAsset;
+    this.settlement = settlement;
   }
 
   toJSON() {
@@ -44,7 +44,7 @@ export class Transfer {
       amount: this.amount.toString(10),
       transferredAsset: this.transferredAsset,
       settlement: this.settlement.toJSON(),
-    }
+    };
   }
 
   static create({
@@ -54,17 +54,20 @@ export class Transfer {
     transferredAsset,
     ctx,
   }: {
-    fromAccountId: Long
-    toAccountId: Long
-    amount: Decimal
-    transferredAsset: TransferCollateral
-    ctx: TransferContext
+    fromAccountId: Long;
+    toAccountId: Long;
+    amount: Decimal;
+    transferredAsset: TransferCollateral;
+    ctx: TransferContext;
   }) {
-    const fromAccount = getAccountById(ctx.accounts, fromAccountId)
-    const toAccount = getAccountById(ctx.accounts, toAccountId)
+    const fromAccount = getAccountById(ctx.accounts, fromAccountId);
+    const toAccount = getAccountById(ctx.accounts, toAccountId);
 
-    const expiryEpochMillis = addDays(new Date(), TRANSFER_EXPIRATION_DAYS).getTime()
-    const starkAmount = amount.times(ctx.collateralResolution).integerValue()
+    const expiryEpochMillis = addDays(
+      new Date(),
+      TRANSFER_EXPIRATION_DAYS
+    ).getTime();
+    const starkAmount = amount.times(ctx.collateralResolution).integerValue();
 
     return new Transfer({
       fromAccountId,
@@ -83,6 +86,6 @@ export class Transfer {
         starkPrivateKey: ctx.starkPrivateKey,
         starknetDomain: ctx.starknetDomain,
       }),
-    })
+    });
   }
 }

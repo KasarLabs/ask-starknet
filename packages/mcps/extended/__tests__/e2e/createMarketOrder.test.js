@@ -70,7 +70,7 @@ async function main() {
 
     if (order) {
       console.log('\n   Waiting 3 seconds for order to be processed...');
-      await new Promise(resolve => setTimeout(resolve, 3000));
+      await new Promise((resolve) => setTimeout(resolve, 3000));
 
       console.log('   Order should now be executed and position opened');
     }

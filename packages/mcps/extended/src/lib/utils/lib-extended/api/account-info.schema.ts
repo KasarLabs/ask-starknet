@@ -1,6 +1,6 @@
-import { z } from 'zod/v4'
+import { z } from 'zod/v4';
 
-import { zodHexString, zodLong } from '../utils/zod.js'
+import { zodHexString, zodLong } from '../utils/zod.js';
 
 export const AccountInfoSchema = z.object({
   accountId: zodLong(),
@@ -10,8 +10,10 @@ export const AccountInfoSchema = z.object({
   l2Key: zodHexString(),
   l2Vault: zodLong(),
   apiKeys: z.string().array(),
-})
+});
 
-export const AccountsInfoResponseSchema = z.object({ data: AccountInfoSchema.array() })
+export const AccountsInfoResponseSchema = z.object({
+  data: AccountInfoSchema.array(),
+});
 
-export type AccountInfo = z.infer<typeof AccountInfoSchema>
+export type AccountInfo = z.infer<typeof AccountInfoSchema>;

@@ -1,5 +1,5 @@
-import { AssetsResponseSchema } from './assets.schema.js'
-import { axiosClient } from './axios.js'
+import { AssetsResponseSchema } from './assets.schema.js';
+import { axiosClient } from './axios.js';
 
 export const getAssets = async ({
   assetsNames,
@@ -10,7 +10,7 @@ export const getAssets = async ({
       asset: assetsNames,
       collateral: isCollateral,
     },
-  })
+  });
 
-  return AssetsResponseSchema.parse(data).data
-}
+  return AssetsResponseSchema.parse(data).data;
+};
