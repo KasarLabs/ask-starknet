@@ -85,8 +85,13 @@ const createApiEnv = (): ExtendedApiEnv => {
     process.env.EXTENDED_API_URL || 'https://api.starknet.extended.exchange';
   const privateKey = process.env.EXTENDED_STARKKEY_PRIVATE;
 
+  // Validate required environment variables
   if (!apiKey) {
-    throw new Error('EXTENDED_API_KEY environment variable is required');
+    throw new Error(
+      'EXTENDED_API_KEY environment variable is required. ' +
+        'Please set it in your .env file. ' +
+        'Get your API key from https://starknet.extended.exchange/'
+    );
   }
 
   return {
