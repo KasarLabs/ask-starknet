@@ -1,6 +1,6 @@
 import { BorrowTroveParams } from '../schemas/index.js';
 import { createTroveManager } from '../lib/utils/troveManager.js';
-import { onchainWrite } from '@snaknet/core';
+import { onchainWrite } from '@ask-starknet/core';
 
 export const borrowTrove = async (
   env: onchainWrite,

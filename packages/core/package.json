@@ -1,7 +1,7 @@
 {
-  "name": "@snaknet/core",
+  "name": "@ask-starknet/core",
   "version": "1.0.0",
-  "description": "Core utilities and shared functionality for the SNKN Starknet MCP ecosystem",
+  "description": "Core utilities and shared functionality for the Ask Starknet MCP ecosystem",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "type": "module",

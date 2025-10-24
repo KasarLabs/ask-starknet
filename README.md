@@ -8,17 +8,17 @@
   <p><strong>Starknet's Model Context Protocol Server</strong></p>
 
 <p>
-<a href="https://www.npmjs.com/package/snaknet">
-<img src="https://img.shields.io/npm/v/snaknet.svg" alt="NPM Version" />
+<a href="https://www.npmjs.com/package/ask-starknet">
+<img src="https://img.shields.io/npm/v/ask-starknet.svg" alt="NPM Version" />
 </a>
-<a href="https://github.com/kasarlabs/snaknet/blob/main/LICENSE">
-<img src="https://img.shields.io/npm/l/snaknet.svg" alt="License" />
+<a href="https://github.com/kasarlabs/ask-starknet/blob/main/LICENSE">
+<img src="https://img.shields.io/npm/l/ask-starknet.svg" alt="License" />
 </a>
-<a href="https://github.com/kasarlabs/snaknet/stargazers">
-<img src="https://img.shields.io/github/stars/kasarlabs/snaknet.svg" alt="GitHub Stars" />
+<a href="https://github.com/kasarlabs/ask-starknet/stargazers">
+<img src="https://img.shields.io/github/stars/kasarlabs/ask-starknet.svg" alt="GitHub Stars" />
 </a>
 <a href="https://nodejs.org">
-<img src="https://img.shields.io/node/v/snaknet.svg" alt="Node Version" />
+<img src="https://img.shields.io/node/v/ask-starknet.svg" alt="Node Version" />
 </a>
 </p>
 </div>
@@ -50,8 +50,8 @@ Model Context Protocol (MCP) is an open standard that enables AI applications to
 ### Installation
 
 ```bash
-git clone https://github.com/kasarlabs/snaknet.git
-cd snaknet
+git clone https://github.com/kasarlabs/ask-starknet.git
+cd ask-starknet
 pnpm install
 pnpm build
 ```
@@ -125,9 +125,9 @@ Configure your AI application to use the Starknet MCP router for automatic routi
 ```json
 {
   "mcpServers": {
-    "snaknet": {
+    "ask-starknet": {
       "command": "node",
-      "args": ["/path/to/snaknet/packages/mcp/build/index.js"],
+      "args": ["/path/to/ask-starknet/packages/mcp/build/index.js"],
       "env": {
         "STARKNET_ACCOUNT_ADDRESS": "your_address",
         "STARKNET_PRIVATE_KEY": "your_private_key",
@@ -148,7 +148,7 @@ You can also configure individual MCP servers directly:
   "mcpServers": {
     "starknet-erc20": {
       "command": "node",
-      "args": ["/path/to/snaknet/packages/mcps/erc20/build/index.js"],
+      "args": ["/path/to/ask-starknet/packages/mcps/erc20/build/index.js"],
       "env": {
         "STARKNET_ACCOUNT_ADDRESS": "your_address",
         "STARKNET_PRIVATE_KEY": "your_private_key",

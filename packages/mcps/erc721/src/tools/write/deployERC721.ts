@@ -11,7 +11,7 @@ import {
   DEPLOY_ERC721_ABI_MAINNET,
 } from '../../lib/abis/deploy.js';
 import { z } from 'zod';
-import { onchainWrite } from '@snaknet/core';
+import { onchainWrite } from '@ask-starknet/core';
 
 /**
  * Deploys an ERC721 contract.

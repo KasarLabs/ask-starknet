@@ -1,5 +1,5 @@
 {
-  "name": "snaknet",
+  "name": "ask-starknet",
   "version": "0.1.0",
   "description": "Comprehensive collection of Model Context Protocol (MCP) servers for Starknet blockchain applications",
   "author": "Kasar Labs",
@@ -8,7 +8,7 @@
   "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kasarlabs/snaknet.git"
+    "url": "git+https://github.com/kasarlabs/ask-starknet.git"
   },
   "private": true,
   "packageManager": "pnpm@9.3.0",

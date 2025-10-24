@@ -1,6 +1,6 @@
-# @snaknet/core
+# @ask-starknet/core
 
-Core utilities and shared functionality for the SNKN Starknet MCP ecosystem.
+Core utilities and shared functionality for the Ask Starknet MCP ecosystem.
 
 ## Features
 
@@ -11,7 +11,7 @@ Core utilities and shared functionality for the SNKN Starknet MCP ecosystem.
 ## Usage
 
 ```typescript
-import { validateMCPEnvironment, logger, isValidAddress } from '@snaknet/core';
+import { validateMCPEnvironment, logger, isValidAddress } from '@ask-starknet/core';
 
 // Validate environment variables
 const env = validateMCPEnvironment(process.env);

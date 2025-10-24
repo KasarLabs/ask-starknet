@@ -1,5 +1,5 @@
 import { Account, uint256 } from 'starknet';
-import { onchainWrite } from '@snaknet/core';
+import { onchainWrite } from '@ask-starknet/core';
 import { ERC20_ABI } from '../lib/abis/erc20Abi.js';
 import { ContractInteractor } from '../lib/utils/contractInteractor.js';
 import { TransactionMonitor } from '../lib/utils/transactionMonitor.js';

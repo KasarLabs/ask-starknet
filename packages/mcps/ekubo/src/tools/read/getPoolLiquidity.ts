@@ -1,4 +1,4 @@
-import { onchainRead } from '@snaknet/core';
+import { onchainRead } from '@ask-starknet/core';
 import { PoolKey } from '../../schemas/index.js';
 import { getContract } from '../../lib/utils/contracts.js';
 import { preparePoolKeyFromParams } from '../../lib/utils/pools.js';

@@ -17,7 +17,7 @@
   ],
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.11.2",
-    "@snaknet/core": "workspace:*",
+    "@ask-starknet/core": "workspace:*",
     "dotenv": "^16.4.7",
     "starknet": "^7.6.4",
     "zod": "^3.24.2"
