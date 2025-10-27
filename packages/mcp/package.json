@@ -1,6 +1,6 @@
 {
-  "name": "@ijusttookadnatest/ask-starknet-mcp",
-  "version": "0.0.1",
+  "name": "@kasarlabs/ask-starknet-mcp",
+  "version": "0.1.0",
   "main": "build/index.js",
   "type": "module",
   "bin": {
@@ -22,15 +22,6 @@
   "description": "Starknet MCP Server - Model Context Protocol server for Starknet blockchain",
   "author": "Kasar Labs",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/kasarlabs/ask-starknet.git",
-    "directory": "packages/mcp"
-  },
-  "homepage": "https://github.com/kasarlabs/ask-starknet#readme",
-  "bugs": {
-    "url": "https://github.com/kasarlabs/ask-starknet/issues"
-  },
   "keywords": [
     "mcp",
     "model-context-protocol",

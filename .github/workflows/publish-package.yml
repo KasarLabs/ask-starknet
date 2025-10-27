@@ -56,11 +56,11 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
+          registry-url: 'https://registry.npmjs.org'
 
       - uses: pnpm/action-setup@v3
         name: Install pnpm
@@ -140,14 +140,11 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       
       - name: Create GitHub Release
-        if: ${{ github.event.inputs.create_release == 'true' }}
+        if: ${{ github.event.inputs.create_release == 'true' || github.event_name == 'push' }}
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ steps.path.outputs.tag_prefix }}-v${{ steps.version.outputs.new_version }}
           name: ${{ steps.path.outputs.package_name }} v${{ steps.version.outputs.new_version }}
-          body: |
-            Release of ${{ steps.path.outputs.package_name }} v${{ steps.version.outputs.new_version }}
-
-            Package: `${{ github.event.inputs.package }}`
+          generate_release_notes: true
           draft: true
           prerelease: false
