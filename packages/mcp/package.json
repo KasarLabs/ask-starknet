@@ -1,10 +1,10 @@
 {
   "name": "@kasarlabs/ask-starknet-mcp",
   "version": "0.0.1",
-  "main": "index.js",
+  "main": "build/index.js",
   "type": "module",
   "bin": {
-    "ask-starknet-mcp": "./bin/ask-starknet-mcp.js"
+    "ask-starknet-mcp": "./build/index.js"
   },
   "scripts": {
     "build": "tsc && chmod 755 build/index.js",
@@ -16,11 +16,21 @@
     "test:integration": "node test-integration.js"
   },
   "files": [
-    "build"
+    "build",
+    "README.md"
   ],
   "description": "Starknet MCP Server - Model Context Protocol server for Starknet blockchain",
   "author": "Kasar Labs",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kasarlabs/ask-starknet.git",
+    "directory": "packages/mcp"
+  },
+  "homepage": "https://github.com/kasarlabs/ask-starknet#readme",
+  "bugs": {
+    "url": "https://github.com/kasarlabs/ask-starknet/issues"
+  },
   "keywords": [
     "mcp",
     "model-context-protocol",
