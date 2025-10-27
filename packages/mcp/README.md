@@ -1,13 +1,5 @@
 <div align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/KasarLabs/brand/blob/main/projects/snak/snak_logo_white_bg_alpha.png?raw=true">
-    <img src="https://github.com/KasarLabs/brand/blob/main/projects/snak/snak_logo_black_bg_alpha.png?raw=true" width="100" alt="Ask Starknet Logo">
-  </picture>
-
-[![npm version](https://img.shields.io/npm/v/@kasarlabs/ask-starknet-mcp.svg)](https://www.npmjs.com/package/@kasarlabs/ask-starknet-mcp)
-[![npm downloads](https://img.shields.io/npm/dm/@kasarlabs/ask-starknet-mcp.svg)](https://www.npmjs.com/package/@kasarlabs/ask-starknet-mcp)
-[![GitHub stars](https://img.shields.io/github/stars/kasarlabs/ask-starknet.svg)](https://github.com/kasarlabs/ask-starknet/stargazers)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+  <img src="https://github.com/KasarLabs/brand/blob/main/projects/ask-starknet/ask_full_logo_grey_alpha.png?raw=true" width="200" alt="Ask Starknet Logo">
 
 </div>
 

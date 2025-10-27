@@ -1,10 +1,5 @@
 <div align="center">
-    <picture>
-    <!-- For users in dark mode, load a white logo -->
-    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/KasarLabs/brand/blob/main/projects/snak/snak_logo_white_bg_alpha.png?raw=true">
-    <!-- Default image for light mode -->
-    <img src="https://github.com/KasarLabs/brand/blob/main/projects/snak/snak_logo_black_bg_alpha.png?raw=true" width="100" alt="Snak Logo">
-  </picture>
+  <img src="https://github.com/KasarLabs/brand/blob/main/projects/ask-starknet/ask_full_logo_grey_alpha.png?raw=true" width="200" alt="Ask Starknet Logo">
   <p><strong>Starknet's Model Context Protocol Server</strong></p>
 
 <p>
