@@ -1,6 +1,6 @@
-# Snaknet MCP Servers Wishlist
+# Ask Starknet MCP Servers Wishlist
 
-Below is a list of MCP servers and features we would like to see added to the Snaknet collection. We welcome pull requests (PRs) to implement these features.
+Below is a list of MCP servers and features we would like to see added to the Ask Starknet collection. We welcome pull requests (PRs) to implement these features.
 
 ## DeFi Protocol MCP Servers
 

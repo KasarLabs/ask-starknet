@@ -61,7 +61,7 @@ export const yourSchema = z.object({
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 
-import { mcpTool, registerToolWithServer } from '@snaknet/core';
+import { mcpTool, registerToolWithServer } from '@ask-starknet/core';
 import { yourAction } from './tools/action.js';
 import { yourSchema } from './schemas/index.js';
 

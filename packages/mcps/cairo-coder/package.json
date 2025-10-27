@@ -60,11 +60,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kasarlabs/snaknet",
+    "url": "https://github.com/kasarlabs/ask-starknet",
     "directory": "packages/mcps/cairo-coder"
   },
   "bugs": {
-    "url": "https://github.com/kasarlabs/snaknet/issues"
+    "url": "https://github.com/kasarlabs/ask-starknet/issues"
   },
-  "homepage": "https://github.com/kasarlabs/snaknet/tree/main/packages/mcps/cairo-coder#readme"
+  "homepage": "https://github.com/kasarlabs/ask-starknet/tree/main/packages/mcps/cairo-coder#readme"
 }

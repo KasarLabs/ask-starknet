@@ -82,13 +82,25 @@ export const getMCPDescription = (serverName: string): string => {
 
 export const getMCPPromptInfo = (
   serverName: string
-): { expertise: string; toolsList: string } => {
+): {
+  agentName: string;
+  expertise: string;
+  tools: string[];
+  description: string;
+} => {
   const serverInfo = getMcpInfo(serverName);
   if (!serverInfo) {
-    return { expertise: '', toolsList: '' };
+    return {
+      agentName: serverName,
+      expertise: '',
+      tools: [],
+      description: '',
+    };
   }
   return {
+    agentName: serverName,
     expertise: serverInfo.promptInfo.expertise,
-    toolsList: serverInfo.promptInfo.tools.join(', '),
+    tools: serverInfo.promptInfo.tools,
+    description: serverInfo.description,
   };
 };

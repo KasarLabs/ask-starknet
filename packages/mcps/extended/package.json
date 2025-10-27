@@ -20,7 +20,7 @@
   ],
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.11.2",
-    "@snaknet/core": "workspace:*",
+    "@ask-starknet/core": "workspace:*",
     "@x10xchange/stark-crypto-wrapper-wasm": "^0.1.6",
     "bignumber.js": "^9.3.1",
     "date-fns": "^4.1.0",

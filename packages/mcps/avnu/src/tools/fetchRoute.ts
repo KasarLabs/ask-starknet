@@ -1,5 +1,5 @@
 import { fetchQuotes, QuoteRequest } from '@avnu/avnu-sdk';
-import { onchainRead, onchainWrite } from '@snaknet/core';
+import { onchainRead, onchainWrite } from '@ask-starknet/core';
 import { TokenService } from './fetchTokens.js';
 import { RouteSchemaType } from '../schemas/index.js';
 import { RouteResult } from '../interfaces/index.js';

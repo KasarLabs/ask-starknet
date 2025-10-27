@@ -22,7 +22,7 @@ import {
   getExtensionContract,
   getVTokenContract,
 } from '../lib/utils/contracts.js';
-import { onchainWrite } from '@snaknet/core';
+import { onchainWrite } from '@ask-starknet/core';
 
 /**
  * Service for managing deposit operations and earning positions

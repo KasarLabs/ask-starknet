@@ -1,12 +1,13 @@
 import { MultiServerMCPClient } from '@langchain/mcp-adapters';
-import { HumanMessage } from '@langchain/core/messages';
+import { HumanMessage, SystemMessage } from '@langchain/core/messages';
 import { ToolNode } from '@langchain/langgraph/prebuilt';
 
-import { getMCPClientConfig } from '../mcps/utilities.js';
+import { getMCPClientConfig, getMCPPromptInfo } from '../mcps/utilities.js';
 import { GraphAnnotation } from '../graph.js';
 import { logger } from '../../utils/logger.js';
 import { MCPEnvironment } from '../mcps/interfaces.js';
 import { createLLM } from '../../utils/llm.js';
+import { specializedPrompt } from './prompts.js';
 
 async function specializedAgent(mcpServerName: string, env: MCPEnvironment) {
   const client = new MultiServerMCPClient({
@@ -43,7 +44,13 @@ export const specializedNode = async (state: typeof GraphAnnotation.State) => {
     state.mcpEnvironment
   );
 
-  const response = await model.invoke(state.messages);
+  // Get prompt info and create system message
+  const promptInfo = getMCPPromptInfo(state.next);
+  const systemPrompt = specializedPrompt(promptInfo);
+  const systemMessage = new SystemMessage(systemPrompt);
+
+  // Invoke model with system prompt + conversation history
+  const response = await model.invoke([systemMessage, ...state.messages]);
 
   if (response.tool_calls && response.tool_calls.length > 0) {
     logger.error(

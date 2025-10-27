@@ -1,5 +1,5 @@
 import { Account, Call, constants } from 'starknet';
-import { onchainWrite } from '@snaknet/core';
+import { onchainWrite } from '@ask-starknet/core';
 import { ApprovalService } from './approval.js';
 
 import { SLIPPAGE_PERCENTAGE } from '../lib/constants/index.js';

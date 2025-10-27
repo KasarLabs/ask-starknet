@@ -6,7 +6,7 @@ import {
   mcpTool,
   registerToolsWithServer,
   getOnchainWrite,
-} from '@snaknet/core';
+} from '@ask-starknet/core';
 
 import dotenv from 'dotenv';
 

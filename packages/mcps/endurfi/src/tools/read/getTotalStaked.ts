@@ -5,7 +5,7 @@ import {
   getUnderlyingTokenName,
 } from '../../lib/utils/contracts.js';
 import { GetTotalStakedSchema } from '../../schemas/index.js';
-import { onchainRead } from '@snaknet/core';
+import { onchainRead } from '@ask-starknet/core';
 import { formatUnits } from '../../lib/utils/formatting.js';
 
 export const getTotalStaked = async (

@@ -6,7 +6,7 @@ import {
   mcpTool,
   registerToolsWithServer,
   getOnchainRead,
-} from '@snaknet/core';
+} from '@ask-starknet/core';
 import dotenv from 'dotenv';
 
 import { wrapAccountCreationResponse } from './lib/utils/AccountManager.js';

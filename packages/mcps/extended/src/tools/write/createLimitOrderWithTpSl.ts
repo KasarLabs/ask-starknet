@@ -20,10 +20,8 @@ export const createLimitOrderWithTpSl = async (
   params: CreateLimitOrderWithTpSlSchema
 ): Promise<ExtendedApiResponse<OrderReturn>> => {
   try {
-    if (!env.EXTENDED_STARKKEY_PRIVATE) {
-      throw new Error(
-        'EXTENDED_STARKKEY_PRIVATE is required for order creation'
-      );
+    if (!env.privateKey) {
+      throw new Error('EXTENDED_PRIVATE_KEY is required for order creation');
     }
     axiosClient.defaults.baseURL = env.apiUrl;
 
@@ -35,7 +33,7 @@ export const createLimitOrderWithTpSl = async (
     );
 
     const vaultId = accountInfo.l2Vault;
-    const starkPrivateKey = env.EXTENDED_STARKKEY_PRIVATE as `0x${string}`;
+    const starkPrivateKey = env.privateKey as `0x${string}`;
 
     const markets = await apiGet<any[]>(
       env,

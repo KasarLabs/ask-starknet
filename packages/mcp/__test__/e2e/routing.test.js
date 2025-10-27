@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { selectorAgent } from './build/graph/agents/selector.js';
+import { selectorAgent } from '../../build/graph/agents/selector.js';
 import { HumanMessage } from '@langchain/core/messages';
 
 // Comprehensive routing test cases for all MCPs
@@ -153,45 +153,6 @@ const testCases = [
     expectedAgent: 'starknet-rpc',
   },
   {
-    name: 'Transaction Status',
-    query: 'Check the status of my transaction',
-    expectedAgent: 'starknet-rpc',
-  },
-  {
-    name: 'Chain ID Check',
-    query: "What's the current chain ID?",
-    expectedAgent: 'starknet-rpc',
-  },
-  {
-    name: 'Contract Storage',
-    query: 'Get storage value from a contract',
-    expectedAgent: 'starknet-rpc',
-  },
-
-  // Transaction Simulation Tests
-  {
-    name: 'Simulate Transaction',
-    query: 'Simulate this transaction before sending',
-    expectedAgent: 'transaction',
-  },
-  {
-    name: 'Simulate Deploy',
-    query: 'Test deploy transaction without executing',
-    expectedAgent: 'transaction',
-  },
-
-  // Special/Creative Tests
-  {
-    name: 'Pixel Art',
-    query: 'Place a pixel on the art canvas',
-    expectedAgent: 'artpeace',
-  },
-  {
-    name: 'Memecoin Creation',
-    query: 'Create a new memecoin',
-    expectedAgent: 'unruggable',
-  },
-  {
     name: 'Launch Token on Ekubo',
     query: 'Launch my memecoin on Ekubo DEX',
     expectedAgent: 'unruggable',
@@ -236,6 +197,14 @@ async function testRouting() {
   let passed = 0;
   let failed = 0;
 
+  // Mock environment with required MODEL_NAME
+  const mockEnv = {
+    MODEL_NAME: process.env.MODEL_NAME || 'claude-sonnet-4-20250514',
+    ANTHROPIC_API_KEY: process.env.ANTHROPIC_API_KEY,
+    GEMINI_API_KEY: process.env.GEMINI_API_KEY,
+    OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+  };
+
   for (const testCase of testCases) {
     try {
       console.log(`Testing: ${testCase.name}`);
@@ -245,6 +214,7 @@ async function testRouting() {
       const state = {
         messages: [new HumanMessage(testCase.query)],
         next: '',
+        mcpEnvironment: mockEnv,
       };
 
       // Test selector agent

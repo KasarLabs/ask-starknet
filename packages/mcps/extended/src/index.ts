@@ -4,7 +4,7 @@ import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 
 import dotenv from 'dotenv';
 
-import { mcpTool, registerToolsWithServer } from '@snaknet/core';
+import { mcpTool, registerToolsWithServer } from '@ask-starknet/core';
 import { ExtendedApiEnv } from './lib/types/index.js';
 
 // Import READ tools (Account Management)
@@ -83,7 +83,7 @@ const createApiEnv = (): ExtendedApiEnv => {
   const apiKey = process.env.EXTENDED_API_KEY;
   const apiUrl =
     process.env.EXTENDED_API_URL || 'https://api.starknet.extended.exchange';
-  const privateKey = process.env.EXTENDED_STARKKEY_PRIVATE;
+  const privateKey = process.env.EXTENDED_PRIVATE_KEY;
 
   // Validate required environment variables
   if (!apiKey) {
@@ -97,7 +97,7 @@ const createApiEnv = (): ExtendedApiEnv => {
   return {
     apiKey,
     apiUrl,
-    EXTENDED_STARKKEY_PRIVATE: privateKey,
+    privateKey,
   };
 };
 

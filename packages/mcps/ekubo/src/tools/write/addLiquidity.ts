@@ -3,7 +3,7 @@ import { getContract } from '../../lib/utils/contracts.js';
 import { AddLiquiditySchema } from '../../schemas/index.js';
 import { preparePoolKeyFromParams } from '../../lib/utils/pools.js';
 import { buildBounds, sortAmounts } from '../../lib/utils/liquidity.js';
-import { onchainWrite } from '@snaknet/core';
+import { onchainWrite } from '@ask-starknet/core';
 
 export const addLiquidity = async (
   env: onchainWrite,
