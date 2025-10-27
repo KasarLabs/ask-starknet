@@ -63,7 +63,7 @@ Used by: **Starknet RPC**
 
 - `EXTENDED_API_KEY`: Your Extended API key
 - `EXTENDED_API_URL`: Extended API endpoint
-- `EXTENDED_STARKKEY_PRIVATE`: Your Stark private key for Extended
+- `EXTENDED_PRIVATE_KEY`: Your Stark private key for Extended
 
 Used by: **Extended**
 
@@ -118,8 +118,8 @@ No additional environment variables needed for: **Scarb**
         "STARKNET_ACCOUNT_ADDRESS": "0x...",
         "STARKNET_PRIVATE_KEY": "0x...",
         "EXTENDED_API_KEY": "your-extended-key",
-        "EXTENDED_API_URL": "https://api.extended.finance",
-        "EXTENDED_STARKKEY_PRIVATE": "0x...",
+        "EXTENDED_API_URL": "https://api.starknet.extended.exchange",
+        "EXTENDED_PRIVATE_KEY": "0x...",
         "CAIRO_CODER_API_KEY": "your-cairo-coder-key"
       }
     }

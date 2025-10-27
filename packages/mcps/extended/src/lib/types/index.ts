@@ -1,7 +1,7 @@
 export interface ExtendedApiEnv {
   apiKey: string;
   apiUrl: string;
-  EXTENDED_STARKKEY_PRIVATE?: string;
+  privateKey?: string;
 }
 
 export interface ExtendedApiResponse<T = any> {

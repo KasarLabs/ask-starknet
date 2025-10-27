@@ -47,7 +47,7 @@ This MCP requires the following environment variables:
 ```bash
 EXTENDED_API_URL=https://api.starknet.extended.exchange
 EXTENDED_API_KEY=your_api_key_here
-EXTENDED_STARKKEY_PRIVATE=your_stark_private_key_here
+EXTENDED_PRIVATE_KEY=your_stark_private_key_here
 ```
 
 #### Getting an API Key
@@ -62,7 +62,7 @@ EXTENDED_STARKKEY_PRIVATE=your_stark_private_key_here
 
 1. The Stark key is derived from your EVM or starknet private key during account registration
 2. You can export it from your Extended account dashboard in section **More > API > Account > Show API details**
-3. Add it to your `.env` file in the `EXTENDED_STARKKEY_PRIVATE` environment variable
+3. Add it to your `.env` file in the `EXTENDED_PRIVATE_KEY` environment variable
 
 ## Usage
 
