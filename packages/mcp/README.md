@@ -4,10 +4,11 @@
     <img src="https://github.com/KasarLabs/brand/blob/main/projects/snak/snak_logo_black_bg_alpha.png?raw=true" width="100" alt="Ask Starknet Logo">
   </picture>
 
-  [![npm version](https://img.shields.io/npm/v/@kasarlabs/ask-starknet-mcp.svg)](https://www.npmjs.com/package/@kasarlabs/ask-starknet-mcp)
-  [![npm downloads](https://img.shields.io/npm/dm/@kasarlabs/ask-starknet-mcp.svg)](https://www.npmjs.com/package/@kasarlabs/ask-starknet-mcp)
-  [![GitHub stars](https://img.shields.io/github/stars/kasarlabs/ask-starknet.svg)](https://github.com/kasarlabs/ask-starknet/stargazers)
-  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![npm version](https://img.shields.io/npm/v/@kasarlabs/ask-starknet-mcp.svg)](https://www.npmjs.com/package/@kasarlabs/ask-starknet-mcp)
+[![npm downloads](https://img.shields.io/npm/dm/@kasarlabs/ask-starknet-mcp.svg)](https://www.npmjs.com/package/@kasarlabs/ask-starknet-mcp)
+[![GitHub stars](https://img.shields.io/github/stars/kasarlabs/ask-starknet.svg)](https://github.com/kasarlabs/ask-starknet/stargazers)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 </div>
 
 # Ask Starknet MCP Server
@@ -31,6 +32,7 @@ npx -y @kasarlabs/ask-starknet-mcp
 - `OPENAI_API_KEY`: OpenAI models
 
 **Optional:**
+
 - `MODEL_NAME`: Specify model (defaults: `claude-sonnet-4-20250514`, `gemini-2.5-flash`, or `gpt-4o-mini`)
 
 ### Optional MCP-Specific Environment Variables
@@ -103,6 +105,7 @@ No additional environment variables needed for: **Scarb**
 ```
 
 **With specialized MCPs** (e.g., you need Extended, Cairo Coder, ERC20 MCP...)
+
 ```json
 {
   "mcpServers": {
@@ -149,9 +152,11 @@ Performs any Starknet-related action by intelligently routing to specialized MCP
 Ask Starknet automatically routes your requests to the appropriate specialized MCP servers:
 
 ### Wallets & Accounts
+
 - **Argent**, **Braavos**, **OKX**, **OpenZeppelin**: Create and deploy wallet accounts
 
 ### DeFi Protocols
+
 - **AVNU**: DEX aggregator and token swaps
 - **Ekubo**: Concentrated liquidity AMM, swaps, and liquidity provision
 - **Endurfi**: Liquid staking (xSTRK, xyWBTC, xytBTC, xyLBTC)
@@ -162,17 +167,20 @@ Ask Starknet automatically routes your requests to the appropriate specialized M
 - **Unruggable**: Memecoin creation and liquidity locking
 
 ### Blockchain Operations
+
 - **ERC20**: Token transfers, approvals, balances, deployment
 - **ERC721**: NFT transfers, approvals, metadata, deployment
 - **Transaction**: Transaction simulation and management
 - **Starknet RPC**: Blockchain data queries and on-chain information
 
 ### Development Tools
+
 - **Scarb**: Cairo project initialization, compilation, execution, proving
 - **Contract**: Smart contract declaration and deployment
 - **Cairo Coder**: AI-powered Cairo development assistance and Starknet knowledge
 
 ### Special
+
 - **Artpeace**: Collaborative pixel art on Starknet canvas
 
 ## How It Works
