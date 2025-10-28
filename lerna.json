@@ -1,0 +1,19 @@
+{
+  "version": "independent",
+  "npmClient": "pnpm",
+  "useWorkspaces": true,
+  "command": {
+    "publish": {
+      "ignoreChanges": [
+        "*.md",
+        "*.test.ts",
+        "*.spec.ts"
+      ],
+      "message": "chore(release): publish %s"
+    },
+    "version": {
+      "allowBranch": "main",
+      "message": "chore(release): version packages"
+    }
+  }
+}

@@ -1,5 +1,6 @@
 import { readFileSync } from 'fs';
-import { join } from 'path';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
 import {
   MCPServerInfo,
   MCPEnvironment,
@@ -7,13 +8,20 @@ import {
 } from './interfaces.js';
 import { logger } from '../../utils/logger.js';
 
+// ESM workaround for __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 function loadMcpsConfig(): Record<string, MCPServerInfo> {
   try {
-    const configPath = join(process.cwd(), '../mcps/mcps.json');
+    // mcps.json is at the root of the package
+    // From build/graph/mcps/utilities.js -> ../../../mcps.json
+    const configPath = join(__dirname, '../../../mcps.json');
     const configContent = readFileSync(configPath, 'utf-8');
     return JSON.parse(configContent);
   } catch (error) {
     console.error('Error loading mcps.json:', error);
+    console.error('Tried path:', join(__dirname, '../../../mcps.json'));
     return {};
   }
 }
@@ -46,12 +54,8 @@ export const getMCPClientConfig = (
 
   const config = { ...serverInfo.client };
 
-  // Construct the full path: ../mcps/{serverName}/{relativePath}
-  if (config.args && config.args.length > 0) {
-    config.args = config.args.map((arg) =>
-      arg.includes('build/') ? `../mcps/${serverName}/${arg}` : arg
-    );
-  }
+  // Args are now npx package names, no path manipulation needed
+  // The args already contain "@kasarlabs/{mcp-name}-mcp"
 
   if (env && serverInfo.client.env) {
     config.env = config.env || {};

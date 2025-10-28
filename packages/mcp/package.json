@@ -17,6 +17,7 @@
   },
   "files": [
     "build",
+    "mcps.json",
     "README.md"
   ],
   "description": "Starknet MCP Server - Model Context Protocol server for Starknet blockchain",

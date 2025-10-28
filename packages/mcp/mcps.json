@@ -1,8 +1,10 @@
 {
   "argent": {
     "client": {
-      "command": "node",
-      "args": ["build/index.js"],
+      "command": "npx",
+      "args": [
+        "@kasarlabs/argent-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": ""
@@ -11,13 +13,18 @@
     "description": "Management of Argent accounts on Starknet",
     "promptInfo": {
       "expertise": "Argent wallet accounts on Starknet",
-      "tools": ["create_new_argent_account", "deploy_existing_argent_account"]
+      "tools": [
+        "create_new_argent_account",
+        "deploy_existing_argent_account"
+      ]
     }
   },
   "erc20": {
     "client": {
-      "command": "node",
-      "args": ["build/index.js"],
+      "command": "npx",
+      "args": [
+        "@kasarlabs/erc20-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -44,8 +51,10 @@
   },
   "braavos": {
     "client": {
-      "command": "node",
-      "args": ["build/index.js"],
+      "command": "npx",
+      "args": [
+        "@kasarlabs/braavos-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": ""
@@ -54,13 +63,18 @@
     "description": "Management of Braavos wallet accounts on Starknet",
     "promptInfo": {
       "expertise": "Braavos wallet accounts on Starknet",
-      "tools": ["create_new_braavos_account", "deploy_existing_braavos_account"]
+      "tools": [
+        "create_new_braavos_account",
+        "deploy_existing_braavos_account"
+      ]
     }
   },
   "avnu": {
     "client": {
-      "command": "node",
-      "args": ["build/index.js"],
+      "command": "npx",
+      "args": [
+        "@kasarlabs/avnu-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -71,13 +85,18 @@
     "description": "AVNU decentralized exchange integration for token swaps on Starknet",
     "promptInfo": {
       "expertise": "AVNU DEX token swapping on Starknet",
-      "tools": ["avnu_swap_tokens", "avnu_get_route"]
+      "tools": [
+        "avnu_swap_tokens",
+        "avnu_get_route"
+      ]
     }
   },
   "erc721": {
     "client": {
-      "command": "node",
-      "args": ["build/index.js"],
+      "command": "npx",
+      "args": [
+        "@kasarlabs/erc721-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -104,8 +123,10 @@
   },
   "transaction": {
     "client": {
-      "command": "node",
-      "args": ["build/index.js"],
+      "command": "npx",
+      "args": [
+        "@kasarlabs/transaction-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -126,8 +147,10 @@
   },
   "artpeace": {
     "client": {
-      "command": "node",
-      "args": ["build/index.js"],
+      "command": "npx",
+      "args": [
+        "@kasarlabs/artpeace-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -140,13 +163,17 @@
     "description": "Collaborative pixel art creation on a shared canvas",
     "promptInfo": {
       "expertise": "Pixel art and canvas interaction",
-      "tools": ["place_pixel"]
+      "tools": [
+        "place_pixel"
+      ]
     }
   },
   "contract": {
     "client": {
-      "command": "node",
-      "args": ["build/index.js"],
+      "command": "npx",
+      "args": [
+        "@kasarlabs/contract-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -157,13 +184,19 @@
     "description": "Starknet contract declaration and deployment operations",
     "promptInfo": {
       "expertise": "Smart contract deployment on Starknet",
-      "tools": ["declare_contract", "deploy_contract", "get_constructor_params"]
+      "tools": [
+        "declare_contract",
+        "deploy_contract",
+        "get_constructor_params"
+      ]
     }
   },
   "fibrous": {
     "client": {
-      "command": "node",
-      "args": ["build/index.js"],
+      "command": "npx",
+      "args": [
+        "@kasarlabs/fibrous-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -174,13 +207,19 @@
     "description": "Fibrous decentralized exchange for single and batch token swaps",
     "promptInfo": {
       "expertise": "Fibrous DEX token swapping",
-      "tools": ["fibrous_swap", "fibrous_batch_swap", "fibrous_get_route"]
+      "tools": [
+        "fibrous_swap",
+        "fibrous_batch_swap",
+        "fibrous_get_route"
+      ]
     }
   },
   "okx": {
     "client": {
-      "command": "node",
-      "args": ["build/index.js"],
+      "command": "npx",
+      "args": [
+        "@kasarlabs/okx-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": ""
@@ -189,13 +228,18 @@
     "description": "OKX wallet account creation and deployment on Starknet",
     "promptInfo": {
       "expertise": "OKX wallet accounts on Starknet",
-      "tools": ["create_new_okx_account", "deploy_existing_okx_account"]
+      "tools": [
+        "create_new_okx_account",
+        "deploy_existing_okx_account"
+      ]
     }
   },
   "openzeppelin": {
     "client": {
-      "command": "node",
-      "args": ["build/index.js"],
+      "command": "npx",
+      "args": [
+        "@kasarlabs/openzeppelin-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": ""
@@ -212,8 +256,10 @@
   },
   "opus": {
     "client": {
-      "command": "node",
-      "args": ["build/index.js"],
+      "command": "npx",
+      "args": [
+        "@kasarlabs/opus-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -238,8 +284,10 @@
   },
   "starknet-rpc": {
     "client": {
-      "command": "node",
-      "args": ["build/index.js"],
+      "command": "npx",
+      "args": [
+        "@kasarlabs/starknet-rpc-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": ""
@@ -266,8 +314,10 @@
   },
   "scarb": {
     "client": {
-      "command": "node",
-      "args": ["build/index.js"],
+      "command": "npx",
+      "args": [
+        "@kasarlabs/scarb-mcp"
+      ],
       "transport": "stdio"
     },
     "description": "Scarb Cairo compilation and program execution operations",
@@ -285,8 +335,10 @@
   },
   "unruggable": {
     "client": {
-      "command": "node",
-      "args": ["build/index.js"],
+      "command": "npx",
+      "args": [
+        "@kasarlabs/unruggable-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -307,8 +359,10 @@
   },
   "vesu": {
     "client": {
-      "command": "node",
-      "args": ["build/index.js"],
+      "command": "npx",
+      "args": [
+        "@kasarlabs/vesu-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -319,13 +373,18 @@
     "description": "Vesu protocol for deposit and withdrawal operations for earning positions",
     "promptInfo": {
       "expertise": "Vesu protocol yield farming",
-      "tools": ["vesu_deposit_earn", "vesu_withdraw_earn"]
+      "tools": [
+        "vesu_deposit_earn",
+        "vesu_withdraw_earn"
+      ]
     }
   },
   "ekubo": {
     "client": {
-      "command": "node",
-      "args": ["build/index.js"],
+      "command": "npx",
+      "args": [
+        "@kasarlabs/ekubo-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -351,8 +410,10 @@
   },
   "extended": {
     "client": {
-      "command": "node",
-      "args": ["build/index.js"],
+      "command": "npx",
+      "args": [
+        "@kasarlabs/extended-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "EXTENDED_API_KEY": "",
@@ -394,8 +455,10 @@
   },
   "endurfi": {
     "client": {
-      "command": "node",
-      "args": ["build/index.js"],
+      "command": "npx",
+      "args": [
+        "@kasarlabs/endurfi-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -420,8 +483,10 @@
   },
   "cairo-coder": {
     "client": {
-      "command": "node",
-      "args": ["build/index.js"],
+      "command": "npx",
+      "args": [
+        "@kasarlabs/cairo-coder-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "CAIRO_CODER_API_KEY": ""
@@ -430,7 +495,10 @@
     "description": "AI-powered Cairo code assistance and Starknet general knowledge via Cairo Coder API",
     "promptInfo": {
       "expertise": "Cairo smart contract development, Starknet technical documentation, ecosystem knowledge, and recent Starknet news",
-      "tools": ["assist_with_cairo", "starknet_general_knowledge"]
+      "tools": [
+        "assist_with_cairo",
+        "starknet_general_knowledge"
+      ]
     }
   }
 }
