@@ -2,10 +2,7 @@
   "argent": {
     "client": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@ijusttookadnatest/argent-mcp"
-      ],
+      "args": ["-y", "@ijusttookadnatest/argent-mcp"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": ""
@@ -14,19 +11,13 @@
     "description": "Management of Argent accounts on Starknet",
     "promptInfo": {
       "expertise": "Argent wallet accounts on Starknet",
-      "tools": [
-        "create_new_argent_account",
-        "deploy_existing_argent_account"
-      ]
+      "tools": ["create_new_argent_account", "deploy_existing_argent_account"]
     }
   },
   "erc20": {
     "client": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@ijusttookadnatest/erc20-mcp"
-      ],
+      "args": ["-y", "@ijusttookadnatest/erc20-mcp"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -54,10 +45,7 @@
   "braavos": {
     "client": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@ijusttookadnatest/braavos-mcp"
-      ],
+      "args": ["-y", "@ijusttookadnatest/braavos-mcp"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": ""
@@ -66,19 +54,13 @@
     "description": "Management of Braavos wallet accounts on Starknet",
     "promptInfo": {
       "expertise": "Braavos wallet accounts on Starknet",
-      "tools": [
-        "create_new_braavos_account",
-        "deploy_existing_braavos_account"
-      ]
+      "tools": ["create_new_braavos_account", "deploy_existing_braavos_account"]
     }
   },
   "avnu": {
     "client": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@ijusttookadnatest/avnu-mcp"
-      ],
+      "args": ["-y", "@ijusttookadnatest/avnu-mcp"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -89,19 +71,13 @@
     "description": "AVNU decentralized exchange integration for token swaps on Starknet",
     "promptInfo": {
       "expertise": "AVNU DEX token swapping on Starknet",
-      "tools": [
-        "avnu_swap_tokens",
-        "avnu_get_route"
-      ]
+      "tools": ["avnu_swap_tokens", "avnu_get_route"]
     }
   },
   "erc721": {
     "client": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@ijusttookadnatest/erc721-mcp"
-      ],
+      "args": ["-y", "@ijusttookadnatest/erc721-mcp"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -129,10 +105,7 @@
   "transaction": {
     "client": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@ijusttookadnatest/transaction-mcp"
-      ],
+      "args": ["-y", "@ijusttookadnatest/transaction-mcp"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -154,10 +127,7 @@
   "artpeace": {
     "client": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@ijusttookadnatest/artpeace-mcp"
-      ],
+      "args": ["-y", "@ijusttookadnatest/artpeace-mcp"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -170,18 +140,13 @@
     "description": "Collaborative pixel art creation on a shared canvas",
     "promptInfo": {
       "expertise": "Pixel art and canvas interaction",
-      "tools": [
-        "place_pixel"
-      ]
+      "tools": ["place_pixel"]
     }
   },
   "contract": {
     "client": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@ijusttookadnatest/contract-mcp"
-      ],
+      "args": ["-y", "@ijusttookadnatest/contract-mcp"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -192,20 +157,13 @@
     "description": "Starknet contract declaration and deployment operations",
     "promptInfo": {
       "expertise": "Smart contract deployment on Starknet",
-      "tools": [
-        "declare_contract",
-        "deploy_contract",
-        "get_constructor_params"
-      ]
+      "tools": ["declare_contract", "deploy_contract", "get_constructor_params"]
     }
   },
   "fibrous": {
     "client": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@ijusttookadnatest/fibrous-mcp"
-      ],
+      "args": ["-y", "@ijusttookadnatest/fibrous-mcp"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -216,20 +174,13 @@
     "description": "Fibrous decentralized exchange for single and batch token swaps",
     "promptInfo": {
       "expertise": "Fibrous DEX token swapping",
-      "tools": [
-        "fibrous_swap",
-        "fibrous_batch_swap",
-        "fibrous_get_route"
-      ]
+      "tools": ["fibrous_swap", "fibrous_batch_swap", "fibrous_get_route"]
     }
   },
   "okx": {
     "client": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@ijusttookadnatest/okx-mcp"
-      ],
+      "args": ["-y", "@ijusttookadnatest/okx-mcp"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": ""
@@ -238,19 +189,13 @@
     "description": "OKX wallet account creation and deployment on Starknet",
     "promptInfo": {
       "expertise": "OKX wallet accounts on Starknet",
-      "tools": [
-        "create_new_okx_account",
-        "deploy_existing_okx_account"
-      ]
+      "tools": ["create_new_okx_account", "deploy_existing_okx_account"]
     }
   },
   "openzeppelin": {
     "client": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@ijusttookadnatest/openzeppelin-mcp"
-      ],
+      "args": ["-y", "@ijusttookadnatest/openzeppelin-mcp"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": ""
@@ -268,10 +213,7 @@
   "opus": {
     "client": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@ijusttookadnatest/opus-mcp"
-      ],
+      "args": ["-y", "@ijusttookadnatest/opus-mcp"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -297,10 +239,7 @@
   "starknet-rpc": {
     "client": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@ijusttookadnatest/starknet-rpc-mcp"
-      ],
+      "args": ["-y", "@ijusttookadnatest/starknet-rpc-mcp"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": ""
@@ -328,10 +267,7 @@
   "scarb": {
     "client": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@ijusttookadnatest/scarb-mcp"
-      ],
+      "args": ["-y", "@ijusttookadnatest/scarb-mcp"],
       "transport": "stdio"
     },
     "description": "Scarb Cairo compilation and program execution operations",
@@ -350,10 +286,7 @@
   "unruggable": {
     "client": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@ijusttookadnatest/unruggable-mcp"
-      ],
+      "args": ["-y", "@ijusttookadnatest/unruggable-mcp"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -375,10 +308,7 @@
   "vesu": {
     "client": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@ijusttookadnatest/vesu-mcp"
-      ],
+      "args": ["-y", "@ijusttookadnatest/vesu-mcp"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -389,19 +319,13 @@
     "description": "Vesu protocol for deposit and withdrawal operations for earning positions",
     "promptInfo": {
       "expertise": "Vesu protocol yield farming",
-      "tools": [
-        "vesu_deposit_earn",
-        "vesu_withdraw_earn"
-      ]
+      "tools": ["vesu_deposit_earn", "vesu_withdraw_earn"]
     }
   },
   "ekubo": {
     "client": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@ijusttookadnatest/ekubo-mcp"
-      ],
+      "args": ["-y", "@ijusttookadnatest/ekubo-mcp"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -428,10 +352,7 @@
   "extended": {
     "client": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@ijusttookadnatest/extended-mcp"
-      ],
+      "args": ["-y", "@ijusttookadnatest/extended-mcp"],
       "transport": "stdio",
       "env": {
         "EXTENDED_API_KEY": "",
@@ -474,10 +395,7 @@
   "endurfi": {
     "client": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@ijusttookadnatest/endurfi-mcp"
-      ],
+      "args": ["-y", "@ijusttookadnatest/endurfi-mcp"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -503,10 +421,7 @@
   "cairo-coder": {
     "client": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@ijusttookadnatest/cairo-coder-mcp"
-      ],
+      "args": ["-y", "@ijusttookadnatest/cairo-coder-mcp"],
       "transport": "stdio",
       "env": {
         "CAIRO_CODER_API_KEY": ""
@@ -515,10 +430,7 @@
     "description": "AI-powered Cairo code assistance and Starknet general knowledge via Cairo Coder API",
     "promptInfo": {
       "expertise": "Cairo smart contract development, Starknet technical documentation, ecosystem knowledge, and recent Starknet news",
-      "tools": [
-        "assist_with_cairo",
-        "starknet_general_knowledge"
-      ]
+      "tools": ["assist_with_cairo", "starknet_general_knowledge"]
     }
   }
 }

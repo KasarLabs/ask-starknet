@@ -16,26 +16,100 @@ const mcpsConfig = JSON.parse(readFileSync(mcpsConfigPath, 'utf-8'));
 
 // Simple queries for each MCP (read-only operations that don't require private keys)
 const testQueries = {
-  'argent': { tool: 'create_new_argent_account', description: 'Create Argent account' },
-  'erc20': { tool: 'erc20_get_balance', description: 'Get ERC20 balance', args: { token_address: '0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7', account_address: '0x1' } },
-  'braavos': { tool: 'create_new_braavos_account', description: 'Create Braavos account' },
-  'avnu': { tool: 'avnu_get_route', description: 'Get AVNU route', args: { sell_token_address: '0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7', buy_token_address: '0x053c91253bc9682c04929ca02ed00b3e423f6710d2ee7e0d5ebb06f3ecf368a8', sell_amount: '1000000000000000000' } },
-  'erc721': { tool: 'erc721_get_balance', description: 'Get ERC721 balance', args: { contract_address: '0x1', owner: '0x1' } },
-  'transaction': { tool: 'simulate_transaction', description: 'Simulate transaction' },
-  'artpeace': { tool: 'place_pixel', description: 'Place pixel' },
-  'contract': { tool: 'get_constructor_params', description: 'Get constructor params', args: { contract_path: './test.cairo' } },
-  'fibrous': { tool: 'fibrous_get_route', description: 'Get Fibrous route', args: { token_in_address: '0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7', token_out_address: '0x053c91253bc9682c04929ca02ed00b3e423f6710d2ee7e0d5ebb06f3ecf368a8', amount: '1000000000000000000' } },
-  'okx': { tool: 'create_new_okx_account', description: 'Create OKX account' },
-  'openzeppelin': { tool: 'create_new_openzeppelin_account', description: 'Create OpenZeppelin account' },
-  'opus': { tool: 'get_user_troves', description: 'Get user troves', args: { user_address: '0x1' } },
+  argent: {
+    tool: 'create_new_argent_account',
+    description: 'Create Argent account',
+  },
+  erc20: {
+    tool: 'erc20_get_balance',
+    description: 'Get ERC20 balance',
+    args: {
+      token_address:
+        '0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7',
+      account_address: '0x1',
+    },
+  },
+  braavos: {
+    tool: 'create_new_braavos_account',
+    description: 'Create Braavos account',
+  },
+  avnu: {
+    tool: 'avnu_get_route',
+    description: 'Get AVNU route',
+    args: {
+      sell_token_address:
+        '0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7',
+      buy_token_address:
+        '0x053c91253bc9682c04929ca02ed00b3e423f6710d2ee7e0d5ebb06f3ecf368a8',
+      sell_amount: '1000000000000000000',
+    },
+  },
+  erc721: {
+    tool: 'erc721_get_balance',
+    description: 'Get ERC721 balance',
+    args: { contract_address: '0x1', owner: '0x1' },
+  },
+  transaction: {
+    tool: 'simulate_transaction',
+    description: 'Simulate transaction',
+  },
+  artpeace: { tool: 'place_pixel', description: 'Place pixel' },
+  contract: {
+    tool: 'get_constructor_params',
+    description: 'Get constructor params',
+    args: { contract_path: './test.cairo' },
+  },
+  fibrous: {
+    tool: 'fibrous_get_route',
+    description: 'Get Fibrous route',
+    args: {
+      token_in_address:
+        '0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7',
+      token_out_address:
+        '0x053c91253bc9682c04929ca02ed00b3e423f6710d2ee7e0d5ebb06f3ecf368a8',
+      amount: '1000000000000000000',
+    },
+  },
+  okx: { tool: 'create_new_okx_account', description: 'Create OKX account' },
+  openzeppelin: {
+    tool: 'create_new_openzeppelin_account',
+    description: 'Create OpenZeppelin account',
+  },
+  opus: {
+    tool: 'get_user_troves',
+    description: 'Get user troves',
+    args: { user_address: '0x1' },
+  },
   'starknet-rpc': { tool: 'get_chain_id', description: 'Get chain ID' },
-  'scarb': { tool: 'install_scarb', description: 'Install Scarb' },
-  'unruggable': { tool: 'is_memecoin', description: 'Check if memecoin', args: { token_address: '0x1' } },
-  'vesu': { tool: 'vesu_deposit_earn', description: 'Deposit on Vesu' },
-  'ekubo': { tool: 'get_pool_info', description: 'Get pool info', args: { token0: '0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7', token1: '0x053c91253bc9682c04929ca02ed00b3e423f6710d2ee7e0d5ebb06f3ecf368a8', fee: '170141183460469235273462165868118016' } },
-  'extended': { tool: 'extended_get_markets', description: 'Get markets' },
-  'endurfi': { tool: 'get_total_staked', description: 'Get total staked', args: { pool: 'xstrk' } },
-  'cairo-coder': { tool: 'starknet_general_knowledge', description: 'Starknet knowledge', args: { question: 'What is Starknet?' } },
+  scarb: { tool: 'install_scarb', description: 'Install Scarb' },
+  unruggable: {
+    tool: 'is_memecoin',
+    description: 'Check if memecoin',
+    args: { token_address: '0x1' },
+  },
+  vesu: { tool: 'vesu_deposit_earn', description: 'Deposit on Vesu' },
+  ekubo: {
+    tool: 'get_pool_info',
+    description: 'Get pool info',
+    args: {
+      token0:
+        '0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7',
+      token1:
+        '0x053c91253bc9682c04929ca02ed00b3e423f6710d2ee7e0d5ebb06f3ecf368a8',
+      fee: '170141183460469235273462165868118016',
+    },
+  },
+  extended: { tool: 'extended_get_markets', description: 'Get markets' },
+  endurfi: {
+    tool: 'get_total_staked',
+    description: 'Get total staked',
+    args: { pool: 'xstrk' },
+  },
+  'cairo-coder': {
+    tool: 'starknet_general_knowledge',
+    description: 'Starknet knowledge',
+    args: { question: 'What is Starknet?' },
+  },
 };
 
 async function testMCP(mcpName, mcpConfig) {
@@ -54,11 +128,15 @@ async function testMCP(mcpName, mcpConfig) {
       env: {
         ...process.env,
         // Set dummy values for required env vars to avoid errors during connection
-        STARKNET_RPC_URL: process.env.STARKNET_RPC_URL || 'https://starknet-mainnet.public.blastapi.io',
+        STARKNET_RPC_URL:
+          process.env.STARKNET_RPC_URL ||
+          'https://starknet-mainnet.public.blastapi.io',
         STARKNET_ACCOUNT_ADDRESS: process.env.STARKNET_ACCOUNT_ADDRESS || '0x1',
         STARKNET_PRIVATE_KEY: process.env.STARKNET_PRIVATE_KEY || '0x1',
         EXTENDED_API_KEY: process.env.EXTENDED_API_KEY || 'test',
-        EXTENDED_API_URL: process.env.EXTENDED_API_URL || 'https://api.starknet.extended.exchange',
+        EXTENDED_API_URL:
+          process.env.EXTENDED_API_URL ||
+          'https://api.starknet.extended.exchange',
         EXTENDED_PRIVATE_KEY: process.env.EXTENDED_PRIVATE_KEY || '0x1',
         CAIRO_CODER_API_KEY: process.env.CAIRO_CODER_API_KEY || 'test',
         PATH_UPLOAD_DIR: process.env.PATH_UPLOAD_DIR || '/tmp',
@@ -75,13 +153,20 @@ async function testMCP(mcpName, mcpConfig) {
     console.log(`  ✅ Tools available: ${tools.tools.length} tools`);
 
     // Show first few tool names
-    const toolNames = tools.tools.slice(0, 3).map(t => t.name).join(', ');
-    console.log(`  📋 Sample tools: ${toolNames}${tools.tools.length > 3 ? '...' : ''}`);
+    const toolNames = tools.tools
+      .slice(0, 3)
+      .map((t) => t.name)
+      .join(', ');
+    console.log(
+      `  📋 Sample tools: ${toolNames}${tools.tools.length > 3 ? '...' : ''}`
+    );
 
     // Verify expected tool exists (if defined in testQueries)
     const testConfig = testQueries[mcpName];
     if (testConfig && testConfig.tool) {
-      const hasExpectedTool = tools.tools.some(t => t.name === testConfig.tool);
+      const hasExpectedTool = tools.tools.some(
+        (t) => t.name === testConfig.tool
+      );
       if (hasExpectedTool) {
         console.log(`  ✅ Expected tool "${testConfig.tool}" found`);
       } else {
@@ -115,7 +200,7 @@ async function main() {
     results[mcpName] = result;
 
     // Small delay between tests to avoid overwhelming npm
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
   }
 
   // Summary
@@ -148,7 +233,7 @@ async function main() {
   }
 }
 
-main().catch(error => {
+main().catch((error) => {
   console.error('Fatal error:', error);
   process.exit(1);
 });

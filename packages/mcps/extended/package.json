@@ -1,5 +1,5 @@
 {
-  "name": "@ijusttookadnatest/extended-mcp",
+  "name": "@kasarlabs/extended-mcp",
   "version": "0.1.0",
   "main": "index.js",
   "type": "module",
@@ -19,7 +19,7 @@
     "build"
   ],
   "dependencies": {
-    "@ijusttookadnatest/ask-starknet-core": "0.1.0",
+    "@kasarlabs/ask-starknet-core": "workspace:*",
     "@modelcontextprotocol/sdk": "^1.11.2",
     "@x10xchange/stark-crypto-wrapper-wasm": "^0.1.6",
     "axios": "^1.7.9",

@@ -3,17 +3,13 @@
   "npmClient": "pnpm",
   "command": {
     "publish": {
-      "ignoreChanges": [
-        "*.md",
-        "*.test.ts",
-        "*.spec.ts"
-      ],
+      "ignoreChanges": ["*.md", "*.test.ts", "*.spec.ts"],
       "message": "chore(release): publish %s",
       "gitTagVersion": false,
       "push": false
     },
     "version": {
-      "allowBranch": "*",
+      "allowBranch": "main",
       "message": "chore(release): version packages",
       "gitTagVersion": false,
       "push": false

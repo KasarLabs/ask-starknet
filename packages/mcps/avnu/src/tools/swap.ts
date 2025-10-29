@@ -1,7 +1,7 @@
 import { executeSwap, fetchQuotes, QuoteRequest, Quote } from '@avnu/avnu-sdk';
 
 import { ApprovalService } from './approval.js';
-import { onchainWrite } from '@ijusttookadnatest/ask-starknet-core';
+import { onchainWrite } from '@kasarlabs/ask-starknet-core';
 import { SwapParams, SwapResult } from '../lib/types/index.js';
 import {
   DEFAULT_QUOTE_SIZE,

@@ -1,5 +1,5 @@
 {
-  "name": "@ijusttookadnatest/scarb-mcp",
+  "name": "@kasarlabs/scarb-mcp",
   "version": "0.1.0",
   "main": "index.js",
   "type": "module",
@@ -16,7 +16,7 @@
     "build"
   ],
   "dependencies": {
-    "@ijusttookadnatest/ask-starknet-core": "0.1.0",
+    "@kasarlabs/ask-starknet-core": "workspace:*",
     "@modelcontextprotocol/sdk": "^1.11.2",
     "dotenv": "^16.4.7",
     "fs-extra": "^11.3.2",

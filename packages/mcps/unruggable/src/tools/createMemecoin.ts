@@ -1,7 +1,7 @@
 import { CreateMemecoinParams } from '../schemas/index.js';
 import { stark, uint256 } from 'starknet';
 import { execute, decimalsScale } from '../lib/utils/helper.js';
-import { onchainWrite } from '@ijusttookadnatest/ask-starknet-core';
+import { onchainWrite } from '@kasarlabs/ask-starknet-core';
 
 /**
  * Creates a new memecoin using the Unruggable Factory.

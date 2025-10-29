@@ -2,7 +2,7 @@ import { ContractAddressParams } from '../schemas/index.js';
 import { Contract } from 'starknet';
 import { FACTORY_ABI } from '../lib/abis/unruggableFactory.js';
 import { FACTORY_ADDRESS } from '../lib/constants/index.js';
-import { onchainWrite } from '@ijusttookadnatest/ask-starknet-core';
+import { onchainWrite } from '@kasarlabs/ask-starknet-core';
 
 type LiquidityType =
   | { type: 'JediERC20'; address: string }

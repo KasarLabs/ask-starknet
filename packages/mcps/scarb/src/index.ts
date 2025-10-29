@@ -3,7 +3,7 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import * as dotenv from 'dotenv';
 
-import { mcpTool, registerToolsWithServer } from '@ijusttookadnatest/ask-starknet-core';
+import { mcpTool, registerToolsWithServer } from '@kasarlabs/ask-starknet-core';
 import { initProject } from './tools/init.js';
 import { buildProject } from './tools/build.js';
 import { executeProgram } from './tools/execute.js';
