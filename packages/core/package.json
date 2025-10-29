@@ -42,6 +42,5 @@
       "import": "./build/index.js",
       "types": "./build/index.d.ts"
     }
-  },
-  "gitHead": "77cd7f56a6e19ed7d2787fdccf80d8844bc5b8cf"
+  }
 }

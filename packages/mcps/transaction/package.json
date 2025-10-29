@@ -36,7 +36,6 @@
   "author": "kasarlabs",
   "license": "MIT",
   "description": "MCP server for simulating various types of transactions without execution.",
-  "gitHead": "77cd7f56a6e19ed7d2787fdccf80d8844bc5b8cf",
   "publishConfig": {
     "access": "public"
   }

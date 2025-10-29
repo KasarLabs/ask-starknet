@@ -66,6 +66,5 @@
   "bugs": {
     "url": "https://github.com/kasarlabs/ask-starknet/issues"
   },
-  "homepage": "https://github.com/kasarlabs/ask-starknet/tree/main/packages/mcps/cairo-coder#readme",
-  "gitHead": "77cd7f56a6e19ed7d2787fdccf80d8844bc5b8cf"
+  "homepage": "https://github.com/kasarlabs/ask-starknet/tree/main/packages/mcps/cairo-coder#readme"
 }

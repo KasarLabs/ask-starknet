@@ -36,7 +36,6 @@
   "author": "kasarlabs",
   "license": "MIT",
   "description": "MCP server for comprehensive ERC20 token operations including transfers, allowances, and contract deployment.",
-  "gitHead": "77cd7f56a6e19ed7d2787fdccf80d8844bc5b8cf",
   "publishConfig": {
     "access": "public"
   }

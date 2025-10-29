@@ -37,7 +37,6 @@
   "author": "kasarlabs",
   "license": "MIT",
   "description": "MCP server for interacting with the Opus lending protocol, enabling creation and management of Troves for borrowing.",
-  "gitHead": "77cd7f56a6e19ed7d2787fdccf80d8844bc5b8cf",
   "publishConfig": {
     "access": "public"
   }
