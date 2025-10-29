@@ -35,9 +35,7 @@
     "lint:fix": "pnpm -r run lint:fix",
     "lint:all": "eslint packages/{mcps,mcp}/**/*.{ts,tsx,js,jsx}",
     "prettier": "prettier --check \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
-    "format": "prettier --write \"packages/{mcps,mcp}/**/*.{ts,tsx,js,jsx,json,md}\"",
-    "publish": "lerna publish",
-    "version": "lerna version"
+    "format": "prettier --write \"packages/{mcps,mcp}/**/*.{ts,tsx,js,jsx,json,md}\""
   },
   "dependencies": {
     "dotenv": "^16.4.7",
