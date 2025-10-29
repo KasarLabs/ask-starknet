@@ -1,5 +1,5 @@
 {
-  "name": "@ijusttookadnatest/avnu-mcp-test",
+  "name": "@ijusttookadnatest/avnu-mcp",
   "version": "0.1.0",
   "main": "index.js",
   "type": "module",
@@ -17,7 +17,7 @@
   ],
   "dependencies": {
     "@avnu/avnu-sdk": "^3.1.1",
-    "@ijusttookadnatest/ask-starknet-core-test": "workspace:*",
+    "@ijusttookadnatest/ask-starknet-core": "0.1.0",
     "@langchain/core": "^0.3.75",
     "@modelcontextprotocol/sdk": "^1.11.2",
     "dotenv": "^16.4.7",
@@ -37,7 +37,7 @@
   "author": "kasarlabs",
   "license": "MIT",
   "description": "MCP server for AVNU token swapping on Starknet",
-  "gitHead": "757cf084a61270a4835cad879625829f1410f840",
+  "gitHead": "77cd7f56a6e19ed7d2787fdccf80d8844bc5b8cf",
   "publishConfig": {
     "access": "public"
   }

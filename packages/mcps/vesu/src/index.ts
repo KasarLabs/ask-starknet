@@ -6,7 +6,7 @@ import {
   mcpTool,
   registerToolsWithServer,
   getOnchainWrite,
-} from '@ijusttookadnatest/ask-starknet-core-test';
+} from '@ijusttookadnatest/ask-starknet-core';
 import dotenv from 'dotenv';
 
 import { depositEarnSchema, withdrawEarnSchema } from './schemas/index.js';

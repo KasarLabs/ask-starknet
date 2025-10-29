@@ -1,6 +1,6 @@
 import { WithdrawTroveParams } from '../schemas/index.js';
 import { createTroveManager } from '../lib/utils/troveManager.js';
-import { onchainWrite } from '@ijusttookadnatest/ask-starknet-core-test';
+import { onchainWrite } from '@ijusttookadnatest/ask-starknet-core';
 
 export const withdrawTrove = async (
   env: onchainWrite,

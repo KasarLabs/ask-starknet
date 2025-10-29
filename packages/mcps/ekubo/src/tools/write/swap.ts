@@ -12,7 +12,7 @@ import {
   extractExpectedOutput,
   calculateMinimumOutputU256,
 } from '../../lib/utils/quote.js';
-import { onchainWrite } from '@ijusttookadnatest/ask-starknet-core-test';
+import { onchainWrite } from '@ijusttookadnatest/ask-starknet-core';
 
 export const swap = async (env: onchainWrite, params: SwapTokensSchema) => {
   try {

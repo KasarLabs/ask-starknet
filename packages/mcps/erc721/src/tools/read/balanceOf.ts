@@ -4,7 +4,7 @@ import { INTERACT_ERC721_ABI } from '../../lib/abis/interact.js';
 import { validateAndParseAddress } from 'starknet';
 import { z } from 'zod';
 import { getBalanceSchema, getOwnBalanceSchema } from '../../schemas/index.js';
-import { onchainRead } from '@ijusttookadnatest/ask-starknet-core-test';
+import { onchainRead } from '@ijusttookadnatest/ask-starknet-core';
 
 /**
  * Gets ERC721 token balance

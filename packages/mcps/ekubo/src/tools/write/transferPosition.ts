@@ -1,7 +1,7 @@
 import { cairo } from 'starknet';
 import { getContract } from '../../lib/utils/contracts.js';
 import { TransferPositionSchema } from '../../schemas/index.js';
-import { onchainWrite } from '@ijusttookadnatest/ask-starknet-core-test';
+import { onchainWrite } from '@ijusttookadnatest/ask-starknet-core';
 
 export const transferPosition = async (
   env: onchainWrite,

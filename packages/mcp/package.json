@@ -1,5 +1,5 @@
 {
-  "name": "@ijusttookadnatest/ask-starknet-mcp-test",
+  "name": "@ijusttookadnatest/ask-starknet-mcp",
   "version": "0.1.0",
   "main": "build/index.js",
   "type": "module",
@@ -50,5 +50,8 @@
   "engines": {
     "node": ">=18.0.0"
   },
-  "gitHead": "757cf084a61270a4835cad879625829f1410f840"
+  "gitHead": "77cd7f56a6e19ed7d2787fdccf80d8844bc5b8cf",
+  "publishConfig": {
+    "access": "public"
+  }
 }

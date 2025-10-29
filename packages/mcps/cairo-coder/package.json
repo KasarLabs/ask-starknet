@@ -1,5 +1,5 @@
 {
-  "name": "@ijusttookadnatest/cairo-coder-mcp-test",
+  "name": "@ijusttookadnatest/cairo-coder-mcp",
   "version": "0.2.0",
   "description": "MCP server to interact with the Cairo Coder API",
   "type": "module",
@@ -66,5 +66,6 @@
   "bugs": {
     "url": "https://github.com/kasarlabs/ask-starknet/issues"
   },
-  "homepage": "https://github.com/kasarlabs/ask-starknet/tree/main/packages/mcps/cairo-coder#readme"
+  "homepage": "https://github.com/kasarlabs/ask-starknet/tree/main/packages/mcps/cairo-coder#readme",
+  "gitHead": "77cd7f56a6e19ed7d2787fdccf80d8844bc5b8cf"
 }

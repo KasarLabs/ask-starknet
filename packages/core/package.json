@@ -1,5 +1,5 @@
 {
-  "name": "@ijusttookadnatest/ask-starknet-core-test",
+  "name": "@ijusttookadnatest/ask-starknet-core",
   "version": "0.1.0",
   "description": "Core utilities and shared functionality for the Ask Starknet MCP ecosystem",
   "main": "build/index.js",
@@ -43,5 +43,5 @@
       "types": "./build/index.d.ts"
     }
   },
-  "gitHead": "757cf084a61270a4835cad879625829f1410f840"
+  "gitHead": "77cd7f56a6e19ed7d2787fdccf80d8844bc5b8cf"
 }
