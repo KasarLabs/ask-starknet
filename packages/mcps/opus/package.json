@@ -16,14 +16,14 @@
     "build"
   ],
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.11.2",
-    "@ijusttookadnatest/ask-starknet-core": "workspace:*",
-    "dotenv": "^16.4.7",
+    "@ijusttookadnatest/ask-starknet-core": "0.1.2",
     "@langchain/core": "^0.3.42",
-    "zod": "^3.24.2",
-    "winston": "^3.17.0",
+    "@modelcontextprotocol/sdk": "^1.11.2",
+    "dotenv": "^16.4.7",
+    "ethers": "^6.15.0",
     "starknet": "^7.6.4",
-    "ethers": "^6.15.0"
+    "winston": "^3.17.0",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@types/node": "^22.13.10",
@@ -36,5 +36,9 @@
   ],
   "author": "kasarlabs",
   "license": "MIT",
-  "description": "MCP server for interacting with the Opus lending protocol, enabling creation and management of Troves for borrowing."
+  "description": "MCP server for interacting with the Opus lending protocol, enabling creation and management of Troves for borrowing.",
+  "gitHead": "757cf084a61270a4835cad879625829f1410f840",
+  "publishConfig": {
+    "access": "public"
+  }
 }

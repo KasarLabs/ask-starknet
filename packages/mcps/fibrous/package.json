@@ -17,7 +17,7 @@
   ],
   "dependencies": {
     "@ethersproject/bignumber": "^5.7.0",
-    "@ijusttookadnatest/ask-starknet-core": "workspace:*",
+    "@ijusttookadnatest/ask-starknet-core": "0.1.2",
     "@langchain/core": "^0.3.42",
     "@modelcontextprotocol/sdk": "^1.11.2",
     "dotenv": "^16.4.7",
@@ -37,5 +37,9 @@
   ],
   "author": "kasarlabs",
   "license": "MIT",
-  "description": "MCP server for interacting with the Fibrous decentralized exchange, enabling single and batch token swaps."
+  "description": "MCP server for interacting with the Fibrous decentralized exchange, enabling single and batch token swaps.",
+  "gitHead": "757cf084a61270a4835cad879625829f1410f840",
+  "publishConfig": {
+    "access": "public"
+  }
 }
