@@ -1,6 +1,7 @@
 {
-  "name": "@kasarlabs/okx-mcp",
+  "name": "@ijusttookadnatest/okx-mcp",
   "version": "0.1.0",
+  "private": true,
   "main": "index.js",
   "type": "module",
   "bin": {

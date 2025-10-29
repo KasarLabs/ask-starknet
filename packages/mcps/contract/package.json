@@ -1,6 +1,7 @@
 {
-  "name": "@kasarlabs/contract-mcp",
+  "name": "@ijusttookadnatest/contract-mcp",
   "version": "0.1.0",
+  "private": true,
   "main": "index.js",
   "type": "module",
   "bin": {

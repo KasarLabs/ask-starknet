@@ -3,7 +3,7 @@
     "client": {
       "command": "npx",
       "args": [
-        "@kasarlabs/argent-mcp"
+        "@ijusttookadnatest/argent-mcp"
       ],
       "transport": "stdio",
       "env": {
@@ -23,7 +23,7 @@
     "client": {
       "command": "npx",
       "args": [
-        "@kasarlabs/erc20-mcp"
+        "@ijusttookadnatest/erc20-mcp"
       ],
       "transport": "stdio",
       "env": {
@@ -53,7 +53,7 @@
     "client": {
       "command": "npx",
       "args": [
-        "@kasarlabs/braavos-mcp"
+        "@ijusttookadnatest/braavos-mcp"
       ],
       "transport": "stdio",
       "env": {
@@ -73,7 +73,7 @@
     "client": {
       "command": "npx",
       "args": [
-        "@kasarlabs/avnu-mcp"
+        "@ijusttookadnatest/avnu-mcp"
       ],
       "transport": "stdio",
       "env": {
@@ -95,7 +95,7 @@
     "client": {
       "command": "npx",
       "args": [
-        "@kasarlabs/erc721-mcp"
+        "@ijusttookadnatest/erc721-mcp"
       ],
       "transport": "stdio",
       "env": {
@@ -125,7 +125,7 @@
     "client": {
       "command": "npx",
       "args": [
-        "@kasarlabs/transaction-mcp"
+        "@ijusttookadnatest/transaction-mcp"
       ],
       "transport": "stdio",
       "env": {
@@ -149,7 +149,7 @@
     "client": {
       "command": "npx",
       "args": [
-        "@kasarlabs/artpeace-mcp"
+        "@ijusttookadnatest/artpeace-mcp"
       ],
       "transport": "stdio",
       "env": {
@@ -172,7 +172,7 @@
     "client": {
       "command": "npx",
       "args": [
-        "@kasarlabs/contract-mcp"
+        "@ijusttookadnatest/contract-mcp"
       ],
       "transport": "stdio",
       "env": {
@@ -195,7 +195,7 @@
     "client": {
       "command": "npx",
       "args": [
-        "@kasarlabs/fibrous-mcp"
+        "@ijusttookadnatest/fibrous-mcp"
       ],
       "transport": "stdio",
       "env": {
@@ -218,7 +218,7 @@
     "client": {
       "command": "npx",
       "args": [
-        "@kasarlabs/okx-mcp"
+        "@ijusttookadnatest/okx-mcp"
       ],
       "transport": "stdio",
       "env": {
@@ -238,7 +238,7 @@
     "client": {
       "command": "npx",
       "args": [
-        "@kasarlabs/openzeppelin-mcp"
+        "@ijusttookadnatest/openzeppelin-mcp"
       ],
       "transport": "stdio",
       "env": {
@@ -258,7 +258,7 @@
     "client": {
       "command": "npx",
       "args": [
-        "@kasarlabs/opus-mcp"
+        "@ijusttookadnatest/opus-mcp"
       ],
       "transport": "stdio",
       "env": {
@@ -286,7 +286,7 @@
     "client": {
       "command": "npx",
       "args": [
-        "@kasarlabs/starknet-rpc-mcp"
+        "@ijusttookadnatest/starknet-rpc-mcp"
       ],
       "transport": "stdio",
       "env": {
@@ -316,7 +316,7 @@
     "client": {
       "command": "npx",
       "args": [
-        "@kasarlabs/scarb-mcp"
+        "@ijusttookadnatest/scarb-mcp"
       ],
       "transport": "stdio"
     },
@@ -337,7 +337,7 @@
     "client": {
       "command": "npx",
       "args": [
-        "@kasarlabs/unruggable-mcp"
+        "@ijusttookadnatest/unruggable-mcp"
       ],
       "transport": "stdio",
       "env": {
@@ -361,7 +361,7 @@
     "client": {
       "command": "npx",
       "args": [
-        "@kasarlabs/vesu-mcp"
+        "@ijusttookadnatest/vesu-mcp"
       ],
       "transport": "stdio",
       "env": {
@@ -383,7 +383,7 @@
     "client": {
       "command": "npx",
       "args": [
-        "@kasarlabs/ekubo-mcp"
+        "@ijusttookadnatest/ekubo-mcp"
       ],
       "transport": "stdio",
       "env": {
@@ -412,7 +412,7 @@
     "client": {
       "command": "npx",
       "args": [
-        "@kasarlabs/extended-mcp"
+        "@ijusttookadnatest/extended-mcp"
       ],
       "transport": "stdio",
       "env": {
@@ -457,7 +457,7 @@
     "client": {
       "command": "npx",
       "args": [
-        "@kasarlabs/endurfi-mcp"
+        "@ijusttookadnatest/endurfi-mcp"
       ],
       "transport": "stdio",
       "env": {
@@ -485,7 +485,7 @@
     "client": {
       "command": "npx",
       "args": [
-        "@kasarlabs/cairo-coder-mcp"
+        "@ijusttookadnatest/cairo-coder-mcp"
       ],
       "transport": "stdio",
       "env": {

@@ -1,7 +1,6 @@
 {
   "version": "independent",
   "npmClient": "pnpm",
-  "useWorkspaces": true,
   "command": {
     "publish": {
       "ignoreChanges": [
@@ -9,11 +8,15 @@
         "*.test.ts",
         "*.spec.ts"
       ],
-      "message": "chore(release): publish %s"
+      "message": "chore(release): publish %s",
+      "gitTagVersion": false,
+      "push": false
     },
     "version": {
       "allowBranch": "main",
-      "message": "chore(release): version packages"
+      "message": "chore(release): version packages",
+      "gitTagVersion": false,
+      "push": false
     }
   }
 }

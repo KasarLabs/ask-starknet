@@ -1,6 +1,7 @@
 {
-  "name": "@kasarlabs/erc721-mcp",
+  "name": "@ijusttookadnatest/erc721-mcp",
   "version": "0.1.0",
+  "private": true,
   "main": "index.js",
   "type": "module",
   "bin": {

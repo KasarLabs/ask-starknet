@@ -1,6 +1,7 @@
 {
-  "name": "@kasarlabs/endurfi-mcp",
+  "name": "@ijusttookadnatest/endurfi-mcp",
   "version": "0.1.0",
+  "private": true,
   "main": "index.js",
   "type": "module",
   "bin": {
