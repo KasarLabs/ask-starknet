@@ -5,8 +5,8 @@
     "publish": {
       "ignoreChanges": ["*.md", "*.test.ts", "*.spec.ts"],
       "message": "chore(release): publish %s",
-      "gitTagVersion": false,
-      "push": false
+      "gitTagVersion": true,
+      "push": true
     },
     "version": {
       "allowBranch": "main",
