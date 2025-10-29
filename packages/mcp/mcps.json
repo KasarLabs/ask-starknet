@@ -3,6 +3,7 @@
     "client": {
       "command": "npx",
       "args": [
+        "-y",
         "@ijusttookadnatest/argent-mcp"
       ],
       "transport": "stdio",
@@ -23,6 +24,7 @@
     "client": {
       "command": "npx",
       "args": [
+        "-y",
         "@ijusttookadnatest/erc20-mcp"
       ],
       "transport": "stdio",
@@ -53,6 +55,7 @@
     "client": {
       "command": "npx",
       "args": [
+        "-y",
         "@ijusttookadnatest/braavos-mcp"
       ],
       "transport": "stdio",
@@ -73,6 +76,7 @@
     "client": {
       "command": "npx",
       "args": [
+        "-y",
         "@ijusttookadnatest/avnu-mcp"
       ],
       "transport": "stdio",
@@ -95,6 +99,7 @@
     "client": {
       "command": "npx",
       "args": [
+        "-y",
         "@ijusttookadnatest/erc721-mcp"
       ],
       "transport": "stdio",
@@ -125,6 +130,7 @@
     "client": {
       "command": "npx",
       "args": [
+        "-y",
         "@ijusttookadnatest/transaction-mcp"
       ],
       "transport": "stdio",
@@ -149,6 +155,7 @@
     "client": {
       "command": "npx",
       "args": [
+        "-y",
         "@ijusttookadnatest/artpeace-mcp"
       ],
       "transport": "stdio",
@@ -172,6 +179,7 @@
     "client": {
       "command": "npx",
       "args": [
+        "-y",
         "@ijusttookadnatest/contract-mcp"
       ],
       "transport": "stdio",
@@ -195,6 +203,7 @@
     "client": {
       "command": "npx",
       "args": [
+        "-y",
         "@ijusttookadnatest/fibrous-mcp"
       ],
       "transport": "stdio",
@@ -218,6 +227,7 @@
     "client": {
       "command": "npx",
       "args": [
+        "-y",
         "@ijusttookadnatest/okx-mcp"
       ],
       "transport": "stdio",
@@ -238,6 +248,7 @@
     "client": {
       "command": "npx",
       "args": [
+        "-y",
         "@ijusttookadnatest/openzeppelin-mcp"
       ],
       "transport": "stdio",
@@ -258,6 +269,7 @@
     "client": {
       "command": "npx",
       "args": [
+        "-y",
         "@ijusttookadnatest/opus-mcp"
       ],
       "transport": "stdio",
@@ -286,6 +298,7 @@
     "client": {
       "command": "npx",
       "args": [
+        "-y",
         "@ijusttookadnatest/starknet-rpc-mcp"
       ],
       "transport": "stdio",
@@ -316,6 +329,7 @@
     "client": {
       "command": "npx",
       "args": [
+        "-y",
         "@ijusttookadnatest/scarb-mcp"
       ],
       "transport": "stdio"
@@ -337,6 +351,7 @@
     "client": {
       "command": "npx",
       "args": [
+        "-y",
         "@ijusttookadnatest/unruggable-mcp"
       ],
       "transport": "stdio",
@@ -361,6 +376,7 @@
     "client": {
       "command": "npx",
       "args": [
+        "-y",
         "@ijusttookadnatest/vesu-mcp"
       ],
       "transport": "stdio",
@@ -383,6 +399,7 @@
     "client": {
       "command": "npx",
       "args": [
+        "-y",
         "@ijusttookadnatest/ekubo-mcp"
       ],
       "transport": "stdio",
@@ -412,6 +429,7 @@
     "client": {
       "command": "npx",
       "args": [
+        "-y",
         "@ijusttookadnatest/extended-mcp"
       ],
       "transport": "stdio",
@@ -457,6 +475,7 @@
     "client": {
       "command": "npx",
       "args": [
+        "-y",
         "@ijusttookadnatest/endurfi-mcp"
       ],
       "transport": "stdio",
@@ -485,6 +504,7 @@
     "client": {
       "command": "npx",
       "args": [
+        "-y",
         "@ijusttookadnatest/cairo-coder-mcp"
       ],
       "transport": "stdio",
