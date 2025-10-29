@@ -1,6 +1,6 @@
 {
   "name": "@ijusttookadnatest/core",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Core utilities and shared functionality for the Ask Starknet MCP ecosystem",
   "main": "build/index.js",
   "types": "build/index.d.ts",
