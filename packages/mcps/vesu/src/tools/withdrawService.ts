@@ -22,7 +22,7 @@ import {
   getExtensionContract,
   getVTokenContract,
 } from '../lib/utils/contracts.js';
-import { onchainWrite } from '@ijusttookadnatest/core';
+import { onchainWrite } from '@ijusttookadnatest/ask-starknet-core';
 
 /**
  * Service for managing withdrawal operations from earning positions

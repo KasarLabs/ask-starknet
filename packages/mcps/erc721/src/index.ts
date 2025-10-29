@@ -7,7 +7,7 @@ import {
   registerToolsWithServer,
   getOnchainWrite,
   getOnchainRead,
-} from '@ijusttookadnatest/core';
+} from '@ijusttookadnatest/ask-starknet-core';
 import dotenv from 'dotenv';
 
 import {

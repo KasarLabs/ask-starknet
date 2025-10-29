@@ -1,7 +1,6 @@
 {
   "name": "@ijusttookadnatest/unruggable-mcp",
   "version": "0.1.0",
-  "private": true,
   "main": "index.js",
   "type": "module",
   "bin": {
@@ -20,7 +19,7 @@
     "@modelcontextprotocol/sdk": "^1.11.2",
     "dotenv": "^16.4.7",
     "@langchain/core": "^0.3.42",
-    "@ijusttookadnatest/core": "workspace:*",
+    "@ijusttookadnatest/ask-starknet-core": "workspace:*",
     "zod": "^3.24.2",
     "winston": "^3.17.0",
     "starknet": "^7.6.4"

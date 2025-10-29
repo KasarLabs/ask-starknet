@@ -1,7 +1,6 @@
 {
   "name": "@ijusttookadnatest/argent-mcp",
   "version": "0.1.0",
-  "private": true,
   "main": "index.js",
   "type": "module",
   "bin": {
@@ -17,7 +16,7 @@
     "build"
   ],
   "dependencies": {
-    "@ijusttookadnatest/core": "workspace:*",
+    "@ijusttookadnatest/ask-starknet-core": "workspace:*",
     "@langchain/core": "^0.3.75",
     "@modelcontextprotocol/sdk": "^1.11.2",
     "dotenv": "^16.4.7",

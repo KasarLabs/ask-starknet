@@ -19,7 +19,7 @@
     "build"
   ],
   "dependencies": {
-    "@ijusttookadnatest/core": "^0.1.1",
+    "@ijusttookadnatest/ask-starknet-core": "workspace:*",
     "@modelcontextprotocol/sdk": "^1.11.2",
     "@x10xchange/stark-crypto-wrapper-wasm": "^0.1.6",
     "axios": "^1.7.9",

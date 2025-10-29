@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { ownerOfSchema } from '../../schemas/index.js';
 import { bigintToHex } from '../../lib/utils/utils.js';
 import { validateAndParseAddress } from 'starknet';
-import { onchainRead } from '@ijusttookadnatest/core';
+import { onchainRead } from '@ijusttookadnatest/ask-starknet-core';
 
 /**
  * Get the owner of the token.

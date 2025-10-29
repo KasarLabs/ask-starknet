@@ -1,5 +1,5 @@
 import { Account, Contract, RpcProvider, constants } from 'starknet';
-import { onchainWrite } from '@ijusttookadnatest/core';
+import { onchainWrite } from '@ijusttookadnatest/ask-starknet-core';
 import {
   validateAndFormatParams,
   executeV3Transaction,

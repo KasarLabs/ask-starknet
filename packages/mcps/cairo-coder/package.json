@@ -1,7 +1,6 @@
 {
   "name": "@ijusttookadnatest/cairo-coder-mcp",
   "version": "0.1.1",
-  "private": true,
   "description": "MCP server to interact with the Cairo Coder API",
   "type": "module",
   "main": "build/index.js",

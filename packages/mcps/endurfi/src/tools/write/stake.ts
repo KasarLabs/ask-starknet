@@ -6,7 +6,7 @@ import {
   getUnderlyingTokenName,
 } from '../../lib/utils/contracts.js';
 import { StakeSchema } from '../../schemas/index.js';
-import { onchainWrite } from '@ijusttookadnatest/core';
+import { onchainWrite } from '@ijusttookadnatest/ask-starknet-core';
 import { formatUnits } from '../../lib/utils/formatting.js';
 
 export const stake = async (env: onchainWrite, params: StakeSchema) => {

@@ -4,7 +4,7 @@ import { artpeaceAddr } from '../lib/constants/artpeace.js';
 import { ArtpeaceHelper } from '../lib/utils/helper.js';
 import { placePixelParam } from '../schemas/index.js';
 import { Checker } from '../lib/utils/checker.js';
-import { onchainWrite } from '@ijusttookadnatest/core';
+import { onchainWrite } from '@ijusttookadnatest/ask-starknet-core';
 
 /**
  * Places pixels on a Starknet canvas using the Artpeace contract

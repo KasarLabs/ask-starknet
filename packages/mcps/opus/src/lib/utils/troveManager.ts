@@ -40,7 +40,7 @@ import {
   getShrineContract,
 } from './contracts.js';
 import { tokenAddresses } from '../constant/erc20.js';
-import { onchainWrite } from '@ijusttookadnatest/core';
+import { onchainWrite } from '@ijusttookadnatest/ask-starknet-core';
 
 const FORGE_FEE_PAID_EVENT_IDENTIFIER =
   'opus::core::shrine::shrine::ForgeFeePaid';

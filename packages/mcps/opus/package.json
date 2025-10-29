@@ -1,7 +1,6 @@
 {
   "name": "@ijusttookadnatest/opus-mcp",
   "version": "0.1.0",
-  "private": true,
   "main": "index.js",
   "type": "module",
   "bin": {
@@ -18,7 +17,7 @@
   ],
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.11.2",
-    "@ijusttookadnatest/core": "workspace:*",
+    "@ijusttookadnatest/ask-starknet-core": "workspace:*",
     "dotenv": "^16.4.7",
     "@langchain/core": "^0.3.42",
     "zod": "^3.24.2",

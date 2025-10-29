@@ -9,7 +9,7 @@ import { z } from 'zod';
 import { safeTransferFromSchema } from '../../schemas/index.js';
 import { TransactionResult } from '../../lib/types/types.js';
 import { validateAndParseAddress } from 'starknet';
-import { onchainWrite } from '@ijusttookadnatest/core';
+import { onchainWrite } from '@ijusttookadnatest/ask-starknet-core';
 
 /**
  * Safely transfers a token from one address to another.

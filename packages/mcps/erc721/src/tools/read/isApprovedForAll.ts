@@ -4,7 +4,7 @@ import { INTERACT_ERC721_ABI } from '../../lib/abis/interact.js';
 import { validateAndParseAddress } from 'starknet';
 import { z } from 'zod';
 import { isApprovedForAllSchema } from '../../schemas/index.js';
-import { onchainRead } from '@ijusttookadnatest/core';
+import { onchainRead } from '@ijusttookadnatest/ask-starknet-core';
 
 /**
  * Checks if an operator is approved to manage all tokens of an owner.

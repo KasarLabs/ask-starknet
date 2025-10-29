@@ -6,7 +6,7 @@ import {
   mcpTool,
   registerToolsWithServer,
   getOnchainWrite,
-} from '@ijusttookadnatest/core';
+} from '@ijusttookadnatest/ask-starknet-core';
 
 import dotenv from 'dotenv';
 

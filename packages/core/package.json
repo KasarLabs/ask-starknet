@@ -1,5 +1,5 @@
 {
-  "name": "@ijusttookadnatest/core",
+  "name": "@ijusttookadnatest/ask-starknet-core",
   "version": "0.1.1",
   "description": "Core utilities and shared functionality for the Ask Starknet MCP ecosystem",
   "main": "build/index.js",

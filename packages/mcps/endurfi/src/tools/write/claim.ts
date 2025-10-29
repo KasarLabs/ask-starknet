@@ -3,7 +3,7 @@ import {
   getUnderlyingTokenName,
 } from '../../lib/utils/contracts.js';
 import { ClaimSchema } from '../../schemas/index.js';
-import { onchainWrite } from '@ijusttookadnatest/core';
+import { onchainWrite } from '@ijusttookadnatest/ask-starknet-core';
 
 export const claim = async (env: onchainWrite, params: ClaimSchema) => {
   try {
