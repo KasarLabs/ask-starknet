@@ -17,13 +17,15 @@
     "build"
   ],
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.11.2",
+    "@ethersproject/bignumber": "^5.7.0",
     "@ijusttookadnatest/core": "workspace:*",
-    "dotenv": "^16.4.7",
     "@langchain/core": "^0.3.42",
-    "zod": "^3.24.2",
+    "@modelcontextprotocol/sdk": "^1.11.2",
+    "dotenv": "^16.4.7",
+    "fibrous-router-sdk": "0.4.3",
+    "starknet": "^7.6.4",
     "winston": "^3.17.0",
-    "fibrous-router-sdk": "0.4.3"
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@types/node": "^22.13.10",

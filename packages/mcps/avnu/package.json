@@ -17,12 +17,14 @@
     "build"
   ],
   "dependencies": {
+    "@avnu/avnu-sdk": "^3.1.1",
+    "@ijusttookadnatest/core": "workspace:*",
+    "@langchain/core": "^0.3.75",
     "@modelcontextprotocol/sdk": "^1.11.2",
     "dotenv": "^16.4.7",
-    "@ijusttookadnatest/core": "workspace:*",
     "starknet": "^7.6.4",
-    "zod": "^3.24.2",
-    "@avnu/avnu-sdk": "^3.1.1"
+    "winston": "^3.17.0",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@types/node": "^22.13.10",
