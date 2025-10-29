@@ -22,6 +22,7 @@
     "@ijusttookadnatest/core": "^0.1.1",
     "@modelcontextprotocol/sdk": "^1.11.2",
     "@x10xchange/stark-crypto-wrapper-wasm": "^0.1.6",
+    "axios": "^1.7.9",
     "bignumber.js": "^9.3.1",
     "date-fns": "^4.1.0",
     "dotenv": "^16.4.7",
@@ -43,7 +44,7 @@
   "author": "kasarlabs",
   "license": "MIT",
   "description": "MCP server for extended functionality on Starknet",
-  "gitHead": "f6e24ddaa5b1e12f85fed2e632dc2338f338e74c",
+  "gitHead": "ece6d047dca4faa3d99cd657c5893f4851de6f82",
   "publishConfig": {
     "access": "public"
   }
