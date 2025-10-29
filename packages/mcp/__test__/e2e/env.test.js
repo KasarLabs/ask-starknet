@@ -26,7 +26,7 @@ try {
     name: 'ask_starknet',
     arguments: {
       userInput:
-        'I want to transfer 0.000001 STRK to account 0x07b67cA77BC41CB7DD972eb0Dc2bBAbCfCE9d586570e609f70E73C746D6565E8',
+        'I want to have my balance on Extended exchange',
     },
   });
 
