@@ -7,7 +7,7 @@ console.log('🔍 Validating MCP configuration...\n');
 // Load mcps.json
 let mcpsConfig;
 try {
-  const configPath = path.join(process.cwd(), 'packages/mcps/mcps.json');
+  const configPath = path.join(process.cwd(), 'packages/mcp/mcps.json');
   mcpsConfig = JSON.parse(fs.readFileSync(configPath, 'utf8'));
   console.log('✅ mcps.json loaded successfully');
 } catch (error) {
