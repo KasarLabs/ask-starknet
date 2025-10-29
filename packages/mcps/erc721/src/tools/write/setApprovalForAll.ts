@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { setApprovalForAllSchema } from '../../schemas/index.js';
 import { TransactionResult } from '../../lib/types/types.js';
 import { validateAndParseAddress } from 'starknet';
-import { onchainWrite } from '@ask-starknet/core';
+import { onchainWrite } from '@ijusttookadnatest/core';
 
 /**
  * Set the approval for all tokens of the contract.

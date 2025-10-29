@@ -20,7 +20,7 @@
     "@modelcontextprotocol/sdk": "^1.11.2",
     "dotenv": "^16.4.7",
     "@langchain/core": "^0.3.42",
-    "@ask-starknet/core": "workspace:*",
+    "@ijusttookadnatest/core": "workspace:*",
     "zod": "^3.24.2",
     "winston": "^3.17.0",
     "starknet": "^7.6.4"

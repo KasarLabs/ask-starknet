@@ -12,7 +12,7 @@ import {
 
 import { TransactionReponseFormat } from '../lib/utils/outputSimulateTransaction.js';
 import { DEFAULT_NONCE } from '../lib/constant/index.js';
-import { onchainWrite } from '@ask-starknet/core';
+import { onchainWrite } from '@ijusttookadnatest/core';
 
 /**
  * Simulates invoke transaction

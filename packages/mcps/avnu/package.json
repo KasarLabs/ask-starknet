@@ -19,7 +19,7 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.11.2",
     "dotenv": "^16.4.7",
-    "@ask-starknet/core": "workspace:*",
+    "@ijusttookadnatest/core": "workspace:*",
     "starknet": "^7.6.4",
     "zod": "^3.24.2",
     "@avnu/avnu-sdk": "^3.1.1"

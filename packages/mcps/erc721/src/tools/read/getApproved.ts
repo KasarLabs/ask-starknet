@@ -5,7 +5,7 @@ import { validateAndFormatTokenId } from '../../lib/utils/utils.js';
 import { z } from 'zod';
 import { getApprovedSchema } from '../../schemas/index.js';
 import { validateAndParseAddress } from 'starknet';
-import { onchainRead } from '@ask-starknet/core';
+import { onchainRead } from '@ijusttookadnatest/core';
 
 /**
  * Get the address that has been approved to transfer the token.

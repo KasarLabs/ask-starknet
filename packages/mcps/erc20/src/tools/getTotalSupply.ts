@@ -1,5 +1,5 @@
 import { Contract } from 'starknet';
-import { onchainWrite } from '@ask-starknet/core';
+import { onchainWrite } from '@ijusttookadnatest/core';
 import {
   validateToken,
   formatBalance,

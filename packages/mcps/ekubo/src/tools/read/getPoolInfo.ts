@@ -1,4 +1,4 @@
-import { onchainRead } from '@ask-starknet/core';
+import { onchainRead } from '@ijusttookadnatest/core';
 import { PoolKey } from '../../schemas/index.js';
 import {
   calculateTickFromSqrtPrice,

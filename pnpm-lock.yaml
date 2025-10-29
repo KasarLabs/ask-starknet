@@ -122,7 +122,7 @@ importers:
 
   packages/mcps/argent:
     dependencies:
-      '@ask-starknet/core':
+      '@ijusttookadnatest/core':
         specifier: workspace:*
         version: link:../../core
       '@modelcontextprotocol/sdk':
@@ -147,7 +147,7 @@ importers:
 
   packages/mcps/artpeace:
     dependencies:
-      '@ask-starknet/core':
+      '@ijusttookadnatest/core':
         specifier: workspace:*
         version: link:../../core
       '@langchain/core':
@@ -181,12 +181,12 @@ importers:
 
   packages/mcps/avnu:
     dependencies:
-      '@ask-starknet/core':
-        specifier: workspace:*
-        version: link:../../core
       '@avnu/avnu-sdk':
         specifier: ^3.1.1
         version: 3.1.1(ethers@6.15.0)(moment@2.30.1)(qs@6.14.0)(starknet@7.6.4)
+      '@ijusttookadnatest/core':
+        specifier: workspace:*
+        version: link:../../core
       '@modelcontextprotocol/sdk':
         specifier: ^1.11.2
         version: 1.17.5
@@ -209,7 +209,7 @@ importers:
 
   packages/mcps/braavos:
     dependencies:
-      '@ask-starknet/core':
+      '@ijusttookadnatest/core':
         specifier: workspace:*
         version: link:../../core
       '@modelcontextprotocol/sdk':
@@ -265,7 +265,7 @@ importers:
 
   packages/mcps/contract:
     dependencies:
-      '@ask-starknet/core':
+      '@ijusttookadnatest/core':
         specifier: workspace:*
         version: link:../../core
       '@modelcontextprotocol/sdk':
@@ -293,12 +293,12 @@ importers:
 
   packages/mcps/ekubo:
     dependencies:
-      '@ask-starknet/core':
-        specifier: workspace:*
-        version: link:../../core
       '@ekubo/starknet-sdk':
         specifier: ^0.0.7
         version: 0.0.7
+      '@ijusttookadnatest/core':
+        specifier: workspace:*
+        version: link:../../core
       '@modelcontextprotocol/sdk':
         specifier: ^1.11.2
         version: 1.17.5
@@ -321,7 +321,7 @@ importers:
 
   packages/mcps/endurfi:
     dependencies:
-      '@ask-starknet/core':
+      '@ijusttookadnatest/core':
         specifier: workspace:*
         version: link:../../core
       '@modelcontextprotocol/sdk':
@@ -346,7 +346,7 @@ importers:
 
   packages/mcps/erc20:
     dependencies:
-      '@ask-starknet/core':
+      '@ijusttookadnatest/core':
         specifier: workspace:*
         version: link:../../core
       '@langchain/core':
@@ -377,7 +377,7 @@ importers:
 
   packages/mcps/erc721:
     dependencies:
-      '@ask-starknet/core':
+      '@ijusttookadnatest/core':
         specifier: workspace:*
         version: link:../../core
       '@langchain/core':
@@ -408,9 +408,9 @@ importers:
 
   packages/mcps/extended:
     dependencies:
-      '@ask-starknet/core':
-        specifier: workspace:*
-        version: link:../../core
+      '@ijusttookadnatest/core':
+        specifier: ^0.1.1
+        version: 0.1.1
       '@modelcontextprotocol/sdk':
         specifier: ^1.11.2
         version: 1.17.5
@@ -451,7 +451,7 @@ importers:
 
   packages/mcps/fibrous:
     dependencies:
-      '@ask-starknet/core':
+      '@ijusttookadnatest/core':
         specifier: workspace:*
         version: link:../../core
       '@langchain/core':
@@ -482,7 +482,7 @@ importers:
 
   packages/mcps/okx:
     dependencies:
-      '@ask-starknet/core':
+      '@ijusttookadnatest/core':
         specifier: workspace:*
         version: link:../../core
       '@modelcontextprotocol/sdk':
@@ -507,7 +507,7 @@ importers:
 
   packages/mcps/openzeppelin:
     dependencies:
-      '@ask-starknet/core':
+      '@ijusttookadnatest/core':
         specifier: workspace:*
         version: link:../../core
       '@langchain/core':
@@ -538,7 +538,7 @@ importers:
 
   packages/mcps/opus:
     dependencies:
-      '@ask-starknet/core':
+      '@ijusttookadnatest/core':
         specifier: workspace:*
         version: link:../../core
       '@langchain/core':
@@ -572,7 +572,7 @@ importers:
 
   packages/mcps/scarb:
     dependencies:
-      '@ask-starknet/core':
+      '@ijusttookadnatest/core':
         specifier: workspace:*
         version: link:../../core
       '@modelcontextprotocol/sdk':
@@ -603,7 +603,7 @@ importers:
 
   packages/mcps/starknet-rpc:
     dependencies:
-      '@ask-starknet/core':
+      '@ijusttookadnatest/core':
         specifier: workspace:*
         version: link:../../core
       '@langchain/core':
@@ -634,7 +634,7 @@ importers:
 
   packages/mcps/transaction:
     dependencies:
-      '@ask-starknet/core':
+      '@ijusttookadnatest/core':
         specifier: workspace:*
         version: link:../../core
       '@langchain/core':
@@ -665,7 +665,7 @@ importers:
 
   packages/mcps/unruggable:
     dependencies:
-      '@ask-starknet/core':
+      '@ijusttookadnatest/core':
         specifier: workspace:*
         version: link:../../core
       '@langchain/core':
@@ -696,7 +696,7 @@ importers:
 
   packages/mcps/vesu:
     dependencies:
-      '@ask-starknet/core':
+      '@ijusttookadnatest/core':
         specifier: workspace:*
         version: link:../../core
       '@langchain/core':
@@ -1210,6 +1210,9 @@ packages:
   '@ibm-cloud/watsonx-ai@1.6.12':
     resolution: {integrity: sha512-ZMvkQgucWj2NDRl/7+RVislV3JYyS7iXUbPwJyQt4M0gcaVChM6PayZqdxAbqL4hdbXmh/k/uvhUynZrmpa0LQ==}
     engines: {node: '>=18.0.0'}
+
+  '@ijusttookadnatest/core@0.1.1':
+    resolution: {integrity: sha512-DYMnyVDySpXOChU7/offeS58YaXeeY0AxAJXizVNJL3TF1oNYCKq4pLMVUaOhBygqO9PnCPNybO/ejK7pg8RPQ==}
 
   '@inquirer/ansi@1.0.1':
     resolution: {integrity: sha512-yqq0aJW/5XPhi5xOAL1xRCpe1eh8UFVgYFpFsjEqmIR8rKLyP+HINvFXwUaxYICflJrVlxnp7lLN6As735kVpw==}
@@ -6365,6 +6368,12 @@ snapshots:
       ibm-cloud-sdk-core: 5.4.2
     transitivePeerDependencies:
       - supports-color
+
+  '@ijusttookadnatest/core@0.1.1':
+    dependencies:
+      starknet: 7.6.4
+      winston: 3.17.0
+      zod: 3.25.76
 
   '@inquirer/ansi@1.0.1': {}
 

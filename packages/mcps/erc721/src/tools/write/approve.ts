@@ -4,7 +4,7 @@ import {
   constants,
   validateAndParseAddress,
 } from 'starknet';
-import { onchainWrite } from '@ask-starknet/core';
+import { onchainWrite } from '@ijusttookadnatest/core';
 import { INTERACT_ERC721_ABI } from '../../lib/abis/interact.js';
 import {
   validateAndFormatTokenId,

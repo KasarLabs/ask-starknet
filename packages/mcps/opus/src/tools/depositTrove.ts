@@ -1,6 +1,6 @@
 import { DepositTroveParams } from '../schemas/index.js';
 import { createTroveManager } from '../lib/utils/troveManager.js';
-import { onchainWrite } from '@ask-starknet/core';
+import { onchainWrite } from '@ijusttookadnatest/core';
 
 export const depositTrove = async (
   env: onchainWrite,
