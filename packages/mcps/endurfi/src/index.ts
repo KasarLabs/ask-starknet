@@ -8,7 +8,7 @@ import {
   registerToolsWithServer,
   getOnchainRead,
   getOnchainWrite,
-} from '@ijusttookadnatest/ask-starknet-core';
+} from '@ijusttookadnatest/ask-starknet-core-test';
 import {
   stakeSchema,
   unstakeSchema,

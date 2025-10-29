@@ -1,5 +1,5 @@
 {
-  "name": "@ijusttookadnatest/avnu-mcp",
+  "name": "@ijusttookadnatest/avnu-mcp-test",
   "version": "0.1.0",
   "main": "index.js",
   "type": "module",
@@ -17,7 +17,7 @@
   ],
   "dependencies": {
     "@avnu/avnu-sdk": "^3.1.1",
-    "@ijusttookadnatest/ask-starknet-core": "0.1.2",
+    "@ijusttookadnatest/ask-starknet-core-test": "workspace:*",
     "@langchain/core": "^0.3.75",
     "@modelcontextprotocol/sdk": "^1.11.2",
     "dotenv": "^16.4.7",

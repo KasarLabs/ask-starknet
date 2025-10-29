@@ -1,5 +1,5 @@
 import { RpcProvider } from 'starknet';
-import { onchainRead } from '@ijusttookadnatest/ask-starknet-core';
+import { onchainRead } from '@ijusttookadnatest/ask-starknet-core-test';
 import { OZ_CLASSHASH } from '../lib/constant/contract.js';
 import { AccountManager } from '../lib/utils/AccountManager.js';
 import { z } from 'zod';

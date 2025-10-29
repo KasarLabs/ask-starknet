@@ -3,7 +3,7 @@ import { ARGENT_CLASS_HASH } from '../lib/constant/contract.js';
 import { AccountManager } from '../lib/utils/AccountManager.js';
 import { z } from 'zod';
 import { accountDetailsSchema } from '../schemas/schema.js';
-import { onchainRead } from '@ijusttookadnatest/ask-starknet-core';
+import { onchainRead } from '@ijusttookadnatest/ask-starknet-core-test';
 /**
  * Deploys an Argent account using RPC provider.
  * @async

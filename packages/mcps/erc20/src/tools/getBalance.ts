@@ -1,5 +1,5 @@
 import { Contract } from 'starknet';
-import { onchainWrite } from '@ijusttookadnatest/ask-starknet-core';
+import { onchainWrite } from '@ijusttookadnatest/ask-starknet-core-test';
 import { detectAbiType } from '../lib/utils/utils.js';
 import {
   formatBalance,

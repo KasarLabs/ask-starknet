@@ -9,7 +9,7 @@ import { validateAndParseAddress } from 'starknet';
 import { z } from 'zod';
 import { transferFromSchema, transferSchema } from '../../schemas/index.js';
 import { TransactionResult } from '../../lib/types/types.js';
-import { onchainWrite } from '@ijusttookadnatest/ask-starknet-core';
+import { onchainWrite } from '@ijusttookadnatest/ask-starknet-core-test';
 
 /**
  * Transfers a token from one address to another.

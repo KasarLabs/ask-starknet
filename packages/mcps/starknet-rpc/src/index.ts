@@ -6,7 +6,7 @@ import {
   mcpTool,
   registerToolsWithServer,
   getOnchainRead,
-} from '@ijusttookadnatest/ask-starknet-core';
+} from '@ijusttookadnatest/ask-starknet-core-test';
 import dotenv from 'dotenv';
 
 import { getSpecVersion } from './tools/getSpecVersion.js';

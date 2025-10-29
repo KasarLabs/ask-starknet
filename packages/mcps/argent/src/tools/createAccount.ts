@@ -1,7 +1,7 @@
 import { RpcProvider } from 'starknet';
 import { ARGENT_CLASS_HASH } from '../lib/constant/contract.js';
 import { AccountManager } from '../lib/utils/AccountManager.js';
-import { onchainRead } from '@ijusttookadnatest/ask-starknet-core';
+import { onchainRead } from '@ijusttookadnatest/ask-starknet-core-test';
 
 /**
  * Creates a new Argent account.

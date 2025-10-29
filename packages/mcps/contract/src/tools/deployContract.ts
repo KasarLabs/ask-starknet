@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { getOnchainWrite } from '@ijusttookadnatest/ask-starknet-core';
+import { getOnchainWrite } from '@ijusttookadnatest/ask-starknet-core-test';
 import { deployContractSchema } from '../schemas/index.js';
 import {
   validateFilePaths,

@@ -1,6 +1,6 @@
 import { OpenTroveParams } from '../schemas/index.js';
 import { createTroveManager } from '../lib/utils/troveManager.js';
-import { onchainWrite } from '@ijusttookadnatest/ask-starknet-core';
+import { onchainWrite } from '@ijusttookadnatest/ask-starknet-core-test';
 
 export const openTrove = async (env: onchainWrite, params: OpenTroveParams) => {
   const accountAddress = env.account?.address;

@@ -8,7 +8,7 @@ import { preparePoolKeyFromParams } from '../../lib/utils/pools.js';
 import { buildBounds, sortAmounts } from '../../lib/utils/liquidity.js';
 import { extractPositionIdFromReceipt } from '../../lib/utils/events.js';
 import { CreatePositionSchema } from '../../schemas/index.js';
-import { onchainWrite } from '@ijusttookadnatest/ask-starknet-core';
+import { onchainWrite } from '@ijusttookadnatest/ask-starknet-core-test';
 
 export const createPosition = async (
   env: onchainWrite,

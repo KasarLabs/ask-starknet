@@ -1,5 +1,5 @@
 import { Account, shortString, cairo } from 'starknet';
-import { onchainWrite } from '@ijusttookadnatest/ask-starknet-core';
+import { onchainWrite } from '@ijusttookadnatest/ask-starknet-core-test';
 import { ContractManager } from '../lib/utils/contractManager.js';
 import { deployERC20Schema } from '../schemas/index.js';
 import {

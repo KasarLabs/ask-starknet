@@ -1,5 +1,5 @@
 {
-  "name": "@ijusttookadnatest/vesu-mcp",
+  "name": "@ijusttookadnatest/vesu-mcp-test",
   "version": "0.1.0",
   "main": "index.js",
   "type": "module",
@@ -16,7 +16,7 @@
     "build"
   ],
   "dependencies": {
-    "@ijusttookadnatest/ask-starknet-core": "0.1.2",
+    "@ijusttookadnatest/ask-starknet-core-test": "workspace:*",
     "@langchain/core": "^0.3.42",
     "@modelcontextprotocol/sdk": "^1.11.2",
     "dotenv": "^16.4.7",

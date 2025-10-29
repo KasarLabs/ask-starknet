@@ -1,5 +1,5 @@
 {
-  "name": "@ijusttookadnatest/ekubo-mcp",
+  "name": "@ijusttookadnatest/ekubo-mcp-test",
   "version": "0.1.0",
   "main": "index.js",
   "type": "module",
@@ -17,7 +17,7 @@
   ],
   "dependencies": {
     "@ekubo/starknet-sdk": "^0.0.7",
-    "@ijusttookadnatest/ask-starknet-core": "0.1.2",
+    "@ijusttookadnatest/ask-starknet-core-test": "workspace:*",
     "@modelcontextprotocol/sdk": "^1.11.2",
     "dotenv": "^16.4.7",
     "starknet": "^7.6.4",
