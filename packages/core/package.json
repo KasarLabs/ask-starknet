@@ -13,7 +13,7 @@
     "test": "jest"
   },
   "files": [
-    "build" 
+    "build"
   ],
   "keywords": [
     "starknet",
@@ -23,6 +23,9 @@
   ],
   "author": "kasarlabs",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "starknet": "^7.6.4",
     "winston": "^3.17.0",
@@ -39,5 +42,6 @@
       "import": "./build/index.js",
       "types": "./build/index.d.ts"
     }
-  }
+  },
+  "gitHead": "3b0c40960a542d881d600ebc9e956784da1d6026"
 }
