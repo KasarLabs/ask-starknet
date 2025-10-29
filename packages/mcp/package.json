@@ -1,6 +1,6 @@
 {
-  "name": "@ijusttookadnatest/ask-starknet-mcp",
-  "version": "0.1.5",
+  "name": "@ijusttookadnatest/ask-starknet-mcp-test",
+  "version": "0.1.0",
   "main": "build/index.js",
   "type": "module",
   "bin": {
