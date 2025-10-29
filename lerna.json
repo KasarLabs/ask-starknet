@@ -13,7 +13,7 @@
       "push": false
     },
     "version": {
-      "allowBranch": "main",
+      "allowBranch": "feat/migration-lerna",
       "message": "chore(release): version packages",
       "gitTagVersion": false,
       "push": false
