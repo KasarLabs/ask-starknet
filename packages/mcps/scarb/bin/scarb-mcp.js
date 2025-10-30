@@ -1,17 +1,14 @@
 #!/usr/bin/env node
+import { existsSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 
-const { execSync } = require('child_process');
-const path = require('path');
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const buildPath = join(__dirname, '..', 'build', 'index.js');
 
-// Get the directory where this script is located
-const binDir = __dirname;
-const packageDir = path.dirname(binDir);
-const indexPath = path.join(packageDir, 'build', 'index.js');
-
-try {
-  // Execute the compiled index.js
-  execSync(`node "${indexPath}"`, { stdio: 'inherit' });
-} catch (error) {
-  console.error('Failed to start MCP server:', error.message);
+if (!existsSync(buildPath)) {
+  console.error('Build not found. Run: npm run build');
   process.exit(1);
 }
+
+await import(buildPath);

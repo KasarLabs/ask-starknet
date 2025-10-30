@@ -4,7 +4,7 @@ import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 
 import dotenv from 'dotenv';
 
-import { mcpTool, registerToolsWithServer } from '@ask-starknet/core';
+import { mcpTool, registerToolsWithServer } from '@kasarlabs/ask-starknet-core';
 import { ExtendedApiEnv } from './lib/types/index.js';
 
 // Import READ tools (Account Management)

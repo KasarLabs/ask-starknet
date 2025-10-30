@@ -1,6 +1,6 @@
 {
-  "name": "@ask-starknet/core",
-  "version": "1.0.0",
+  "name": "@kasarlabs/ask-starknet-core",
+  "version": "0.1.0",
   "description": "Core utilities and shared functionality for the Ask Starknet MCP ecosystem",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -23,16 +23,19 @@
   ],
   "author": "kasarlabs",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
-    "zod": "^3.24.2",
+    "starknet": "^7.6.4",
     "winston": "^3.17.0",
-    "starknet": "^7.6.4"
+    "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@types/jest": "^29.0.0",
     "@types/node": "^22.13.10",
-    "typescript": "^5.8.2",
     "jest": "^29.0.0",
-    "@types/jest": "^29.0.0"
+    "typescript": "^5.8.2"
   },
   "exports": {
     ".": {

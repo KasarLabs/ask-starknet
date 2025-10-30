@@ -16,8 +16,8 @@
     "build"
   ],
   "dependencies": {
+    "@kasarlabs/ask-starknet-core": "workspace:*",
     "@modelcontextprotocol/sdk": "^1.11.2",
-    "@ask-starknet/core": "workspace:*",
     "dotenv": "^16.4.7",
     "fs-extra": "^11.3.2",
     "winston": "^3.17.0",
@@ -35,5 +35,8 @@
   ],
   "author": "kasarlabs",
   "license": "MIT",
-  "description": "MCP server for Scarb Cairo compilation and program execution operations."
+  "description": "MCP server for Scarb Cairo compilation and program execution operations.",
+  "publishConfig": {
+    "access": "public"
+  }
 }

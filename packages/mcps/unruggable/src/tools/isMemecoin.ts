@@ -3,7 +3,7 @@ import { Contract } from 'starknet';
 
 import { FACTORY_ABI } from '../lib/abis/unruggableFactory.js';
 import { FACTORY_ADDRESS } from '../lib/constants/index.js';
-import { onchainWrite } from '@ask-starknet/core';
+import { onchainWrite } from '@kasarlabs/ask-starknet-core';
 
 /**
  * Checks if a given contract address is a memecoin created by the Unruggable Factory.

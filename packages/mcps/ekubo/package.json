@@ -17,8 +17,8 @@
   ],
   "dependencies": {
     "@ekubo/starknet-sdk": "^0.0.7",
+    "@kasarlabs/ask-starknet-core": "workspace:*",
     "@modelcontextprotocol/sdk": "^1.11.2",
-    "@ask-starknet/core": "workspace:*",
     "dotenv": "^16.4.7",
     "starknet": "^7.6.4",
     "zod": "^3.24.2"
@@ -34,5 +34,8 @@
   ],
   "author": "kasarlabs",
   "license": "MIT",
-  "description": "MCP server for Ekubo protocol interactions on Starknet"
+  "description": "MCP server for Ekubo protocol interactions on Starknet",
+  "publishConfig": {
+    "access": "public"
+  }
 }

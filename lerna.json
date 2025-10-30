@@ -1,0 +1,18 @@
+{
+  "version": "independent",
+  "npmClient": "pnpm",
+  "command": {
+    "publish": {
+      "ignoreChanges": ["*.md", "*.test.ts", "*.spec.ts"],
+      "message": "chore(release): publish %s",
+      "gitTagVersion": true,
+      "push": true
+    },
+    "version": {
+      "allowBranch": "main",
+      "message": "chore(release): version packages",
+      "gitTagVersion": false,
+      "push": false
+    }
+  }
+}

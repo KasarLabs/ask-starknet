@@ -2,7 +2,7 @@ import { LaunchOnEkuboParams } from '../schemas/index.js';
 import { FACTORY_ABI } from '../lib/abis/unruggableFactory.js';
 import { FACTORY_ADDRESS } from '../lib/constants/index.js';
 import { Contract } from 'starknet';
-import { onchainWrite } from '@ask-starknet/core';
+import { onchainWrite } from '@kasarlabs/ask-starknet-core';
 
 /**
  * Launches a memecoin on the Ekubo DEX with concentrated liquidity.

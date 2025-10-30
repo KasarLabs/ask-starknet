@@ -6,7 +6,7 @@ import {
   mcpTool,
   registerToolsWithServer,
   getOnchainWrite,
-} from '@ask-starknet/core';
+} from '@kasarlabs/ask-starknet-core';
 import dotenv from 'dotenv';
 
 import { routeSchema, swapSchema } from './schemas/index.js';

@@ -16,9 +16,9 @@
     "build"
   ],
   "dependencies": {
+    "@kasarlabs/ask-starknet-core": "workspace:*",
     "@langchain/core": "^0.3.42",
     "@modelcontextprotocol/sdk": "^1.11.2",
-    "@ask-starknet/core": "workspace:*",
     "dotenv": "^16.4.7",
     "starknet": "^7.1.0",
     "winston": "^3.17.0",
@@ -35,5 +35,8 @@
   ],
   "author": "kasarlabs",
   "license": "MIT",
-  "description": "MCP server for simulating various types of transactions without execution."
+  "description": "MCP server for simulating various types of transactions without execution.",
+  "publishConfig": {
+    "access": "public"
+  }
 }

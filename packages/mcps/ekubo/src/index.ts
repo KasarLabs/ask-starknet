@@ -9,7 +9,7 @@ import {
   registerToolsWithServer,
   getOnchainRead,
   getOnchainWrite,
-} from '@ask-starknet/core';
+} from '@kasarlabs/ask-starknet-core';
 import {
   poolKeySchema,
   getTokenPriceSchema,

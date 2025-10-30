@@ -2,7 +2,7 @@ import { getContract } from '../../lib/utils/contracts.js';
 import { preparePoolKeyFromParams } from '../../lib/utils/pools.js';
 import { WithdrawLiquiditySchema } from '../../schemas/index.js';
 import { buildBounds } from '../../lib/utils/liquidity.js';
-import { onchainWrite } from '@ask-starknet/core';
+import { onchainWrite } from '@kasarlabs/ask-starknet-core';
 
 export const withdrawLiquidity = async (
   env: onchainWrite,

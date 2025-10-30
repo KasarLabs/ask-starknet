@@ -4,7 +4,7 @@ import {
   validateAndParseAddress,
   constants,
 } from 'starknet';
-import { onchainWrite } from '@ask-starknet/core';
+import { onchainWrite } from '@kasarlabs/ask-starknet-core';
 import {
   validateAndFormatParams,
   executeV3Transaction,

@@ -9,7 +9,7 @@ import { getV3DetailsPayload } from '../lib/utils/utils.js';
 import { TransactionMonitor } from '../lib/utils/transactionMonitor.js';
 import { BatchSwapParams } from '../lib/types/index.js';
 import { SLIPPAGE_PERCENTAGE } from '../lib/constants/index.js';
-import { onchainWrite } from '@ask-starknet/core';
+import { onchainWrite } from '@kasarlabs/ask-starknet-core';
 
 export class BatchSwapService {
   private tokenService: TokenService;

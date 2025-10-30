@@ -10,7 +10,7 @@ import {
   mcpTool,
   registerToolsWithServer,
   getOnchainRead,
-} from '@ask-starknet/core';
+} from '@kasarlabs/ask-starknet-core';
 
 dotenv.config();
 
