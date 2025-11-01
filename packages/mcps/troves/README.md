@@ -24,4 +24,3 @@ When asking the agent to perform Troves-related tasks, it will use the appropria
 ## Development
 
 To extend this plugin, add new tools in the `src/tools` directory and register them in the `registerTools` function in `src/index.ts`.
-

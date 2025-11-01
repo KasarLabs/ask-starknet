@@ -240,7 +240,7 @@ async function testGetLstStats(client) {
 
   console.log('✅ get_lst_stats test passed');
   console.log(`   Total assets: ${response.data.summary.total_assets}`);
-  
+
   if (response.data.summary.highest_apy) {
     console.log(
       `   Highest APY: ${response.data.summary.highest_apy.asset} (${response.data.summary.highest_apy.apy_percentage})`
@@ -274,7 +274,7 @@ async function testGetLstStats(client) {
     'tvl_usd',
     'tvl_asset',
   ];
-  
+
   response.data.stats.forEach((stat, index) => {
     requiredFields.forEach((field) => {
       if (!(field in stat)) {

@@ -25,7 +25,7 @@ export const getLstStats = async (
       method: 'GET',
       headers: {
         'User-Agent': 'EndurfiMCP/1.0',
-        'Accept': 'application/json',
+        Accept: 'application/json',
       },
     });
 
@@ -83,4 +83,3 @@ export const getLstStats = async (
     };
   }
 };
-
