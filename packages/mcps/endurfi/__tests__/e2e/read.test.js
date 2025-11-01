@@ -9,6 +9,14 @@ async function createClient() {
   const transport = new StdioClientTransport({
     command: 'node',
     args: ['build/index.js'],
+    env: {
+      ...process.env,
+      STARKNET_RPC_URL:
+        process.env.STARKNET_RPC_URL ||
+        'https://starknet-mainnet.public.blastapi.io',
+      STARKNET_ACCOUNT_ADDRESS: process.env.STARKNET_ACCOUNT_ADDRESS || '0x1',
+      STARKNET_PRIVATE_KEY: process.env.STARKNET_PRIVATE_KEY || '0x1',
+    },
   });
 
   const client = new Client({
@@ -28,11 +36,24 @@ async function callTool(client, name, args) {
   console.log(`\n--- ${name} ---`);
   console.log('Raw result:', JSON.stringify(result, null, 2));
 
-  // Parse the MCP response
-  const response = JSON.parse(result.content[0].text);
-  console.log('Parsed response:', JSON.stringify(response, null, 2));
+  // Check if the result is an error
+  if (result.isError || !result.content || result.content.length === 0) {
+    throw new Error(
+      `Tool call failed: ${result.content?.[0]?.text || 'Unknown error'}`
+    );
+  }
 
-  return response;
+  // Parse the MCP response
+  try {
+    const response = JSON.parse(result.content[0].text);
+    console.log('Parsed response:', JSON.stringify(response, null, 2));
+    return response;
+  } catch (error) {
+    // If parsing fails, it might be an error message
+    throw new Error(
+      `Failed to parse response: ${result.content[0].text}. ${error.message}`
+    );
+  }
 }
 
 /**
@@ -206,6 +227,68 @@ async function testGetWithdrawRequestInfo(client) {
 }
 
 /**
+ * Test get_lst_stats tool - gets APY, exchange rate, and TVL for all tokens
+ */
+async function testGetLstStats(client) {
+  console.log('\n--- Testing get_lst_stats ---');
+
+  const response = await callTool(client, 'get_lst_stats', {});
+
+  if (response.status !== 'success') {
+    throw new Error(`get_lst_stats failed: ${response.error}`);
+  }
+
+  console.log('✅ get_lst_stats test passed');
+  console.log(`   Total assets: ${response.data.summary.total_assets}`);
+
+  if (response.data.summary.highest_apy) {
+    console.log(
+      `   Highest APY: ${response.data.summary.highest_apy.asset} (${response.data.summary.highest_apy.apy_percentage})`
+    );
+  }
+
+  console.log('\n   Stats for all tokens:');
+  response.data.stats.forEach((stat) => {
+    console.log(`   - ${stat.asset}:`);
+    console.log(`     APY: ${stat.apy_percentage}`);
+    console.log(`     Exchange Rate: ${stat.exchange_rate}`);
+    console.log(`     TVL USD: ${stat.tvl_usd_formatted}`);
+    console.log(`     TVL Asset: ${stat.tvl_asset}`);
+  });
+
+  // Validate response structure
+  if (!response.data.stats || !Array.isArray(response.data.stats)) {
+    throw new Error('Invalid response structure: stats should be an array');
+  }
+
+  if (response.data.stats.length === 0) {
+    throw new Error('No stats returned from API');
+  }
+
+  // Validate that each stat has required fields
+  const requiredFields = [
+    'asset',
+    'apy',
+    'apy_percentage',
+    'exchange_rate',
+    'tvl_usd',
+    'tvl_asset',
+  ];
+
+  response.data.stats.forEach((stat, index) => {
+    requiredFields.forEach((field) => {
+      if (!(field in stat)) {
+        throw new Error(
+          `Missing required field '${field}' in stat at index ${index}`
+        );
+      }
+    });
+  });
+
+  return true;
+}
+
+/**
  * Test error handling with invalid inputs
  */
 async function testErrorHandling(client) {
@@ -269,6 +352,7 @@ async function runTests() {
     await testGetUserBalance(client);
     await testGetTotalStaked(client);
     await testGetWithdrawRequestInfo(client);
+    await testGetLstStats(client);
     await testErrorHandling(client);
 
     console.log('\n✅ All tests completed successfully!');

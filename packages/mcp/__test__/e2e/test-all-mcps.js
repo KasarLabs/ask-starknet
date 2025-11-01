@@ -110,6 +110,10 @@ const testQueries = {
     description: 'Starknet knowledge',
     args: { question: 'What is Starknet?' },
   },
+  troves: {
+    tool: 'troves_get_strategies',
+    description: 'Get Troves strategies',
+  },
 };
 
 async function testMCP(mcpName, mcpConfig) {

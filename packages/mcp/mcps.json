@@ -124,6 +124,18 @@
       ]
     }
   },
+  "troves": {
+    "client": {
+      "command": "npx",
+      "args": ["-y", "@kasarlabs/troves-mcp"],
+      "transport": "stdio"
+    },
+    "description": "Troves strategies API for Starknet",
+    "promptInfo": {
+      "expertise": "Troves strategies and yield farming on Starknet",
+      "tools": ["troves_get_strategies"]
+    }
+  },
   "artpeace": {
     "client": {
       "command": "npx",
@@ -412,6 +424,7 @@
         "get_user_balance",
         "get_total_staked",
         "get_withdraw_request_info",
+        "get_lst_stats",
         "stake",
         "unstake",
         "claim"

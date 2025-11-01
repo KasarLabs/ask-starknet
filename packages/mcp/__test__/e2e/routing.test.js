@@ -104,6 +104,16 @@ const testCases = [
     expectedAgent: 'vesu',
   },
   {
+    name: 'Troves Strategies',
+    query: 'Get Troves strategies',
+    expectedAgent: 'troves',
+  },
+  {
+    name: 'Troves Yield Farming',
+    query: 'Show me available strategies on Troves',
+    expectedAgent: 'troves',
+  },
+  {
     name: 'Opus Trove',
     query: 'Open a Trove on Opus for borrowing',
     expectedAgent: 'opus',
