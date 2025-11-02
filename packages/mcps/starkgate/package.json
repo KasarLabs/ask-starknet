@@ -12,7 +12,8 @@
     "clean:all": "rm -rf build node_modules",
     "start": "node build/index.js",
     "test:deposit": "node __tests__/e2e/deposit.test.js",
-    "test:withdraw": "node __tests__/e2e/withdraw.test.js"
+    "test:withdraw": "node __tests__/e2e/withdraw.test.js",
+    "test:read": "node __tests__/e2e/read.test.js"
   },
   "files": [
     "build"

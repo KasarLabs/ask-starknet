@@ -9,9 +9,18 @@ import {
 } from '@kasarlabs/ask-starknet-core';
 import dotenv from 'dotenv';
 
-import { depositSchema, withdrawSchema } from './schemas/index.js';
+import {
+  depositSchema,
+  withdrawSchema,
+  checkDepositStatusSchema,
+  checkWithdrawalReadySchema,
+  listBridgedTokensSchema,
+} from './schemas/index.js';
 import { deposit } from './tools/deposit.js';
 import { withdraw } from './tools/withdraw.js';
+import { checkDepositStatus } from './tools/checkDepositStatus.js';
+import { checkWithdrawalReady } from './tools/checkWithdrawalReady.js';
+import { listBridgedTokens } from './tools/listBridgedTokens.js';
 
 dotenv.config();
 
@@ -39,6 +48,36 @@ const registerTools = (StarkgateToolRegistry: mcpTool[]) => {
     execute: async (params: any) => {
       const onchainWrite = getOnchainWrite();
       return await withdraw(onchainWrite as any, params);
+    },
+  });
+
+  StarkgateToolRegistry.push({
+    name: 'starkgate_check_deposit_status',
+    description:
+      'Check the status of a deposit from Ethereum L1 to Starknet L2. Verifies if the L1 transaction is confirmed and provides estimated arrival time on L2.',
+    schema: checkDepositStatusSchema,
+    execute: async (params: any) => {
+      return await checkDepositStatus(params);
+    },
+  });
+
+  StarkgateToolRegistry.push({
+    name: 'starkgate_check_withdrawal_ready',
+    description:
+      'Check if a withdrawal from Starknet L2 to Ethereum L1 is ready to be claimed. Verifies L2 transaction status and provides estimated time until claimable on L1.',
+    schema: checkWithdrawalReadySchema,
+    execute: async (params: any) => {
+      return await checkWithdrawalReady(params);
+    },
+  });
+
+  StarkgateToolRegistry.push({
+    name: 'starkgate_list_bridged_tokens',
+    description:
+      'List all tokens supported by Starkgate bridge with their L1/L2 addresses and bridge contract addresses.',
+    schema: listBridgedTokensSchema,
+    execute: async (params: any) => {
+      return await listBridgedTokens(params);
     },
   });
 };

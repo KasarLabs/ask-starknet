@@ -280,7 +280,13 @@
     "description": "Starkgate bridge for token transfers between Ethereum L1 and Starknet L2",
     "promptInfo": {
       "expertise": "Starkgate bridging and cross-layer token transfers",
-      "tools": ["starkgate_deposit", "starkgate_withdraw"]
+      "tools": [
+        "starkgate_deposit",
+        "starkgate_withdraw",
+        "starkgate_check_deposit_status",
+        "starkgate_check_withdrawal_ready",
+        "starkgate_list_bridged_tokens"
+      ]
     }
   },
   "scarb": {
