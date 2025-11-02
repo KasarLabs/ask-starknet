@@ -1,0 +1,36 @@
+/**
+ * Starkgate Bridge Contract Addresses
+ */
+
+export const STARKGATE_ADDRESSES = {
+  MAINNET: {
+    ETH: {
+      L1_BRIDGE: '0xae0Ee0A63A2cE6BaeEFFE56e7714FB4EFE48D419',
+      L2_BRIDGE: '0x073314940630fd6dcda0d772d4c972c4e0a9946bef9dabf4ef84eda8ef542b82',
+      L1_TOKEN: '0x0000000000000000000000000000000000000000', // Native ETH
+      L2_TOKEN: '0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7',
+    },
+    USDC: {
+      L1_BRIDGE: '0xF6080D9fbEEbcd44D89aFfBFd42F098cbFf92816',
+      L2_BRIDGE: '0x05cd48fccbfd8aa2773fe22c217e808319ffcc1c5a6a463f7d8fa2da48218196',
+      L1_TOKEN: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
+      L2_TOKEN: '0x053c91253bc9682c04929ca02ed00b3e423f6710d2ee7e0d5ebb06f3ecf368a8',
+    },
+  },
+  SEPOLIA: {
+    ETH: {
+      L1_BRIDGE: '0x8453FC6Cd1bCfE8D4dFC069C400B433054d47bDc',
+      L2_BRIDGE: '0x04c5772d1914fe6ce891b64eb35bf3522aeae1315647314aac58b01137607f3f',
+      L1_TOKEN: '0x0000000000000000000000000000000000000000', // Native ETH
+      L2_TOKEN: '0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7',
+    },
+  },
+};
+
+export const SUPPORTED_TOKENS = ['ETH', 'USDC'] as const;
+export type SupportedToken = (typeof SUPPORTED_TOKENS)[number];
+
+export const NETWORK_NAMES = {
+  MAINNET: '0x1',
+  SEPOLIA: '0xaa36a7',
+} as const;

@@ -264,6 +264,25 @@
       ]
     }
   },
+  "starkgate": {
+    "client": {
+      "command": "npx",
+      "args": ["-y", "@kasarlabs/starkgate-mcp"],
+      "transport": "stdio",
+      "env": {
+        "STARKNET_RPC_URL": "",
+        "STARKNET_ACCOUNT_ADDRESS": "",
+        "STARKNET_PRIVATE_KEY": "",
+        "ETHEREUM_RPC_URL": "",
+        "ETHEREUM_PRIVATE_KEY": ""
+      }
+    },
+    "description": "Starkgate bridge for token transfers between Ethereum L1 and Starknet L2",
+    "promptInfo": {
+      "expertise": "Starkgate bridging and cross-layer token transfers",
+      "tools": ["starkgate_deposit", "starkgate_withdraw"]
+    }
+  },
   "scarb": {
     "client": {
       "command": "npx",

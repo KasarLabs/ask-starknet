@@ -1,0 +1,45 @@
+{
+  "name": "@kasarlabs/starkgate-mcp",
+  "version": "0.1.0",
+  "main": "index.js",
+  "type": "module",
+  "bin": {
+    "starkgate-mcp": "./bin/starkgate-mcp.js"
+  },
+  "scripts": {
+    "build": "tsc && chmod 755 build/index.js",
+    "clean": "rm -rf build",
+    "clean:all": "rm -rf build node_modules",
+    "start": "node build/index.js"
+  },
+  "files": [
+    "build"
+  ],
+  "dependencies": {
+    "@kasarlabs/ask-starknet-core": "workspace:*",
+    "@langchain/core": "^0.3.42",
+    "@modelcontextprotocol/sdk": "^1.11.2",
+    "dotenv": "^16.4.7",
+    "starknet": "^7.6.4",
+    "ethers": "^6.13.0",
+    "winston": "^3.17.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "typescript": "^5.8.2"
+  },
+  "keywords": [
+    "mcp",
+    "starknet",
+    "starkgate",
+    "bridge",
+    "ethereum"
+  ],
+  "author": "kasarlabs",
+  "license": "MIT",
+  "description": "MCP server for Starkgate bridge operations between Ethereum L1 and Starknet L2.",
+  "publishConfig": {
+    "access": "public"
+  }
+}
