@@ -7,10 +7,12 @@ import { mcpTool, registerToolsWithServer } from '@kasarlabs/ask-starknet-core';
 import { explainArchitecture } from './tools/explainArchitecture.js';
 import { listCapabilities } from './tools/listCapabilities.js';
 import { suggestProjects } from './tools/suggestProjects.js';
+import { getHelp } from './tools/getHelp.js';
 import {
   explainArchitectureSchema,
   listCapabilitiesSchema,
   suggestProjectsSchema,
+  getHelpSchema,
 } from './schemas/index.js';
 
 dotenv.config();
@@ -43,6 +45,14 @@ const registerTools = (DocsToolRegistry: mcpTool[]) => {
       'Suggest project ideas that can be built with Ask Starknet, filtered by domain or required MCPs',
     schema: suggestProjectsSchema,
     execute: suggestProjects,
+  });
+
+  DocsToolRegistry.push({
+    name: 'ask_starknet_help',
+    description:
+      'Get help on how to use Ask Starknet: quick start guide, setup instructions, capabilities overview, and troubleshooting',
+    schema: getHelpSchema,
+    execute: getHelp,
   });
 };
 

@@ -35,3 +35,13 @@ export const suggestProjectsSchema = z.object({
     .optional()
     .describe('Filter projects that use specific MCPs (e.g., ["avnu", "ekubo"])'),
 });
+
+// Tool 4: Get Help
+export const getHelpSchema = z.object({
+  topic: z
+    .enum(['quickstart', 'setup', 'capabilities', 'troubleshooting', 'all'])
+    .optional()
+    .describe(
+      'Help topic: quickstart (basic usage), setup (configuration), capabilities (what Ask Starknet can do), troubleshooting (common issues), or all'
+    ),
+});

@@ -1,6 +1,6 @@
 // Auto-generated from packages/mcp/mcps.json
 // DO NOT EDIT MANUALLY - Run 'pnpm generate:mcps-data' to update
-// Generated at: 2025-11-03T11:14:19.224Z
+// Generated at: 2025-11-03T12:07:01.575Z
 
 export const MCPS_DATA = {
   "argent": {
@@ -534,13 +534,14 @@ export const MCPS_DATA = {
       ],
       "transport": "stdio"
     },
-    "description": "Documentation and discovery for Ask Starknet: explain architecture, list capabilities, and suggest project ideas",
+    "description": "Documentation and discovery for Ask Starknet: explain architecture, list capabilities, suggest project ideas, and provide usage help",
     "promptInfo": {
-      "expertise": "Ask Starknet documentation, architecture explanation, available MCPs and tools, project ideas and use cases",
+      "expertise": "Ask Starknet documentation, architecture explanation, available MCPs and tools, project ideas, usage guide and troubleshooting",
       "tools": [
         "ask_starknet_explain_architecture",
         "ask_starknet_list_capabilities",
-        "ask_starknet_suggest_projects"
+        "ask_starknet_suggest_projects",
+        "ask_starknet_help"
       ]
     }
   }
