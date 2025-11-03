@@ -4,37 +4,43 @@ export const contractAddressSchema = z.object({
   contractAddress: z.string().describe('The address of the contract'),
 });
 
-
 export const blockIdSchema = z.object({
-  blockId: z.string().describe(
-    "The block identifier. Can be 'latest', 'pending', a block hash, or a block number as string."
-  ),
+  blockId: z
+    .string()
+    .describe(
+      "The block identifier. Can be 'latest', 'pending', a block hash, or a block number as string."
+    ),
 });
 
 export const blockIdAndContractAddressSchema = z
   .object({
-    blockId: z.string().describe(
-      "The block identifier. Can be 'latest', 'pending', a block hash, or a block number as string."
-    ),
+    blockId: z
+      .string()
+      .describe(
+        "The block identifier. Can be 'latest', 'pending', a block hash, or a block number as string."
+      ),
     classHash: z.string().describe('The class hash of the contract'),
   })
   .strict();
 
 export const getStorageAtSchema = z.object({
-  blockId: z.string().describe(
-    "The block identifier. Can be 'latest', 'pending', a block hash, or a block number as string."
-  ),
+  blockId: z
+    .string()
+    .describe(
+      "The block identifier. Can be 'latest', 'pending', a block hash, or a block number as string."
+    ),
   contractAddress: z.string().describe('The address of the contract'),
   key: z
     .string()
     .describe('The key to the storage value for the given contract'),
 });
 
-
 export const getClassAtSchema = z.object({
-  blockId: z.string().describe(
-    "The block identifier. Can be 'latest', 'pending', a block hash, or a block number as string."
-  ),
+  blockId: z
+    .string()
+    .describe(
+      "The block identifier. Can be 'latest', 'pending', a block hash, or a block number as string."
+    ),
   contractAddress: z.string().describe('The address of the contract'),
   key: z
     .string()
@@ -42,9 +48,11 @@ export const getClassAtSchema = z.object({
 });
 
 export const getClassHashAtSchema = z.object({
-  blockId: z.string().describe(
-    "The block identifier. Can be 'latest', 'pending', a block hash, or a block number as string."
-  ),
+  blockId: z
+    .string()
+    .describe(
+      "The block identifier. Can be 'latest', 'pending', a block hash, or a block number as string."
+    ),
   contractAddress: z.string().describe('The address of the contract'),
   key: z
     .string()
@@ -54,9 +62,11 @@ export const getClassHashAtSchema = z.object({
 });
 
 export const getTransactionByBlockIdAndIndexSchema = z.object({
-  blockId: z.string().describe(
-    "The block identifier. Can be 'latest', 'pending', a block hash, or a block number as string."
-  ),
+  blockId: z
+    .string()
+    .describe(
+      "The block identifier. Can be 'latest', 'pending', a block hash, or a block number as string."
+    ),
   transactionIndex: z
     .number()
     .describe('The index of the transaction within the block.'),

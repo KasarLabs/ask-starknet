@@ -43,7 +43,10 @@ export function toBN(value: BigNumberish): bigint {
 
 export const BigNumberishSchema = z
   .string()
-  .regex(/^(0x[a-fA-F0-9]+|\d+(\.\d+)?)$/, 'Must be a hex string or decimal number')
+  .regex(
+    /^(0x[a-fA-F0-9]+|\d+(\.\d+)?)$/,
+    'Must be a hex string or decimal number'
+  )
   .transform(toBN);
 
 // U256

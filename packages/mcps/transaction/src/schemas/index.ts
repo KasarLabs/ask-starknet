@@ -14,7 +14,10 @@ export const declareContractSchema = z.object({
 const callSchema = z.object({
   contractAddress: z.string().describe('The contract address'),
   entrypoint: z.string().describe('The entrypoint'),
-  calldata: z.array(z.string()).optional().describe('Array of calldata parameters'),
+  calldata: z
+    .array(z.string())
+    .optional()
+    .describe('Array of calldata parameters'),
 });
 
 export const simulateInvokeTransactionSchema = z.object({
@@ -26,7 +29,10 @@ export const simulateInvokeTransactionSchema = z.object({
 
 const PayloadDeployAccountSchema = z.object({
   classHash: z.string().describe('The class Hash Address'),
-  constructorCalldata: z.array(z.string()).optional().describe('Constructor calldata parameters'),
+  constructorCalldata: z
+    .array(z.string())
+    .optional()
+    .describe('Constructor calldata parameters'),
   addressSalt: z.string().describe('Address Salt').optional(),
   contractAddressSchema: z.string().describe('ContractAddress').optional(),
 });
@@ -50,7 +56,10 @@ const PayloadDeploySchema = z.object({
     .regex(/^0x[0-9a-fA-F]+$/)
     .describe('Unique identifier as hex string')
     .optional(),
-  constructorCalldata: z.array(z.string()).optional().describe('Constructor calldata parameters'),
+  constructorCalldata: z
+    .array(z.string())
+    .optional()
+    .describe('Constructor calldata parameters'),
 });
 
 export const simulateDeployTransactionSchema = z.object({
@@ -73,9 +82,7 @@ const cairoAssemblySchema = z.object({
 
 export const simulateDeclareTransactionSchema = z.object({
   accountAddress: z.string().describe('Account address'),
-  contract: z
-    .string()
-    .describe('Contract data as string path or JSON string'),
+  contract: z.string().describe('Contract data as string path or JSON string'),
   classHash: z.string().optional().describe('Class hash of the contract'),
   casm: cairoAssemblySchema.optional().describe('Cairo assembly data'),
   compiledClassHash: z.string().optional().describe('Compiled class hash'),
