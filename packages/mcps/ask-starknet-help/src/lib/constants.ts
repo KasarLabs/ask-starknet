@@ -14,7 +14,7 @@ export const MCP_DOMAINS = {
     'unruggable',
   ],
   blockchain: ['erc20', 'erc721', 'transaction', 'starknet-rpc', 'contract'],
-  'dev-tools': ['scarb', 'cairo-coder', 'ask-starknet-docs'],
+  'dev-tools': ['scarb', 'cairo-coder', 'ask-starknet-help'],
   special: ['artpeace'],
 } as const;
 

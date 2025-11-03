@@ -18,7 +18,7 @@ import {
 dotenv.config();
 
 const server = new McpServer({
-  name: 'ask-starknet-docs-mcp',
+  name: 'ask-starknet-help-mcp',
   version: '0.1.0',
 });
 
@@ -67,7 +67,7 @@ async function main() {
 
   await RegisterToolInServer();
   await server.connect(transport);
-  console.error('Ask Starknet Docs MCP Server running on stdio');
+  console.error('Ask Starknet Help MCP Server running on stdio');
 }
 
 main().catch((error) => {

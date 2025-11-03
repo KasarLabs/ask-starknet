@@ -1,10 +1,10 @@
 {
-  "name": "@kasarlabs/ask-starknet-docs-mcp",
+  "name": "@kasarlabs/ask-starknet-help-mcp",
   "version": "0.1.0",
   "main": "index.js",
   "type": "module",
   "bin": {
-    "ask-starknet-docs-mcp": "./bin/ask-starknet-docs-mcp.js"
+    "ask-starknet-help-mcp": "./bin/ask-starknet-help-mcp.js"
   },
   "scripts": {
     "generate:mcps-data": "tsx scripts/generate-mcps-data.ts",
@@ -32,11 +32,12 @@
     "mcp",
     "starknet",
     "documentation",
+    "help",
     "ask-starknet"
   ],
   "author": "kasarlabs",
   "license": "MIT",
-  "description": "Documentation and discovery MCP server for Ask Starknet: architecture explanation, capabilities listing, and project ideas",
+  "description": "Help and documentation MCP server for Ask Starknet: usage guide, architecture explanation, capabilities listing, and project ideas",
   "publishConfig": {
     "access": "public"
   }
