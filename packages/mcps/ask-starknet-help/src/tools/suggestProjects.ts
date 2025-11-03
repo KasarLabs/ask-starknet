@@ -1,6 +1,11 @@
 import { z } from 'zod';
+import { readFileSync } from 'fs';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
 import { suggestProjectsSchema } from '../schemas/index.js';
-import { PROJECT_IDEAS } from '../lib/projectIdeas.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 /**
  * Suggest project ideas that can be built with Ask Starknet
@@ -9,34 +14,38 @@ export const suggestProjects = async (
   params: z.infer<typeof suggestProjectsSchema>
 ) => {
   try {
-    const { domain = 'all', mcps } = params;
+    const { domain = 'all' } = params;
 
-    let filteredProjects = PROJECT_IDEAS;
+    let content: string;
 
-    // Filter by domain if specified
-    if (domain && domain !== 'all') {
-      filteredProjects = filteredProjects.filter(
-        (project) => project.domain === domain
+    if (domain === 'all') {
+      // Read both defi and other projects
+      const defiContent = readFileSync(
+        join(__dirname, '../resources/projects/defi.md'),
+        'utf-8'
       );
-    }
-
-    // Filter by MCPs if specified
-    if (mcps && mcps.length > 0) {
-      filteredProjects = filteredProjects.filter((project) =>
-        mcps.some((mcp) => project.requiredMCPs.includes(mcp))
+      const otherContent = readFileSync(
+        join(__dirname, '../resources/projects/other.md'),
+        'utf-8'
+      );
+      content = `${defiContent}\n\n---\n\n${otherContent}`;
+    } else if (domain === 'defi') {
+      content = readFileSync(
+        join(__dirname, '../resources/projects/defi.md'),
+        'utf-8'
+      );
+    } else {
+      // For other domains (nft, gaming, analytics, automation, trading, dev-tools)
+      // return the "other" projects file
+      content = readFileSync(
+        join(__dirname, '../resources/projects/other.md'),
+        'utf-8'
       );
     }
 
     return {
       status: 'success',
-      data: {
-        projects: filteredProjects,
-        totalProjects: filteredProjects.length,
-        filters: {
-          domain: domain || 'all',
-          mcps: mcps || [],
-        },
-      },
+      data: content,
     };
   } catch (error) {
     return {
