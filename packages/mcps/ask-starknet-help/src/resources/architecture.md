@@ -62,16 +62,19 @@ The system consists of three main layers:
 The router is the entry point that orchestrates the entire system using LangChain/LangGraph.
 
 **Key Features:**
+
 - **AI-Powered Analysis:** Uses LLM to understand user intent
 - **Automatic Routing:** Selects the most appropriate specialized MCP
 - **State Management:** Tracks conversation history and context
 - **Environment Propagation:** Dynamically passes required env vars to specialized MCPs
 
 **Required Environment Variables:**
+
 - At least one of: `ANTHROPIC_API_KEY`, `GEMINI_API_KEY`, `OPENAI_API_KEY`
 - All environment variables required by specialized MCPs (dynamically loaded)
 
 **Core Files:**
+
 - `src/graph/graph.ts` - LangGraph workflow definition
 - `src/graph/agents/selector.ts` - Agent selection logic
 - `src/graph/agents/specialized.ts` - Specialized MCP execution
@@ -83,6 +86,7 @@ The router is the entry point that orchestrates the entire system using LangChai
 Each specialized MCP server focuses on a specific domain or protocol.
 
 **Standard Structure:**
+
 ```
 packages/mcps/<mcp-name>/
 ├── src/
@@ -97,6 +101,7 @@ packages/mcps/<mcp-name>/
 
 **Tool Response Format:**
 All tools return JSON strings with consistent structure:
+
 ```typescript
 {
   status: 'success' | 'failure',
@@ -108,12 +113,14 @@ All tools return JSON strings with consistent structure:
 **Example MCPs by Domain:**
 
 **Wallets:**
+
 - `argent` - Argent X wallet creation and deployment
 - `braavos` - Braavos wallet operations
 - `okx` - OKX wallet integration
 - `openzeppelin` - OpenZeppelin account contracts
 
 **DeFi:**
+
 - `avnu` - DEX aggregator for optimal swap routes
 - `ekubo` - Concentrated liquidity AMM
 - `fibrous` - Multi-DEX swap routing
@@ -124,6 +131,7 @@ All tools return JSON strings with consistent structure:
 - `unruggable` - Memecoin creation and liquidity locking
 
 **Blockchain Operations:**
+
 - `erc20` - Token transfers, approvals, balances
 - `erc721` - NFT operations
 - `starknet-rpc` - Direct RPC calls to Starknet
@@ -131,11 +139,13 @@ All tools return JSON strings with consistent structure:
 - `contract` - Smart contract declaration and deployment
 
 **Development Tools:**
+
 - `scarb` - Cairo compilation and proving
 - `cairo-coder` - AI-powered Cairo development assistance
 - `ask-starknet-help` - Documentation and help system
 
 **Special:**
+
 - `artpeace` - Collaborative pixel art canvas
 
 ### 3. Core Package (`packages/core/`)
@@ -157,21 +167,23 @@ export interface mcpTool<P = any> {
 export function registerToolsWithServer(
   server: McpServer,
   tools: mcpTool[]
-): Promise<void>
+): Promise<void>;
 
 // Onchain read utilities
 export function getOnchainRead(): {
   provider: RpcProvider;
   account: Account;
-}
+};
 ```
 
 ## Request Flow
 
 ### Step 1: User Request
+
 User submits a natural language request through their MCP client (e.g., Claude Desktop).
 
 ### Step 2: Router Analysis
+
 The unified router receives the request and uses the **Selector Agent**:
 
 ```typescript
@@ -179,16 +191,17 @@ The unified router receives the request and uses the **Selector Agent**:
 const selectorAgent = async (state) => {
   // Analyze user input with LLM
   const response = await llm.invoke([
-    systemPrompt,  // Contains available agents and their expertise
-    userInput      // User's request
+    systemPrompt, // Contains available agents and their expertise
+    userInput, // User's request
   ]);
 
   // Returns selected agent name or END
   return { next: selectedAgent };
-}
+};
 ```
 
 ### Step 3: Specialized Execution
+
 The **Specialized Agent** loads the selected MCP and executes tools:
 
 ```typescript
@@ -196,7 +209,7 @@ The **Specialized Agent** loads the selected MCP and executes tools:
 const specializedNode = async (state) => {
   // Load MCP client for selected agent
   const client = new MultiServerMCPClient({
-    [agentName]: getMCPClientConfig(agentName, env)
+    [agentName]: getMCPClientConfig(agentName, env),
   });
 
   // Get tools and bind to LLM
@@ -208,18 +221,20 @@ const specializedNode = async (state) => {
 
   // Execute tools if needed
   if (response.tool_calls) {
-    const toolResults = await toolNode.invoke({messages});
+    const toolResults = await toolNode.invoke({ messages });
     const finalResponse = await model.invoke([...messages, toolResults]);
   }
 
   return { messages: [finalResponse] };
-}
+};
 ```
 
 ### Step 4: Tool Execution
+
 The specialized MCP server executes the requested tools and returns results.
 
 ### Step 5: Response
+
 Results are formatted and returned to the user through the router.
 
 ## Configuration Management
@@ -252,6 +267,7 @@ Central configuration file defining all available MCPs:
 ### Dynamic Environment Loading
 
 The router automatically:
+
 1. Loads all environment variables from the host
 2. Validates required variables for each MCP
 3. Passes only necessary variables to each specialized MCP
@@ -305,16 +321,19 @@ export const GraphAnnotation = Annotation.Root({
 ## Error Handling
 
 ### Router Level
+
 - Validates LLM API keys on startup
 - Catches graph execution errors
 - Returns structured error responses
 
 ### Specialized MCP Level
+
 - Validates environment variables before initialization
 - Handles tool execution errors
 - Returns error status in consistent format
 
 ### Tool Level
+
 - Input validation with Zod schemas
 - Try-catch error handling
 - Detailed error messages
@@ -329,6 +348,7 @@ export const GraphAnnotation = Annotation.Root({
 4. **Build and publish** the package
 
 The router will automatically:
+
 - Discover the new MCP
 - Include it in routing decisions
 - Load required environment variables

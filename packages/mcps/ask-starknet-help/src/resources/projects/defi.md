@@ -7,10 +7,12 @@ Build powerful DeFi applications using Ask Starknet's comprehensive suite of pro
 **Description:** Real-time portfolio tracking application that monitors ERC20 token balances across multiple wallets and displays total value
 
 **Required MCPs:**
+
 - `erc20` - Token balance queries
 - `starknet-rpc` - Blockchain data access
 
 **Key Features:**
+
 - Track multiple wallet addresses simultaneously
 - Display token balances and current prices
 - Calculate and display total portfolio value
@@ -19,12 +21,14 @@ Build powerful DeFi applications using Ask Starknet's comprehensive suite of pro
 - Export portfolio data
 
 **Example Use Cases:**
+
 - Monitor multiple wallets from a single dashboard
 - Track portfolio performance over time
 - Get notified when token prices change significantly
 - Generate portfolio reports for tax purposes
 
 **Technical Highlights:**
+
 - Use `erc20_get_balance` to fetch balances for multiple tokens
 - Use `get_block_number` to timestamp balance snapshots
 - Implement caching to reduce RPC calls
@@ -37,12 +41,14 @@ Build powerful DeFi applications using Ask Starknet's comprehensive suite of pro
 **Description:** DEX aggregator that finds the best swap routes across multiple decentralized exchanges (AVNU, Ekubo, Fibrous)
 
 **Required MCPs:**
+
 - `avnu` - AVNU DEX integration
 - `ekubo` - Ekubo AMM operations
 - `fibrous` - Fibrous swap routing
 - `erc20` - Token approvals and transfers
 
 **Key Features:**
+
 - Compare swap rates across multiple DEXes in real-time
 - Execute swaps on the DEX with the best rate
 - Display liquidity pools and fee structures
@@ -51,12 +57,14 @@ Build powerful DeFi applications using Ask Starknet's comprehensive suite of pro
 - Routing visualization
 
 **Example Use Cases:**
+
 - Find the best price for any token swap
 - Save money on trades by using optimal routes
 - Compare liquidity across different protocols
 - Batch multiple swaps for gas efficiency
 
 **Technical Highlights:**
+
 - Parallel route queries to AVNU, Ekubo, and Fibrous
 - Use `avnu_get_route`, `ekubo.get_token_price`, `fibrous_get_route`
 - Implement price impact calculations
@@ -70,12 +78,14 @@ Build powerful DeFi applications using Ask Starknet's comprehensive suite of pro
 **Description:** Smart yield farming bot that automatically moves funds between Vesu, Opus, and Endurfi to maximize returns
 
 **Required MCPs:**
+
 - `vesu` - Lending and yield farming
 - `opus` - CDP and borrowing operations
 - `endurfi` - Liquid staking
 - `erc20` - Token management
 
 **Key Features:**
+
 - Monitor APY across multiple protocols automatically
 - Automatic fund rebalancing based on yield opportunities
 - Compound earnings automatically for maximum returns
@@ -84,12 +94,14 @@ Build powerful DeFi applications using Ask Starknet's comprehensive suite of pro
 - Configurable risk tolerance settings
 
 **Example Use Cases:**
+
 - Automatically move funds to highest-yielding protocols
 - Compound staking rewards automatically
 - Diversify yield sources to reduce risk
 - Track total yield earned across protocols
 
 **Technical Highlights:**
+
 - Poll APY data from each protocol regularly
 - Use `vesu_deposit_earn`, `opus.borrow_trove`, `endurfi.stake`
 - Implement rebalancing logic with thresholds
@@ -104,12 +116,14 @@ Build powerful DeFi applications using Ask Starknet's comprehensive suite of pro
 **Description:** Monitor lending positions across protocols and execute liquidations or protect your own positions
 
 **Required MCPs:**
+
 - `opus` - Trove health monitoring
 - `vesu` - Position tracking
 - `extended` - Perpetuals position monitoring
 - `erc20` - Token operations
 
 **Key Features:**
+
 - Real-time health factor monitoring across protocols
 - Liquidation opportunity alerts with profit estimates
 - Automatic position protection (add collateral when needed)
@@ -118,12 +132,14 @@ Build powerful DeFi applications using Ask Starknet's comprehensive suite of pro
 - Multi-protocol support
 
 **Example Use Cases:**
+
 - Monitor your Opus Troves to avoid liquidation
 - Find and execute profitable liquidations
 - Get alerted when positions become risky
 - Automate collateral management
 
 **Technical Highlights:**
+
 - Use `get_trove_health` to monitor Opus positions
 - Poll health factors at regular intervals
 - Implement liquidation profitability calculations
@@ -138,6 +154,7 @@ Build powerful DeFi applications using Ask Starknet's comprehensive suite of pro
 **Description:** Unified dashboard to manage DeFi positions across multiple protocols from a single interface
 
 **Required MCPs:**
+
 - `avnu` - DEX operations
 - `ekubo` - Liquidity management
 - `opus` - CDP management
@@ -147,6 +164,7 @@ Build powerful DeFi applications using Ask Starknet's comprehensive suite of pro
 - `erc20` - Token operations
 
 **Key Features:**
+
 - Unified position overview across all protocols
 - One-click position management (deposit, withdraw, rebalance)
 - Cross-protocol analytics and insights
@@ -155,12 +173,14 @@ Build powerful DeFi applications using Ask Starknet's comprehensive suite of pro
 - Portfolio risk metrics
 
 **Example Use Cases:**
+
 - See all your DeFi positions in one place
 - Manage positions across 5+ protocols from single UI
 - Get recommendations for portfolio optimization
 - Execute complex multi-protocol strategies
 
 **Technical Highlights:**
+
 - Aggregate data from multiple MCPs
 - Use batch operations where possible
 - Implement smart routing for best prices
@@ -175,11 +195,13 @@ Build powerful DeFi applications using Ask Starknet's comprehensive suite of pro
 **Description:** No-code platform for launching memecoins with automatic liquidity locking and Ekubo integration
 
 **Required MCPs:**
+
 - `unruggable` - Memecoin creation
 - `ekubo` - Liquidity provision
 - `erc20` - Token deployment
 
 **Key Features:**
+
 - One-click memecoin creation with customizable parameters
 - Automatic liquidity provision on Ekubo
 - Liquidity locking mechanism for safety
@@ -188,12 +210,14 @@ Build powerful DeFi applications using Ask Starknet's comprehensive suite of pro
 - Community governance tools
 
 **Example Use Cases:**
+
 - Launch a memecoin in minutes
 - Create fair-launch tokens with locked liquidity
 - Provide initial liquidity automatically
 - Build trust with provable liquidity locks
 
 **Technical Highlights:**
+
 - Use `create_memecoin` with custom parameters
 - Use `launch_on_ekubo` for automatic liquidity
 - Implement `get_locked_liquidity` checks
@@ -208,11 +232,13 @@ Build powerful DeFi applications using Ask Starknet's comprehensive suite of pro
 **Description:** Automated perpetuals trading bot with custom strategies and risk management on Extended
 
 **Required MCPs:**
+
 - `extended` - Perpetuals trading
 - `erc20` - Token management
 - `starknet-rpc` - Blockchain monitoring
 
 **Key Features:**
+
 - Multiple trading strategies (DCA, grid, momentum)
 - Position management with TP/SL
 - Real-time price alerts and notifications
@@ -221,12 +247,14 @@ Build powerful DeFi applications using Ask Starknet's comprehensive suite of pro
 - Backtesting capabilities with historical data
 
 **Example Use Cases:**
+
 - Automate DCA (Dollar Cost Averaging) strategies
 - Run grid trading bots on volatile pairs
 - Implement momentum trading with indicators
 - Manage multiple positions with automated TP/SL
 
 **Technical Highlights:**
+
 - Use `extended_get_candles_history` for price data
 - Implement strategy logic with indicators
 - Use `extended_create_limit_order_with_tpsl` for orders
@@ -241,6 +269,7 @@ Build powerful DeFi applications using Ask Starknet's comprehensive suite of pro
 **Description:** Real-time monitoring dashboard for DeFi protocol metrics, TVL, volumes, and user activity
 
 **Required MCPs:**
+
 - `avnu` - DEX volume tracking
 - `ekubo` - Pool analytics
 - `opus` - Lending metrics
@@ -249,6 +278,7 @@ Build powerful DeFi applications using Ask Starknet's comprehensive suite of pro
 - `starknet-rpc` - Blockchain data
 
 **Key Features:**
+
 - Protocol TVL (Total Value Locked) tracking
 - Volume and fee analytics across DEXes
 - User activity metrics and growth trends
@@ -257,12 +287,14 @@ Build powerful DeFi applications using Ask Starknet's comprehensive suite of pro
 - Comparison tools across protocols
 
 **Example Use Cases:**
+
 - Monitor TVL growth across Starknet DeFi
 - Track volume trends on DEXes
 - Analyze user adoption metrics
 - Get alerted when metrics change significantly
 
 **Technical Highlights:**
+
 - Use `get_pool_liquidity` for TVL data
 - Aggregate swap data from multiple DEXes
 - Use `get_total_staked` from Endurfi
@@ -277,6 +309,7 @@ Build powerful DeFi applications using Ask Starknet's comprehensive suite of pro
 **Description:** Detect and execute arbitrage opportunities across DEXes and perpetual exchanges
 
 **Required MCPs:**
+
 - `avnu` - DEX trading
 - `ekubo` - AMM operations
 - `fibrous` - Swap routing
@@ -284,6 +317,7 @@ Build powerful DeFi applications using Ask Starknet's comprehensive suite of pro
 - `erc20` - Token operations
 
 **Key Features:**
+
 - Real-time arbitrage detection across multiple DEXes
 - Multi-DEX route optimization for best profits
 - Spot vs perpetual arbitrage (funding rate arb)
@@ -292,12 +326,14 @@ Build powerful DeFi applications using Ask Starknet's comprehensive suite of pro
 - Risk management (slippage, MEV protection)
 
 **Example Use Cases:**
+
 - Find price discrepancies between DEXes
 - Execute triangular arbitrage on AMMs
 - Arbitrage funding rates on perpetuals
 - Flash arbitrage on volatile markets
 
 **Technical Highlights:**
+
 - Poll prices from multiple sources simultaneously
 - Calculate arbitrage profit after gas costs
 - Use `fibrous_batch_swap` for multi-hop arbs
@@ -310,18 +346,23 @@ Build powerful DeFi applications using Ask Starknet's comprehensive suite of pro
 ## Additional Ideas
 
 ### Yield Aggregator Dashboard
+
 Track yield opportunities across all Starknet protocols in real-time
 
 ### Auto-Compounder Service
+
 Automatically compound rewards from staking and farming positions
 
 ### Lending Risk Calculator
+
 Calculate and visualize risk metrics for lending positions
 
 ### DEX Liquidity Tracker
+
 Monitor and analyze liquidity depth across all DEXes
 
 ### Token Launch Tracker
+
 Track new token launches and liquidity additions
 
 ---
@@ -338,6 +379,7 @@ To build any of these projects:
 6. **Deploy and monitor** your application
 
 For help getting started, ask:
+
 - "How do I use [MCP name]?"
 - "Show me examples for [specific tool]"
 - "What environment variables do I need?"

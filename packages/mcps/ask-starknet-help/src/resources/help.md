@@ -13,6 +13,7 @@ Ask Starknet is a unified MCP router that provides intelligent, AI-powered routi
 Just ask questions or request actions in plain English. The AI router will automatically select the right specialized agent and execute the appropriate tools.
 
 **Example requests:**
+
 - "Check my ETH balance"
 - "Swap 100 USDC for ETH on AVNU"
 - "Transfer my NFT #123 to address 0x456..."
@@ -37,10 +38,12 @@ To use Ask Starknet, you need to configure it in your MCP client (like Claude De
 For basic queries and read-only operations:
 
 **Required Environment Variables:**
+
 - `ANTHROPIC_API_KEY` or `GEMINI_API_KEY` or `OPENAI_API_KEY` - At least one LLM API key is required
 - `STARKNET_RPC_URL` - Starknet RPC endpoint (optional for some operations)
 
 **Configuration Example:**
+
 ```json
 {
   "mcpServers": {
@@ -61,12 +64,14 @@ For basic queries and read-only operations:
 For complete functionality including transaction signing:
 
 **Required Environment Variables:**
+
 - `ANTHROPIC_API_KEY` (or `GEMINI_API_KEY` or `OPENAI_API_KEY`)
 - `STARKNET_RPC_URL`
 - `STARKNET_ACCOUNT_ADDRESS` - Your wallet address
 - `STARKNET_PRIVATE_KEY` - Your private key for signing transactions
 
 **Optional Environment Variables:**
+
 - `EXTENDED_API_KEY` - For perpetuals trading on Extended
 - `EXTENDED_API_URL` - Extended API endpoint
 - `EXTENDED_PRIVATE_KEY` - Stark key for Extended
@@ -75,6 +80,7 @@ For complete functionality including transaction signing:
 - `SECRET_PHRASE` - For Artpeace authentication
 
 **Model Selection:**
+
 - `MODEL_NAME` - Specify which LLM model to use (optional, defaults based on API key provider)
   - Default for Anthropic: `claude-sonnet-4-20250514`
   - Default for Gemini: `gemini-2.5-flash`
@@ -83,19 +89,23 @@ For complete functionality including transaction signing:
 ## Best Practices
 
 **Be specific:** Include token amounts, addresses, and specific protocols when relevant
+
 - ✅ "Swap 100 USDC for ETH on AVNU"
 - ❌ "Swap tokens"
 
 **Use natural language:** No need to memorize tool names or parameters
+
 - ✅ "What's the latest block number?"
 - ❌ "Execute get_block_number"
 
 **Ask for help:** You can ask "What can you do?" or "How do I trade on Extended?"
 
 **Chain operations:** You can describe complex workflows
+
 - "Approve USDC then swap for ETH"
 
 **Check balances first:** Before transactions, ask to check your balance
+
 - "Check my USDC balance, then swap 100 USDC for ETH"
 
 **Environment variables:** Make sure required env vars are set for the operations you need
@@ -129,6 +139,7 @@ For complete functionality including transaction signing:
 ## Support
 
 For more detailed information:
+
 - **Architecture:** Ask "Explain Ask Starknet architecture"
 - **Capabilities:** Ask "List all Ask Starknet capabilities"
 - **Project Ideas:** Ask "Suggest projects I can build with Ask Starknet"

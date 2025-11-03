@@ -23,13 +23,16 @@ Create, deploy, and manage various Starknet wallet types.
 **Description:** Management of Argent accounts on Starknet
 
 **Tools:**
+
 - `create_new_argent_account` - Create a new Argent wallet account
 - `deploy_existing_argent_account` - Deploy an existing Argent account to the network
 
 **Environment Variables:**
+
 - `STARKNET_RPC_URL`
 
 **Example Requests:**
+
 - "Create a new Argent wallet"
 - "Deploy my Argent account"
 
@@ -38,13 +41,16 @@ Create, deploy, and manage various Starknet wallet types.
 **Description:** Management of Braavos wallet accounts on Starknet
 
 **Tools:**
+
 - `create_new_braavos_account` - Create a new Braavos wallet account
 - `deploy_existing_braavos_account` - Deploy an existing Braavos account
 
 **Environment Variables:**
+
 - `STARKNET_RPC_URL`
 
 **Example Requests:**
+
 - "Create a new Braavos wallet"
 - "Deploy my Braavos account to mainnet"
 
@@ -53,13 +59,16 @@ Create, deploy, and manage various Starknet wallet types.
 **Description:** OKX wallet account creation and deployment on Starknet
 
 **Tools:**
+
 - `create_new_okx_account` - Create a new OKX wallet
 - `deploy_existing_okx_account` - Deploy an OKX account
 
 **Environment Variables:**
+
 - `STARKNET_RPC_URL`
 
 **Example Requests:**
+
 - "Create an OKX wallet"
 - "Deploy my OKX wallet account"
 
@@ -68,13 +77,16 @@ Create, deploy, and manage various Starknet wallet types.
 **Description:** OpenZeppelin account contract creation and deployment on Starknet
 
 **Tools:**
+
 - `create_new_openzeppelin_account` - Create a new OpenZeppelin account contract
 - `deploy_existing_openzeppelin_account` - Deploy an OpenZeppelin account
 
 **Environment Variables:**
+
 - `STARKNET_RPC_URL`
 
 **Example Requests:**
+
 - "Create an OpenZeppelin account"
 - "Deploy my OpenZeppelin account contract"
 
@@ -89,15 +101,18 @@ Comprehensive DeFi operations including swaps, liquidity provision, lending, sta
 **Description:** AVNU decentralized exchange integration for token swaps on Starknet
 
 **Tools:**
+
 - `avnu_swap_tokens` - Execute token swaps through AVNU DEX aggregator
 - `avnu_get_route` - Get the optimal swap route for a token pair
 
 **Environment Variables:**
+
 - `STARKNET_RPC_URL`
 - `STARKNET_ACCOUNT_ADDRESS`
 - `STARKNET_PRIVATE_KEY`
 
 **Example Requests:**
+
 - "Swap 100 USDC for ETH on AVNU"
 - "Get the best route to swap STRK for USDT"
 
@@ -106,6 +121,7 @@ Comprehensive DeFi operations including swaps, liquidity provision, lending, sta
 **Description:** Ekubo decentralized exchange for liquidity management and token swaps
 
 **Tools:**
+
 - `get_pool_info` - Get information about a liquidity pool
 - `get_pool_liquidity` - Get current liquidity in a pool
 - `get_pool_fees_per_liquidity` - Get fees earned per liquidity unit
@@ -117,11 +133,13 @@ Comprehensive DeFi operations including swaps, liquidity provision, lending, sta
 - `transfer_position` - Transfer a liquidity position to another address
 
 **Environment Variables:**
+
 - `STARKNET_RPC_URL`
 - `STARKNET_ACCOUNT_ADDRESS`
 - `STARKNET_PRIVATE_KEY`
 
 **Example Requests:**
+
 - "Show me liquidity in the ETH/USDC pool on Ekubo"
 - "Add 1000 USDC liquidity to Ekubo"
 - "What's the current price of STRK on Ekubo?"
@@ -131,16 +149,19 @@ Comprehensive DeFi operations including swaps, liquidity provision, lending, sta
 **Description:** Fibrous decentralized exchange for single and batch token swaps
 
 **Tools:**
+
 - `fibrous_swap` - Execute a single token swap
 - `fibrous_batch_swap` - Execute multiple swaps in a single transaction
 - `fibrous_get_route` - Get the optimal route for a swap
 
 **Environment Variables:**
+
 - `STARKNET_RPC_URL`
 - `STARKNET_ACCOUNT_ADDRESS`
 - `STARKNET_PRIVATE_KEY`
 
 **Example Requests:**
+
 - "Swap 50 ETH for USDC on Fibrous"
 - "Batch swap: 100 USDC to ETH, 50 ETH to STRK"
 
@@ -149,6 +170,7 @@ Comprehensive DeFi operations including swaps, liquidity provision, lending, sta
 **Description:** Opus lending protocol for Trove management and borrowing
 
 **Tools:**
+
 - `open_trove` - Open a new Trove (collateralized debt position)
 - `get_user_troves` - Get all Troves for a user
 - `get_trove_health` - Check the health factor of a Trove
@@ -159,11 +181,13 @@ Comprehensive DeFi operations including swaps, liquidity provision, lending, sta
 - `repay_trove` - Repay borrowed CASH
 
 **Environment Variables:**
+
 - `STARKNET_RPC_URL`
 - `STARKNET_ACCOUNT_ADDRESS`
 - `STARKNET_PRIVATE_KEY`
 
 **Example Requests:**
+
 - "Open a Trove with 1000 USDC collateral"
 - "Borrow 500 CASH from my Opus Trove"
 - "Check my Trove health factor"
@@ -174,15 +198,18 @@ Comprehensive DeFi operations including swaps, liquidity provision, lending, sta
 **Description:** Vesu protocol for deposit and withdrawal operations for earning positions
 
 **Tools:**
+
 - `vesu_deposit_earn` - Deposit tokens to earn yield
 - `vesu_withdraw_earn` - Withdraw tokens and accrued yield
 
 **Environment Variables:**
+
 - `STARKNET_RPC_URL`
 - `STARKNET_ACCOUNT_ADDRESS`
 - `STARKNET_PRIVATE_KEY`
 
 **Example Requests:**
+
 - "Deposit 1000 USDC to Vesu to earn yield"
 - "Withdraw all my USDC from Vesu"
 
@@ -191,6 +218,7 @@ Comprehensive DeFi operations including swaps, liquidity provision, lending, sta
 **Description:** Endur.fi liquid staking protocol for STRK and BTC tokens (WBTC, tBTC, LBTC) on Starknet
 
 **Tools:**
+
 - `preview_stake` - Preview staking outcome before execution
 - `preview_unstake` - Preview unstaking outcome
 - `get_user_balance` - Get user's staked balance
@@ -201,11 +229,13 @@ Comprehensive DeFi operations including swaps, liquidity provision, lending, sta
 - `claim` - Claim unstaked tokens after cooldown period
 
 **Environment Variables:**
+
 - `STARKNET_RPC_URL`
 - `STARKNET_ACCOUNT_ADDRESS`
 - `STARKNET_PRIVATE_KEY`
 
 **Example Requests:**
+
 - "Stake 100 STRK on Endurfi"
 - "Check my staked STRK balance"
 - "Unstake 50 STRK from Endurfi"
@@ -216,6 +246,7 @@ Comprehensive DeFi operations including swaps, liquidity provision, lending, sta
 **Description:** Extended high-performance perpetuals exchange on Starknet for trading derivatives with on-chain settlement
 
 **Tools (Account & Position Management):**
+
 - `extended_get_balance` - Get account balance
 - `extended_get_user_account_info` - Get complete account information
 - `extended_get_positions` - Get all open positions
@@ -229,6 +260,7 @@ Comprehensive DeFi operations including swaps, liquidity provision, lending, sta
 - `extended_get_fees` - Get fee information
 
 **Tools (Market Data):**
+
 - `extended_get_markets` - Get all available markets
 - `extended_get_market_stats` - Get market statistics
 - `extended_get_market_orderbook` - Get market order book
@@ -237,6 +269,7 @@ Comprehensive DeFi operations including swaps, liquidity provision, lending, sta
 - `extended_get_funding_rates_history` - Get funding rate history
 
 **Tools (Trading):**
+
 - `extended_create_limit_order` - Create a limit order
 - `extended_create_limit_order_with_tpsl` - Create limit order with take-profit/stop-loss
 - `extended_create_market_order` - Create a market order
@@ -245,15 +278,18 @@ Comprehensive DeFi operations including swaps, liquidity provision, lending, sta
 - `extended_update_leverage` - Update leverage settings
 
 **Tools (Bridge):**
+
 - `extended_get_bridge_config` - Get bridge configuration
 - `extended_get_bridge_quote` - Get bridge quote for deposits/withdrawals
 
 **Environment Variables:**
+
 - `EXTENDED_API_KEY`
 - `EXTENDED_API_URL`
 - `EXTENDED_PRIVATE_KEY`
 
 **Example Requests:**
+
 - "Open a 5x long position on ETH/USD with $1000"
 - "Check my open positions on Extended"
 - "Set stop-loss at $3000 for my ETH position"
@@ -265,17 +301,20 @@ Comprehensive DeFi operations including swaps, liquidity provision, lending, sta
 **Description:** Memecoin creation and analysis with focus on safer token launches
 
 **Tools:**
+
 - `is_memecoin` - Check if a token is a memecoin
 - `get_locked_liquidity` - Get locked liquidity information
 - `create_memecoin` - Create a new memecoin
 - `launch_on_ekubo` - Launch memecoin on Ekubo with liquidity
 
 **Environment Variables:**
+
 - `STARKNET_RPC_URL`
 - `STARKNET_ACCOUNT_ADDRESS`
 - `STARKNET_PRIVATE_KEY`
 
 **Example Requests:**
+
 - "Create a memecoin called DOGE with 1M supply"
 - "Launch my memecoin on Ekubo with 1000 USDC liquidity"
 - "Check if token 0x123... is a memecoin"
@@ -291,6 +330,7 @@ Core blockchain interactions including token operations, NFTs, transactions, and
 **Description:** Management of ERC20 operations (transfer, balance, deployment) on Starknet
 
 **Tools:**
+
 - `erc20_get_allowance` - Get token allowance between addresses
 - `erc20_get_my_given_allowance` - Get allowances you've given
 - `erc20_get_allowance_given_to_me` - Get allowances given to you
@@ -303,11 +343,13 @@ Core blockchain interactions including token operations, NFTs, transactions, and
 - `erc20_deploy_new_contract` - Deploy a new ERC20 token
 
 **Environment Variables:**
+
 - `STARKNET_RPC_URL`
 - `STARKNET_ACCOUNT_ADDRESS`
 - `STARKNET_PRIVATE_KEY`
 
 **Example Requests:**
+
 - "Check my ETH balance"
 - "Transfer 100 USDC to 0x123..."
 - "Approve AVNU to spend 500 USDC"
@@ -318,6 +360,7 @@ Core blockchain interactions including token operations, NFTs, transactions, and
 **Description:** Comprehensive ERC721 NFT operations on Starknet
 
 **Tools:**
+
 - `erc721_owner_of` - Get NFT owner
 - `erc721_get_balance` - Get NFT balance for an address
 - `erc721_is_approved_for_all` - Check operator approval status
@@ -330,11 +373,13 @@ Core blockchain interactions including token operations, NFTs, transactions, and
 - `deploy_erc721` - Deploy a new ERC721 collection
 
 **Environment Variables:**
+
 - `STARKNET_RPC_URL`
 - `STARKNET_ACCOUNT_ADDRESS`
 - `STARKNET_PRIVATE_KEY`
 
 **Example Requests:**
+
 - "Transfer my NFT #42 to 0x456..."
 - "Check who owns NFT #123 from collection 0xabc..."
 - "Deploy a new NFT collection called MyNFTs"
@@ -344,6 +389,7 @@ Core blockchain interactions including token operations, NFTs, transactions, and
 **Description:** Direct blockchain interaction via RPC methods for on-chain data access
 
 **Tools:**
+
 - `get_chain_id` - Get Starknet chain ID
 - `get_syncing_status` - Get node syncing status
 - `get_class_hash` - Get contract class hash
@@ -358,9 +404,11 @@ Core blockchain interactions including token operations, NFTs, transactions, and
 - `get_class_at` - Get class at specific address
 
 **Environment Variables:**
+
 - `STARKNET_RPC_URL`
 
 **Example Requests:**
+
 - "What's the latest block number on Starknet?"
 - "Get the transaction status for 0xabc..."
 - "Check if the node is syncing"
@@ -370,17 +418,20 @@ Core blockchain interactions including token operations, NFTs, transactions, and
 **Description:** Transaction simulation tools for Starknet
 
 **Tools:**
+
 - `simulate_transaction` - Simulate a transaction before execution
 - `simulate_deploy_transaction` - Simulate contract deployment
 - `simulate_declare_transaction` - Simulate contract declaration
 - `simulate_deploy_account_transaction` - Simulate account deployment
 
 **Environment Variables:**
+
 - `STARKNET_RPC_URL`
 - `STARKNET_ACCOUNT_ADDRESS`
 - `STARKNET_PRIVATE_KEY`
 
 **Example Requests:**
+
 - "Simulate this transaction before executing"
 - "Simulate deploying my contract"
 
@@ -389,16 +440,19 @@ Core blockchain interactions including token operations, NFTs, transactions, and
 **Description:** Starknet contract declaration and deployment operations
 
 **Tools:**
+
 - `declare_contract` - Declare a smart contract
 - `deploy_contract` - Deploy a declared contract
 - `get_constructor_params` - Get required constructor parameters
 
 **Environment Variables:**
+
 - `STARKNET_RPC_URL`
 - `STARKNET_ACCOUNT_ADDRESS`
 - `STARKNET_PRIVATE_KEY`
 
 **Example Requests:**
+
 - "Declare my smart contract"
 - "Deploy the contract at class hash 0x123..."
 - "What constructor params does this contract need?"
@@ -414,6 +468,7 @@ Tools for Cairo development, compilation, and AI-powered coding assistance.
 **Description:** Scarb Cairo compilation and program execution operations
 
 **Tools:**
+
 - `install_scarb` - Install Scarb toolchain
 - `init_project` - Initialize a new Cairo project
 - `build_project` - Build/compile a Cairo project
@@ -424,6 +479,7 @@ Tools for Cairo development, compilation, and AI-powered coding assistance.
 **Environment Variables:** None required
 
 **Example Requests:**
+
 - "Initialize a new Cairo project"
 - "Build my Cairo project"
 - "Execute my Cairo program"
@@ -433,13 +489,16 @@ Tools for Cairo development, compilation, and AI-powered coding assistance.
 **Description:** AI-powered Cairo code assistance and Starknet general knowledge via Cairo Coder API
 
 **Tools:**
+
 - `assist_with_cairo` - Get AI assistance for Cairo code development
 - `starknet_general_knowledge` - Ask questions about Starknet ecosystem
 
 **Environment Variables:**
+
 - `CAIRO_CODER_API_KEY`
 
 **Example Requests:**
+
 - "How do I implement an ERC20 token in Cairo?"
 - "Help me debug this Cairo contract"
 - "What are the latest updates in Starknet?"
@@ -449,6 +508,7 @@ Tools for Cairo development, compilation, and AI-powered coding assistance.
 **Description:** Help and documentation for Ask Starknet: usage guide, architecture explanation, capabilities listing, project ideas, and troubleshooting
 
 **Tools:**
+
 - `ask_starknet_help` - Get comprehensive help guide
 - `ask_starknet_explain_architecture` - Understand Ask Starknet architecture
 - `ask_starknet_list_capabilities` - List all available capabilities
@@ -457,6 +517,7 @@ Tools for Cairo development, compilation, and AI-powered coding assistance.
 **Environment Variables:** None required
 
 **Example Requests:**
+
 - "Help me get started with Ask Starknet"
 - "Explain the Ask Starknet architecture"
 - "What can Ask Starknet do?"
@@ -473,9 +534,11 @@ Unique applications and experimental features.
 **Description:** Collaborative pixel art creation on a shared canvas
 
 **Tools:**
+
 - `place_pixel` - Place a pixel on the collaborative canvas
 
 **Environment Variables:**
+
 - `STARKNET_RPC_URL`
 - `STARKNET_ACCOUNT_ADDRESS`
 - `STARKNET_PRIVATE_KEY`
@@ -483,6 +546,7 @@ Unique applications and experimental features.
 - `SECRET_PHRASE`
 
 **Example Requests:**
+
 - "Place a red pixel at coordinates (100, 200)"
 - "Draw on the Artpeace canvas"
 
@@ -490,18 +554,19 @@ Unique applications and experimental features.
 
 ## Summary Statistics
 
-| Domain | MCPs | Tools (approx.) |
-|--------|------|-----------------|
-| Wallets | 4 | 8 |
-| DeFi | 8 | 80+ |
-| Blockchain | 5 | 40+ |
-| Dev Tools | 3 | 12+ |
-| Special | 1 | 1 |
-| **Total** | **21** | **140+** |
+| Domain     | MCPs   | Tools (approx.) |
+| ---------- | ------ | --------------- |
+| Wallets    | 4      | 8               |
+| DeFi       | 8      | 80+             |
+| Blockchain | 5      | 40+             |
+| Dev Tools  | 3      | 12+             |
+| Special    | 1      | 1               |
+| **Total**  | **21** | **140+**        |
 
 ## Getting More Information
 
 For detailed information about a specific capability:
+
 - Ask "How do I use [MCP name]?"
 - Check environment variable requirements
 - See example requests for each tool
