@@ -1,8 +1,15 @@
-{
+// Auto-generated from packages/mcp/mcps.json
+// DO NOT EDIT MANUALLY - Run 'pnpm generate:mcps-data' to update
+// Generated at: 2025-11-03T11:14:19.224Z
+
+export const MCPS_DATA = {
   "argent": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/argent-mcp"],
+      "args": [
+        "-y",
+        "@kasarlabs/argent-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": ""
@@ -11,13 +18,19 @@
     "description": "Management of Argent accounts on Starknet",
     "promptInfo": {
       "expertise": "Argent wallet accounts on Starknet",
-      "tools": ["create_new_argent_account", "deploy_existing_argent_account"]
+      "tools": [
+        "create_new_argent_account",
+        "deploy_existing_argent_account"
+      ]
     }
   },
   "erc20": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/erc20-mcp"],
+      "args": [
+        "-y",
+        "@kasarlabs/erc20-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -45,7 +58,10 @@
   "braavos": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/braavos-mcp"],
+      "args": [
+        "-y",
+        "@kasarlabs/braavos-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": ""
@@ -54,13 +70,19 @@
     "description": "Management of Braavos wallet accounts on Starknet",
     "promptInfo": {
       "expertise": "Braavos wallet accounts on Starknet",
-      "tools": ["create_new_braavos_account", "deploy_existing_braavos_account"]
+      "tools": [
+        "create_new_braavos_account",
+        "deploy_existing_braavos_account"
+      ]
     }
   },
   "avnu": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/avnu-mcp"],
+      "args": [
+        "-y",
+        "@kasarlabs/avnu-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -71,13 +93,19 @@
     "description": "AVNU decentralized exchange integration for token swaps on Starknet",
     "promptInfo": {
       "expertise": "AVNU DEX token swapping on Starknet",
-      "tools": ["avnu_swap_tokens", "avnu_get_route"]
+      "tools": [
+        "avnu_swap_tokens",
+        "avnu_get_route"
+      ]
     }
   },
   "erc721": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/erc721-mcp"],
+      "args": [
+        "-y",
+        "@kasarlabs/erc721-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -105,7 +133,10 @@
   "transaction": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/transaction-mcp"],
+      "args": [
+        "-y",
+        "@kasarlabs/transaction-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -127,7 +158,10 @@
   "artpeace": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/artpeace-mcp"],
+      "args": [
+        "-y",
+        "@kasarlabs/artpeace-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -140,13 +174,18 @@
     "description": "Collaborative pixel art creation on a shared canvas",
     "promptInfo": {
       "expertise": "Pixel art and canvas interaction",
-      "tools": ["place_pixel"]
+      "tools": [
+        "place_pixel"
+      ]
     }
   },
   "contract": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/contract-mcp"],
+      "args": [
+        "-y",
+        "@kasarlabs/contract-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -157,13 +196,20 @@
     "description": "Starknet contract declaration and deployment operations",
     "promptInfo": {
       "expertise": "Smart contract deployment on Starknet",
-      "tools": ["declare_contract", "deploy_contract", "get_constructor_params"]
+      "tools": [
+        "declare_contract",
+        "deploy_contract",
+        "get_constructor_params"
+      ]
     }
   },
   "fibrous": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/fibrous-mcp"],
+      "args": [
+        "-y",
+        "@kasarlabs/fibrous-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -174,13 +220,20 @@
     "description": "Fibrous decentralized exchange for single and batch token swaps",
     "promptInfo": {
       "expertise": "Fibrous DEX token swapping",
-      "tools": ["fibrous_swap", "fibrous_batch_swap", "fibrous_get_route"]
+      "tools": [
+        "fibrous_swap",
+        "fibrous_batch_swap",
+        "fibrous_get_route"
+      ]
     }
   },
   "okx": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/okx-mcp"],
+      "args": [
+        "-y",
+        "@kasarlabs/okx-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": ""
@@ -189,13 +242,19 @@
     "description": "OKX wallet account creation and deployment on Starknet",
     "promptInfo": {
       "expertise": "OKX wallet accounts on Starknet",
-      "tools": ["create_new_okx_account", "deploy_existing_okx_account"]
+      "tools": [
+        "create_new_okx_account",
+        "deploy_existing_okx_account"
+      ]
     }
   },
   "openzeppelin": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/openzeppelin-mcp"],
+      "args": [
+        "-y",
+        "@kasarlabs/openzeppelin-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": ""
@@ -213,7 +272,10 @@
   "opus": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/opus-mcp"],
+      "args": [
+        "-y",
+        "@kasarlabs/opus-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -239,7 +301,10 @@
   "starknet-rpc": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/starknet-rpc-mcp"],
+      "args": [
+        "-y",
+        "@kasarlabs/starknet-rpc-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": ""
@@ -267,7 +332,10 @@
   "scarb": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/scarb-mcp"],
+      "args": [
+        "-y",
+        "@kasarlabs/scarb-mcp"
+      ],
       "transport": "stdio"
     },
     "description": "Scarb Cairo compilation and program execution operations",
@@ -286,7 +354,10 @@
   "unruggable": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/unruggable-mcp"],
+      "args": [
+        "-y",
+        "@kasarlabs/unruggable-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -308,7 +379,10 @@
   "vesu": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/vesu-mcp"],
+      "args": [
+        "-y",
+        "@kasarlabs/vesu-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -319,13 +393,19 @@
     "description": "Vesu protocol for deposit and withdrawal operations for earning positions",
     "promptInfo": {
       "expertise": "Vesu protocol yield farming",
-      "tools": ["vesu_deposit_earn", "vesu_withdraw_earn"]
+      "tools": [
+        "vesu_deposit_earn",
+        "vesu_withdraw_earn"
+      ]
     }
   },
   "ekubo": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/ekubo-mcp"],
+      "args": [
+        "-y",
+        "@kasarlabs/ekubo-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -352,7 +432,10 @@
   "extended": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/extended-mcp"],
+      "args": [
+        "-y",
+        "@kasarlabs/extended-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "EXTENDED_API_KEY": "",
@@ -395,7 +478,10 @@
   "endurfi": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/endurfi-mcp"],
+      "args": [
+        "-y",
+        "@kasarlabs/endurfi-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -421,7 +507,10 @@
   "cairo-coder": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/cairo-coder-mcp"],
+      "args": [
+        "-y",
+        "@kasarlabs/cairo-coder-mcp"
+      ],
       "transport": "stdio",
       "env": {
         "CAIRO_CODER_API_KEY": ""
@@ -430,13 +519,19 @@
     "description": "AI-powered Cairo code assistance and Starknet general knowledge via Cairo Coder API",
     "promptInfo": {
       "expertise": "Cairo smart contract development, Starknet technical documentation, ecosystem knowledge, and recent Starknet news",
-      "tools": ["assist_with_cairo", "starknet_general_knowledge"]
+      "tools": [
+        "assist_with_cairo",
+        "starknet_general_knowledge"
+      ]
     }
   },
   "ask-starknet-docs": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/ask-starknet-docs-mcp"],
+      "args": [
+        "-y",
+        "@kasarlabs/ask-starknet-docs-mcp"
+      ],
       "transport": "stdio"
     },
     "description": "Documentation and discovery for Ask Starknet: explain architecture, list capabilities, and suggest project ideas",
@@ -449,4 +544,8 @@
       ]
     }
   }
-}
+} as const;
+
+export type McpName = keyof typeof MCPS_DATA;
+
+export type McpConfig = typeof MCPS_DATA[McpName];
