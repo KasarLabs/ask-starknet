@@ -5,25 +5,28 @@ import { validateChecksumAddress } from 'starknet';
 export type Address = `0x${string}`;
 
 export const addressSchema = hexSchemaBase
-  .min(50, 'Address must be at least 50 characters long')
-  .max(66, 'Address must be at most 66 characters long')
   .refine((value: string) => {
+    // Allow '0x0' as a special case
+    if (value === '0x0') return true;
+    // Otherwise check length
+    if (value.length < 50 || value.length > 66) return false;
     // if it contains uppercase letters, it must match the checksum
     if (/[A-F]/.test(value)) {
       return validateChecksumAddress(value);
     }
     // if it only contains lowercase letters, it's valid
     return true;
-  }, 'Address is not a valid checksum address')
+  }, 'Address must be valid: either "0x0" or a valid checksum address (50-66 chars)')
   .transform<Address>((value: string) => {
+    // Special case for 0x0
+    if (value === '0x0') return '0x0';
     // remove 0x prefix
     const withoutPrefix = value.startsWith('0x') ? value.slice(2) : value;
     // pad left until length is 64
     const padded = withoutPrefix.padStart(64, '0');
     // add 0x prefix
     return `0x${padded}`;
-  })
-  .or(z.literal('0x0'));
+  });
 
 /**
  * Represents a token value with its decimal precision
