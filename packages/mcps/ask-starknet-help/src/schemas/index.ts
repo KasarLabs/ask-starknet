@@ -27,13 +27,23 @@ export const listCapabilitiesSchema = z.object({
 // Tool 3: Suggest Projects
 export const suggestProjectsSchema = z.object({
   domain: z
-    .enum(['defi', 'nft', 'trading', 'automation', 'analytics', 'gaming', 'all'])
+    .enum([
+      'defi',
+      'nft',
+      'trading',
+      'automation',
+      'analytics',
+      'gaming',
+      'all',
+    ])
     .optional()
     .describe('Filter by project domain'),
   mcps: z
     .array(z.string())
     .optional()
-    .describe('Filter projects that use specific MCPs (e.g., ["avnu", "ekubo"])'),
+    .describe(
+      'Filter projects that use specific MCPs (e.g., ["avnu", "ekubo"])'
+    ),
 });
 
 // Tool 4: Get Help

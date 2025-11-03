@@ -21,9 +21,11 @@ npx -y @kasarlabs/ask-starknet-docs-mcp
 Explains the Ask Starknet architecture and how it works.
 
 **Parameters:**
+
 - `topic` (optional): `"router"` | `"mcps"` | `"interaction"` | `"all"`
 
 **Example:**
+
 ```json
 {
   "topic": "router"
@@ -31,6 +33,7 @@ Explains the Ask Starknet architecture and how it works.
 ```
 
 **Response:**
+
 ```json
 {
   "status": "success",
@@ -50,10 +53,12 @@ Explains the Ask Starknet architecture and how it works.
 Lists all Ask Starknet capabilities organized by domains.
 
 **Parameters:**
+
 - `domain` (optional): `"wallets"` | `"defi"` | `"blockchain"` | `"dev-tools"` | `"special"` | `"all"`
 - `mcp` (optional): Filter by specific MCP name (e.g., `"avnu"`, `"erc20"`)
 
 **Example:**
+
 ```json
 {
   "domain": "defi"
@@ -61,6 +66,7 @@ Lists all Ask Starknet capabilities organized by domains.
 ```
 
 **Response:**
+
 ```json
 {
   "status": "success",
@@ -92,10 +98,12 @@ Lists all Ask Starknet capabilities organized by domains.
 Suggests project ideas that can be built with Ask Starknet.
 
 **Parameters:**
+
 - `domain` (optional): `"defi"` | `"nft"` | `"trading"` | `"automation"` | `"analytics"` | `"gaming"` | `"all"`
 - `mcps` (optional): Filter projects using specific MCPs (e.g., `["avnu", "ekubo"]`)
 
 **Example:**
+
 ```json
 {
   "domain": "defi",
@@ -104,6 +112,7 @@ Suggests project ideas that can be built with Ask Starknet.
 ```
 
 **Response:**
+
 ```json
 {
   "status": "success",

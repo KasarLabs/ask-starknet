@@ -48,7 +48,8 @@ export const getHelp = async (params: z.infer<typeof getHelpSchema>) => {
           },
         },
         fullSetup: {
-          description: 'Complete setup for all operations including transactions',
+          description:
+            'Complete setup for all operations including transactions',
           requiredEnvVars: [
             'ANTHROPIC_API_KEY (or GEMINI_API_KEY or OPENAI_API_KEY)',
             'STARKNET_RPC_URL',

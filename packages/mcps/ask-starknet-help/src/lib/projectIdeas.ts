@@ -228,14 +228,7 @@ export const PROJECT_IDEAS: ProjectIdea[] = [
     description:
       'Real-time monitoring dashboard for DeFi protocol metrics, TVL, volumes, and user activity',
     domain: 'analytics',
-    requiredMCPs: [
-      'avnu',
-      'ekubo',
-      'opus',
-      'vesu',
-      'endurfi',
-      'starknet-rpc',
-    ],
+    requiredMCPs: ['avnu', 'ekubo', 'opus', 'vesu', 'endurfi', 'starknet-rpc'],
     features: [
       'Protocol TVL tracking',
       'Volume and fee analytics',

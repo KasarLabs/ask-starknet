@@ -47,8 +47,7 @@ export const listCapabilities = async (
     // Build domains data
     const domainsData: any = {};
 
-    const domainFilter =
-      domain === 'all' ? Object.keys(MCP_DOMAINS) : [domain];
+    const domainFilter = domain === 'all' ? Object.keys(MCP_DOMAINS) : [domain];
 
     for (const domainName of domainFilter) {
       if (!MCP_DOMAINS[domainName as keyof typeof MCP_DOMAINS]) {
@@ -66,7 +65,9 @@ export const listCapabilities = async (
             tools: mcpData.promptInfo.tools,
             expertise: mcpData.promptInfo.expertise,
             toolCount: mcpData.promptInfo.tools.length,
-            environmentVariables: Object.keys((mcpData.client as any).env || {}),
+            environmentVariables: Object.keys(
+              (mcpData.client as any).env || {}
+            ),
           };
         }
       }
