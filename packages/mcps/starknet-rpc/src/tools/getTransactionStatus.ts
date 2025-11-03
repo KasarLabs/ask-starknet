@@ -1,8 +1,10 @@
 import { RpcProvider } from 'starknet';
+import { transactionHashSchema } from '../schemas/index.js';
+import { z } from 'zod';
 
 export const getTransactionStatus = async (
   provider: RpcProvider,
-  params: { transactionHash: string }
+  params: z.infer<typeof transactionHashSchema>
 ) => {
   try {
     const transactionStatus = await provider.getTransactionStatus(
