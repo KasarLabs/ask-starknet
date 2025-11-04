@@ -34,6 +34,7 @@ None (empty object)
 **Response:**
 
 Returns a markdown-formatted help guide with:
+
 - What is Ask Starknet
 - Quick start examples
 - Setup instructions (minimal and full)

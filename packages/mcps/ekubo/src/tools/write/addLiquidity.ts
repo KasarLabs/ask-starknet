@@ -12,8 +12,7 @@ export const addLiquidity = async (
   // Tool under maintenance - pool initialization required
   return {
     status: 'failure',
-    error:
-      'This tool is currently under maintenance. ',
+    error: 'This tool is currently under maintenance. ',
   };
 
   try {

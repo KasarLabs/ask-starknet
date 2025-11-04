@@ -173,8 +173,7 @@ export const batchSwapTokens = async (
 ) => {
   return {
     status: 'failure',
-    error:
-      'This tool is currently under maintenance. ',
+    error: 'This tool is currently under maintenance. ',
   };
 
   const accountAddress = env.account?.address;

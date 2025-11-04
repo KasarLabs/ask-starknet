@@ -17,8 +17,7 @@ import { onchainWrite } from '@kasarlabs/ask-starknet-core';
 export const swap = async (env: onchainWrite, params: SwapTokensSchema) => {
   return {
     status: 'failure',
-    error:
-      'This tool is currently under maintenance. ',
+    error: 'This tool is currently under maintenance. ',
   };
   try {
     const account = env.account;
