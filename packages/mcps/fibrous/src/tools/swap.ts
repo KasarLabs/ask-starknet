@@ -152,6 +152,12 @@ export const swapTokensFibrous = async (
   env: onchainWrite,
   params: SwapParams
 ) => {
+  return {
+    status: 'failure',
+    error:
+      'This tool is currently under maintenance. ',
+  };
+
   const accountAddress = env.account?.address;
 
   try {

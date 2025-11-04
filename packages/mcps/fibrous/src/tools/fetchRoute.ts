@@ -71,6 +71,12 @@ export const getRouteFibrous = async (
   params: RouteSchemaType
 ): Promise<RouteResult> => {
   try {
+    return {
+    status: 'failure',
+    error:
+      'This tool is currently under maintenance. ',
+  };
+
     const tokenService = new TokenService();
     await tokenService.initializeTokens();
     const routeService = new RouteFetchService();
