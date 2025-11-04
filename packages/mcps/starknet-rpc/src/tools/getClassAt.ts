@@ -1,8 +1,10 @@
 import { RpcProvider } from 'starknet';
+import { getClassAtSchema } from '../schemas/index.js';
+import { z } from 'zod';
 
 export const getClassAt = async (
   provider: RpcProvider,
-  params: { contractAddress: string; blockId?: string }
+  params: z.infer<typeof getClassAtSchema>
 ) => {
   try {
     const contractClass = await provider.getClassAt(

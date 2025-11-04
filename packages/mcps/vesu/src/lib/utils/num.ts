@@ -41,13 +41,13 @@ export function toBN(value: BigNumberish): bigint {
   return isU256(value) ? uint256.uint256ToBN(value) : num.toBigInt(value);
 }
 
-const decimalSchema = z.string().regex(/^\d+(\.\d+)?$/);
-export const BigNumberishSchema = z.union([
-  z.lazy(() => hexSchema.transform(toBN)),
-  z.number().transform(toBN),
-  decimalSchema.transform(toBN),
-  z.bigint(),
-]);
+export const BigNumberishSchema = z
+  .string()
+  .regex(
+    /^(0x[a-fA-F0-9]+|\d+(\.\d+)?)$/,
+    'Must be a hex string or decimal number'
+  )
+  .transform(toBN);
 
 // U256
 export type U256 = Uint256;

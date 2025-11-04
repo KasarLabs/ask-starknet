@@ -1,5 +1,6 @@
 import { END } from '@langchain/langgraph';
 import { z } from 'zod';
+import { AIMessage } from '@langchain/core/messages';
 
 import { GraphAnnotation } from '../graph.js';
 import { AvailableAgents, getMCPDescription } from '../mcps/utilities.js';
@@ -62,6 +63,26 @@ Respond with the exact name of the chosen agent or "__end__".`;
     selectedAgent: response.selectedAgent,
     reasoning: response.reasoning,
   });
+
+  // If END chosen for initial request (no previous agent response), add error message
+  const isInitialRequest = state.messages.length === 1;
+  const isNoAgentFound = response.selectedAgent === END;
+
+  if (isInitialRequest && isNoAgentFound) {
+    return {
+      next: END,
+      messages: [
+        new AIMessage({
+          content: `I couldn't find an appropriate specialized agent to handle this request: "${userInput}"\n\nReasoning: ${response.reasoning}\n\nPlease try rephrasing your request or use one of the available capabilities. You can ask "help" to see what I can do.`,
+          name: 'selector-error',
+        }),
+      ],
+      routingInfo: {
+        reasoning: response.reasoning,
+        timestamp: new Date().toISOString(),
+      },
+    };
+  }
 
   return {
     next: response.selectedAgent,

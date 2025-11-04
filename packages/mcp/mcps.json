@@ -2,7 +2,7 @@
   "argent": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/argent-mcp"],
+      "args": ["-y", "@kasarlabs/argent-mcp@latest"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": ""
@@ -17,7 +17,7 @@
   "erc20": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/erc20-mcp"],
+      "args": ["-y", "@kasarlabs/erc20-mcp@latest"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -45,7 +45,7 @@
   "braavos": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/braavos-mcp"],
+      "args": ["-y", "@kasarlabs/braavos-mcp@latest"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": ""
@@ -60,7 +60,7 @@
   "avnu": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/avnu-mcp"],
+      "args": ["-y", "@kasarlabs/avnu-mcp@latest"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -77,7 +77,7 @@
   "erc721": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/erc721-mcp"],
+      "args": ["-y", "@kasarlabs/erc721-mcp@latest"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -127,7 +127,7 @@
   "artpeace": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/artpeace-mcp"],
+      "args": ["-y", "@kasarlabs/artpeace-mcp@latest"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -146,7 +146,7 @@
   "contract": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/contract-mcp"],
+      "args": ["-y", "@kasarlabs/contract-mcp@latest"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -163,7 +163,7 @@
   "fibrous": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/fibrous-mcp"],
+      "args": ["-y", "@kasarlabs/fibrous-mcp@latest"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -180,7 +180,7 @@
   "okx": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/okx-mcp"],
+      "args": ["-y", "@kasarlabs/okx-mcp@latest"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": ""
@@ -195,7 +195,7 @@
   "openzeppelin": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/openzeppelin-mcp"],
+      "args": ["-y", "@kasarlabs/openzeppelin-mcp@latest"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": ""
@@ -213,7 +213,7 @@
   "opus": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/opus-mcp"],
+      "args": ["-y", "@kasarlabs/opus-mcp@latest"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -239,7 +239,7 @@
   "starknet-rpc": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/starknet-rpc-mcp"],
+      "args": ["-y", "@kasarlabs/starknet-rpc-mcp@latest"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": ""
@@ -267,7 +267,7 @@
   "scarb": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/scarb-mcp"],
+      "args": ["-y", "@kasarlabs/scarb-mcp@latest"],
       "transport": "stdio"
     },
     "description": "Scarb Cairo compilation and program execution operations",
@@ -286,7 +286,7 @@
   "unruggable": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/unruggable-mcp"],
+      "args": ["-y", "@kasarlabs/unruggable-mcp@latest"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -308,7 +308,7 @@
   "vesu": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/vesu-mcp"],
+      "args": ["-y", "@kasarlabs/vesu-mcp@latest"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -325,7 +325,7 @@
   "ekubo": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/ekubo-mcp"],
+      "args": ["-y", "@kasarlabs/ekubo-mcp@latest"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -352,7 +352,7 @@
   "extended": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/extended-mcp"],
+      "args": ["-y", "@kasarlabs/extended-mcp@latest"],
       "transport": "stdio",
       "env": {
         "EXTENDED_API_KEY": "",
@@ -395,7 +395,7 @@
   "endurfi": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/endurfi-mcp"],
+      "args": ["-y", "@kasarlabs/endurfi-mcp@latest"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -421,7 +421,7 @@
   "cairo-coder": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/cairo-coder-mcp"],
+      "args": ["-y", "@kasarlabs/cairo-coder-mcp@latest"],
       "transport": "stdio",
       "env": {
         "CAIRO_CODER_API_KEY": ""
@@ -431,6 +431,23 @@
     "promptInfo": {
       "expertise": "Cairo smart contract development, Starknet technical documentation, ecosystem knowledge, and recent Starknet news",
       "tools": ["assist_with_cairo", "starknet_general_knowledge"]
+    }
+  },
+  "ask-starknet-help": {
+    "client": {
+      "command": "npx",
+      "args": ["-y", "@kasarlabs/ask-starknet-help-mcp@latest"],
+      "transport": "stdio"
+    },
+    "description": "Help and documentation for Ask Starknet: usage guide, architecture explanation, capabilities listing, project ideas, and troubleshooting",
+    "promptInfo": {
+      "expertise": "Ask Starknet help, usage guide, documentation, architecture explanation, available MCPs and tools, project ideas, and troubleshooting",
+      "tools": [
+        "ask_starknet_help",
+        "ask_starknet_explain_architecture",
+        "ask_starknet_list_capabilities",
+        "ask_starknet_suggest_projects"
+      ]
     }
   }
 }

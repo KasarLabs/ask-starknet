@@ -1,8 +1,10 @@
 import { RpcProvider } from 'starknet';
+import { getStorageAtSchema } from '../schemas/index.js';
+import { z } from 'zod';
 
 export const getStorageAt = async (
   provider: RpcProvider,
-  params: { contractAddress: string; key: string; blockId?: string }
+  params: z.infer<typeof getStorageAtSchema>
 ) => {
   try {
     const storageValue = await provider.getStorageAt(
