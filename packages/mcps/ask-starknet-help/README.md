@@ -1,9 +1,10 @@
-# Ask Starknet Docs MCP Server
+# Ask Starknet Help MCP Server
 
-Documentation and discovery MCP server for Ask Starknet. This MCP provides tools to explore Ask Starknet's architecture, capabilities, and project ideas.
+Documentation and discovery MCP server for Ask Starknet. This MCP provides tools to explore Ask Starknet's architecture, capabilities, project ideas, and usage guide.
 
 ## Features
 
+- **Quick Start Guide**: Get help on how to use Ask Starknet with setup instructions and best practices
 - **Architecture Explanation**: Understand how Ask Starknet's unified router and MCP servers work together
 - **Capabilities Listing**: Discover all available MCPs organized by domains (wallets, DeFi, blockchain, dev-tools, special)
 - **Project Ideas**: Get inspired with project ideas that can be built using Ask Starknet
@@ -11,12 +12,42 @@ Documentation and discovery MCP server for Ask Starknet. This MCP provides tools
 ## Installation
 
 ```bash
-npx -y @kasarlabs/ask-starknet-docs-mcp
+npx -y @kasarlabs/ask-starknet-help-mcp
 ```
 
 ## Available Tools
 
-### 1. `ask_starknet_explain_architecture`
+### 1. `ask_starknet_help`
+
+Get comprehensive help on using Ask Starknet, including quick start guide, setup instructions, best practices, and troubleshooting.
+
+**Parameters:**
+
+None (empty object)
+
+**Example:**
+
+```json
+{}
+```
+
+**Response:**
+
+Returns a markdown-formatted help guide with:
+- What is Ask Starknet
+- Quick start examples
+- Setup instructions (minimal and full)
+- Best practices
+- Troubleshooting tips
+
+```json
+{
+  "status": "success",
+  "data": "# Ask Starknet Help Guide\n\nWelcome to Ask Starknet!..."
+}
+```
+
+### 2. `ask_starknet_explain_architecture`
 
 Explains the Ask Starknet architecture and how it works.
 
@@ -48,7 +79,7 @@ Explains the Ask Starknet architecture and how it works.
 }
 ```
 
-### 2. `ask_starknet_list_capabilities`
+### 3. `ask_starknet_list_capabilities`
 
 Lists all Ask Starknet capabilities organized by domains.
 
@@ -93,7 +124,7 @@ Lists all Ask Starknet capabilities organized by domains.
 }
 ```
 
-### 3. `ask_starknet_suggest_projects`
+### 4. `ask_starknet_suggest_projects`
 
 Suggests project ideas that can be built with Ask Starknet.
 
@@ -150,23 +181,15 @@ pnpm install
 pnpm build
 ```
 
-The build process automatically generates `src/lib/mcpsData.ts` from the main `mcps.json` configuration.
-
-### Update MCP Data
-
-The MCP data is automatically generated from `packages/mcp/mcps.json` during the build process. To manually regenerate:
-
-```bash
-pnpm generate:mcps-data
-```
+The build process compiles TypeScript and copies resource files to the build directory.
 
 ## Architecture
 
 This MCP is designed to be completely standalone with no blockchain dependencies. It uses:
 
-- **Auto-generated data**: `mcpsData.ts` is generated from `packages/mcp/mcps.json` during build
-- **Static project ideas**: Curated list of project ideas in `projectIdeas.ts`
-- **Domain organization**: MCPs are organized by domain in `constants.ts`
+- **Static resources**: Help guide, architecture docs, and capabilities are stored as markdown files in `src/resources/`
+- **Static project ideas**: Curated list of project ideas
+- **No external dependencies**: All data is bundled with the MCP for offline access
 
 ## License
 
