@@ -249,24 +249,6 @@ export const CreateMarketOrderSchema = z.object({
 export type CreateMarketOrderSchema = z.infer<typeof CreateMarketOrderSchema>;
 
 /**
- * Schema for TP/SL configuration
- */
-const TpSlConfigSchema = z.object({
-  trigger_price: z.string().describe('Trigger price for the TP/SL'),
-  trigger_price_type: z
-    .enum(['LAST', 'MARK', 'INDEX'])
-    .optional()
-    .default('LAST')
-    .describe('Price type to watch for trigger'),
-  price: z.string().describe('Execution price when triggered'),
-  price_type: z
-    .enum(['LIMIT', 'MARKET'])
-    .optional()
-    .default('LIMIT')
-    .describe('Execute as LIMIT or MARKET order when triggered'),
-});
-
-/**
  * Schema for creating a limit order with TP/SL
  */
 export const CreateLimitOrderWithTpSlSchema = z.object({
@@ -295,12 +277,44 @@ export const CreateLimitOrderWithTpSlSchema = z.object({
     .number()
     .optional()
     .describe('Expiry time for GTT orders'),
-  take_profit: TpSlConfigSchema.optional().describe(
-    'Take profit configuration. Triggers when price moves favorably.'
-  ),
-  stop_loss: TpSlConfigSchema.optional().describe(
-    'Stop loss configuration. Triggers when price moves unfavorably.'
-  ),
+  take_profit: z
+    .object({
+      trigger_price: z.string().describe('Trigger price for the TP/SL'),
+      trigger_price_type: z
+        .enum(['LAST', 'MARK', 'INDEX'])
+        .optional()
+        .default('LAST')
+        .describe('Price type to watch for trigger'),
+      price: z.string().describe('Execution price when triggered'),
+      price_type: z
+        .enum(['LIMIT', 'MARKET'])
+        .optional()
+        .default('LIMIT')
+        .describe('Execute as LIMIT or MARKET order when triggered'),
+    })
+    .optional()
+    .describe(
+      'Take profit configuration. Triggers when price moves favorably.'
+    ),
+  stop_loss: z
+    .object({
+      trigger_price: z.string().describe('Trigger price for the TP/SL'),
+      trigger_price_type: z
+        .enum(['LAST', 'MARK', 'INDEX'])
+        .optional()
+        .default('LAST')
+        .describe('Price type to watch for trigger'),
+      price: z.string().describe('Execution price when triggered'),
+      price_type: z
+        .enum(['LIMIT', 'MARKET'])
+        .optional()
+        .default('LIMIT')
+        .describe('Execute as LIMIT or MARKET order when triggered'),
+    })
+    .optional()
+    .describe(
+      'Stop loss configuration. Triggers when price moves unfavorably.'
+    ),
 });
 export type CreateLimitOrderWithTpSlSchema = z.infer<
   typeof CreateLimitOrderWithTpSlSchema
@@ -317,10 +331,40 @@ export const AddPositionTpSlSchema = z.object({
       'Order side (opposite of your position). If you have LONG position, use SELL.'
     ),
   qty: z.string().describe('Quantity to close (must be ≤ position size)'),
-  take_profit: TpSlConfigSchema.optional().describe(
-    'Take profit configuration'
-  ),
-  stop_loss: TpSlConfigSchema.optional().describe('Stop loss configuration'),
+  take_profit: z
+    .object({
+      trigger_price: z.string().describe('Trigger price for the TP/SL'),
+      trigger_price_type: z
+        .enum(['LAST', 'MARK', 'INDEX'])
+        .optional()
+        .default('LAST')
+        .describe('Price type to watch for trigger'),
+      price: z.string().describe('Execution price when triggered'),
+      price_type: z
+        .enum(['LIMIT', 'MARKET'])
+        .optional()
+        .default('LIMIT')
+        .describe('Execute as LIMIT or MARKET order when triggered'),
+    })
+    .optional()
+    .describe('Take profit configuration'),
+  stop_loss: z
+    .object({
+      trigger_price: z.string().describe('Trigger price for the TP/SL'),
+      trigger_price_type: z
+        .enum(['LAST', 'MARK', 'INDEX'])
+        .optional()
+        .default('LAST')
+        .describe('Price type to watch for trigger'),
+      price: z.string().describe('Execution price when triggered'),
+      price_type: z
+        .enum(['LIMIT', 'MARKET'])
+        .optional()
+        .default('LIMIT')
+        .describe('Execute as LIMIT or MARKET order when triggered'),
+    })
+    .optional()
+    .describe('Stop loss configuration'),
 });
 export type AddPositionTpSlSchema = z.infer<typeof AddPositionTpSlSchema>;
 
