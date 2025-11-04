@@ -2,13 +2,20 @@ import { getERC20Contract } from '../../lib/utils/contracts.js';
 import { getContract } from '../../lib/utils/contracts.js';
 import { AddLiquiditySchema } from '../../schemas/index.js';
 import { preparePoolKeyFromParams } from '../../lib/utils/pools.js';
-import { buildBounds, sortAmounts } from '../../lib/utils/liquidity.js';
+import { buildBounds } from '../../lib/utils/liquidity.js';
 import { onchainWrite } from '@kasarlabs/ask-starknet-core';
 
 export const addLiquidity = async (
   env: onchainWrite,
   params: AddLiquiditySchema
 ) => {
+  // Tool under maintenance - pool initialization required
+  return {
+    status: 'failure',
+    error:
+      'This tool is currently under maintenance. ',
+  };
+
   try {
     const account = env.account;
     const positionsContract = await getContract(env.provider, 'positions');
@@ -22,11 +29,6 @@ export const addLiquidity = async (
         extension: params.extension,
       });
 
-    const { amount0, amount1 } = sortAmounts(
-      params.amount0,
-      params.amount1,
-      isTokenALower
-    );
     const bounds = buildBounds(params.lower_tick, params.upper_tick);
     const minLiquidity = 0;
 
@@ -34,14 +36,14 @@ export const addLiquidity = async (
     token0Contract.connect(account);
     const transfer0Calldata = token0Contract.populate('transfer', [
       positionsContract.address,
-      amount0,
+      params.amount0,
     ]);
 
     const token1Contract = getERC20Contract(token1.address, env.provider);
     token1Contract.connect(account);
     const transfer1Calldata = token1Contract.populate('transfer', [
       positionsContract.address,
-      amount1,
+      params.amount1,
     ]);
 
     positionsContract.connect(account);
@@ -80,8 +82,8 @@ export const addLiquidity = async (
         position_id: params.position_id,
         token0: token0.symbol,
         token1: token1.symbol,
-        amount0: amount0,
-        amount1: amount1,
+        amount0: params.amount0,
+        amount1: params.amount1,
         lower_tick: params.lower_tick,
         upper_tick: params.upper_tick,
         pool_fee: params.fee,
