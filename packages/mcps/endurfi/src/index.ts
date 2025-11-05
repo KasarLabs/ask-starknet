@@ -102,14 +102,7 @@ const registerTools = (EndurfiToolRegistry: mcpTool[]) => {
       'Get liquid staking token statistics (APY, exchange rate, TVL) for all supported tokens on Endur.fi from the official API',
     schema: getLstStatsSchema,
     execute: async (params: any) => {
-      // This tool doesn't require RPC, it only uses HTTP API
-      try {
-        const onchainRead = getOnchainRead();
-        return await getLstStats(onchainRead, params);
-      } catch (error: any) {
-        // If RPC is not available, still try to get stats (tool doesn't need RPC)
-        return await getLstStats(null, params);
-      }
+      return await getLstStats(null, params);
     },
   });
 

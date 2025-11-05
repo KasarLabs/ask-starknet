@@ -16,8 +16,8 @@
   },
   "erc20": {
     "client": {
-      "command": "node",
-      "args": ["/home/simo/Bureau/kasar/ask-starknet/packages/mcps/erc20/build/index.js"],
+      "command": "npx",
+      "args": ["-y", "@kasarlabs/erc20-mcp@latest"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",
@@ -127,8 +127,8 @@
   },
   "troves": {
     "client": {
-      "command": "node",
-      "args": ["/home/simo/Bureau/kasar/ask-starknet/packages/mcps/troves/build/index.js"],
+      "command": "npx",
+      "args": ["-y", "@kasarlabs/troves@latest"],
       "transport": "stdio"
     },
     "description": "Troves strategies API for Starknet",
@@ -407,8 +407,8 @@
   },
   "endurfi": {
     "client": {
-      "command": "node",
-      "args": ["/home/simo/Bureau/kasar/ask-starknet/packages/mcps/endurfi/build/index.js"],
+      "command": "npx",
+      "args": ["-y", "@kasarlabs/endurfi-mcp@latest"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",

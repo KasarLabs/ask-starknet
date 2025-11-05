@@ -1,2 +1,5 @@
 #!/usr/bin/env node
-import('../build/index.js').catch(console.error);
+import('../build/index.js').catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

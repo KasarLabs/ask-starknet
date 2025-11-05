@@ -149,8 +149,7 @@ const registerTools = (Erc20ToolRegistry: mcpTool[]) => {
 
   Erc20ToolRegistry.push({
     name: 'erc20_get_symbol',
-    description:
-      'Get the symbol of an ERC20 token from its contract address',
+    description: 'Get the symbol of an ERC20 token from its contract address',
     schema: getSymbolSchema,
     execute: async (params: any) => {
       const onchainWrite = getOnchainWrite();
