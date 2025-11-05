@@ -126,8 +126,8 @@
   },
   "troves": {
     "client": {
-      "command": "npx",
-      "args": ["-y", "@kasarlabs/troves-mcp"],
+      "command": "node",
+      "args": ["/home/simo/Bureau/kasar/ask-starknet/packages/mcps/troves/build/index.js"],
       "transport": "stdio"
     },
     "description": "Troves strategies API for Starknet",
@@ -406,8 +406,8 @@
   },
   "endurfi": {
     "client": {
-      "command": "npx",
-      "args": ["-y", "@kasarlabs/endurfi-mcp"],
+      "command": "node",
+      "args": ["/home/simo/Bureau/kasar/ask-starknet/packages/mcps/endurfi/build/index.js"],
       "transport": "stdio",
       "env": {
         "STARKNET_RPC_URL": "",

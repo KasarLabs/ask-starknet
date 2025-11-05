@@ -9,9 +9,14 @@ import {
 } from '@kasarlabs/ask-starknet-core';
 import dotenv from 'dotenv';
 
-import { depositEarnSchema, withdrawEarnSchema } from './schemas/index.js';
+import {
+  depositEarnSchema,
+  withdrawEarnSchema,
+  getPoolAprsSchema,
+} from './schemas/index.js';
 import { depositEarnPosition } from './tools/depositService.js';
 import { withdrawEarnPosition } from './tools/withdrawService.js';
+import { getPoolAprs } from './tools/read/getPoolAprs.js';
 
 dotenv.config();
 
@@ -21,6 +26,19 @@ const server = new McpServer({
 });
 
 const registerTools = (VesuToolRegistry: mcpTool[]) => {
+  // Read operations
+  VesuToolRegistry.push({
+    name: 'vesu_get_pool_aprs',
+    description:
+      'Get supply APR for all pools on Vesu protocol from the official API. Total APR = Supply APY + LST APR + DeFi Spring Supply APR',
+    schema: getPoolAprsSchema,
+    execute: async (params: any) => {
+      // This tool doesn't require RPC, it only uses HTTP API
+      return await getPoolAprs(params);
+    },
+  });
+
+  // Write operations
   VesuToolRegistry.push({
     name: 'vesu_deposit_earn',
     description: 'Deposit tokens to earn yield on Vesu protocol',

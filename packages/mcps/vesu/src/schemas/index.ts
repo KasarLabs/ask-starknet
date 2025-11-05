@@ -12,3 +12,8 @@ export const withdrawEarnSchema = z.object({
     .string()
     .describe("Symbol of the token to withdraw (e.g., 'ETH', 'USDC')"),
 });
+
+// Get APR for all pools from Vesu API
+export const getPoolAprsSchema = z.object({});
+
+export type GetPoolAprsSchema = z.infer<typeof getPoolAprsSchema>;
