@@ -439,7 +439,7 @@
       "args": ["-y", "@kasarlabs/ask-starknet-help-mcp@latest"],
       "transport": "stdio"
     },
-    "description": "Help and documentation for Ask Starknet: usage guide, architecture explanation, capabilities listing, project ideas, and troubleshooting",
+    "description": "Help and documentation for Ask Starknet: usage guide, architecture explanation, capabilities listing like MCPs and tools, project ideas, and troubleshooting",
     "promptInfo": {
       "expertise": "Ask Starknet help, usage guide, documentation, architecture explanation, available MCPs and tools, project ideas, and troubleshooting",
       "tools": [

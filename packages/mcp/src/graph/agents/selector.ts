@@ -73,7 +73,7 @@ Respond with the exact name of the chosen agent or "__end__".`;
       next: END,
       messages: [
         new AIMessage({
-          content: `I couldn't find an appropriate specialized agent to handle this request: "${userInput}"\n\nReasoning: ${response.reasoning}\n\nPlease try rephrasing your request or use one of the available capabilities. You can ask "help" to see what I can do.`,
+          content: `I couldn't find an appropriate specialized agent to handle this request: "${userInput}"\n\nPlease try rephrasing your request or use one of the available capabilities. You can ask "help" to see what I can do.`,
           name: 'selector-error',
         }),
       ],
