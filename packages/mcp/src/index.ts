@@ -140,7 +140,6 @@ function validateRequiredEnvironmentVariables(): envInput {
       env.MODEL_NAME = DEFAULT_MODELS[primaryKey];
     }
   }
-
   Object.keys(process.env).forEach((key) => {
     if (process.env[key] && !env[key]) {
       env[key] = process.env[key];

@@ -74,10 +74,20 @@ export const specializedNode = async (state: typeof GraphAnnotation.State) => {
       toolArgsType: typeof response.tool_calls[0].args,
     });
 
+    // Normalize content to string
+    let contentString: string;
+    if (Array.isArray(finalResponse.content)) {
+      contentString = finalResponse.content
+        .map((block: any) => block.text || block.content || '')
+        .join('');
+    } else {
+      contentString = String(finalResponse.content);
+    }
+
     return {
       messages: [
         new HumanMessage({
-          content: finalResponse.content,
+          content: contentString,
           name: state.next,
         }),
       ],
@@ -88,9 +98,19 @@ export const specializedNode = async (state: typeof GraphAnnotation.State) => {
       messageLength: response.content.length,
     });
 
+    // Normalize content to string
+    let contentString: string;
+    if (Array.isArray(response.content)) {
+      contentString = response.content
+        .map((block: any) => block.text || block.content || '')
+        .join('');
+    } else {
+      contentString = String(response.content);
+    }
+
     return {
       messages: [
-        new HumanMessage({ content: response.content, name: state.next }),
+        new HumanMessage({ content: contentString, name: state.next }),
       ],
     };
   }

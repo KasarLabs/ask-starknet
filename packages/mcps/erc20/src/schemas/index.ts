@@ -226,3 +226,14 @@ export const deployERC20Schema = z.object({
     .string()
     .describe('The total supply to mint at the deployment time'),
 });
+
+/**
+ * Schema for getting the symbol of a token
+ * @typedef {Object} GetSymbolSchema
+ * @property {string} assetAddress - The address of the token contract
+ */
+export const getSymbolSchema = z.object({
+  assetAddress: z
+    .string()
+    .describe('The contract address of the ERC20 token to get the symbol for'),
+});

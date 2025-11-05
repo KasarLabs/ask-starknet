@@ -1,5 +1,7 @@
 # Creating New MCPs
 
+> **Note:** The following structure and patterns are recommended guidelines to maintain consistency across the project. While you're encouraged to follow these conventions, feel free to adapt them to your specific MCP's requirements.
+
 ## Project Structure
 
 ```
@@ -66,8 +68,8 @@ import { yourAction } from './tools/action.js';
 import { yourSchema } from './schemas/index.js';
 
 const server = new McpServer({
-  name: 'starknet-yourname',
-  version: '1.0.0',
+  name: 'starknet-name-mcp',
+  version: '0.1.0',
 });
 
 const tools: mcpTool[] = [
@@ -93,6 +95,10 @@ async function main() {
 
 main().catch(console.error);
 ```
+
+## Add documentation
+
+Add a `README.md` in `packages/mcps/your-mcp/`, then update `packages/mcp/README.md` to reference your new MCP with the according environment variables.
 
 ## Register in packages/mcp/mcps.json
 

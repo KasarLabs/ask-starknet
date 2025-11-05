@@ -185,6 +185,31 @@ importers:
         specifier: ^5.8.2
         version: 5.9.2
 
+  packages/mcps/ask-starknet-help:
+    dependencies:
+      '@kasarlabs/ask-starknet-core':
+        specifier: workspace:*
+        version: link:../../core
+      '@modelcontextprotocol/sdk':
+        specifier: ^1.11.2
+        version: 1.17.5
+      dotenv:
+        specifier: ^16.4.7
+        version: 16.5.0
+      zod:
+        specifier: ^3.24.2
+        version: 3.25.76
+    devDependencies:
+      '@types/node':
+        specifier: ^22.13.10
+        version: 22.15.17
+      tsx:
+        specifier: ^4.19.2
+        version: 4.20.6
+      typescript:
+        specifier: ^5.8.2
+        version: 5.9.2
+
   packages/mcps/avnu:
     dependencies:
       '@avnu/avnu-sdk':

@@ -171,6 +171,11 @@ export const batchSwapTokens = async (
   env: onchainWrite,
   params: BatchSwapParams
 ) => {
+  return {
+    status: 'failure',
+    error: 'This tool is currently under maintenance. ',
+  };
+
   const accountAddress = env.account?.address;
 
   try {

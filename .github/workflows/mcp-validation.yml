@@ -52,3 +52,6 @@ jobs:
         
     - name: Validate Tool Names
       run: node .github/scripts/validate-tools.js
+
+    - name: Check Dependencies
+      run: node scripts/check-dependencies.mjs

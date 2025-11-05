@@ -1,8 +1,10 @@
 import { RpcProvider } from 'starknet';
+import { blockIdSchema } from '../schemas/index.js';
+import { z } from 'zod';
 
 export const getBlockWithReceipts = async (
   provider: RpcProvider,
-  params: { blockId: string }
+  params: z.infer<typeof blockIdSchema>
 ) => {
   try {
     const blockWithReceipts = await provider.getBlockWithReceipts(

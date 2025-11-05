@@ -16,7 +16,10 @@ function loadMcpsConfig(): Record<string, MCPServerInfo> {
   try {
     // mcps.json is at the root of the package
     // From build/graph/mcps/utilities.js -> ../../../mcps.json
-    const configPath = join(__dirname, '../../../mcps.json');
+    let configPath = join(__dirname, '../../../mcps.json');
+    if (process.env.NODE_ENV === 'local') {
+      configPath = join(__dirname, '../../../mcps.local.json');
+    }
     const configContent = readFileSync(configPath, 'utf-8');
     return JSON.parse(configContent);
   } catch (error) {
