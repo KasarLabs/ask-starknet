@@ -445,5 +445,22 @@
       "expertise": "Troves strategies and yield farming on Starknet",
       "tools": ["troves_get_strategies"]
     }
+  },
+  "ask-starknet-help": {
+    "client": {
+      "command": "npx",
+      "args": ["-y", "@kasarlabs/ask-starknet-help-mcp@latest"],
+      "transport": "stdio"
+    },
+    "description": "Help and documentation for Ask Starknet: usage guide, architecture explanation, capabilities listing, project ideas, and troubleshooting",
+    "promptInfo": {
+      "expertise": "Ask Starknet help, usage guide, documentation, architecture explanation, available MCPs and tools, project ideas, and troubleshooting",
+      "tools": [
+        "ask_starknet_help",
+        "ask_starknet_explain_architecture",
+        "ask_starknet_list_capabilities",
+        "ask_starknet_suggest_projects"
+      ]
+    }
   }
 }

@@ -12,7 +12,14 @@ import { logger } from '../../utils/logger.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+// Cache for loaded configuration
+let cachedConfig: Record<string, MCPServerInfo> | null = null;
+
 function loadMcpsConfig(): Record<string, MCPServerInfo> {
+  if (cachedConfig) {
+    return cachedConfig;
+  }
+
   try {
     // mcps.json is at the root of the package
     // From build/graph/mcps/utilities.js -> ../../../mcps.json
@@ -21,7 +28,9 @@ function loadMcpsConfig(): Record<string, MCPServerInfo> {
       configPath = join(__dirname, '../../../mcps.local.json');
     }
     const configContent = readFileSync(configPath, 'utf-8');
-    return JSON.parse(configContent);
+    const config: Record<string, MCPServerInfo> = JSON.parse(configContent);
+    cachedConfig = config;
+    return config;
   } catch (error) {
     console.error('Error loading mcps.json:', error);
     console.error('Tried path:', join(__dirname, '../../../mcps.json'));
@@ -74,9 +83,7 @@ export const getMCPClientConfig = (
 
     if (missingVars.length > 0) {
       throw new Error(
-        `Missing environment variables for MCP '${serverName}': ${missingVars.join(', ')}\n` +
-          `Available variables: ${Object.keys(env).join(', ')}\n` +
-          `Required variables: ${Object.keys(serverInfo.client.env).join(', ')}`
+        `Missing environment variables for MCP '${serverName}': ${missingVars.join(', ')}\n`
       );
     }
   }
