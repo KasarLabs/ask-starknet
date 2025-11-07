@@ -63,9 +63,12 @@ export const specializedNode = async (state: typeof GraphAnnotation.State) => {
     });
     allMessages.push(currentResponse);
     allMessages.push(...toolResults.messages);
-    logger.info(`🔄 [Iteration ${iterationCount}] Invoking LLM again with updated context`, {
-      totalMessages: allMessages.length,
-    });
+    logger.info(
+      `🔄 [Iteration ${iterationCount}] Invoking LLM again with updated context`,
+      {
+        totalMessages: allMessages.length,
+      }
+    );
     currentResponse = await model.invoke(allMessages);
   }
 
