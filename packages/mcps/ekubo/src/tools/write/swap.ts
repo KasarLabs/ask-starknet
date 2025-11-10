@@ -15,6 +15,10 @@ import {
 import { onchainWrite } from '@kasarlabs/ask-starknet-core';
 
 export const swap = async (env: onchainWrite, params: SwapTokensSchema) => {
+  return {
+    status: 'failure',
+    error: 'This tool is currently under maintenance. ',
+  };
   try {
     const account = env.account;
     const routerContract = await getContract(env.provider, 'routerV3');
@@ -29,8 +33,9 @@ export const swap = async (env: onchainWrite, params: SwapTokensSchema) => {
         extension: params.extension,
       });
 
-    const tokenIn = isTokenALower ? token0 : token1;
-    const tokenOut = isTokenALower ? token1 : token0;
+    // token0 is always params.token_in, token1 is always params.token_out
+    const tokenIn = token0;
+    const tokenOut = token1;
 
     // Get current pool price and calculate sqrt_ratio_limit with slippage
     const priceResult = await coreContract.get_pool_price(poolKey);

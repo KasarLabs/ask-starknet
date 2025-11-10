@@ -3,8 +3,8 @@ import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
 
 const transport = new StdioClientTransport({
-  command: 'node',
-  args: ['build/index.js'],
+  command: 'npx',
+  args: ['-y', '@kasarlabs/ask-starknet-mcp@latest'],
 });
 
 const client = new Client({
@@ -25,13 +25,30 @@ try {
   const result = await client.callTool({
     name: 'ask_starknet',
     arguments: {
-      userInput:
-        'can you transfer 0.000001 ETH to 0x0590612320bCC4C7735007e67674902969b9A0F9546B786BDeA46b11Cca8c5AC?',
+      userInput: 'can you bridge my fund with starkgate?',
+    },
+  });
+  const response = JSON.parse(result.content[0].text);
+  console.log(response);
+
+  const result2 = await client.callTool({
+    name: 'ask_starknet',
+    arguments: {
+      userInput: 'help',
     },
   });
 
-  const response = JSON.parse(result.content[0].text);
-  console.log(response);
+  const response2 = JSON.parse(result2.content[0].text);
+  console.log(response2);
+
+  const result3 = await client.callTool({
+    name: 'ask_starknet',
+    arguments: {
+      userInput: 'how can i use ask-starknet to build a project in defi',
+    },
+  });
+  const response3 = JSON.parse(result3.content[0].text);
+  console.log(response3);
 } catch (error) {
   console.error('Error:', error.message);
 } finally {

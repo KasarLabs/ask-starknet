@@ -14,6 +14,8 @@ import {
   HumanMessage,
   ToolMessage,
 } from '@langchain/core/messages';
+import { getAllMcpInfo } from './graph/mcps/utilities.js';
+import { MCPServerInfo } from './graph/mcps/interfaces.js';
 
 const performStarknetActionsSchema = z.object({
   userInput: z.string().describe('The actions that the user want to do'),
@@ -165,7 +167,20 @@ function validateRequiredEnvironmentVariables(): envInput {
     }
   }
 
-  Object.keys(process.env).forEach((key) => {
+  // Build whitelist from mcps.json - only collect env vars needed by MCPs
+  const mcpsConfig = getAllMcpInfo();
+  const allowedEnvVars = new Set<string>();
+
+  Object.values(mcpsConfig).forEach((mcpInfo: MCPServerInfo) => {
+    if (mcpInfo.client.env) {
+      Object.keys(mcpInfo.client.env).forEach((envVar) => {
+        allowedEnvVars.add(envVar);
+      });
+    }
+  });
+
+  // Only collect whitelisted environment variables
+  allowedEnvVars.forEach((key) => {
     if (process.env[key] && !env[key]) {
       env[key] = process.env[key];
     }
