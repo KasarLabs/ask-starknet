@@ -1,5 +1,9 @@
 import { MultiServerMCPClient } from '@langchain/mcp-adapters';
-import { HumanMessage, SystemMessage } from '@langchain/core/messages';
+import {
+  HumanMessage,
+  SystemMessage,
+  ToolMessage,
+} from '@langchain/core/messages';
 import { ToolNode } from '@langchain/langgraph/prebuilt';
 
 import { getMCPClientConfig, getMCPPromptInfo } from '../mcps/utilities.js';
@@ -60,6 +64,11 @@ export const specializedNode = async (state: typeof GraphAnnotation.State) => {
     const toolResults = await toolNode.invoke({
       messages: [...state.messages, response],
     });
+
+    if (state.rawTools) {
+      logger.info('Raw tools flag is set, returning tool results directly');
+      return { messages: [response].concat(toolResults.messages) };
+    }
     const finalResponse = await model.invoke([
       ...state.messages,
       response,
