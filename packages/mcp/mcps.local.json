@@ -435,8 +435,8 @@
   },
   "ask-starknet-help": {
     "client": {
-      "command": "npx",
-      "args": ["-y", "@kasarlabs/ask-starknet-help-mcp@latest"],
+      "command": "node",
+      "args": ["../mcps/ask-starknet-help/build/index.js"],
       "transport": "stdio"
     },
     "description": "Help and documentation for Ask Starknet: usage guide, architecture explanation, capabilities listing, project ideas, and troubleshooting",
