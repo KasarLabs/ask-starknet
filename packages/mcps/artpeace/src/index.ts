@@ -38,7 +38,6 @@ export const RegisterToolInServer = async () => {
   await registerToolsWithServer(server, tools);
 };
 
-
 async function main() {
   const transport = new StdioServerTransport();
   await RegisterToolInServer();
