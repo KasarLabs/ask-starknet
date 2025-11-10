@@ -6,6 +6,7 @@ import {
   mcpTool,
   registerToolsWithServer,
   getOnchainWrite,
+  getOnchainRead,
 } from '@kasarlabs/ask-starknet-core';
 import dotenv from 'dotenv';
 
@@ -152,8 +153,8 @@ const registerTools = (Erc20ToolRegistry: mcpTool[]) => {
     description: 'Get the symbol of an ERC20 token from its contract address',
     schema: getSymbolSchema,
     execute: async (params: any) => {
-      const onchainWrite = getOnchainWrite();
-      return await getSymbol(onchainWrite as any, params);
+      const onchainRead = getOnchainRead();
+      return await getSymbol(onchainRead as any, params);
     },
   });
 };

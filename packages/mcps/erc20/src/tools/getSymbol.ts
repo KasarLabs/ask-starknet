@@ -1,5 +1,5 @@
 import { Contract } from 'starknet';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainRead } from '@kasarlabs/ask-starknet-core';
 import { detectAbiType } from '../lib/utils/utils.js';
 import { validateAndParseAddress } from 'starknet';
 import { OLD_ERC20_ABI } from '../lib/abis/old.js';
@@ -9,13 +9,13 @@ import { getSymbolSchema } from '../schemas/index.js';
 
 /**
  * Gets the symbol of a token from its contract address
- * @param {onchainWrite} env - The onchain write environment
+ * @param {onchainRead} env - The onchain read environment
  * @param {GetSymbolParams} params - Symbol parameters
  * @returns {Promise<Object>} JSON object with symbol
  * @throws {Error} If operation fails
  */
 export const getSymbol = async (
-  env: onchainWrite,
+  env: onchainRead,
   params: z.infer<typeof getSymbolSchema>
 ) => {
   try {
