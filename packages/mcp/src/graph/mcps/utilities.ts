@@ -27,7 +27,6 @@ function loadMcpsConfig(): Record<string, MCPServerInfo> {
     if (process.env.NODE_ENV === 'local') {
       configPath = join(__dirname, '../../../mcps.local.json');
     }
-    logger.info('Loading mcps.json from path:', configPath);
     const configContent = readFileSync(configPath, 'utf-8');
     const config: Record<string, MCPServerInfo> = JSON.parse(configContent);
     cachedConfig = config;
