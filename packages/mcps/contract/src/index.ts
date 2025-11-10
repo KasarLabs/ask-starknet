@@ -50,29 +50,9 @@ export const RegisterToolInServer = async () => {
   await registerToolsWithServer(server, tools);
 };
 
-const checkEnv = (): boolean => {
-  const accountAddress = process.env.STARKNET_ACCOUNT_ADDRESS;
-  const privateKey = process.env.STARKNET_PRIVATE_KEY;
-  const rpcUrl = process.env.STARKNET_RPC_URL;
-
-  if (!accountAddress || !privateKey || !rpcUrl) {
-    console.error(
-      'Missing required environment variables: STARKNET_ACCOUNT_ADDRESS, STARKNET_PRIVATE_KEY, STARKNET_RPC_URL'
-    );
-    return false;
-  }
-  return true;
-};
 
 async function main() {
   const transport = new StdioServerTransport();
-
-  if (!checkEnv()) {
-    console.error(
-      'Failed to initialize Contract Manager - missing environment variables'
-    );
-    process.exit(1);
-  }
 
   await RegisterToolInServer();
   await server.connect(transport);

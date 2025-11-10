@@ -68,20 +68,20 @@ export const specializedNode = async (state: typeof GraphAnnotation.State) => {
 
     if (state.rawTools) {
       logger.info('Raw tools flag is set, returning tool results directly');
-      return { messages: [response].concat(toolResults.messages) };
+      return { messages: [currentResponse].concat(toolResults.messages) };
     }
     const finalResponse = await model.invoke([
       ...state.messages,
-      response,
+      currentResponse,
       ...toolResults.messages,
     ]);
 
     logger.error('Agent response with tools completed', {
       agent: state.next,
-      toolCalls: response.tool_calls,
+      toolCalls: currentResponse.tool_calls,
       toolResults: toolResults,
-      toolArgs: response.tool_calls[0].args,
-      toolArgsType: typeof response.tool_calls[0].args,
+      toolArgs: currentResponse.tool_calls[0].args,
+      toolArgsType: typeof currentResponse.tool_calls[0].args,
     });
 
     // Normalize content to string
