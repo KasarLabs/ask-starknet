@@ -101,7 +101,7 @@ const createApiEnv = (): ExtendedApiEnv => {
   };
 };
 
-const registerTools = (env: ExtendedApiEnv, tools: mcpTool[]) => {
+const registerTools = (tools: mcpTool[]) => {
   // ========================================
   // READ TOOLS (Account Management)
   // ========================================
@@ -112,6 +112,7 @@ const registerTools = (env: ExtendedApiEnv, tools: mcpTool[]) => {
       'Get the current account balance including collateral, equity, available for trade, and unrealized PnL',
     schema: GetBalanceSchema,
     execute: async (params) => {
+      const env = createApiEnv();
       return await getBalance(env, params);
     },
   });
@@ -122,6 +123,7 @@ const registerTools = (env: ExtendedApiEnv, tools: mcpTool[]) => {
       'Get the current account details including status, account ID, L2 keys, vault information, and Starknet bridge address',
     schema: GetUserAccountInfoSchema,
     execute: async (params) => {
+      const env = createApiEnv();
       return await getUserAccountInfo(env, params);
     },
   });
@@ -132,6 +134,7 @@ const registerTools = (env: ExtendedApiEnv, tools: mcpTool[]) => {
       'Get all currently open positions with details including size, PnL, liquidation price, and leverage',
     schema: GetPositionsSchema,
     execute: async (params) => {
+      const env = createApiEnv();
       return await getPositions(env, params);
     },
   });
@@ -142,6 +145,7 @@ const registerTools = (env: ExtendedApiEnv, tools: mcpTool[]) => {
       'Get all currently open orders including limit and stop orders',
     schema: GetOpenOrdersSchema,
     execute: async (params) => {
+      const env = createApiEnv();
       return await getOpenOrders(env, params);
     },
   });
@@ -151,6 +155,7 @@ const registerTools = (env: ExtendedApiEnv, tools: mcpTool[]) => {
     description: 'Get a specific order by its unique ID',
     schema: GetOrderByIdSchema,
     execute: async (params) => {
+      const env = createApiEnv();
       return await getOrderById(env, params);
     },
   });
@@ -161,6 +166,7 @@ const registerTools = (env: ExtendedApiEnv, tools: mcpTool[]) => {
       'Get historical trades executed by the account with optional filters for market, time range, and limit',
     schema: GetTradesHistorySchema,
     execute: async (params) => {
+      const env = createApiEnv();
       return await getTradesHistory(env, params);
     },
   });
@@ -171,6 +177,7 @@ const registerTools = (env: ExtendedApiEnv, tools: mcpTool[]) => {
       'Get historical orders (filled, canceled, or rejected) with optional filters',
     schema: GetOrdersHistorySchema,
     execute: async (params) => {
+      const env = createApiEnv();
       return await getOrdersHistory(env, params);
     },
   });
@@ -180,6 +187,7 @@ const registerTools = (env: ExtendedApiEnv, tools: mcpTool[]) => {
     description: 'Get historical closed positions with realized PnL',
     schema: GetPositionsHistorySchema,
     execute: async (params) => {
+      const env = createApiEnv();
       return await getPositionsHistory(env, params);
     },
   });
@@ -190,6 +198,7 @@ const registerTools = (env: ExtendedApiEnv, tools: mcpTool[]) => {
       'Get historical funding payments made or received for perpetual positions',
     schema: GetFundingPaymentsSchema,
     execute: async (params) => {
+      const env = createApiEnv();
       return await getFundingPayments(env, params);
     },
   });
@@ -199,6 +208,7 @@ const registerTools = (env: ExtendedApiEnv, tools: mcpTool[]) => {
     description: 'Get current leverage settings for all markets',
     schema: GetLeverageSchema,
     execute: async (params) => {
+      const env = createApiEnv();
       return await getLeverage(env, params);
     },
   });
@@ -209,6 +219,7 @@ const registerTools = (env: ExtendedApiEnv, tools: mcpTool[]) => {
       'Get the current fee schedule including maker, taker, and margin fees',
     schema: GetFeesSchema,
     execute: async (params) => {
+      const env = createApiEnv();
       return await getFees(env, params);
     },
   });
@@ -219,6 +230,7 @@ const registerTools = (env: ExtendedApiEnv, tools: mcpTool[]) => {
       'Get supported EVM chains and bridge contract addresses for cross-chain deposits/withdrawals',
     schema: GetBridgeConfigSchema,
     execute: async (params) => {
+      const env = createApiEnv();
       return await getBridgeConfig(env);
     },
   });
@@ -229,6 +241,7 @@ const registerTools = (env: ExtendedApiEnv, tools: mcpTool[]) => {
       'Get a quote for bridging funds between EVM chains and Starknet. Returns quote ID and estimated fees.',
     schema: GetBridgeQuoteSchema,
     execute: async (params) => {
+      const env = createApiEnv();
       return await getBridgeQuote(env, params);
     },
   });
@@ -243,6 +256,9 @@ const registerTools = (env: ExtendedApiEnv, tools: mcpTool[]) => {
       'Get list of available markets with configurations, trading statistics, and status. No authentication required.',
     schema: GetMarketsSchema,
     execute: async (params) => {
+      const env = {
+        apiUrl: process.env.EXTENDED_API_URL || 'https://api.starknet.extended.exchange'
+      }
       return await getMarkets(env, params);
     },
   });
@@ -253,6 +269,9 @@ const registerTools = (env: ExtendedApiEnv, tools: mcpTool[]) => {
       'Get latest trading statistics for a specific market including volume, price changes, funding rate, and open interest. No authentication required.',
     schema: GetMarketStatsSchema,
     execute: async (params) => {
+      const env = {
+        apiUrl: process.env.EXTENDED_API_URL || 'https://api.starknet.extended.exchange'
+      }
       return await getMarketStats(env, params);
     },
   });
@@ -263,6 +282,9 @@ const registerTools = (env: ExtendedApiEnv, tools: mcpTool[]) => {
       'Get current order book (bids and asks) for a specific market. No authentication required.',
     schema: GetMarketOrderbookSchema,
     execute: async (params) => {
+      const env = {
+        apiUrl: process.env.EXTENDED_API_URL || 'https://api.starknet.extended.exchange'
+      }
       return await getMarketOrderbook(env, params);
     },
   });
@@ -273,6 +295,9 @@ const registerTools = (env: ExtendedApiEnv, tools: mcpTool[]) => {
       'Get latest trades for a specific market showing price, quantity, side, and trade type. No authentication required.',
     schema: GetMarketTradesSchema,
     execute: async (params) => {
+      const env = {
+        apiUrl: process.env.EXTENDED_API_URL || 'https://api.starknet.extended.exchange'
+      }
       return await getMarketTrades(env, params);
     },
   });
@@ -283,6 +308,9 @@ const registerTools = (env: ExtendedApiEnv, tools: mcpTool[]) => {
       'Get historical OHLCV candles data for a market. Supports trades, mark prices, or index prices with customizable intervals. No authentication required.',
     schema: GetCandlesHistorySchema,
     execute: async (params) => {
+      const env = {
+        apiUrl: process.env.EXTENDED_API_URL || 'https://api.starknet.extended.exchange'
+      }
       return await getCandlesHistory(env, params);
     },
   });
@@ -293,6 +321,9 @@ const registerTools = (env: ExtendedApiEnv, tools: mcpTool[]) => {
       'Get historical funding rates for a market. Funding rates are calculated every minute but applied hourly. No authentication required.',
     schema: GetFundingRatesHistorySchema,
     execute: async (params) => {
+      const env = {
+        apiUrl: process.env.EXTENDED_API_URL || 'https://api.starknet.extended.exchange'
+      }
       return await getFundingRatesHistory(env, params);
     },
   });
@@ -303,6 +334,11 @@ const registerTools = (env: ExtendedApiEnv, tools: mcpTool[]) => {
   //   description: 'Get historical open interest data for a market in hourly or daily intervals. No authentication required.',
   //   schema: GetOpenInterestsHistorySchema,
   //   execute: async (params) => {
+  //    const env = {
+  //       apiKey: undefined,
+  //       apiUrl: process.env.EXTENDED_API_URL || 'https://api.starknet.extended.exchange';
+  //       apiKey: undefined
+  //    }
   //     return await getOpenInterestsHistory(env, params);
   //   },
   // });
@@ -317,6 +353,7 @@ const registerTools = (env: ExtendedApiEnv, tools: mcpTool[]) => {
       'Create a new limit order with Starknet signature. Allows setting a specific price and advanced options like post-only, time-in-force. Requires STARKNET_PRIVATE_KEY to be set.',
     schema: CreateLimitOrderSchema,
     execute: async (params) => {
+      const env = createApiEnv();
       return await createLimitOrder(env, params);
     },
   });
@@ -327,6 +364,7 @@ const registerTools = (env: ExtendedApiEnv, tools: mcpTool[]) => {
       'Create a limit order with attached Take Profit and Stop Loss. TP/SL triggers are based on this specific order. Requires STARKNET_PRIVATE_KEY to be set.',
     schema: CreateLimitOrderWithTpSlSchema,
     execute: async (params) => {
+      const env = createApiEnv();
       return await createLimitOrderWithTpSl(env, params);
     },
   });
@@ -337,6 +375,7 @@ const registerTools = (env: ExtendedApiEnv, tools: mcpTool[]) => {
       'Create a new market order with Starknet signature. Executes immediately at current market price with configurable slippage. Requires STARKNET_PRIVATE_KEY to be set.',
     schema: CreateMarketOrderSchema,
     execute: async (params) => {
+      const env = createApiEnv();
       return await createMarketOrder(env, params);
     },
   });
@@ -347,6 +386,7 @@ const registerTools = (env: ExtendedApiEnv, tools: mcpTool[]) => {
       'Add Take Profit and Stop Loss orders to an existing position. Used to manage risk on open positions. Requires STARKNET_PRIVATE_KEY to be set.',
     schema: AddPositionTpSlSchema,
     execute: async (params) => {
+      const env = createApiEnv();
       return await addPositionTpSl(env, params);
     },
   });
@@ -356,6 +396,7 @@ const registerTools = (env: ExtendedApiEnv, tools: mcpTool[]) => {
     description: 'Cancel an existing open order by its ID',
     schema: CancelOrderSchema,
     execute: async (params) => {
+      const env = createApiEnv();
       return await cancelOrder(env, params);
     },
   });
@@ -365,15 +406,15 @@ const registerTools = (env: ExtendedApiEnv, tools: mcpTool[]) => {
     description: 'Update the leverage multiplier for a specific market',
     schema: UpdateLeverageSchema,
     execute: async (params) => {
+      const env = createApiEnv();
       return await updateLeverage(env, params);
     },
   });
 };
 
 export const RegisterToolInServer = async () => {
-  const env = createApiEnv();
   const tools: mcpTool[] = [];
-  registerTools(env, tools);
+  registerTools(tools);
   await registerToolsWithServer(server, tools);
 };
 

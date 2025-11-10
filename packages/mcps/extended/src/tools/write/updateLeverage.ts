@@ -12,6 +12,9 @@ export const updateLeverage = async (
   params: UpdateLeverageSchema
 ): Promise<ExtendedApiResponse<UpdateLeverageResponse>> => {
   try {
+    if (!env.privateKey) {
+      throw new Error('EXTENDED_PRIVATE_KEY is required for order creation');
+    }
     const payload = {
       market: params.market_id,
       leverage: params.leverage,

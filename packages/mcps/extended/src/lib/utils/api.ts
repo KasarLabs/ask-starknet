@@ -15,7 +15,7 @@ export async function apiGet<T>(
   };
 
   if (requiresAuth) {
-    headers['X-Api-Key'] = env.apiKey;
+    headers['X-Api-Key'] = env.apiKey as string;
   }
 
   const response = await fetch(url, {
@@ -54,7 +54,7 @@ export async function apiPost<T>(
   const url = `${env.apiUrl}${endpoint}`;
   const headers: Record<string, string> = {
     'User-Agent': 'SnaknetMCP/1.0',
-    'X-Api-Key': env.apiKey,
+    'X-Api-Key': env.apiKey as string,
     'Content-Type': 'application/json',
   };
   console.error(url, {
@@ -99,7 +99,7 @@ export async function apiPut<T>(
   const url = `${env.apiUrl}${endpoint}`;
   const headers: Record<string, string> = {
     'User-Agent': 'SnaknetMCP/1.0',
-    'X-Api-Key': env.apiKey,
+    'X-Api-Key': env.apiKey as string,
     'Content-Type': 'application/json',
   };
 
@@ -140,7 +140,7 @@ export async function apiPatch<T>(
   const url = `${env.apiUrl}${endpoint}`;
   const headers: Record<string, string> = {
     'User-Agent': 'SnaknetMCP/1.0',
-    'X-Api-Key': env.apiKey,
+    'X-Api-Key': env.apiKey as string,
     'Content-Type': 'application/json',
   };
 
@@ -180,7 +180,7 @@ export async function apiDelete<T>(
   const url = `${env.apiUrl}${endpoint}`;
   const headers: Record<string, string> = {
     'User-Agent': 'SnaknetMCP/1.0',
-    'X-Api-Key': env.apiKey,
+    'X-Api-Key': env.apiKey as string,
   };
 
   const response = await fetch(url, {

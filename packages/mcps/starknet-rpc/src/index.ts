@@ -181,22 +181,8 @@ export const RegisterToolInServer = async () => {
   await registerToolsWithServer(server, tools);
 };
 
-const checkEnv = (): boolean => {
-  const rpcUrl = process.env.STARKNET_RPC_URL;
-  if (!rpcUrl) {
-    console.error('Missing required environment variable: STARKNET_RPC_URL');
-    return false;
-  }
-  return true;
-};
-
 async function main() {
   const transport = new StdioServerTransport();
-  if (!checkEnv()) {
-    console.error('Failed to initialize RPC Provider');
-    process.exit(1);
-  }
-
   await RegisterToolInServer();
   await server.connect(transport);
   console.error('Starknet RPC MCP Server running on stdio');
