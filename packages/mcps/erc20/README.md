@@ -16,6 +16,7 @@ This plugin adds the following tools:
 - **erc20_approve**: Approve a spender to spend tokens on your behalf.
 - **erc20_transfer**: Transfer ERC20 tokens to a specific address.
 - **erc20_deploy_new_contract**: Create and deploy a new ERC20 contract.
+- **erc20_get_symbol**: Get the symbol of an ERC20 token from its contract address.
 
 ## Usage
 
@@ -29,6 +30,7 @@ When asking the agent to perform ERC20-related tasks, it will use the appropriat
 "Approve 50 USDC for address 0x1234..."  // Uses erc20_approve
 "What's the total supply of DAI?"  // Uses erc20_get_total_supply
 "Deploy a new token called MyToken"  // Uses erc20_deploy_new_contract
+"What's the symbol of token at address 0x1234..."  // Uses erc20_get_symbol
 ```
 
 ## Development

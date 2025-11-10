@@ -6,6 +6,7 @@ import {
   mcpTool,
   registerToolsWithServer,
   getOnchainWrite,
+  getOnchainRead,
 } from '@kasarlabs/ask-starknet-core';
 import dotenv from 'dotenv';
 
@@ -20,6 +21,7 @@ import {
   getMyGivenAllowanceSchema,
   getAllowanceGivenToMeSchema,
   deployERC20Schema,
+  getSymbolSchema,
 } from './schemas/index.js';
 
 import { getAllowance } from './tools/getAllowance.js';
@@ -31,6 +33,7 @@ import { transfer } from './tools/transfer.js';
 import { getMyGivenAllowance } from './tools/getAllowance.js';
 import { getAllowanceGivenToMe } from './tools/getAllowance.js';
 import { deployERC20Contract } from './tools/deployERC20.js';
+import { getSymbol } from './tools/getSymbol.js';
 
 dotenv.config();
 
@@ -142,6 +145,16 @@ const registerTools = (Erc20ToolRegistry: mcpTool[]) => {
     execute: async (params: any) => {
       const onchainWrite = getOnchainWrite();
       return await deployERC20Contract(onchainWrite as any, params);
+    },
+  });
+
+  Erc20ToolRegistry.push({
+    name: 'erc20_get_symbol',
+    description: 'Get the symbol of an ERC20 token from its contract address',
+    schema: getSymbolSchema,
+    execute: async (params: any) => {
+      const onchainRead = getOnchainRead();
+      return await getSymbol(onchainRead as any, params);
     },
   });
 };

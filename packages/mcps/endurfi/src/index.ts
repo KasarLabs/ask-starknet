@@ -18,6 +18,7 @@ import {
   getUserBalanceSchema,
   getTotalStakedSchema,
   getWithdrawRequestInfoSchema,
+  getLstStatsSchema,
 } from './schemas/index.js';
 
 import { stake } from './tools/write/stake.js';
@@ -29,6 +30,7 @@ import { previewUnstake } from './tools/read/previewUnstake.js';
 import { getUserBalance } from './tools/read/getUserBalance.js';
 import { getTotalStaked } from './tools/read/getTotalStaked.js';
 import { getWithdrawRequestInfo } from './tools/read/getWithdrawRequestInfo.js';
+import { getLstStats } from './tools/read/getLstStats.js';
 
 dotenv.config();
 
@@ -91,6 +93,16 @@ const registerTools = (EndurfiToolRegistry: mcpTool[]) => {
     execute: async (params: any) => {
       const onchainRead = getOnchainRead();
       return await getWithdrawRequestInfo(onchainRead, params);
+    },
+  });
+
+  EndurfiToolRegistry.push({
+    name: 'get_lst_stats',
+    description:
+      'Get liquid staking token statistics (APY, exchange rate, TVL) for all supported tokens on Endur.fi from the official API',
+    schema: getLstStatsSchema,
+    execute: async (params: any) => {
+      return await getLstStats(null, params);
     },
   });
 

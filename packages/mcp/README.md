@@ -155,6 +155,7 @@ Ask Starknet automatically routes your requests to the appropriate specialized M
 - **Extended**: Perpetuals trading, derivatives, position management
 - **Fibrous**: Multi-DEX swap routing for optimal prices
 - **Opus**: Collateralized debt positions (Troves) and CASH borrowing
+- **Troves**: Yield farming strategies and investment opportunities
 - **Vesu**: Lending, borrowing, and yield farming
 - **Unruggable**: Memecoin creation and liquidity locking
 

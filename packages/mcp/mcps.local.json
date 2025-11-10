@@ -38,7 +38,8 @@
         "erc20_get_balance",
         "erc20_approve",
         "erc20_transfer",
-        "erc20_deploy_new_contract"
+        "erc20_deploy_new_contract",
+        "erc20_get_symbol"
       ]
     }
   },
@@ -431,6 +432,18 @@
     "promptInfo": {
       "expertise": "Cairo smart contract development, Starknet technical documentation, ecosystem knowledge, and recent Starknet news",
       "tools": ["assist_with_cairo", "starknet_general_knowledge"]
+    }
+  },
+  "troves": {
+    "client": {
+      "command": "node",
+      "args": ["../mcps/troves/build/index.js"],
+      "transport": "stdio"
+    },
+    "description": "Troves strategies API for Starknet",
+    "promptInfo": {
+      "expertise": "Troves strategies and yield farming on Starknet",
+      "tools": ["troves_get_strategies"]
     }
   },
   "ask-starknet-help": {

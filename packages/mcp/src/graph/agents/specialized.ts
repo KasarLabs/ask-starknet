@@ -1,5 +1,9 @@
 import { MultiServerMCPClient } from '@langchain/mcp-adapters';
-import { HumanMessage, SystemMessage } from '@langchain/core/messages';
+import {
+  HumanMessage,
+  SystemMessage,
+  ToolMessage,
+} from '@langchain/core/messages';
 import { ToolNode } from '@langchain/langgraph/prebuilt';
 
 import { getMCPClientConfig, getMCPPromptInfo } from '../mcps/utilities.js';
@@ -61,6 +65,34 @@ export const specializedNode = async (state: typeof GraphAnnotation.State) => {
     const toolResults = await toolNode.invoke({
       messages: [...state.messages, currentResponse],
     });
+
+    if (state.rawTools) {
+      logger.info('Raw tools flag is set, returning tool results directly');
+      return { messages: [response].concat(toolResults.messages) };
+    }
+    const finalResponse = await model.invoke([
+      ...state.messages,
+      response,
+      ...toolResults.messages,
+    ]);
+
+    logger.error('Agent response with tools completed', {
+      agent: state.next,
+      toolCalls: response.tool_calls,
+      toolResults: toolResults,
+      toolArgs: response.tool_calls[0].args,
+      toolArgsType: typeof response.tool_calls[0].args,
+    });
+
+    // Normalize content to string
+    let contentString: string;
+    if (Array.isArray(finalResponse.content)) {
+      contentString = finalResponse.content
+        .map((block: any) => block.text || block.content || '')
+        .join('');
+    } else {
+      contentString = String(finalResponse.content);
+    }
     allMessages.push(currentResponse);
     allMessages.push(...toolResults.messages);
     logger.info(

@@ -23,6 +23,7 @@ This MCP adds the following tools:
 - **get_user_balance**: Get user liquid staking token balance (xSTRK, xyWBTC, etc.) and its underlying token equivalent value for any token type.
 - **get_total_staked**: Get total amount of underlying token (STRK, WBTC, tBTC, LBTC) staked on Endur.fi (TVL) for a specific token type.
 - **get_withdraw_request_info**: Get information about a withdraw request NFT including status, amount, and claimability for any token type.
+- **get_lst_stats**: Get liquid staking token statistics (APY, exchange rate, TVL) for all supported tokens on Endur.fi from the official API. Helps compare APY across different tokens to find the best yield.
 
 ### Write Operations
 
@@ -43,6 +44,8 @@ When asking the agent to perform Endur-related tasks, it will use the appropriat
 "How much STRK will I get for unstaking 50 xSTRK?"  // Uses preview_unstake
 "Check my xSTRK balance"  // Uses get_user_balance
 "What's the total STRK staked on Endur?"  // Uses get_total_staked
+"Get APY for all tokens on Endur.fi"  // Uses get_lst_stats
+"Compare APY between different tokens"  // Uses get_lst_stats
 "Stake 100 STRK tokens on Endur"  // Uses stake
 "Unstake 50 xSTRK tokens"  // Uses unstake
 "Claim my tokens from withdraw request"  // Uses claim

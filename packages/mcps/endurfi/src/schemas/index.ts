@@ -100,3 +100,8 @@ export const getExchangeRateSchema = z.object({
 });
 
 export type GetExchangeRateSchema = z.infer<typeof getExchangeRateSchema>;
+
+// Get LST stats (APY, exchange rate, TVL) for all tokens from Endur.fi API
+export const getLstStatsSchema = z.object({});
+
+export type GetLstStatsSchema = z.infer<typeof getLstStatsSchema>;

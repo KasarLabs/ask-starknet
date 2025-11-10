@@ -8,12 +8,18 @@ import packageJson from '../package.json' with { type: 'json' };
 
 import { graph } from './graph/graph.js';
 import { logger } from './utils/logger.js';
-import { HumanMessage } from '@langchain/core/messages';
+import {
+  AIMessage,
+  AIMessageChunk,
+  HumanMessage,
+  ToolMessage,
+} from '@langchain/core/messages';
 import { getAllMcpInfo } from './graph/mcps/utilities.js';
-import type { MCPServerInfo } from './graph/mcps/interfaces.js';
+import { MCPServerInfo } from './graph/mcps/interfaces.js';
 
 const performStarknetActionsSchema = z.object({
   userInput: z.string().describe('The actions that the user want to do'),
+  rawTools: z.boolean().optional().describe('Whether to use raw tools or not'),
 });
 type performStarknetActionsInput = z.infer<typeof performStarknetActionsSchema>;
 type envInput = {
@@ -31,12 +37,30 @@ export const performStarknetActions = async (
     const result = await graph.invoke(
       {
         messages: [new HumanMessage(input.userInput)],
+        rawTools: input.rawTools || false,
         mcpEnvironment: env,
       },
       config
     );
 
     const finalMessage = result.messages[result.messages.length - 1];
+    if (input.rawTools) {
+      const messagesReturn = [];
+      for (let i = result.messages.length - 1; i >= 0; i--) {
+        const msg = result.messages[i];
+        if (msg instanceof ToolMessage) {
+          messagesReturn.unshift(msg);
+          if (
+            result.messages[i - 1] instanceof AIMessage ||
+            result.messages[i - 1] instanceof AIMessageChunk
+          ) {
+            messagesReturn.unshift(result.messages[i - 1]);
+            break;
+          }
+        }
+      }
+      return { status: 'success', response: messagesReturn };
+    }
     return {
       status: 'success',
       response: finalMessage.content,

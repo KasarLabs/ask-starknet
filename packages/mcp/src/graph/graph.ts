@@ -33,6 +33,10 @@ export const GraphAnnotation = Annotation.Root({
     reducer: (x, y) => ({ ...x, ...y }),
     default: () => ({}),
   }),
+  rawTools: Annotation<boolean>({
+    reducer: (x, y) => y ?? x,
+    default: () => false,
+  }),
 });
 
 export const routingFunction = async (state: typeof GraphAnnotation.State) => {
