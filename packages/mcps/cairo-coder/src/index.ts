@@ -74,13 +74,6 @@ class CairoCoderMCPServer {
       this.isLocalMode = false;
       this.apiUrl = 'https://api.cairo-coder.com/v1/chat/completions';
       this.apiKey = process.env.CAIRO_CODER_API_KEY || '';
-
-      if (!this.apiKey) {
-        console.error(
-          'Error: CAIRO_CODER_API_KEY environment variable is required when using public API'
-        );
-        process.exit(1);
-      }
       console.error('Cairo Coder MCP server configured for public API mode');
     }
 
@@ -146,6 +139,13 @@ This tool has access to Starknet blog posts, conceptual documentation, and ecosy
 
       if (!query) {
         throw new Error('Query parameter is required');
+      }
+
+      // Validate API key is available in public API mode
+      if (!this.isLocalMode && !this.apiKey) {
+        throw new Error(
+          'CAIRO_CODER_API_KEY environment variable is required when using public API'
+        );
       }
 
       // Add context to guide the backend towards code-focused responses
@@ -235,6 +235,13 @@ This tool has access to Starknet blog posts, conceptual documentation, and ecosy
 
       if (!query) {
         throw new Error('Query parameter is required');
+      }
+
+      // Validate API key is available in public API mode
+      if (!this.isLocalMode && !this.apiKey) {
+        throw new Error(
+          'CAIRO_CODER_API_KEY environment variable is required when using public API'
+        );
       }
 
       // Add context to guide the backend towards general knowledge responses
