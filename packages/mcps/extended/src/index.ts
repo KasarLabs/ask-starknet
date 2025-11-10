@@ -257,8 +257,10 @@ const registerTools = (tools: mcpTool[]) => {
     schema: GetMarketsSchema,
     execute: async (params) => {
       const env = {
-        apiUrl: process.env.EXTENDED_API_URL || 'https://api.starknet.extended.exchange'
-      }
+        apiUrl:
+          process.env.EXTENDED_API_URL ||
+          'https://api.starknet.extended.exchange',
+      };
       return await getMarkets(env, params);
     },
   });
@@ -270,8 +272,10 @@ const registerTools = (tools: mcpTool[]) => {
     schema: GetMarketStatsSchema,
     execute: async (params) => {
       const env = {
-        apiUrl: process.env.EXTENDED_API_URL || 'https://api.starknet.extended.exchange'
-      }
+        apiUrl:
+          process.env.EXTENDED_API_URL ||
+          'https://api.starknet.extended.exchange',
+      };
       return await getMarketStats(env, params);
     },
   });
@@ -283,8 +287,10 @@ const registerTools = (tools: mcpTool[]) => {
     schema: GetMarketOrderbookSchema,
     execute: async (params) => {
       const env = {
-        apiUrl: process.env.EXTENDED_API_URL || 'https://api.starknet.extended.exchange'
-      }
+        apiUrl:
+          process.env.EXTENDED_API_URL ||
+          'https://api.starknet.extended.exchange',
+      };
       return await getMarketOrderbook(env, params);
     },
   });
@@ -296,8 +302,10 @@ const registerTools = (tools: mcpTool[]) => {
     schema: GetMarketTradesSchema,
     execute: async (params) => {
       const env = {
-        apiUrl: process.env.EXTENDED_API_URL || 'https://api.starknet.extended.exchange'
-      }
+        apiUrl:
+          process.env.EXTENDED_API_URL ||
+          'https://api.starknet.extended.exchange',
+      };
       return await getMarketTrades(env, params);
     },
   });
@@ -309,8 +317,10 @@ const registerTools = (tools: mcpTool[]) => {
     schema: GetCandlesHistorySchema,
     execute: async (params) => {
       const env = {
-        apiUrl: process.env.EXTENDED_API_URL || 'https://api.starknet.extended.exchange'
-      }
+        apiUrl:
+          process.env.EXTENDED_API_URL ||
+          'https://api.starknet.extended.exchange',
+      };
       return await getCandlesHistory(env, params);
     },
   });
@@ -322,8 +332,10 @@ const registerTools = (tools: mcpTool[]) => {
     schema: GetFundingRatesHistorySchema,
     execute: async (params) => {
       const env = {
-        apiUrl: process.env.EXTENDED_API_URL || 'https://api.starknet.extended.exchange'
-      }
+        apiUrl:
+          process.env.EXTENDED_API_URL ||
+          'https://api.starknet.extended.exchange',
+      };
       return await getFundingRatesHistory(env, params);
     },
   });

@@ -67,7 +67,10 @@ const registerTools = (TransactionToolRegistry: mcpTool[]) => {
     schema: simulateDeployAccountTransactionSchema,
     execute: async (params: any) => {
       const onchainWrite = getOnchainWrite();
-      return await simulateDeployAccountTransaction(onchainWrite as any, params);
+      return await simulateDeployAccountTransaction(
+        onchainWrite as any,
+        params
+      );
     },
   });
 };
@@ -77,7 +80,6 @@ export const RegisterToolInServer = async () => {
   registerTools(tools);
   await registerToolsWithServer(server, tools);
 };
-
 
 async function main() {
   const transport = new StdioServerTransport();
