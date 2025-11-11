@@ -3,13 +3,17 @@ import { ProviderInterface } from 'starknet';
 
 /**
  * Parameters for executing a token swap
- * @property {string} sellTokenSymbol - Symbol of the token to sell
- * @property {string} buyTokenSymbol - Symbol of the token to buy
+ * @property {string} [sellTokenSymbol] - Symbol of the token to sell (either symbol or address must be provided)
+ * @property {string} [sellTokenAddress] - Address of the token to sell (either symbol or address must be provided)
+ * @property {string} [buyTokenSymbol] - Symbol of the token to buy (either symbol or address must be provided)
+ * @property {string} [buyTokenAddress] - Address of the token to buy (either symbol or address must be provided)
  * @property {number} sellAmount - Amount of tokens to sell
  */
 export interface SwapParams {
-  sellTokenSymbol: string;
-  buyTokenSymbol: string;
+  sellTokenSymbol?: string;
+  sellTokenAddress?: string;
+  buyTokenSymbol?: string;
+  buyTokenAddress?: string;
   sellAmount: number;
 }
 
