@@ -503,16 +503,16 @@ Tools for Cairo development, compilation, and AI-powered coding assistance.
 - "Help me debug this Cairo contract"
 - "What are the latest updates in Starknet?"
 
-### Ask Starknet Help (`ask-starknet-help`)
+### MCP Doc (`mcp-doc`)
 
 **Description:** Help and documentation for Ask Starknet: usage guide, architecture explanation, capabilities listing, project ideas, and troubleshooting
 
 **Tools:**
 
-- `ask_starknet_help` - Get comprehensive help guide
-- `ask_starknet_explain_architecture` - Understand Ask Starknet architecture
-- `ask_starknet_list_capabilities` - List all available capabilities
-- `ask_starknet_suggest_projects` - Get project ideas
+- `mcp_doc_help` - Get comprehensive help guide
+- `mcp_doc_explain_architecture` - Understand Ask Starknet architecture
+- `mcp_doc_list_capabilities` - List all available capabilities
+- `mcp_doc_suggest_projects` - Get project ideas
 
 **Environment Variables:** None required
 
