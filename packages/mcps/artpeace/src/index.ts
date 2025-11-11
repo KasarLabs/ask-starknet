@@ -38,37 +38,8 @@ export const RegisterToolInServer = async () => {
   await registerToolsWithServer(server, tools);
 };
 
-const checkEnv = (): boolean => {
-  const rpcUrl = process.env.STARKNET_RPC_URL;
-  const accountAddress = process.env.STARKNET_ACCOUNT_ADDRESS;
-  const privateKey = process.env.STARKNET_PRIVATE_KEY;
-
-  if (!rpcUrl) {
-    console.error('Missing required environment variable: STARKNET_RPC_URL');
-    return false;
-  }
-  if (!accountAddress) {
-    console.error(
-      'Missing required environment variable: STARKNET_ACCOUNT_ADDRESS'
-    );
-    return false;
-  }
-  if (!privateKey) {
-    console.error(
-      'Missing required environment variable: STARKNET_PRIVATE_KEY'
-    );
-    return false;
-  }
-  return true;
-};
-
 async function main() {
   const transport = new StdioServerTransport();
-  if (!checkEnv()) {
-    console.error('Failed to initialize ArtPeace Server');
-    process.exit(1);
-  }
-
   await RegisterToolInServer();
   await server.connect(transport);
   console.error('Starknet ArtPeace MCP Server running on stdio');

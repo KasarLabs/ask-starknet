@@ -1,7 +1,7 @@
 export interface ExtendedApiEnv {
-  apiKey: string;
+  apiKey?: string | undefined;
   apiUrl: string;
-  privateKey?: string;
+  privateKey?: string | undefined;
 }
 
 export interface ExtendedApiResponse<T = any> {

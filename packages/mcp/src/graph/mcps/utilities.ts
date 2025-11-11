@@ -71,20 +71,12 @@ export const getMCPClientConfig = (
 
   if (env && serverInfo.client.env) {
     config.env = config.env || {};
-    const missingVars: string[] = [];
     for (const envVar in serverInfo.client.env) {
       if (env[envVar]) {
         config.env[envVar] = env[envVar];
       } else {
         config.env[envVar] = '';
-        missingVars.push(envVar);
       }
-    }
-
-    if (missingVars.length > 0) {
-      throw new Error(
-        `Missing environment variables for MCP '${serverName}': ${missingVars.join(', ')}\n`
-      );
     }
   }
   return config;

@@ -5,7 +5,7 @@ import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import {
   mcpTool,
   registerToolsWithServer,
-  getOnchainRead,
+  getOnchainWrite,
 } from '@kasarlabs/ask-starknet-core';
 import dotenv from 'dotenv';
 
@@ -36,8 +36,8 @@ const registerTools = (TransactionToolRegistry: mcpTool[]) => {
     description: 'Simulate a transaction without executing it',
     schema: simulateInvokeTransactionSchema,
     execute: async (params: any) => {
-      const onchainRead = getOnchainRead();
-      return await simulateInvokeTransaction(onchainRead as any, params);
+      const onchainWrite = getOnchainWrite();
+      return await simulateInvokeTransaction(onchainWrite as any, params);
     },
   });
 
@@ -46,8 +46,8 @@ const registerTools = (TransactionToolRegistry: mcpTool[]) => {
     description: 'Simulate Deploy transaction',
     schema: simulateDeployTransactionSchema,
     execute: async (params: any) => {
-      const onchainRead = getOnchainRead();
-      return await simulateDeployTransaction(onchainRead as any, params);
+      const onchainWrite = getOnchainWrite();
+      return await simulateDeployTransaction(onchainWrite as any, params);
     },
   });
 
@@ -56,8 +56,8 @@ const registerTools = (TransactionToolRegistry: mcpTool[]) => {
     description: 'Simulate Declare transaction',
     schema: simulateDeclareTransactionSchema,
     execute: async (params: any) => {
-      const onchainRead = getOnchainRead();
-      return await simulateDeclareTransaction(onchainRead as any, params);
+      const onchainWrite = getOnchainWrite();
+      return await simulateDeclareTransaction(onchainWrite as any, params);
     },
   });
 
@@ -66,8 +66,11 @@ const registerTools = (TransactionToolRegistry: mcpTool[]) => {
     description: 'Simulate Deploy Account transaction',
     schema: simulateDeployAccountTransactionSchema,
     execute: async (params: any) => {
-      const onchainRead = getOnchainRead();
-      return await simulateDeployAccountTransaction(onchainRead as any, params);
+      const onchainWrite = getOnchainWrite();
+      return await simulateDeployAccountTransaction(
+        onchainWrite as any,
+        params
+      );
     },
   });
 };
@@ -78,37 +81,8 @@ export const RegisterToolInServer = async () => {
   await registerToolsWithServer(server, tools);
 };
 
-const checkEnv = (): boolean => {
-  const rpcUrl = process.env.STARKNET_RPC_URL;
-  const accountAddress = process.env.STARKNET_ACCOUNT_ADDRESS;
-  const privateKey = process.env.STARKNET_PRIVATE_KEY;
-
-  if (!rpcUrl) {
-    console.error('Missing required environment variable: STARKNET_RPC_URL');
-    return false;
-  }
-  if (!accountAddress) {
-    console.error(
-      'Missing required environment variable: STARKNET_ACCOUNT_ADDRESS'
-    );
-    return false;
-  }
-  if (!privateKey) {
-    console.error(
-      'Missing required environment variable: STARKNET_PRIVATE_KEY'
-    );
-    return false;
-  }
-  return true;
-};
-
 async function main() {
   const transport = new StdioServerTransport();
-  if (!checkEnv()) {
-    console.error('Failed to initialize Transaction Server');
-    process.exit(1);
-  }
-
   await RegisterToolInServer();
   await server.connect(transport);
   console.error('Starknet Transaction MCP Server running on stdio');

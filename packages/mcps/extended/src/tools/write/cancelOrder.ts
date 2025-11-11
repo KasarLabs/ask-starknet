@@ -12,6 +12,9 @@ export const cancelOrder = async (
   params: CancelOrderSchema
 ): Promise<ExtendedApiResponse<CancelOrderResponse>> => {
   try {
+    if (!env.privateKey) {
+      throw new Error('EXTENDED_PRIVATE_KEY is required for order creation');
+    }
     const response = await apiDelete<CancelOrderResponse>(
       env,
       `/api/v1/user/order/${params.order_id}`

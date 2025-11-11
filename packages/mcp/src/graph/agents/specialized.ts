@@ -53,34 +53,35 @@ export const specializedNode = async (state: typeof GraphAnnotation.State) => {
   const systemPrompt = specializedPrompt(promptInfo);
   const systemMessage = new SystemMessage(systemPrompt);
 
-  // Invoke model with system prompt + conversation history
-  const response = await model.invoke([systemMessage, ...state.messages]);
+  // Build conversation with all messages
+  const allMessages = [systemMessage, ...state.messages];
 
-  if (response.tool_calls && response.tool_calls.length > 0) {
-    logger.error(
-      `Tool calls detected: ${response.tool_calls.map((tc) => tc.name).join(', ')}`,
-      {}
-    );
+  let currentResponse = await model.invoke(allMessages);
+  let iterationCount = 0;
+
+  // Keep executing tools until there are no more tool calls
+  while (currentResponse.tool_calls && currentResponse.tool_calls.length > 0) {
+    iterationCount++;
     const toolResults = await toolNode.invoke({
-      messages: [...state.messages, response],
+      messages: [...state.messages, currentResponse],
     });
 
     if (state.rawTools) {
       logger.info('Raw tools flag is set, returning tool results directly');
-      return { messages: [response].concat(toolResults.messages) };
+      return { messages: [currentResponse].concat(toolResults.messages) };
     }
     const finalResponse = await model.invoke([
       ...state.messages,
-      response,
+      currentResponse,
       ...toolResults.messages,
     ]);
 
     logger.error('Agent response with tools completed', {
       agent: state.next,
-      toolCalls: response.tool_calls,
+      toolCalls: currentResponse.tool_calls,
       toolResults: toolResults,
-      toolArgs: response.tool_calls[0].args,
-      toolArgsType: typeof response.tool_calls[0].args,
+      toolArgs: currentResponse.tool_calls[0].args,
+      toolArgsType: typeof currentResponse.tool_calls[0].args,
     });
 
     // Normalize content to string
@@ -92,35 +93,33 @@ export const specializedNode = async (state: typeof GraphAnnotation.State) => {
     } else {
       contentString = String(finalResponse.content);
     }
-
-    return {
-      messages: [
-        new HumanMessage({
-          content: contentString,
-          name: state.next,
-        }),
-      ],
-    };
-  } else {
-    logger.error('Agent response without tools', {
-      agent: state.next,
-      messageLength: response.content.length,
-    });
-
-    // Normalize content to string
-    let contentString: string;
-    if (Array.isArray(response.content)) {
-      contentString = response.content
-        .map((block: any) => block.text || block.content || '')
-        .join('');
-    } else {
-      contentString = String(response.content);
-    }
-
-    return {
-      messages: [
-        new HumanMessage({ content: contentString, name: state.next }),
-      ],
-    };
+    allMessages.push(currentResponse);
+    allMessages.push(...toolResults.messages);
+    logger.info(
+      `🔄 [Iteration ${iterationCount}] Invoking LLM again with updated context`,
+      {
+        totalMessages: allMessages.length,
+      }
+    );
+    currentResponse = await model.invoke(allMessages);
   }
+
+  // Normalize final content to string
+  let contentString: string;
+  if (Array.isArray(currentResponse.content)) {
+    contentString = currentResponse.content
+      .map((block: any) => block.text || block.content || '')
+      .join('');
+  } else {
+    contentString = String(currentResponse.content);
+  }
+
+  return {
+    messages: [
+      new HumanMessage({
+        content: contentString,
+        name: state.next,
+      }),
+    ],
+  };
 };
