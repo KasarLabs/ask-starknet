@@ -46,7 +46,7 @@ const registerTools = (Erc20ToolRegistry: mcpTool[]) => {
   Erc20ToolRegistry.push({
     name: 'erc20_get_allowance',
     description:
-      'Get the amount of tokens that a spender is allowed to spend on behalf of an owner. Requires the token symbol (e.g., ETH, USDC), the owner address and the spender address.',
+      'Get the amount of tokens that a spender is allowed to spend on behalf of an owner. Requires the contract address of the token, the owner address and the spender address.',
     schema: getAllowanceSchema,
     execute: async (params: any) => {
       const onchainWrite = getOnchainWrite();
@@ -57,7 +57,7 @@ const registerTools = (Erc20ToolRegistry: mcpTool[]) => {
   Erc20ToolRegistry.push({
     name: 'erc20_get_my_given_allowance',
     description:
-      'Get the amount of tokens that a spender is allowed to spend on your behalf. Requires the token symbol (e.g., ETH, USDC) and the spender address.',
+      'Get the amount of tokens that a spender is allowed to spend on your behalf. Requires the contract address of the token and the spender address.',
     schema: getMyGivenAllowanceSchema,
     execute: async (params: any) => {
       const onchainWrite = getOnchainWrite();
@@ -68,7 +68,7 @@ const registerTools = (Erc20ToolRegistry: mcpTool[]) => {
   Erc20ToolRegistry.push({
     name: 'erc20_get_allowance_given_to_me',
     description:
-      'Get the amount of tokens that a you are allowed to spend on the behalf of an owner. Requires the token symbol (e.g., ETH, USDC) and the owner address.',
+      'Get the amount of tokens that you are allowed to spend on behalf of an owner. Requires the contract address of the token and the owner address.',
     schema: getAllowanceGivenToMeSchema,
     execute: async (params: any) => {
       const onchainWrite = getOnchainWrite();
@@ -78,7 +78,8 @@ const registerTools = (Erc20ToolRegistry: mcpTool[]) => {
 
   Erc20ToolRegistry.push({
     name: 'erc20_get_total_supply',
-    description: 'Get the total supply of an token token',
+    description:
+      'Get the total supply of a token. Requires the contract address of the token.',
     schema: getTotalSupplySchema,
     execute: async (params: any) => {
       const onchainWrite = getOnchainWrite();
@@ -99,7 +100,8 @@ const registerTools = (Erc20ToolRegistry: mcpTool[]) => {
 
   Erc20ToolRegistry.push({
     name: 'erc20_get_balance',
-    description: 'Get the balance of an asset for a given wallet address',
+    description:
+      'Get the balance of an asset for a given wallet address. Requires the contract address of the token.',
     schema: getBalanceSchema,
     execute: async (params: any) => {
       const onchainWrite = getOnchainWrite();
@@ -109,7 +111,8 @@ const registerTools = (Erc20ToolRegistry: mcpTool[]) => {
 
   Erc20ToolRegistry.push({
     name: 'erc20_get_own_balance',
-    description: 'Get the balance of an asset in your wallet',
+    description:
+      'Get the balance of an asset in your wallet. Requires the contract address of the token.',
     schema: getOwnBalanceSchema,
     execute: async (params: any) => {
       const onchainWrite = getOnchainWrite();

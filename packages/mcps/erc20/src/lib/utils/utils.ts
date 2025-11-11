@@ -1,29 +1,9 @@
-import {
-  validateAndParseAddress,
-  num,
-  RPC,
-  Contract,
-  Provider,
-  shortString,
-  cairo,
-} from 'starknet';
-import { tokenAddresses } from '../constants/constant.js';
+import { validateAndParseAddress, Contract, Provider, cairo } from 'starknet';
 import { ParamsValidationResult, ExecuteV3Args } from '../types/types.js';
 import { DECIMALS } from '../types/types.js';
 import { OLD_ERC20_ABI } from '../abis/old.js';
 import { NEW_ERC20_ABI_MAINNET } from '../abis/new.js';
 import { validToken } from '../types/types.js';
-
-/**
- * Returns the number of decimals for a token
- * @param symbol - Token symbol
- * @returns Number of decimals
- */
-export const getTokenDecimals = (symbol: string): number => {
-  const stablecoinSymbols = ['USDC', 'USDT'];
-  const decimals = stablecoinSymbols.includes(symbol.toUpperCase()) ? 6 : 18;
-  return decimals;
-};
 
 /**
  * Formats a balance string to the correct decimal places
@@ -60,22 +40,6 @@ export const formatBalance = (
   } catch (error) {
     return '0';
   }
-};
-
-/**
- * Validates and formats an address
- * @param address - Starknet address
- * @returns Formatted address
- * @throws Error if validation fails
- */
-export const validateTokenAddress = (symbol: string): string => {
-  const tokenAddress = tokenAddresses[symbol];
-  if (!tokenAddress) {
-    throw new Error(
-      `Token ${symbol} not supported. Available tokens: ${Object.keys(tokenAddresses).join(', ')}`
-    );
-  }
-  return tokenAddress;
 };
 
 /**
@@ -125,33 +89,6 @@ export const validateAndFormatParams = (
 };
 
 /**
- * Creates a V3 transaction details payload with predefined gas parameters
- * @returns {Object} V3 transaction details payload with gas parameters
- */
-export const getV3DetailsPayload = () => {
-  const maxL1Gas = 2000n;
-  const maxL1GasPrice = 100000n * 10n ** 9n;
-
-  return {
-    version: 3,
-    maxFee: 10n ** 16n,
-    feeDataAvailabilityMode: RPC.EDataAvailabilityMode.L1,
-    tip: 10n ** 14n,
-    paymasterData: [],
-    resourceBounds: {
-      l1_gas: {
-        max_amount: num.toHex(maxL1Gas),
-        max_price_per_unit: num.toHex(maxL1GasPrice),
-      },
-      l2_gas: {
-        max_amount: num.toHex(0n),
-        max_price_per_unit: num.toHex(0n),
-      },
-    },
-  };
-};
-
-/**
  * Executes a V3 transaction with preconfigured gas parameters
  * @param {ExecuteV3Args} args - Contains call and account
  * @returns {Promise<string>} Transaction hash
@@ -174,46 +111,27 @@ export const executeV3Transaction = async ({
 /**
  * Validates token by his symbol or address
  * @param {Provider} provider - The Starknet provider
- * @param {string} assetSymbol - The ERC20 token symbol
  * @param {string} assetAddress - The ERC20 token contract address
  * @returns {Promise<validToken>} The valid token
  * @throws {Error} If token is not valid
  */
 export async function validateToken(
   provider: Provider,
-  assetSymbol?: string,
   assetAddress?: string
 ): Promise<validToken> {
-  if (!assetSymbol && !assetAddress) {
+  if (!assetAddress) {
     throw new Error('Either asset symbol or asset address is required');
   }
 
   let address: string = '',
-    symbol: string = '',
     decimals: number = 0;
-  if (assetSymbol) {
-    symbol = assetSymbol.toUpperCase();
-    address = validateTokenAddress(symbol);
-    if (!address) {
-      throw new Error(`Token ${symbol} not supported`);
-    }
-    decimals = DECIMALS[symbol as keyof typeof DECIMALS] || DECIMALS.DEFAULT;
-  } else if (assetAddress) {
+  if (assetAddress) {
     address = validateAndParseAddress(assetAddress);
     try {
       const abi = await detectAbiType(address, provider);
-      const contract = new Contract(abi, address, provider);
-
-      try {
-        const rawSymbol = await contract.symbol();
-        symbol =
-          abi == OLD_ERC20_ABI
-            ? shortString.decodeShortString(rawSymbol)
-            : rawSymbol.toUpperCase();
-      } catch (error) {
-        console.warn(`Error getting symbol: ${error.message}`);
-        symbol = 'UNKNOWN';
-      }
+      const contract = new Contract(abi, address, provider).withOptions({
+        blockIdentifier: 'latest',
+      });
 
       try {
         const decimalsBigInt = await contract.decimals();
@@ -227,13 +145,11 @@ export async function validateToken(
       }
     } catch (error) {
       console.warn(`Error retrieving token info: ${error.message}`);
-      symbol = 'UNKNOWN';
       decimals = DECIMALS.DEFAULT;
     }
   }
   return {
     address,
-    symbol,
     decimals,
   };
 }
@@ -246,7 +162,11 @@ export async function validateToken(
  */
 export async function detectAbiType(address: string, provider: Provider) {
   try {
-    const contract = new Contract(OLD_ERC20_ABI, address, provider);
+    const contract = new Contract(OLD_ERC20_ABI, address, provider).withOptions(
+      {
+        blockIdentifier: 'latest',
+      }
+    );
     const symbol = await contract.symbol();
     if (symbol == 0n) {
       return NEW_ERC20_ABI_MAINNET;
@@ -258,27 +178,5 @@ export async function detectAbiType(address: string, provider: Provider) {
       `Couldn't detect ABI type, defaulting to NEW_ERC20_ABI_MAINNET: ${error.message}`
     );
     return NEW_ERC20_ABI_MAINNET;
-  }
-}
-
-/**
- * Extracts asset information from the new asset schema
- * @param {Object} asset - The asset object with assetType and assetValue
- * @returns {Object} Object with assetSymbol and assetAddress
- */
-export function extractAssetInfo(asset: {
-  assetType: 'SYMBOL' | 'ADDRESS';
-  assetValue: string;
-}) {
-  if (asset.assetType === 'SYMBOL') {
-    return {
-      assetSymbol: asset.assetValue,
-      assetAddress: undefined,
-    };
-  } else {
-    return {
-      assetSymbol: undefined,
-      assetAddress: asset.assetValue,
-    };
   }
 }

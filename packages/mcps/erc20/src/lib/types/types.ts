@@ -37,7 +37,6 @@ export interface TransferResult {
  */
 export interface validToken {
   address: string;
-  symbol: string;
   decimals: number;
 }
 
