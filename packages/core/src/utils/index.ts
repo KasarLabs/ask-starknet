@@ -12,17 +12,17 @@ const extractBaseSchema = (schema: z.ZodTypeAny): z.ZodObject<any> => {
   if (schema instanceof z.ZodObject) {
     return schema;
   }
-  
+
   // If it's a ZodEffects, unwrap it recursively
   if (schema instanceof z.ZodEffects) {
     return extractBaseSchema((schema as any)._def.schema);
   }
-  
+
   // Fallback: try to access shape directly (for other Zod types)
   if ('shape' in schema) {
     return schema as z.ZodObject<any>;
   }
-  
+
   throw new Error('Unable to extract base schema from provided Zod schema');
 };
 
