@@ -46,8 +46,8 @@ export async function callTotalSupplyRaw(
       );
 
       // callContract returns either { result: string[] } or string[]
-      const out: string[] = Array.isArray(res) 
-        ? res 
+      const out: string[] = Array.isArray(res)
+        ? res
         : Array.isArray((res as any)?.result)
           ? (res as any).result
           : [];
@@ -61,7 +61,7 @@ export async function callTotalSupplyRaw(
       if (out.length === 1) {
         throw new Error(
           `Invalid totalSupply response: expected Uint256 (2 values), got 1 value. ` +
-          `This may indicate a malformed contract response or non-standard implementation.`
+            `This may indicate a malformed contract response or non-standard implementation.`
         );
       }
     } catch (e) {
