@@ -120,7 +120,7 @@ export async function validateToken(
   assetAddress?: string
 ): Promise<validToken> {
   if (!assetAddress) {
-    throw new Error('Either asset symbol or asset address is required');
+    throw new Error('Asset address is required');
   }
 
   let address: string = '',
@@ -179,4 +179,18 @@ export async function detectAbiType(address: string, provider: Provider) {
     );
     return NEW_ERC20_ABI_MAINNET;
   }
+}
+
+/**
+ * Converts a Uint256 value from its low and high parts (hex strings) into a single bigint.
+ * Uint256 is represented as two 128-bit values: low (least significant) and high (most significant).
+ *
+ * @param lowHex - The low 128 bits as a hexadecimal string
+ * @param highHex - The high 128 bits as a hexadecimal string
+ * @returns The combined 256-bit value as a bigint
+ */
+export function uint256HexToBigInt(lowHex: string, highHex: string): bigint {
+  const low = BigInt(lowHex);
+  const high = BigInt(highHex);
+  return (high << 128n) + low;
 }

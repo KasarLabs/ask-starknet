@@ -1,26 +1,13 @@
 import { RpcProvider, validateAndParseAddress } from 'starknet';
 import { onchainRead, onchainWrite } from '@kasarlabs/ask-starknet-core';
-import { formatBalance, validateToken } from '../lib/utils/utils.js';
+import {
+  formatBalance,
+  validateToken,
+  uint256HexToBigInt,
+} from '../lib/utils/utils.js';
 import { validToken } from '../lib/types/types.js';
 import { z } from 'zod';
 import { getBalanceSchema, getOwnBalanceSchema } from '../schemas/index.js';
-
-/**
- * Combine a Uint256 value from its low and high parts into a single bigint.
- *
- * In Starknet, Uint256 values are represented as two 128-bit felt values:
- * - low: the lower 128 bits
- * - high: the upper 128 bits
- *
- * @param lowHex - The lower 128 bits as a hexadecimal string
- * @param highHex - The upper 128 bits as a hexadecimal string
- * @returns The combined Uint256 value as a bigint
- */
-function uint256HexToBigInt(lowHex: string, highHex: string): bigint {
-  const low = BigInt(lowHex);
-  const high = BigInt(highHex);
-  return (high << 128n) + low;
-}
 
 /**
  * Reads the balance value from a token contract by trying common entrypoint names.

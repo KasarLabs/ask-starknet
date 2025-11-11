@@ -1,23 +1,13 @@
 import { RpcProvider, uint256 } from 'starknet';
 import { onchainRead, onchainWrite } from '@kasarlabs/ask-starknet-core';
-import { validateToken, formatBalance } from '../lib/utils/utils.js';
+import {
+  validateToken,
+  formatBalance,
+  uint256HexToBigInt,
+} from '../lib/utils/utils.js';
 import { validToken } from '../lib/types/types.js';
 import { z } from 'zod';
 import { getTotalSupplySchema } from '../schemas/index.js';
-
-/**
- * Converts a Uint256 value from its low and high parts (hex strings) into a single bigint.
- * Uint256 is represented as two 128-bit values: low (least significant) and high (most significant).
- *
- * @param lowHex - The low 128 bits as a hexadecimal string
- * @param highHex - The high 128 bits as a hexadecimal string
- * @returns The combined 256-bit value as a bigint
- */
-function uint256HexToBigInt(lowHex: string, highHex: string): bigint {
-  const low = BigInt(lowHex);
-  const high = BigInt(highHex);
-  return (high << 128n) + low;
-}
 
 /**
  * Calls the totalSupply function on a contract, trying multiple known entrypoint names.
