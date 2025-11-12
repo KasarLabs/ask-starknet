@@ -1,5 +1,5 @@
-import { mcpTool, onchainRead, onchainWrite } from '../interfaces/index.js';
-import { Account, RpcProvider, constants } from 'starknet';
+import { mcpTool, onchainRead, onchainWrite, McpToolResult } from '../interfaces/index.js';
+import { Account, RpcProvider } from 'starknet';
 
 /**
  * Register MCP tools with a server instance
@@ -14,34 +14,73 @@ export const registerToolsWithServer = async (
     if (!tool.schema) {
       server.tool(tool.name, tool.description, async () => {
         const result = await tool.execute({});
-        return {
-          content: [
-            {
-              type: 'text',
-              text: JSON.stringify(result),
-            },
-          ],
-        };
+        // Return result directly - it already follows MCP spec format
+        return result;
       });
     } else {
       server.tool(
         tool.name,
         tool.description,
         tool.schema.shape,
-        async (params: any, extra: any) => {
+        async (params: any) => {
           const result = await tool.execute(params);
-          return {
-            content: [
-              {
-                type: 'text',
-                text: JSON.stringify(result),
-              },
-            ],
-          };
+          // Return result directly - it already follows MCP spec format
+          return result;
         }
       );
     }
   }
+};
+
+/**
+ * Format a successful MCP tool response following 2025-06-18 spec
+ * @param message - Human-readable success message
+ * @param data - Structured data to return
+ * @returns McpToolResult with content and structuredContent
+ */
+export const returnMcpSuccess = (
+  data: any
+): McpToolResult => {
+  return {
+    content: [
+      {
+        type: 'text',
+        text: JSON.stringify(data),
+      },
+    ],
+    structuredContent: {
+      status: 'success',
+      ...data,
+    },
+  };
+};
+
+/**
+ * Format a failed MCP tool response following 2025-06-18 spec
+ * @param message - Human-readable error message
+ * @param error - Error details
+ * @param step - Optional step where error occurred
+ * @returns McpToolResult with isError flag and error details
+ */
+export const returnMcpError = (
+  message: string,
+  error: string,
+  step?: string
+): McpToolResult => {
+  return {
+    isError: true,
+    content: [
+      {
+        type: 'text',
+        text: message,
+      },
+    ],
+    structuredContent: {
+      status: 'failure',
+      error,
+      ...(step && { step }),
+    },
+  };
 };
 
 export const getOnchainRead = (): onchainRead => {
