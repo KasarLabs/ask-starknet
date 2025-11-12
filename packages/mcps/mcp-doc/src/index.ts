@@ -18,13 +18,13 @@ import {
 dotenv.config();
 
 const server = new McpServer({
-  name: 'ask-starknet-help-mcp',
+  name: 'mcp-doc-mcp',
   version: '0.1.0',
 });
 
 const registerTools = (DocsToolRegistry: mcpTool[]) => {
   DocsToolRegistry.push({
-    name: 'ask_starknet_explain_architecture',
+    name: 'mcp_doc_explain_architecture',
     description:
       'Explain the Ask Starknet architecture, unified router AI-powered routing, MCP servers structure, and how they interact together',
     schema: explainArchitectureSchema,
@@ -32,7 +32,7 @@ const registerTools = (DocsToolRegistry: mcpTool[]) => {
   });
 
   DocsToolRegistry.push({
-    name: 'ask_starknet_list_capabilities',
+    name: 'mcp_doc_list_capabilities',
     description:
       'List all Ask Starknet capabilities organized by domains (wallets, DeFi, blockchain, dev-tools, special) with available MCPs and their tools',
     schema: listCapabilitiesSchema,
@@ -40,7 +40,7 @@ const registerTools = (DocsToolRegistry: mcpTool[]) => {
   });
 
   DocsToolRegistry.push({
-    name: 'ask_starknet_suggest_projects',
+    name: 'mcp_doc_suggest_projects',
     description:
       'Suggest project ideas that can be built with Ask Starknet, filtered by domain or required MCPs',
     schema: suggestProjectsSchema,
@@ -48,7 +48,7 @@ const registerTools = (DocsToolRegistry: mcpTool[]) => {
   });
 
   DocsToolRegistry.push({
-    name: 'ask_starknet_help',
+    name: 'mcp_doc_help',
     description:
       'Get help on how to use Ask Starknet: quick start guide, setup instructions, capabilities overview, and troubleshooting',
     schema: getHelpSchema,
@@ -67,7 +67,7 @@ async function main() {
 
   await RegisterToolInServer();
   await server.connect(transport);
-  console.error('Ask Starknet Help MCP Server running on stdio');
+  console.error('MCP Doc Server running on stdio');
 }
 
 main().catch((error) => {
