@@ -75,6 +75,6 @@ export const transfer = async (
       error: error instanceof Error ? error.message : 'Unknown error',
       step: 'transfer execution',
     };
-    return JSON.stringify(transferResult);
+    return transferResult;
   }
 };

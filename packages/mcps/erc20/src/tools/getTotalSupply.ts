@@ -1,5 +1,5 @@
-import { RpcProvider, uint256 } from 'starknet';
-import { onchainRead, onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { RpcProvider } from 'starknet';
+import { onchainRead } from '@kasarlabs/ask-starknet-core';
 import {
   validateToken,
   formatBalance,

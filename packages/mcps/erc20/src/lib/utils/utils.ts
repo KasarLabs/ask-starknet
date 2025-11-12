@@ -123,28 +123,25 @@ export async function validateToken(
     throw new Error('Asset address is required');
   }
 
-  let address: string = '',
-    decimals: number = 0;
-  if (assetAddress) {
-    address = validateAndParseAddress(assetAddress);
-    try {
-      const abi = await detectAbiType(address, provider);
-      const contract = new Contract(abi, address, provider);
+  const address = validateAndParseAddress(assetAddress);
+  let decimals: number = 0;
 
-      try {
-        const decimalsBigInt = await contract.decimals();
-        decimals =
-          typeof decimalsBigInt === 'bigint'
-            ? Number(decimalsBigInt)
-            : decimalsBigInt;
-      } catch (error) {
-        console.warn(`Error getting decimals: ${error.message}`);
-        decimals = DECIMALS.DEFAULT;
-      }
+  try {
+    const abi = await detectAbiType(address, provider);
+    const contract = new Contract(abi, address, provider);
+    try {
+      const decimalsBigInt = await contract.decimals();
+      decimals =
+        typeof decimalsBigInt === 'bigint'
+          ? Number(decimalsBigInt)
+          : decimalsBigInt;
     } catch (error) {
-      console.warn(`Error retrieving token info: ${error.message}`);
+      console.warn(`Error getting decimals: ${error.message}`);
       decimals = DECIMALS.DEFAULT;
     }
+  } catch (error) {
+    console.warn(`Error retrieving token info: ${error.message}`);
+    decimals = DECIMALS.DEFAULT;
   }
   return {
     address,
