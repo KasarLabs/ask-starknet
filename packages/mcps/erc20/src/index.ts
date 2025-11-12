@@ -81,8 +81,8 @@ const registerTools = (Erc20ToolRegistry: mcpTool[]) => {
     description: 'Get the total supply of an token token',
     schema: getTotalSupplySchema,
     execute: async (params: any) => {
-      const onchainWrite = getOnchainWrite();
-      return await getTotalSupply(onchainWrite as any, params);
+      const onchainRead = getOnchainRead();
+      return await getTotalSupply(onchainRead as any, params);
     },
   });
 
@@ -102,8 +102,8 @@ const registerTools = (Erc20ToolRegistry: mcpTool[]) => {
     description: 'Get the balance of an asset for a given wallet address',
     schema: getBalanceSchema,
     execute: async (params: any) => {
-      const onchainWrite = getOnchainWrite();
-      return await getBalance(onchainWrite as any, params);
+      const onchainRead = getOnchainRead();
+      return await getBalance(onchainRead as any, params);
     },
   });
 

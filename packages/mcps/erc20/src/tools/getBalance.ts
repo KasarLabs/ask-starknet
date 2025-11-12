@@ -1,5 +1,5 @@
 import { Contract } from 'starknet';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, onchainRead } from '@kasarlabs/ask-starknet-core';
 import { detectAbiType } from '../lib/utils/utils.js';
 import {
   formatBalance,
@@ -69,13 +69,10 @@ export const getOwnBalance = async (
  * @throws {Error} If operation fails
  */
 export const getBalance = async (
-  env: onchainWrite,
+  env: onchainRead,
   params: z.infer<typeof getBalanceSchema>
 ) => {
   try {
-    if (!params?.accountAddress) {
-      throw new Error('Account address are required');
-    }
     const provider = env.provider;
 
     const { assetSymbol, assetAddress } = extractAssetInfo(params.asset);

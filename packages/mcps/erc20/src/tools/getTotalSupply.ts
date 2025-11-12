@@ -1,5 +1,5 @@
 import { Contract } from 'starknet';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainRead } from '@kasarlabs/ask-starknet-core';
 import {
   validateToken,
   formatBalance,
@@ -18,7 +18,7 @@ import { getTotalSupplySchema } from '../schemas/index.js';
  * @throws {Error} If operation fails
  */
 export const getTotalSupply = async (
-  env: onchainWrite,
+  env: onchainRead,
   params: z.infer<typeof getTotalSupplySchema>
 ) => {
   try {
