@@ -32,7 +32,6 @@ export interface TransferResult {
 /**
  * Validation result for a token
  * @property {string} address - Token address
- * @property {string} symbol - Token symbol
  * @property {number} decimals - Token decimals
  */
 export interface validToken {
