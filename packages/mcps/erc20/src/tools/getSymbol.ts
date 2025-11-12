@@ -35,10 +35,11 @@ async function callSymbolRaw(
   address: string,
   entrypoint: 'symbol' | 'get_symbol'
 ): Promise<string[]> {
-  const res = await provider.callContract(
-    { contractAddress: address, entrypoint, calldata: [] },
-    'latest' // key: avoid using "pending"
-  );
+  const res = await provider.callContract({
+    contractAddress: address,
+    entrypoint,
+    calldata: [],
+  });
   // starknet.js v8 can return string[] or { result: string[] } depending on the interface
   // (Provider vs ProviderInterface). We normalize:
   // @ts-ignore - compat
@@ -65,9 +66,7 @@ export const getSymbol = async (
     const address = validateAndParseAddress(params.assetAddress);
 
     const abi = await detectAbiType(address, provider);
-    const contract = new Contract(abi, address, provider).withOptions({
-      blockIdentifier: 'latest',
-    });
+    const contract = new Contract(abi, address, provider);
 
     let out: string[] = [];
     try {

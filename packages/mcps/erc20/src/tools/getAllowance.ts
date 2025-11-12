@@ -45,10 +45,11 @@ async function readAllowanceRaw(
 
   for (const entrypoint of entrypoints) {
     try {
-      const res = await provider.callContract(
-        { contractAddress, entrypoint, calldata: [owner, spender] },
-        'latest'
-      );
+      const res = await provider.callContract({
+        contractAddress,
+        entrypoint,
+        calldata: [owner, spender],
+      });
 
       const out: string[] = Array.isArray((res as any)?.result)
         ? (res as any).result

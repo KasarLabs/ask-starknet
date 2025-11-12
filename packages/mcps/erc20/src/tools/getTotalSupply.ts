@@ -30,10 +30,11 @@ export async function callTotalSupplyRaw(
 
   for (const entrypoint of entrypoints) {
     try {
-      const res = await provider.callContract(
-        { contractAddress: address, entrypoint, calldata: [] },
-        'latest'
-      );
+      const res = await provider.callContract({
+        contractAddress: address,
+        entrypoint,
+        calldata: [],
+      });
 
       // callContract returns either { result: string[] } or string[]
       const out: string[] = Array.isArray(res)

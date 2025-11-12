@@ -42,10 +42,11 @@ async function getBalanceRaw(
 
   for (const entrypoint of entrypoints) {
     try {
-      const res = await provider.callContract(
-        { contractAddress, entrypoint, calldata: [account] },
-        'latest'
-      );
+      const res = await provider.callContract({
+        contractAddress,
+        entrypoint,
+        calldata: [account],
+      });
 
       const out: string[] = Array.isArray((res as any)?.result)
         ? (res as any).result
