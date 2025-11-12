@@ -101,7 +101,7 @@ export const getSymbol = async (
 
     if (symbol !== 'UNKNOWN') symbol = symbol.toUpperCase();
 
-    return { status: 'success', symbol, address };
+    return { status: 'success', symbol };
   } catch (error) {
     return {
       status: 'failure',
