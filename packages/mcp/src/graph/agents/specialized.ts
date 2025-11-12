@@ -13,6 +13,20 @@ import { MCPEnvironment } from '../mcps/interfaces.js';
 import { createLLM } from '../../utils/llm.js';
 import { specializedPrompt } from './prompts.js';
 
+// Cache for LLM instances to avoid recreating them and accumulating listeners
+const llmCache = new Map<string, ReturnType<typeof createLLM>>();
+
+function getCachedLLM(env: MCPEnvironment) {
+  const cacheKey = env.ANTHROPIC_API_KEY || env.GEMINI_API_KEY || env.OPENAI_API_KEY || '';
+
+  if (!llmCache.has(cacheKey)) {
+    const llm = createLLM(env);
+    llmCache.set(cacheKey, llm);
+  }
+
+  return llmCache.get(cacheKey)!;
+}
+
 async function specializedAgent(mcpServerName: string, env: MCPEnvironment) {
   const client = new MultiServerMCPClient({
     mcpServers: {
@@ -28,7 +42,7 @@ async function specializedAgent(mcpServerName: string, env: MCPEnvironment) {
     {}
   );
 
-  const llm = createLLM(env);
+  const llm = getCachedLLM(env);
 
   if (!llm.bindTools) {
     throw new Error('The selected LLM model does not support tool binding');
