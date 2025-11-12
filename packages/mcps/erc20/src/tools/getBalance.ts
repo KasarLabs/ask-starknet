@@ -141,7 +141,7 @@ export const getOwnBalance = async (
  * @throws {Error} If the account address is not provided
  */
 export const getBalance = async (
-  env: onchainWrite,
+  env: onchainRead,
   params: z.infer<typeof getBalanceSchema>
 ) => {
   try {

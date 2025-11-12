@@ -49,8 +49,8 @@ const registerTools = (Erc20ToolRegistry: mcpTool[]) => {
       'Get the amount of tokens that a spender is allowed to spend on behalf of an owner. Requires the contract address of the token, the owner address and the spender address.',
     schema: getAllowanceSchema,
     execute: async (params: any) => {
-      const onchainWrite = getOnchainWrite();
-      return await getAllowance(onchainWrite as any, params);
+      const onchainRead = getOnchainRead();
+      return await getAllowance(onchainRead, params);
     },
   });
 
@@ -61,7 +61,7 @@ const registerTools = (Erc20ToolRegistry: mcpTool[]) => {
     schema: getMyGivenAllowanceSchema,
     execute: async (params: any) => {
       const onchainWrite = getOnchainWrite();
-      return await getMyGivenAllowance(onchainWrite as any, params);
+      return await getMyGivenAllowance(onchainWrite, params);
     },
   });
 
@@ -72,7 +72,7 @@ const registerTools = (Erc20ToolRegistry: mcpTool[]) => {
     schema: getAllowanceGivenToMeSchema,
     execute: async (params: any) => {
       const onchainWrite = getOnchainWrite();
-      return await getAllowanceGivenToMe(onchainWrite as any, params);
+      return await getAllowanceGivenToMe(onchainWrite, params);
     },
   });
 
@@ -82,8 +82,8 @@ const registerTools = (Erc20ToolRegistry: mcpTool[]) => {
       'Get the total supply of a token. Requires the contract address of the token.',
     schema: getTotalSupplySchema,
     execute: async (params: any) => {
-      const onchainWrite = getOnchainWrite();
-      return await getTotalSupply(onchainWrite as any, params);
+      const onchainRead = getOnchainRead();
+      return await getTotalSupply(onchainRead, params);
     },
   });
 
@@ -94,7 +94,7 @@ const registerTools = (Erc20ToolRegistry: mcpTool[]) => {
     schema: transferFromSchema,
     execute: async (params: any) => {
       const onchainWrite = getOnchainWrite();
-      return await transferFrom(onchainWrite as any, params);
+      return await transferFrom(onchainWrite, params);
     },
   });
 
@@ -104,8 +104,8 @@ const registerTools = (Erc20ToolRegistry: mcpTool[]) => {
       'Get the balance of an asset for a given wallet address. Requires the contract address of the token.',
     schema: getBalanceSchema,
     execute: async (params: any) => {
-      const onchainWrite = getOnchainWrite();
-      return await getBalance(onchainWrite as any, params);
+      const onchainRead = getOnchainRead();
+      return await getBalance(onchainRead, params);
     },
   });
 
@@ -116,7 +116,7 @@ const registerTools = (Erc20ToolRegistry: mcpTool[]) => {
     schema: getOwnBalanceSchema,
     execute: async (params: any) => {
       const onchainWrite = getOnchainWrite();
-      return await getOwnBalance(onchainWrite as any, params);
+      return await getOwnBalance(onchainWrite, params);
     },
   });
 
@@ -126,7 +126,7 @@ const registerTools = (Erc20ToolRegistry: mcpTool[]) => {
     schema: approveSchema,
     execute: async (params: any) => {
       const onchainWrite = getOnchainWrite();
-      return await approve(onchainWrite as any, params);
+      return await approve(onchainWrite, params);
     },
   });
 
@@ -136,7 +136,7 @@ const registerTools = (Erc20ToolRegistry: mcpTool[]) => {
     schema: transferSchema,
     execute: async (params: any) => {
       const onchainWrite = getOnchainWrite();
-      return await transfer(onchainWrite as any, params);
+      return await transfer(onchainWrite, params);
     },
   });
 
@@ -147,7 +147,7 @@ const registerTools = (Erc20ToolRegistry: mcpTool[]) => {
     schema: deployERC20Schema,
     execute: async (params: any) => {
       const onchainWrite = getOnchainWrite();
-      return await deployERC20Contract(onchainWrite as any, params);
+      return await deployERC20Contract(onchainWrite, params);
     },
   });
 
@@ -157,7 +157,7 @@ const registerTools = (Erc20ToolRegistry: mcpTool[]) => {
     schema: getSymbolSchema,
     execute: async (params: any) => {
       const onchainRead = getOnchainRead();
-      return await getSymbol(onchainRead as any, params);
+      return await getSymbol(onchainRead, params);
     },
   });
 };
