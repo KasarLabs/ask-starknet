@@ -109,7 +109,7 @@ export const executeV3Transaction = async ({
 };
 
 /**
- * Validates token by his symbol or address
+ * Validates token by his address
  * @param {Provider} provider - The Starknet provider
  * @param {string} assetAddress - The ERC20 token contract address
  * @returns {Promise<validToken>} The valid token

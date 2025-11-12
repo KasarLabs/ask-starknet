@@ -130,7 +130,7 @@ export const getOwnBalance = async (
  * held by the specified account. The result is returned in a human-readable format
  * based on the token's decimals.
  *
- * @param env - The onchain write environment containing the provider
+ * @param env - The onchain read environment containing the provider
  * @param params - Parameters object containing:
  *   - assetAddress: The address of the ERC-20 token contract
  *   - accountAddress: The address of the account to query the balance for

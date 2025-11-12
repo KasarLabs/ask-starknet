@@ -62,7 +62,7 @@ function decodeByteArray(byteArray: any): string {
       }
 
       // Decode pending_word if pending_word_len > 0
-      if (byteArray.pending_word && byteArray.pending_word_len > 0) {
+      if (byteArray.pending_word && Number(byteArray.pending_word_len) > 0) {
         try {
           const pendingWord = shortString.decodeShortString(
             byteArray.pending_word
@@ -143,10 +143,11 @@ export const getSymbol = async (
         // For new ABI, try to decode as ByteArray structure
         // ByteArray is returned as: [data_len, ...data_words, pending_word, pending_word_len]
         try {
+          const dataLen = parseInt(out[0], 16) || 0;
           symbol = decodeByteArray({
-            data: out.slice(1, out.length - 2), // All words except first (len) and last two (pending_word, pending_word_len)
-            pending_word: out[out.length - 2],
-            pending_word_len: parseInt(out[out.length - 1], 16) || 0,
+            data: out.slice(1, 1 + dataLen),
+            pending_word: out[1 + dataLen],
+            pending_word_len: parseInt(out[2 + dataLen], 16) || 0,
           });
         } catch {
           // Fallback to Cairo string decoding

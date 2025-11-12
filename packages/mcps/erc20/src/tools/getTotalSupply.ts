@@ -43,8 +43,15 @@ export async function callTotalSupplyRaw(
           ? (res as any).result
           : [];
 
-      if (out.length >= 2) {
+      if (out.length === 2) {
         return uint256HexToBigInt(out[0], out[1]);
+      }
+
+      if (out.length > 2) {
+        throw new Error(
+          `Invalid totalSupply response: expected Uint256 (2 values), got ${out.length} values. ` +
+            `This may indicate a malformed contract response.`
+        );
       }
 
       // If we get a single value, this is non-standard and likely an error
