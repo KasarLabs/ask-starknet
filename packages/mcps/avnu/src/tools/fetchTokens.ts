@@ -1,6 +1,21 @@
 import { Token, fetchTokens } from '@avnu/avnu-sdk';
 
 /**
+ * Normalizes an address by converting to lowercase and removing leading zeros after the 0x prefix
+ * @param {string} address - The address to normalize
+ * @returns {string} The normalized address in lowercase
+ */
+function normalizeAddress(address: string): string {
+  const lowerAddress = address.toLowerCase();
+  if (!lowerAddress.startsWith('0x')) {
+    return lowerAddress;
+  }
+  const withoutPrefix = lowerAddress.slice(2);
+  const normalized = withoutPrefix.replace(/^0+/, '');
+  return normalized ? `0x${normalized}` : '0x0';
+}
+
+/**
  * Service for managing token information
  * @class TokenService
  */
@@ -46,16 +61,16 @@ export class TokenService {
           )
         : tokens.find(
             (token) =>
-              token.address.toLowerCase() === sellAddress!.toLowerCase()
+              normalizeAddress(token.address) === normalizeAddress(sellAddress!)
           );
-
       // Find buy token
       const buyToken = buySymbol
         ? tokens.find(
             (token) => token.symbol.toLowerCase() === buySymbol.toLowerCase()
           )
         : tokens.find(
-            (token) => token.address.toLowerCase() === buyAddress!.toLowerCase()
+            (token) =>
+              normalizeAddress(token.address) === normalizeAddress(buyAddress!)
           );
 
       if (!sellToken) {
