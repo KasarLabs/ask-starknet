@@ -24,7 +24,63 @@ function decodeCairoString(words: string[]): string {
 
 function decodeMaybeShortString(word: string): string {
   try {
-    return shortString.decodeShortString(word);
+    const decoded = shortString.decodeShortString(word);
+    // If decoded string is empty, treat it as unknown
+    if (!decoded || decoded.trim() === '') {
+      return 'UNKNOWN';
+    }
+    return decoded;
+  } catch {
+    return 'UNKNOWN';
+  }
+}
+
+/**
+ * Decodes a ByteArray structure to a string
+ * ByteArray has the structure: { data: Array<bytes31>, pending_word: felt252, pending_word_len: u32 }
+ */
+function decodeByteArray(byteArray: any): string {
+  try {
+    // If it's already a string, return it
+    if (typeof byteArray === 'string') {
+      return byteArray.trim() === '' ? 'UNKNOWN' : byteArray;
+    }
+
+    // If it's an object with ByteArray structure
+    if (byteArray && typeof byteArray === 'object') {
+      let result = '';
+
+      // Decode data array (Array<bytes31>)
+      if (Array.isArray(byteArray.data)) {
+        for (const bytes31 of byteArray.data) {
+          try {
+            result += shortString.decodeShortString(bytes31);
+          } catch {
+            // Skip invalid bytes31
+          }
+        }
+      }
+
+      // Decode pending_word if pending_word_len > 0
+      if (byteArray.pending_word && byteArray.pending_word_len > 0) {
+        try {
+          const pendingWord = shortString.decodeShortString(
+            byteArray.pending_word
+          );
+          // Only take the first pending_word_len characters
+          result += pendingWord.substring(
+            0,
+            Number(byteArray.pending_word_len)
+          );
+        } catch {
+          // Skip invalid pending_word
+        }
+      }
+
+      return result.trim() === '' ? 'UNKNOWN' : result;
+    }
+
+    return 'UNKNOWN';
   } catch {
     return 'UNKNOWN';
   }
@@ -76,29 +132,63 @@ export const getSymbol = async (
     }
 
     let symbol = 'UNKNOWN';
+    const isNewABI = abi !== OLD_ERC20_ABI;
+
     if (out.length === 1) {
-      // felt / felt252 (short string)
+      // felt / felt252 (short string) - old ABI
       symbol = decodeMaybeShortString(out[0]);
     } else if (out.length > 1) {
-      // Cairo string: [len, ...felts]
-      symbol = decodeCairoString(out);
+      // Cairo string: [len, ...felts] or ByteArray structure
+      if (isNewABI) {
+        // For new ABI, try to decode as ByteArray structure
+        // ByteArray is returned as: [data_len, ...data_words, pending_word, pending_word_len]
+        try {
+          symbol = decodeByteArray({
+            data: out.slice(1, out.length - 2), // All words except first (len) and last two (pending_word, pending_word_len)
+            pending_word: out[out.length - 2],
+            pending_word_len: parseInt(out[out.length - 1], 16) || 0,
+          });
+        } catch {
+          // Fallback to Cairo string decoding
+          symbol = decodeCairoString(out);
+        }
+      } else {
+        symbol = decodeCairoString(out);
+      }
     } else {
+      // If out is empty, try using contract.symbol() directly
       try {
         const r = await contract.symbol();
         if (typeof r === 'string') {
-          symbol = r;
+          symbol = r.trim() === '' ? 'UNKNOWN' : r;
         } else if (typeof r === 'bigint') {
           symbol = decodeMaybeShortString('0x' + r.toString(16));
         } else if (typeof r === 'object' && r != null) {
-          const maybe = (r.symbol ?? r.res ?? r.value) as string | undefined;
-          if (typeof maybe === 'string') symbol = decodeMaybeShortString(maybe);
+          // Check if it's a ByteArray structure
+          if (isNewABI && ('data' in r || 'pending_word' in r)) {
+            symbol = decodeByteArray(r);
+          } else {
+            const maybe = (r.symbol ?? r.res ?? r.value) as string | undefined;
+            if (typeof maybe === 'string') {
+              symbol =
+                maybe.trim() === '' ? 'UNKNOWN' : decodeMaybeShortString(maybe);
+            } else if (maybe && typeof maybe === 'object') {
+              // Nested ByteArray
+              symbol = decodeByteArray(maybe);
+            }
+          }
         }
       } catch {
         // no-op
       }
     }
 
-    if (symbol !== 'UNKNOWN') symbol = symbol.toUpperCase();
+    // Ensure symbol is not empty before converting to uppercase
+    if (symbol !== 'UNKNOWN' && symbol.trim() !== '') {
+      symbol = symbol.toUpperCase();
+    } else {
+      symbol = 'UNKNOWN';
+    }
 
     return { status: 'success', symbol };
   } catch (error) {
