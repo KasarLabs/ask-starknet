@@ -3,6 +3,10 @@ import { getContract } from '../../lib/utils/contracts.js';
 import { AddLiquiditySchema } from '../../schemas/index.js';
 import { preparePoolKeyFromParams } from '../../lib/utils/pools.js';
 import { buildBounds } from '../../lib/utils/liquidity.js';
+import {
+  calculateTickFromPrice,
+  roundTickToSpacing,
+} from '../../lib/utils/math.js';
 import { onchainWrite } from '@kasarlabs/ask-starknet-core';
 
 export const addLiquidity = async (
@@ -24,21 +28,86 @@ export const addLiquidity = async (
         extension: params.extension,
       });
 
-    const bounds = buildBounds(params.lower_tick, params.upper_tick);
+    const config = isTokenALower
+      ? {
+          lowerPrice: params.lower_price,
+          upperPrice: params.upper_price,
+          decimals0: token0.decimals,
+          decimals1: token1.decimals,
+          amount0: params.amount0,
+          amount1: params.amount1,
+          transferToken0: token0,
+          transferToken1: token1,
+        }
+      : {
+          lowerPrice: 1 / params.upper_price,
+          upperPrice: 1 / params.lower_price,
+          decimals0: token1.decimals,
+          decimals1: token0.decimals,
+          amount0: params.amount1,
+          amount1: params.amount0,
+          transferToken0: token1,
+          transferToken1: token0,
+        };
+
+    const {
+      lowerPrice,
+      upperPrice,
+      decimals0,
+      decimals1,
+      amount0,
+      amount1,
+      transferToken0,
+      transferToken1,
+    } = config;
+
+    // Calculate ticks from prices
+    const rawLowerTick = calculateTickFromPrice(
+      lowerPrice,
+      decimals0,
+      decimals1
+    );
+    const rawUpperTick = calculateTickFromPrice(
+      upperPrice,
+      decimals0,
+      decimals1
+    );
+
+    // Round ticks to tick spacing (required by Ekubo)
+    // Use the tick spacing from poolKey to ensure consistency
+    const tickSpacingExponent = poolKey.tick_spacing;
+    const lowerTick = roundTickToSpacing(
+      rawLowerTick,
+      tickSpacingExponent,
+      true
+    ); // Round down for lower
+    const upperTick = roundTickToSpacing(
+      rawUpperTick,
+      tickSpacingExponent,
+      false
+    ); // Round up for upper
+
+    const bounds = buildBounds(lowerTick, upperTick);
     const minLiquidity = 0;
 
-    const token0Contract = getERC20Contract(token0.address, env.provider);
+    const token0Contract = getERC20Contract(
+      transferToken0.address,
+      env.provider
+    );
     token0Contract.connect(account);
     const transfer0Calldata = token0Contract.populate('transfer', [
       positionsContract.address,
-      params.amount0,
+      amount0,
     ]);
 
-    const token1Contract = getERC20Contract(token1.address, env.provider);
+    const token1Contract = getERC20Contract(
+      transferToken1.address,
+      env.provider
+    );
     token1Contract.connect(account);
     const transfer1Calldata = token1Contract.populate('transfer', [
       positionsContract.address,
-      params.amount1,
+      amount1,
     ]);
 
     positionsContract.connect(account);
@@ -50,11 +119,11 @@ export const addLiquidity = async (
     ]);
 
     const clearToken0Calldata = positionsContract.populate('clear', [
-      { contract_address: token0.address },
+      { contract_address: transferToken0.address },
     ]);
 
     const clearToken1Calldata = positionsContract.populate('clear', [
-      { contract_address: token1.address },
+      { contract_address: transferToken1.address },
     ]);
 
     const { transaction_hash } = await account.execute([
@@ -79,8 +148,10 @@ export const addLiquidity = async (
         token1: token1.symbol,
         amount0: params.amount0,
         amount1: params.amount1,
-        lower_tick: params.lower_tick,
-        upper_tick: params.upper_tick,
+        lower_price: params.lower_price,
+        upper_price: params.upper_price,
+        lower_tick: lowerTick,
+        upper_tick: upperTick,
         pool_fee: params.fee,
       },
     };

@@ -8,7 +8,11 @@ export function calculateActualPrice(
   const rawPrice = sqrtPriceFloat * sqrtPriceFloat;
 
   // Adjust for decimal difference (token1/token0 format)
-  // Per Ekubo docs: multiply by 10^(token0_decimals - token1_decimals)
+  // Raw price is token1/token0 without decimal adjustment
+  // To get human-readable price: multiply by 10^(token0_decimals - token1_decimals)
+  // This converts from raw amounts to human-readable amounts
+  // Example: rawPrice = 1e12, token0=6 decimals, token1=18 decimals
+  // Human price = 1e12 * 10^(6-18) = 1e12 * 10^(-12) = 1
   const decimalAdjustment = 10 ** (token0Decimals - token1Decimals);
   return rawPrice * decimalAdjustment;
 }
@@ -19,6 +23,32 @@ export function calculateTickFromSqrtPrice(sqrtPrice: bigint): number {
   const price = sqrtPriceFloat * sqrtPriceFloat;
   // tick = log_base(1.0001)(price)
   return Math.floor(Math.log(price) / Math.log(1.0001));
+}
+
+/**
+ * Convert a human-readable price (token1/token0) to a tick
+ * @param price Human-readable price in token1/token0 format (e.g., 0.00023 means 1 token1 = 0.00023 token0)
+ * @param token0Decimals Number of decimals for token0
+ * @param token1Decimals Number of decimals for token1
+ * @returns The tick corresponding to the price
+ *
+ * Formula: tick = log_base(1.0001)(rawPrice)
+ * where rawPrice = price * 10^(token1_decimals - token0_decimals)
+ *
+ * The price is human-readable (already adjusted for decimals), so we need to convert it
+ * to the raw onchain price by multiplying by the decimal adjustment factor.
+ * Since price is token1/token0, we multiply by 10^(token1_decimals - token0_decimals).
+ */
+export function calculateTickFromPrice(
+  price: number,
+  token0Decimals: number,
+  token1Decimals: number
+): number {
+  const decimalAdjustment = 10 ** (token1Decimals - token0Decimals);
+  const rawPrice = price * decimalAdjustment;
+
+  const tick = Math.log(rawPrice) / Math.log(1.000001); // 1.000001 base tick ekubo
+  return Math.floor(tick);
 }
 
 /**
@@ -71,4 +101,44 @@ export function convertTickSpacingPercentToExponent(
   // log_base(a)(b) = ln(b) / ln(a)
   const tickSpacing = Math.log(1 + spacingDecimal) / Math.log(1.000001);
   return Math.round(tickSpacing);
+}
+
+/**
+ * Round a tick to the nearest valid tick according to tick spacing
+ * @param tick The tick to round
+ * @param tickSpacingExponent The tick spacing exponent (from convertTickSpacingPercentToExponent)
+ * @param roundDown If true, round down (for lower tick). If false, round up (for upper tick)
+ * @returns The rounded tick that is a multiple of tick spacing
+ *
+ * In Ekubo, ticks must be multiples of the tick spacing. This function ensures
+ * that the tick is valid for the pool configuration.
+ *
+ * For lower ticks, we round down to ensure the price remains >= lower_price
+ * For upper ticks, we round up to ensure the price remains <= upper_price
+ */
+export function roundTickToSpacing(
+  tick: number,
+  tickSpacingExponent: number,
+  roundDown: boolean
+): number {
+  // Handle edge case where tick spacing is 0 or negative
+  if (tickSpacingExponent <= 0) {
+    return tick;
+  }
+
+  // Calculate the quotient and ensure it's an integer
+  let quotient: number;
+  if (roundDown) {
+    // Round down for lower tick
+    quotient = Math.floor(tick / tickSpacingExponent);
+  } else {
+    // Round up for upper tick
+    quotient = Math.ceil(tick / tickSpacingExponent);
+  }
+
+  // Multiply back to get the rounded tick, ensuring it's a multiple of tickSpacingExponent
+  // Use Math.round to handle any floating point precision issues
+  const roundedTick = Math.round(quotient * tickSpacingExponent);
+
+  return roundedTick;
 }

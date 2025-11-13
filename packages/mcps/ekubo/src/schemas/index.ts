@@ -196,8 +196,16 @@ export const addLiquiditySchema = z
       .string()
       .optional()
       .describe('The contract address of the second token'),
-    lower_tick: z.number().describe('The lower tick of the position range'),
-    upper_tick: z.number().describe('The upper tick of the position range'),
+    lower_price: z
+      .number()
+      .describe(
+        'The minimum price (token1/token0) for the position range. This will be converted to lower_tick automatically.'
+      ),
+    upper_price: z
+      .number()
+      .describe(
+        'The maximum price (token1/token0) for the position range. This will be converted to upper_tick automatically.'
+      ),
     fee: z
       .number()
       .optional()
@@ -331,8 +339,16 @@ export const createPositionSchema = z
       .string()
       .optional()
       .describe('The contract address of the second token'),
-    lower_tick: z.number().describe('The lower tick of the position range'),
-    upper_tick: z.number().describe('The upper tick of the position range'),
+    lower_price: z
+      .number()
+      .describe(
+        'The minimum price (token1/token0) for the position range. This will be converted to lower_tick automatically.'
+      ),
+    upper_price: z
+      .number()
+      .describe(
+        'The maximum price (token1/token0) for the position range. This will be converted to upper_tick automatically.'
+      ),
     fee: z
       .number()
       .optional()
