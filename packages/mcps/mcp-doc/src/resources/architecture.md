@@ -142,7 +142,7 @@ All tools return JSON strings with consistent structure:
 
 - `scarb` - Cairo compilation and proving
 - `cairo-coder` - AI-powered Cairo development assistance
-- `ask-starknet-help` - Documentation and help system
+- `mcp-doc` - Documentation and help system
 
 **Special:**
 
