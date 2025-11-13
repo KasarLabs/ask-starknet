@@ -31,13 +31,17 @@ export function buildTokenAmount(
 
 /**
  * Calculates sqrt_ratio_limit based on current price and slippage tolerance
+ * @param currentSqrtPrice - Current sqrt price of the pool
+ * @param slippageTolerance - Slippage tolerance percentage
+ * @param isSellingToken0 - Whether we are selling token0 (true) or token1 (false) of the pool
  */
 export function calculateSqrtRatioLimit(
   currentSqrtPrice: bigint,
   slippageTolerance: number,
-  isTokenALower: boolean
+  isSellingToken0: boolean
 ): string {
-  if (isTokenALower) {
+  if (isSellingToken0) {
+    // Selling token0: decrease price (towards MIN_SQRT_RATIO)
     const slippageMultiplier = 1 - slippageTolerance / 100;
     const calculatedLimit = BigInt(
       Math.floor(Number(currentSqrtPrice) * Math.sqrt(slippageMultiplier))
@@ -47,6 +51,7 @@ export function calculateSqrtRatioLimit(
       ? calculatedLimit.toString()
       : MIN_SQRT_RATIO.toString();
   } else {
+    // Selling token1: increase price (towards MAX_SQRT_RATIO)
     const slippageMultiplier = 1 + slippageTolerance / 100;
     const calculatedLimit = BigInt(
       Math.floor(Number(currentSqrtPrice) * Math.sqrt(slippageMultiplier))

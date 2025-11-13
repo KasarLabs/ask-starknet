@@ -1,3 +1,4 @@
+import { cairo } from 'starknet';
 import { getERC20Contract } from '../../lib/utils/contracts.js';
 import { getContract } from '../../lib/utils/contracts.js';
 import { SwapTokensSchema } from '../../schemas/index.js';
@@ -15,10 +16,6 @@ import {
 import { onchainWrite } from '@kasarlabs/ask-starknet-core';
 
 export const swap = async (env: onchainWrite, params: SwapTokensSchema) => {
-  return {
-    status: 'failure',
-    error: 'This tool is currently under maintenance. ',
-  };
   try {
     const account = env.account;
     const routerContract = await getContract(env.provider, 'routerV3');
@@ -42,33 +39,77 @@ export const swap = async (env: onchainWrite, params: SwapTokensSchema) => {
     // Get current pool price and calculate sqrt_ratio_limit with slippage
     const priceResult = await coreContract.get_pool_price(poolKey);
     const currentSqrtPrice = BigInt(priceResult.sqrt_ratio);
+
+    // Direction is always based on tokenIn (the token we're selling), not tokenOut
+    const isTokenInToken0 = tokenIn.address === poolKey.token0;
+    const isSellingToken0 = isTokenInToken0;
+
     const sqrtRatioLimit = calculateSqrtRatioLimit(
       currentSqrtPrice,
       params.slippage_tolerance,
-      isTokenALower
+      isSellingToken0
     );
 
     // Build route node and token amount for swap
     const routeNode = buildRouteNode(poolKey, sqrtRatioLimit);
+    const tokenForAmount = params.is_amount_in ? tokenIn : tokenOut;
     const tokenAmount = buildTokenAmount(
-      tokenIn.address,
+      tokenForAmount.address,
       params.amount,
       params.is_amount_in
     );
 
     // Get quote to calculate minimum output with slippage
     const quote = await getSwapQuote(routerContract, routeNode, tokenAmount);
-    const expectedOutput = extractExpectedOutput(quote, isTokenALower);
-    const minimumOutput = calculateMinimumOutputU256(
-      expectedOutput,
-      params.slippage_tolerance
-    );
+    // Determine transfer amount and minimum output based on swap type
+    let transferAmount: string;
+    let minimumOutput: any;
+
+    if (params.is_amount_in) {
+      const expectedOutput = extractExpectedOutput(quote, isTokenALower);
+      transferAmount = params.amount;
+      minimumOutput = calculateMinimumOutputU256(
+        expectedOutput,
+        params.slippage_tolerance
+      );
+    } else {
+      const isTokenInToken0 = tokenIn.address === poolKey.token0;
+
+      const amount0 = BigInt(quote.amount0.mag.toString());
+      const amount1 = BigInt(quote.amount1.mag.toString());
+      const sign0 = quote.amount0.sign;
+      const sign1 = quote.amount1.sign;
+
+      let requiredInput: bigint;
+      if (isTokenInToken0) {
+        // tokenIn is token0, so amount0 should be positive (input)
+        requiredInput = sign0 ? -amount0 : amount0;
+      } else {
+        // tokenIn is token1, so amount1 should be positive (input)
+        requiredInput = sign1 ? -amount1 : amount1;
+      }
+
+      // Ensure it's positive (absolute value)
+      if (requiredInput < 0n) {
+        requiredInput = -requiredInput;
+      }
+
+      transferAmount = requiredInput.toString();
+
+      // For exact output, minimum is the desired output amount (params.amount) minus slippage
+      const desiredOutput = BigInt(params.amount);
+      const slippageMultiplier = 1 - params.slippage_tolerance / 100;
+      const minimumAmount = BigInt(
+        Math.floor(Number(desiredOutput) * slippageMultiplier)
+      );
+      minimumOutput = cairo.uint256(minimumAmount.toString());
+    }
 
     const tokenInContract = getERC20Contract(tokenIn.address, env.provider);
     tokenInContract.connect(account);
     const transferCalldata = tokenInContract.populate('transfer', [
       routerContract.address,
-      params.amount,
+      transferAmount,
     ]);
 
     routerContract.connect(account);
@@ -114,7 +155,7 @@ export const swap = async (env: onchainWrite, params: SwapTokensSchema) => {
     // console.error('Error swapping tokens:', error);
     return {
       status: 'failure',
-      error: error.message || 'Unknown error during swap',
+      error: error.toString(),
     };
   }
 };
