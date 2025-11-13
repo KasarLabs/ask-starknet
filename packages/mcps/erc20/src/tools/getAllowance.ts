@@ -97,7 +97,7 @@ export const getAllowance = async (
 ) => {
   try {
     const provider = env.provider;
-    const token = await validateToken(provider, params.assetAddress);
+    const token = await validateToken(provider, params.asset.assetAddress, params.asset.assetSymbol);
 
     const raw = await readAllowanceRaw(
       provider,
@@ -148,7 +148,7 @@ export const getMyGivenAllowance = async (
     const owner = env.account.address;
     if (!owner) throw new Error('Wallet address not configured');
 
-    const token = await validateToken(provider, params.assetAddress);
+    const token = await validateToken(provider, params.asset.assetAddress, params.asset.assetSymbol);
 
     const raw = await readAllowanceRaw(
       provider,
@@ -199,7 +199,7 @@ export const getAllowanceGivenToMe = async (
     const spender = env.account.address;
     if (!spender) throw new Error('Wallet address not configured');
 
-    const token = await validateToken(provider, params.assetAddress);
+    const token = await validateToken(provider, params.asset.assetAddress, params.asset.assetSymbol);
 
     const raw = await readAllowanceRaw(
       provider,

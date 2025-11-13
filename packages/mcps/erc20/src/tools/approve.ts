@@ -25,7 +25,7 @@ export const approve = async (
     const provider = env.provider;
     const account = env.account;
 
-    const token = await validateToken(provider, params.assetAddress);
+    const token = await validateToken(provider, params.asset.assetAddress, params.asset.assetSymbol);
     const abi = await detectAbiType(token.address, provider);
     const { address, amount } = validateAndFormatParams(
       params.spenderAddress,

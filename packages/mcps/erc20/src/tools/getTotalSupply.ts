@@ -96,7 +96,8 @@ export const getTotalSupply = async (
 
     const token: validToken = await validateToken(
       provider,
-      params.assetAddress
+      params.asset.assetAddress,
+      params.asset.assetSymbol
     );
 
     const totalSupply = await callTotalSupplyRaw(provider, token.address);

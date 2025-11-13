@@ -101,7 +101,8 @@ export const getOwnBalance = async (
 
     const token: validToken = await validateToken(
       provider,
-      params.assetAddress
+      params.asset.assetAddress,
+      params.asset.assetSymbol
     );
 
     const rawBalance = await getBalanceRaw(
@@ -152,7 +153,8 @@ export const getBalance = async (
 
     const token: validToken = await validateToken(
       provider,
-      params.assetAddress
+      params.asset.assetAddress,
+      params.asset.assetSymbol
     );
 
     const rawBalance = await getBalanceRaw(

@@ -4,6 +4,7 @@ import { DECIMALS } from '../types/types.js';
 import { OLD_ERC20_ABI } from '../abis/old.js';
 import { NEW_ERC20_ABI_MAINNET } from '../abis/new.js';
 import { validToken } from '../types/types.js';
+import { tokenAddresses } from '../constants/constant.js';
 
 /**
  * Formats a balance string to the correct decimal places
@@ -109,21 +110,39 @@ export const executeV3Transaction = async ({
 };
 
 /**
- * Validates token by his address
+ * Validates token by his address or symbol
  * @param {Provider} provider - The Starknet provider
- * @param {string} assetAddress - The ERC20 token contract address
+ * @param {string} assetAddress - The ERC20 token contract address (optional)
+ * @param {string} assetSymbol - The ERC20 token symbol (optional)
  * @returns {Promise<validToken>} The valid token
  * @throws {Error} If token is not valid
  */
 export async function validateToken(
   provider: Provider,
-  assetAddress?: string
+  assetAddress?: string,
+  assetSymbol?: string
 ): Promise<validToken> {
-  if (!assetAddress) {
-    throw new Error('Asset address is required');
+  if (!assetAddress && !assetSymbol) {
+    throw new Error('Either asset address or asset symbol is required');
   }
 
-  const address = validateAndParseAddress(assetAddress);
+  let address: string;
+
+  if (assetSymbol) {
+    const symbol = assetSymbol.toUpperCase();
+    const tokenAddress = tokenAddresses[symbol];
+    if (!tokenAddress) {
+      throw new Error(
+        `Token ${symbol} not supported. Available tokens: ${Object.keys(tokenAddresses).join(', ')}`
+      );
+    }
+    address = validateAndParseAddress(tokenAddress);
+  } else if (assetAddress) {
+    address = validateAndParseAddress(assetAddress);
+  } else {
+    throw new Error('Either asset address or asset symbol is required');
+  }
+
   let decimals: number = 0;
 
   try {
