@@ -33,7 +33,11 @@ export const transferFrom = async (
     const account = env.account;
     const provider = env.provider;
 
-    const token = await validateToken(provider, params.asset.assetAddress, params.asset.assetSymbol);
+    const token = await validateToken(
+      provider,
+      params.asset.assetAddress,
+      params.asset.assetSymbol
+    );
     const abi = await detectAbiType(token.address, provider);
     const { address, amount } = validateAndFormatParams(
       params.fromAddress,

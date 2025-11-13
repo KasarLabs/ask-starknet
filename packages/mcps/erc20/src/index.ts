@@ -122,7 +122,8 @@ const registerTools = (Erc20ToolRegistry: mcpTool[]) => {
 
   Erc20ToolRegistry.push({
     name: 'erc20_approve',
-    description: 'Approve a spender to spend tokens on your behalf. Requires the token address or symbol, the spender address and the amount.',
+    description:
+      'Approve a spender to spend tokens on your behalf. Requires the token address or symbol, the spender address and the amount.',
     schema: approveSchema,
     execute: async (params: any) => {
       const onchainWrite = getOnchainWrite();
@@ -132,7 +133,8 @@ const registerTools = (Erc20ToolRegistry: mcpTool[]) => {
 
   Erc20ToolRegistry.push({
     name: 'erc20_transfer',
-    description: 'Transfer ERC20 tokens to a specific address. Requires the token address or symbol, the recipient address and the amount.',
+    description:
+      'Transfer ERC20 tokens to a specific address. Requires the token address or symbol, the recipient address and the amount.',
     schema: transferSchema,
     execute: async (params: any) => {
       const onchainWrite = getOnchainWrite();

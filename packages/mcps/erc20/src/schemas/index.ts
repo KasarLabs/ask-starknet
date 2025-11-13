@@ -18,12 +18,9 @@ export const assetSchema = z
       .optional()
       .describe('The symbol of the ERC20 token'),
   })
-  .refine(
-    (data) => data.assetAddress || data.assetSymbol,
-    {
-      message: 'Either assetAddress or assetSymbol must be provided',
-    }
-  )
+  .refine((data) => data.assetAddress || data.assetSymbol, {
+    message: 'Either assetAddress or assetSymbol must be provided',
+  })
   .describe('The asset information (symbol or contract address)');
 
 export const getAllowanceSchema = z.object({
