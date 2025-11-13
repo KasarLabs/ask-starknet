@@ -1,21 +1,93 @@
-import { Contract } from 'starknet';
-import { onchainWrite, onchainRead } from '@kasarlabs/ask-starknet-core';
-import { detectAbiType } from '../lib/utils/utils.js';
+import { RpcProvider, validateAndParseAddress } from 'starknet';
+import { onchainRead, onchainWrite } from '@kasarlabs/ask-starknet-core';
 import {
   formatBalance,
   validateToken,
-  extractAssetInfo,
+  uint256HexToBigInt,
 } from '../lib/utils/utils.js';
 import { validToken } from '../lib/types/types.js';
 import { z } from 'zod';
 import { getBalanceSchema, getOwnBalanceSchema } from '../schemas/index.js';
 
 /**
- * Gets own token balance
- * @param {onchainWrite} env - The onchain write environment
- * @param {OwnBalanceParams} params - Balance parameters
- * @returns {Promise<string>} JSON string with balance amount
- * @throws {Error} If operation fails
+ * Reads the balance value from a token contract by trying common entrypoint names.
+ *
+ * This function attempts multiple entrypoint variants to ensure compatibility with
+ * different ERC-20 token implementations on Starknet. It handles both standard
+ * Uint256 responses (as [low, high] pairs) and single felt responses.
+ *
+ * @param provider - The Starknet RPC provider instance
+ * @param tokenAddress - The address of the ERC-20 token contract
+ * @param accountAddress - The address of the account to query the balance for
+ * @returns The raw balance value as a bigint
+ * @throws {Error} If all entrypoint attempts fail
+ */
+async function getBalanceRaw(
+  provider: RpcProvider,
+  tokenAddress: string,
+  accountAddress: string
+): Promise<bigint> {
+  // Normalize addresses (checksummed/0x-prefixed) to avoid calldata surprises
+  const contractAddress = validateAndParseAddress(tokenAddress);
+  const account = validateAndParseAddress(accountAddress);
+
+  // Try common entrypoint names used by different ERC-20 implementations
+  const entrypoints: Array<'balanceOf' | 'balance_of' | 'get_balance'> = [
+    'balanceOf',
+    'balance_of',
+    'get_balance',
+  ];
+
+  let lastErr: unknown = null;
+
+  for (const entrypoint of entrypoints) {
+    try {
+      const res = await provider.callContract({
+        contractAddress,
+        entrypoint,
+        calldata: [account],
+      });
+
+      const out: string[] = Array.isArray((res as any)?.result)
+        ? (res as any).result
+        : Array.isArray(res)
+          ? (res as any)
+          : [];
+
+      // Standard ERC-20 balance: Uint256 is returned as [low, high] pair
+      if (out.length >= 2) {
+        return uint256HexToBigInt(out[0], out[1]);
+      }
+
+      if (out.length === 1) {
+        return BigInt(out[0]);
+      }
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+
+  throw new Error(
+    `Failed to read balance on ${contractAddress} for ${account}` +
+      (lastErr instanceof Error ? ` (last error: ${lastErr.message})` : '')
+  );
+}
+
+/**
+ * Gets the token balance of the current user (wallet owner).
+ *
+ * This is a convenience function that uses the connected wallet's address to query
+ * the token balance. The result is returned in a human-readable format based on
+ * the token's decimals.
+ *
+ * @param env - The onchain write environment containing the provider and account
+ * @param params - Parameters object containing:
+ *   - assetAddress: The address of the ERC-20 token contract
+ * @returns A promise that resolves to an object with:
+ *   - status: "success" or "failure"
+ *   - balance: The formatted balance amount as a string (on success)
+ *   - error: Error message (on failure)
+ * @throws {Error} If the wallet address is not configured
  */
 export const getOwnBalance = async (
   env: onchainWrite,
@@ -25,33 +97,24 @@ export const getOwnBalance = async (
     const provider = env.provider;
     const account = env.account;
     const accountAddress = account.address;
-
-    const { assetSymbol, assetAddress } = extractAssetInfo(params.asset);
+    if (!accountAddress) throw new Error('Wallet address not configured');
 
     const token: validToken = await validateToken(
       provider,
-      assetSymbol,
-      assetAddress
+      params.asset.assetAddress,
+      params.asset.assetSymbol
     );
-    const abi = await detectAbiType(token.address, provider);
-    if (!accountAddress) {
-      throw new Error('Wallet address not configured');
-    }
 
-    const tokenContract = new Contract(abi, token.address, provider);
-
-    const balanceResponse = await tokenContract.balance_of(accountAddress);
-
-    if (balanceResponse === undefined || balanceResponse === null) {
-      throw new Error('No balance value received from contract');
-    }
-
-    const formattedBalance = formatBalance(balanceResponse, token.decimals);
+    const rawBalance = await getBalanceRaw(
+      provider,
+      token.address,
+      accountAddress
+    );
+    const formattedBalance = formatBalance(rawBalance, token.decimals);
 
     return {
       status: 'success',
       balance: formattedBalance,
-      symbol: token.symbol,
     };
   } catch (error) {
     return {
@@ -62,40 +125,48 @@ export const getOwnBalance = async (
 };
 
 /**
- * Gets token balance for an address
- * @param {onchainWrite} env - The onchain write environment
- * @param {BalanceParams} params - Balance parameters
- * @returns {Promise<string>} JSON string with balance amount
- * @throws {Error} If operation fails
+ * Gets the token balance for a specific account address.
+ *
+ * This function queries the ERC-20 token contract to retrieve the balance of tokens
+ * held by the specified account. The result is returned in a human-readable format
+ * based on the token's decimals.
+ *
+ * @param env - The onchain read environment containing the provider
+ * @param params - Parameters object containing:
+ *   - assetAddress: The address of the ERC-20 token contract
+ *   - accountAddress: The address of the account to query the balance for
+ * @returns A promise that resolves to an object with:
+ *   - status: "success" or "failure"
+ *   - balance: The formatted balance amount as a string (on success)
+ *   - error: Error message (on failure)
+ * @throws {Error} If the account address is not provided
  */
 export const getBalance = async (
   env: onchainRead,
   params: z.infer<typeof getBalanceSchema>
 ) => {
   try {
+    if (!params?.accountAddress) {
+      throw new Error('Account address is required');
+    }
     const provider = env.provider;
 
-    const { assetSymbol, assetAddress } = extractAssetInfo(params.asset);
-
-    const token = await validateToken(provider, assetSymbol, assetAddress);
-    const abi = await detectAbiType(token.address, provider);
-    const tokenContract = new Contract(abi, token.address, provider);
-
-    const balanceResponse = await tokenContract.balanceOf(
-      params.accountAddress
+    const token: validToken = await validateToken(
+      provider,
+      params.asset.assetAddress,
+      params.asset.assetSymbol
     );
 
-    const balanceValue =
-      typeof balanceResponse === 'object' && 'balance' in balanceResponse
-        ? balanceResponse.balance
-        : balanceResponse;
-
-    const formattedBalance = formatBalance(balanceValue, token.decimals);
+    const rawBalance = await getBalanceRaw(
+      provider,
+      token.address,
+      params.accountAddress
+    );
+    const formattedBalance = formatBalance(rawBalance, token.decimals);
 
     return {
       status: 'success',
       balance: formattedBalance,
-      symbol: token.symbol,
     };
   } catch (error) {
     return {

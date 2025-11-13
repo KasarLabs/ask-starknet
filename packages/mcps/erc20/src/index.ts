@@ -46,94 +46,99 @@ const registerTools = (Erc20ToolRegistry: mcpTool[]) => {
   Erc20ToolRegistry.push({
     name: 'erc20_get_allowance',
     description:
-      'Get the amount of tokens that a spender is allowed to spend on behalf of an owner. Requires the token symbol (e.g., ETH, USDC), the owner address and the spender address.',
+      'Get the amount of tokens that a spender is allowed to spend on behalf of an owner. Requires the token address or symbol, the owner address and the spender address.',
     schema: getAllowanceSchema,
     execute: async (params: any) => {
-      const onchainWrite = getOnchainWrite();
-      return await getAllowance(onchainWrite as any, params);
+      const onchainRead = getOnchainRead();
+      return await getAllowance(onchainRead, params);
     },
   });
 
   Erc20ToolRegistry.push({
     name: 'erc20_get_my_given_allowance',
     description:
-      'Get the amount of tokens that a spender is allowed to spend on your behalf. Requires the token symbol (e.g., ETH, USDC) and the spender address.',
+      'Get the amount of tokens that a spender is allowed to spend on your behalf. Requires the token address or symbol and the spender address.',
     schema: getMyGivenAllowanceSchema,
     execute: async (params: any) => {
       const onchainWrite = getOnchainWrite();
-      return await getMyGivenAllowance(onchainWrite as any, params);
+      return await getMyGivenAllowance(onchainWrite, params);
     },
   });
 
   Erc20ToolRegistry.push({
     name: 'erc20_get_allowance_given_to_me',
     description:
-      'Get the amount of tokens that a you are allowed to spend on the behalf of an owner. Requires the token symbol (e.g., ETH, USDC) and the owner address.',
+      'Get the amount of tokens that you are allowed to spend on behalf of an owner. Requires the token address or symbol and the owner address.',
     schema: getAllowanceGivenToMeSchema,
     execute: async (params: any) => {
       const onchainWrite = getOnchainWrite();
-      return await getAllowanceGivenToMe(onchainWrite as any, params);
+      return await getAllowanceGivenToMe(onchainWrite, params);
     },
   });
 
   Erc20ToolRegistry.push({
     name: 'erc20_get_total_supply',
-    description: 'Get the total supply of an token token',
+    description:
+      'Get the total supply of a token. Requires the token address or symbol.',
     schema: getTotalSupplySchema,
     execute: async (params: any) => {
       const onchainRead = getOnchainRead();
-      return await getTotalSupply(onchainRead as any, params);
+      return await getTotalSupply(onchainRead, params);
     },
   });
 
   Erc20ToolRegistry.push({
     name: 'erc20_transfer_from',
     description:
-      'Transfer tokens from one address to another using an allowance',
+      'Transfer tokens from one address to another using an allowance. Requires the token address or symbol, the from address, the to address and the amount.',
     schema: transferFromSchema,
     execute: async (params: any) => {
       const onchainWrite = getOnchainWrite();
-      return await transferFrom(onchainWrite as any, params);
+      return await transferFrom(onchainWrite, params);
     },
   });
 
   Erc20ToolRegistry.push({
     name: 'erc20_get_balance',
-    description: 'Get the balance of an asset for a given wallet address',
+    description:
+      'Get the balance of an asset for a given wallet address. Requires the token address or symbol.',
     schema: getBalanceSchema,
     execute: async (params: any) => {
       const onchainRead = getOnchainRead();
-      return await getBalance(onchainRead as any, params);
+      return await getBalance(onchainRead, params);
     },
   });
 
   Erc20ToolRegistry.push({
     name: 'erc20_get_own_balance',
-    description: 'Get the balance of an asset in your wallet',
+    description:
+      'Get the balance of an asset in your wallet. Requires the token address or symbol.',
     schema: getOwnBalanceSchema,
     execute: async (params: any) => {
       const onchainWrite = getOnchainWrite();
-      return await getOwnBalance(onchainWrite as any, params);
+      return await getOwnBalance(onchainWrite, params);
     },
   });
 
   Erc20ToolRegistry.push({
     name: 'erc20_approve',
-    description: 'Approve a spender to spend tokens on your behalf',
+    description:
+      'Approve a spender to spend tokens on your behalf. Requires the token address or symbol, the spender address and the amount.',
     schema: approveSchema,
     execute: async (params: any) => {
       const onchainWrite = getOnchainWrite();
-      return await approve(onchainWrite as any, params);
+      return await approve(onchainWrite, params);
     },
   });
 
   Erc20ToolRegistry.push({
     name: 'erc20_transfer',
-    description: 'Transfer ERC20 tokens to a specific address',
+    description:
+      'Transfer ERC20 tokens to a specific address. Requires the token address or symbol, the recipient address and the amount.',
     schema: transferSchema,
     execute: async (params: any) => {
       const onchainWrite = getOnchainWrite();
-      return await transfer(onchainWrite as any, params);
+      return await transfer(onchainWrite, params);
     },
   });
 
@@ -144,17 +149,17 @@ const registerTools = (Erc20ToolRegistry: mcpTool[]) => {
     schema: deployERC20Schema,
     execute: async (params: any) => {
       const onchainWrite = getOnchainWrite();
-      return await deployERC20Contract(onchainWrite as any, params);
+      return await deployERC20Contract(onchainWrite, params);
     },
   });
 
   Erc20ToolRegistry.push({
     name: 'erc20_get_symbol',
-    description: 'Get the symbol of an ERC20 token from its contract address',
+    description: 'Get the symbol of an ERC20 token from its token address',
     schema: getSymbolSchema,
     execute: async (params: any) => {
       const onchainRead = getOnchainRead();
-      return await getSymbol(onchainRead as any, params);
+      return await getSymbol(onchainRead, params);
     },
   });
 };

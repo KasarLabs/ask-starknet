@@ -1,17 +1,27 @@
 import { z } from 'zod';
 
-export const assetSchema = z.object({
-  assetType: z
-    .enum(['SYMBOL', 'ADDRESS'])
-    .describe(
-      'The type of the asset concerned by the allowance: SYMBOL or ADDRESS'
-    ),
-  assetValue: z
-    .string()
-    .describe(
-      'The symbol (e.g., "ETH", "USDC") or the contract address of the token'
-    ),
-});
+/**
+ * Base schema for asset identification (token address or symbol)
+ * Requires either assetAddress or assetSymbol to be provided
+ * @typedef {Object} AssetSchema
+ * @property {string} [assetAddress] - The contract address of the ERC20 token
+ * @property {string} [assetSymbol] - The symbol of the ERC20 token
+ */
+export const assetSchema = z
+  .object({
+    assetAddress: z
+      .string()
+      .optional()
+      .describe('The contract address of the ERC20 token'),
+    assetSymbol: z
+      .string()
+      .optional()
+      .describe('The symbol of the ERC20 token'),
+  })
+  .refine((data) => data.assetAddress || data.assetSymbol, {
+    message: 'Either assetAddress or assetSymbol must be provided',
+  })
+  .describe('The asset information (symbol or contract address)');
 
 export const getAllowanceSchema = z.object({
   ownerAddress: z
@@ -22,9 +32,7 @@ export const getAllowanceSchema = z.object({
     .describe(
       'The starknet address of the account allowed to spend the tokens'
     ),
-  asset: assetSchema.describe(
-    'The asset information (symbol or contract address)'
-  ),
+  asset: assetSchema,
 });
 
 export const getMyGivenAllowanceSchema = z.object({
@@ -33,17 +41,14 @@ export const getMyGivenAllowanceSchema = z.object({
     .describe(
       'The starknet address of the account allowed to spend the tokens'
     ),
-  asset: assetSchema.describe(
-    'The asset information (symbol or contract address)'
-  ),
+  asset: assetSchema,
 });
 
 /**
  * Schema for checking allowances granted to the current user
  * @typedef {Object} AllowanceGivenToMeSchema
  * @property {string} ownerAddress - The address of the account that granted the allowance
- * @property {string} assetSymbol - The symbol of the token (e.g., 'ETH', 'USDC')
- * @property {string} assetAddress - The address of the token contract
+ * @property {Object} asset - The asset information (symbol or contract address)
  */
 export const getAllowanceGivenToMeSchema = z.object({
   ownerAddress: z
@@ -51,21 +56,16 @@ export const getAllowanceGivenToMeSchema = z.object({
     .describe(
       'The starknet address of the account allowed to spend the tokens'
     ),
-  asset: assetSchema.describe(
-    'The asset information (symbol or contract address)'
-  ),
+  asset: assetSchema,
 });
 
 /**
  * Schema for getting the total supply of a token
  * @typedef {Object} TotalSupplySchema
- * @property {string} assetSymbol - The symbol of the token to get the total supply for
- * @property {string} assetAddress - The address of the token contract
+ * @property {Object} asset - The asset information (symbol or contract address)
  */
 export const getTotalSupplySchema = z.object({
-  asset: assetSchema.describe(
-    'The asset information (symbol or contract address)'
-  ),
+  asset: assetSchema,
 });
 
 /**
@@ -74,16 +74,13 @@ export const getTotalSupplySchema = z.object({
  * @property {string} fromAddress - The address to transfer tokens from
  * @property {string} toAddress - The address to transfer tokens to
  * @property {string} amount - The amount of tokens to transfer
- * @property {string} assetSymbol - The symbol of the token to transfer
- * @property {string} assetAddress - The address of the token contract
+ * @property {Object} asset - The asset information (symbol or contract address)
  */
 export const transferFromSchema = z.object({
   fromAddress: z.string().describe('The address to transfer tokens from'),
   toAddress: z.string().describe('The address to transfer tokens to'),
   amount: z.string().describe('The amount of tokens to transfer'),
-  asset: assetSchema.describe(
-    'The asset information (symbol or contract address)'
-  ),
+  asset: assetSchema,
 });
 
 /**
@@ -92,56 +89,44 @@ export const transferFromSchema = z.object({
  * @property {string} fromAddress - The address to transfer tokens from
  * @property {string} toAddress - The address to transfer tokens to
  * @property {string} amount - The amount of tokens to transfer
- * @property {string} assetSymbol - The symbol of the token to transfer
- * @property {string} assetAddress - The address of the token contract
+ * @property {Object} asset - The asset information (symbol or contract address)
  */
 export const transferFromSignatureSchema = z.object({
   fromAddress: z.string().describe('The address to transfer tokens from'),
   toAddress: z.string().describe('The address to transfer tokens to'),
   amount: z.string().describe('The amount of tokens to transfer'),
-  asset: assetSchema.describe(
-    'The asset information (symbol or contract address)'
-  ),
+  asset: assetSchema,
 });
 
 /**
  * Schema for checking token balance of an address
  * @typedef {Object} BalanceSchema
  * @property {string} accountAddress - The address to check the balance for
- * @property {string} assetSymbol - The symbol of the token to check the balance of
- * @property {string} assetAddress - The address of the token contract
+ * @property {Object} asset - The asset information (symbol or contract address)
  */
 export const getBalanceSchema = z.object({
   accountAddress: z.string().describe('The address to check the balance for'),
-  asset: assetSchema.describe(
-    'The asset information (symbol or contract address)'
-  ),
+  asset: assetSchema,
 });
 
 /**
  * Schema for checking token balance of the current user
  * @typedef {Object} OwnBalanceSchema
- * @property {string} assetSymbol - The symbol of the token to check the balance of
- * @property {string} assetAddress - The address of the token contract
+ * @property {Object} asset - The asset information (symbol or contract address)
  */
 export const getOwnBalanceSchema = z.object({
-  asset: assetSchema.describe(
-    'The asset information (symbol or contract address)'
-  ),
+  asset: assetSchema,
 });
 
 /**
  * Schema for generating signature for balance check
  * @typedef {Object} BalanceSignatureSchema
  * @property {string} accountAddress - The address to check the balance for
- * @property {string} assetSymbol - The symbol of the token to check the balance of
- * @property {string} assetAddress - The address of the token contract
+ * @property {Object} asset - The asset information (symbol or contract address)
  */
 export const getBalanceSignatureSchema = z.object({
   accountAddress: z.string().describe('The address to check the balance for'),
-  asset: assetSchema.describe(
-    'The asset information (symbol or contract address)'
-  ),
+  asset: assetSchema,
 });
 
 /**
@@ -149,17 +134,14 @@ export const getBalanceSignatureSchema = z.object({
  * @typedef {Object} ApproveSchema
  * @property {string} spenderAddress - The address being approved to spend tokens
  * @property {string} amount - The amount of tokens being approved
- * @property {string} assetSymbol - The symbol of the token being approved
- * @property {string} assetAddress - The address of the token contract
+ * @property {Object} asset - The asset information (symbol or contract address)
  */
 export const approveSchema = z.object({
   spenderAddress: z
     .string()
     .describe('The address being approved to spend tokens'),
   amount: z.string().describe('The amount of tokens being approved'),
-  asset: assetSchema.describe(
-    'The asset information (symbol or contract address)'
-  ),
+  asset: assetSchema,
 });
 
 /**
@@ -167,17 +149,14 @@ export const approveSchema = z.object({
  * @typedef {Object} ApproveSignatureSchema
  * @property {string} spenderAddress - The address being approved to spend tokens
  * @property {string} amount - The amount of tokens being approved
- * @property {string} assetSymbol - The symbol of the token being approved
- * @property {string} assetAddress - The address of the token contract
+ * @property {Object} asset - The asset information (symbol or contract address)
  */
 export const approveSignatureSchema = z.object({
   spenderAddress: z
     .string()
     .describe('The address being approved to spend tokens'),
   amount: z.string().describe('The amount of tokens being approved'),
-  asset: assetSchema.describe(
-    'The asset information (symbol or contract address)'
-  ),
+  asset: assetSchema,
 });
 
 /**
@@ -185,15 +164,12 @@ export const approveSignatureSchema = z.object({
  * @typedef {Object} TransferSchema
  * @property {string} recipientAddress - The address to receive the tokens
  * @property {string} amount - The amount of tokens to transfer
- * @property {string} assetSymbol - The symbol of the token to transfer
- * @property {string} assetAddress - The address of the token contract
+ * @property {Object} asset - The asset information (symbol or contract address)
  */
 export const transferSchema = z.object({
   recipientAddress: z.string().describe('The address to receive the tokens'),
   amount: z.string().describe('The amount of tokens to transfer'),
-  asset: assetSchema.describe(
-    'The asset information (symbol or contract address)'
-  ),
+  asset: assetSchema,
 });
 
 /**
@@ -201,15 +177,12 @@ export const transferSchema = z.object({
  * @typedef {Object} TransferSignatureSchema
  * @property {string} recipientAddress - The address to receive the tokens
  * @property {string} amount - The amount of tokens to transfer
- * @property {string} assetSymbol - The symbol of the token to transfer
- * @property {string} assetAddress - The address of the token contract
+ * @property {Object} asset - The asset information (symbol or contract address)
  */
 export const transferSignatureSchema = z.object({
   recipientAddress: z.string().describe('The address to receive the tokens'),
   amount: z.string().describe('The amount of tokens to transfer'),
-  asset: assetSchema.describe(
-    'The asset information (symbol or contract address)'
-  ),
+  asset: assetSchema,
 });
 
 /**
