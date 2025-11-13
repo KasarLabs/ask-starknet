@@ -4,7 +4,7 @@ import { Account, RpcProvider } from 'starknet';
 export interface mcpTool {
   name: string;
   description: string;
-  schema?: z.ZodObject<any>;
+  schema?: z.ZodTypeAny;
   execute: (params: any) => Promise<any>;
 }
 
