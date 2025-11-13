@@ -26,8 +26,10 @@ export const swap = async (env: onchainWrite, params: SwapTokensSchema) => {
 
     const { poolKey, token0, token1, isTokenALower } =
       await preparePoolKeyFromParams(env.provider, {
-        token0: params.token_in,
-        token1: params.token_out,
+        token0_symbol: params.token_in_symbol,
+        token0_address: params.token_in_address,
+        token1_symbol: params.token_out_symbol,
+        token1_address: params.token_out_address,
         fee: params.fee,
         tick_spacing: params.tick_spacing,
         extension: params.extension,

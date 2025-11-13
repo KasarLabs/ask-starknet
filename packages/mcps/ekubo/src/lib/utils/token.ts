@@ -253,25 +253,3 @@ export async function validateToken(
     decimals,
   };
 }
-
-/**
- * Extracts asset information from the new asset schema
- * @param {Object} asset - The asset object with assetType and assetValue
- * @returns {Object} Object with assetSymbol and assetAddress
- */
-export function extractAssetInfo(asset: {
-  assetType: 'SYMBOL' | 'ADDRESS';
-  assetValue: string;
-}) {
-  if (asset.assetType === 'SYMBOL') {
-    return {
-      assetSymbol: asset.assetValue,
-      assetAddress: undefined,
-    };
-  } else {
-    return {
-      assetSymbol: undefined,
-      assetAddress: asset.assetValue,
-    };
-  }
-}

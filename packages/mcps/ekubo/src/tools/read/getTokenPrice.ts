@@ -14,8 +14,10 @@ export const getTokenPrice = async (
 
     const { poolKey, token0, token1, isTokenALower } =
       await preparePoolKeyFromParams(env.provider, {
-        token0: params.token,
-        token1: params.quote_currency,
+        token0_symbol: params.token_symbol,
+        token0_address: params.token_address,
+        token1_symbol: params.quote_currency_symbol,
+        token1_address: params.quote_currency_address,
         fee: params.fee,
         tick_spacing: params.tick_spacing,
         extension: params.extension,
@@ -36,8 +38,11 @@ export const getTokenPrice = async (
     return {
       status: 'success',
       data: {
-        base_token: params.token.assetValue,
-        quote_token: params.quote_currency.assetValue,
+        base_token: params.token_symbol || params.token_address || 'unknown',
+        quote_token:
+          params.quote_currency_symbol ||
+          params.quote_currency_address ||
+          'unknown',
         price: finalPrice,
         sqrt_price: sqrtPrice.toString(),
       },
