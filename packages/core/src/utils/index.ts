@@ -2,6 +2,25 @@ import { mcpTool, onchainRead, onchainWrite } from '../interfaces/index.js';
 import { Account, RpcProvider, constants } from 'starknet';
 
 /**
+ * Format tool execution result for MCP response
+ * @param result - The result object from tool execution
+ * @returns Formatted MCP response
+ */
+const formatToolResult = (result: any) => {
+  return {
+    isError: result.status === "failure" ? true : false,
+    content: [
+      {
+        type: 'text',
+        text: JSON.stringify(
+          result.status === "failure" ? result.error : result.data
+        ),
+      },
+    ],
+  };
+};
+
+/**
  * Register MCP tools with a server instance
  * @param server - The MCP server instance
  * @param tools - Array of mcpTool objects to register
@@ -14,30 +33,16 @@ export const registerToolsWithServer = async (
     if (!tool.schema) {
       server.tool(tool.name, tool.description, async () => {
         const result = await tool.execute({});
-        return {
-          content: [
-            {
-              type: 'text',
-              text: JSON.stringify(result),
-            },
-          ],
-        };
+        return formatToolResult(result);
       });
     } else {
       server.tool(
         tool.name,
         tool.description,
         tool.schema.shape,
-        async (params: any, extra: any) => {
+        async (params: any) => {
           const result = await tool.execute(params);
-          return {
-            content: [
-              {
-                type: 'text',
-                text: JSON.stringify(result),
-              },
-            ],
-          };
+          return formatToolResult(result);
         }
       );
     }

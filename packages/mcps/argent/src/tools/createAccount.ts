@@ -19,10 +19,12 @@ export const CreateArgentAccount = async (env: onchainRead) => {
 
     return {
       status: 'success',
-      wallet: 'AX',
-      publicKey: accountDetails.publicKey,
-      privateKey: accountDetails.privateKey,
-      contractAddress: accountDetails.contractAddress,
+      data : {
+        wallet: 'AX',
+        publicKey: accountDetails.publicKey,
+        privateKey: accountDetails.privateKey,
+        contractAddress: accountDetails.contractAddress,
+      }
     };
   } catch (error) {
     return {
