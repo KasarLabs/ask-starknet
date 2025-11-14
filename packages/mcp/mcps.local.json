@@ -446,20 +446,20 @@
       "tools": ["troves_get_strategies"]
     }
   },
-  "ask-starknet-help": {
+  "mcp-doc": {
     "client": {
       "command": "node",
-      "args": ["../mcps/ask-starknet-help/build/index.js"],
+      "args": ["../mcps/mcp-doc/build/index.js"],
       "transport": "stdio"
     },
-    "description": "Help and documentation for Ask Starknet: usage guide, architecture explanation, capabilities listing, project ideas, and troubleshooting",
+    "description": "Help and documentation for the mcp usage: usage guide, architecture explanation, capabilities listing, project ideas, and troubleshooting",
     "promptInfo": {
-      "expertise": "Ask Starknet help, usage guide, documentation, architecture explanation, available MCPs and tools, project ideas, and troubleshooting",
+      "expertise": "This mcp help, usage guide, documentation, architecture explanation, available MCPs and tools, project ideas, and troubleshooting",
       "tools": [
-        "ask_starknet_help",
-        "ask_starknet_explain_architecture",
-        "ask_starknet_list_capabilities",
-        "ask_starknet_suggest_projects"
+        "mcp_doc_help",
+        "mcp_doc_explain_architecture",
+        "mcp_doc_list_capabilities",
+        "mcp_doc_suggest_projects"
       ]
     }
   }

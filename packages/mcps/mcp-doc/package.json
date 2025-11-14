@@ -1,10 +1,10 @@
 {
-  "name": "@kasarlabs/ask-starknet-help-mcp",
+  "name": "@kasarlabs/mcp-doc-mcp",
   "version": "0.1.0",
   "main": "index.js",
   "type": "module",
   "bin": {
-    "ask-starknet-help-mcp": "./bin/ask-starknet-help-mcp.js"
+    "mcp-doc-mcp": "./bin/mcp-doc-mcp.js"
   },
   "scripts": {
     "build": "tsc && cp -r src/resources build/ && chmod 755 build/index.js",

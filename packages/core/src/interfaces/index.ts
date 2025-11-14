@@ -10,9 +10,8 @@ export interface toolResult {
 export interface mcpTool {
   name: string;
   description: string;
-  schema?: z.ZodObject<any>;
-  outputSchema?: z.ZodObject<any>;
-  execute: (params: any) => Promise<toolResult>;
+  schema?: z.ZodTypeAny;
+  execute: (params: any) => Promise<any>;
 }
 
 export interface onchainRead {

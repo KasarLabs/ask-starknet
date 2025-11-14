@@ -1,4 +1,4 @@
-# Ask Starknet Help MCP Server
+# MCP Doc Server
 
 Documentation and discovery MCP server for Ask Starknet. This MCP provides tools to explore Ask Starknet's architecture, capabilities, project ideas, and usage guide.
 
@@ -12,12 +12,12 @@ Documentation and discovery MCP server for Ask Starknet. This MCP provides tools
 ## Installation
 
 ```bash
-npx -y @kasarlabs/ask-starknet-help-mcp
+npx -y @kasarlabs/mcp-doc-mcp
 ```
 
 ## Available Tools
 
-### 1. `ask_starknet_help`
+### 1. `mcp_doc_help`
 
 Get comprehensive help on using Ask Starknet, including quick start guide, setup instructions, best practices, and troubleshooting.
 
@@ -48,7 +48,7 @@ Returns a markdown-formatted help guide with:
 }
 ```
 
-### 2. `ask_starknet_explain_architecture`
+### 2. `mcp_doc_explain_architecture`
 
 Explains the Ask Starknet architecture and how it works.
 
@@ -80,7 +80,7 @@ Explains the Ask Starknet architecture and how it works.
 }
 ```
 
-### 3. `ask_starknet_list_capabilities`
+### 3. `mcp_doc_list_capabilities`
 
 Lists all Ask Starknet capabilities organized by domains.
 
@@ -125,7 +125,7 @@ Lists all Ask Starknet capabilities organized by domains.
 }
 ```
 
-### 4. `ask_starknet_suggest_projects`
+### 4. `mcp_doc_suggest_projects`
 
 Suggests project ideas that can be built with Ask Starknet.
 

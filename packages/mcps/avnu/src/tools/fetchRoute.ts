@@ -1,5 +1,5 @@
 import { fetchQuotes, QuoteRequest } from '@avnu/avnu-sdk';
-import { onchainRead, onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainRead, onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 import { TokenService } from './fetchTokens.js';
 import { RouteSchemaType } from '../schemas/index.js';
 import { RouteResult } from '../interfaces/index.js';
@@ -20,14 +20,6 @@ export class RouteFetchService {
   }
 
   /**
-   * Initializes the token service
-   * @returns {Promise<void>}
-   */
-  async initialize(): Promise<void> {
-    await this.tokenService.initializeTokens();
-  }
-
-  /**
    * Fetches a trading route based on provided parameters
    * @param {RouteSchemaType} params - The route parameters
    * @param {onchainRead} env - The onchain read environment
@@ -40,12 +32,13 @@ export class RouteFetchService {
     accountAddress: string
   ): Promise<RouteResult> {
     try {
-      await this.initialize();
-
-      const { sellToken, buyToken } = this.tokenService.validateTokenPair(
-        params.sellTokenSymbol,
-        params.buyTokenSymbol
-      );
+      const { sellToken, buyToken } =
+        await this.tokenService.validateTokenPairBySymbolOrAddress(
+          params.sellTokenSymbol,
+          params.sellTokenAddress,
+          params.buyTokenSymbol,
+          params.buyTokenAddress
+        );
 
       const contractInteractor = new ContractInteractor(env.provider);
 
@@ -103,7 +96,7 @@ export class RouteFetchService {
  * @param {string} accountAddress - The account address
  * @returns {Promise<RouteResult>} The route fetch result
  */
-export const getRoute = async (env: onchainWrite, params: RouteSchemaType) => {
+export const getRoute = async (env: onchainWrite, params: RouteSchemaType): Promise<toolResult> => {
   try {
     const routeService = new RouteFetchService();
     const result = await routeService.fetchRoute(
@@ -111,9 +104,13 @@ export const getRoute = async (env: onchainWrite, params: RouteSchemaType) => {
       env,
       env.account.address
     );
-    return JSON.stringify(result, (_, value) =>
+    const res = JSON.stringify(result, (_, value) =>
       typeof value === 'bigint' ? value.toString() : value
     );
+    return {
+      status : "success",
+      data : { res }
+    }
   } catch (error) {
     return {
       status: 'failure',

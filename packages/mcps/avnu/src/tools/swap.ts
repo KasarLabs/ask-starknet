@@ -1,7 +1,7 @@
 import { executeSwap, fetchQuotes, QuoteRequest, Quote } from '@avnu/avnu-sdk';
 
 import { ApprovalService } from './approval.js';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 import { SwapParams, SwapResult } from '../lib/types/index.js';
 import {
   DEFAULT_QUOTE_SIZE,
@@ -29,14 +29,6 @@ export class SwapService {
   }
 
   /**
-   * Initializes the token service
-   * @returns {Promise<void>}
-   */
-  async initialize(): Promise<void> {
-    await this.tokenService.initializeTokens();
-  }
-
-  /**
    * Extracts spender address from a quote
    * @private
    * @param {Quote} quote - The quote containing route information
@@ -58,15 +50,17 @@ export class SwapService {
    */
   async executeSwapTransaction(params: SwapParams): Promise<SwapResult> {
     try {
-      await this.initialize();
       const contractInteractor = new ContractInteractor(this.env.provider);
 
       const account = this.env.account;
 
-      const { sellToken, buyToken } = this.tokenService.validateTokenPair(
-        params.sellTokenSymbol,
-        params.buyTokenSymbol
-      );
+      const { sellToken, buyToken } =
+        await this.tokenService.validateTokenPairBySymbolOrAddress(
+          params.sellTokenSymbol,
+          params.sellTokenAddress,
+          params.buyTokenSymbol,
+          params.buyTokenAddress
+        );
 
       const formattedAmount = BigInt(
         contractInteractor.formatTokenAmount(
@@ -113,13 +107,18 @@ export class SwapService {
         swapResult.transactionHash
       );
 
+      const sellTokenIdentifier =
+        params.sellTokenSymbol || params.sellTokenAddress || sellToken.symbol;
+      const buyTokenIdentifier =
+        params.buyTokenSymbol || params.buyTokenAddress || buyToken.symbol;
+
       return {
         status: 'success',
-        message: `Successfully swapped ${params.sellAmount} ${params.sellTokenSymbol} for ${params.buyTokenSymbol}`,
+        message: `Successfully swapped ${params.sellAmount} ${sellTokenIdentifier} for ${buyTokenIdentifier}`,
         transactionHash: swapResult.transactionHash,
         sellAmount: params.sellAmount,
-        sellToken: params.sellTokenSymbol,
-        buyToken: params.buyTokenSymbol,
+        sellToken: sellTokenIdentifier,
+        buyToken: buyTokenIdentifier,
         receipt,
         events,
       };
@@ -158,11 +157,14 @@ export const createSwapService = (env: onchainWrite): SwapService => {
   return new SwapService(env);
 };
 
-export const swapTokens = async (env: onchainWrite, params: SwapParams) => {
+export const swapTokens = async (env: onchainWrite, params: SwapParams) : Promise <toolResult> => {
   try {
     const swapService = createSwapService(env);
     const result = await swapService.executeSwapTransaction(params);
-    return JSON.stringify(result);
+    return {
+      status: "success",
+      data : result
+    }
   } catch (error) {
     return {
       status: 'failure',
