@@ -1,6 +1,7 @@
 import { RpcProvider } from 'starknet';
 import { OKX_CLASSHASH } from '../lib/constant/contract.js';
 import { AccountManager } from '../lib/utils/AccountManager.js';
+import { toolResult } from '@kasarlabs/ask-starknet-core';
 
 /**
  * Creates a new OKX account.
@@ -9,17 +10,19 @@ import { AccountManager } from '../lib/utils/AccountManager.js';
  * @returns {Promise<string>} JSON string with account details
  * @throws {Error} If account creation fails
  */
-export const CreateOKXAccount = async () => {
+export const CreateOKXAccount = async (): Promise<toolResult> => {
   try {
     const accountManager = new AccountManager(undefined);
     const accountDetails = await accountManager.createAccount(OKX_CLASSHASH);
 
     return {
       status: 'success',
-      wallet: 'OKX',
-      publicKey: accountDetails.publicKey,
-      privateKey: accountDetails.privateKey,
-      contractAddress: accountDetails.contractAddress,
+      data: {
+        wallet: 'OKX',
+        publicKey: accountDetails.publicKey,
+        privateKey: accountDetails.privateKey,
+        contractAddress: accountDetails.contractAddress,
+      }
     };
   } catch (error) {
     return {

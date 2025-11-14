@@ -1,5 +1,5 @@
 import { RpcProvider } from 'starknet';
-import { onchainRead } from '@kasarlabs/ask-starknet-core';
+import { onchainRead, toolResult } from '@kasarlabs/ask-starknet-core';
 import { OZ_CLASSHASH } from '../lib/constant/contract.js';
 import { AccountManager } from '../lib/utils/AccountManager.js';
 import { z } from 'zod';
@@ -17,7 +17,7 @@ import { accountDetailsSchema } from '../schemas/index.js';
 export const DeployOZAccount = async (
   env: onchainRead,
   params: z.infer<typeof accountDetailsSchema>
-) => {
+): Promise<toolResult> => {
   try {
     const provider = env.provider;
 
@@ -26,9 +26,11 @@ export const DeployOZAccount = async (
 
     return {
       status: 'success',
-      wallet: 'OpenZeppelin',
-      transaction_hash: tx.transactionHash,
-      contract_address: tx.contractAddress,
+      data: {
+        wallet: 'OpenZeppelin',
+        transaction_hash: tx.transactionHash,
+        contract_address: tx.contractAddress,
+      }
     };
   } catch (error) {
     return {

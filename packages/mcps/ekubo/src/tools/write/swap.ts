@@ -12,9 +12,9 @@ import {
   extractExpectedOutput,
   calculateMinimumOutputU256,
 } from '../../lib/utils/quote.js';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 
-export const swap = async (env: onchainWrite, params: SwapTokensSchema) => {
+export const swap = async (env: onchainWrite, params: SwapTokensSchema): Promise<toolResult> => {
   return {
     status: 'failure',
     error: 'This tool is currently under maintenance. ',

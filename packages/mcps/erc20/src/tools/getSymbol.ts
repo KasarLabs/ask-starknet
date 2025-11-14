@@ -1,5 +1,5 @@
 import { Contract } from 'starknet';
-import { onchainRead } from '@kasarlabs/ask-starknet-core';
+import { onchainRead, toolResult } from '@kasarlabs/ask-starknet-core';
 import { detectAbiType } from '../lib/utils/utils.js';
 import { validateAndParseAddress } from 'starknet';
 import { OLD_ERC20_ABI } from '../lib/abis/old.js';
@@ -17,7 +17,7 @@ import { getSymbolSchema } from '../schemas/index.js';
 export const getSymbol = async (
   env: onchainRead,
   params: z.infer<typeof getSymbolSchema>
-) => {
+): Promise<toolResult> => {
   try {
     if (!params?.assetAddress) {
       throw new Error('Asset address is required');
@@ -38,8 +38,10 @@ export const getSymbol = async (
 
       return {
         status: 'success',
-        symbol: symbol,
-        address: address,
+        data: {
+          symbol: symbol,
+          address: address,
+        },
       };
     } catch (error) {
       throw new Error(

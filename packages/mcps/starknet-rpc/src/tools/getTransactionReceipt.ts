@@ -1,9 +1,10 @@
 import { RpcProvider } from 'starknet';
+import { toolResult } from '@kasarlabs/ask-starknet-core';
 
 export const getTransactionReceipt = async (
   provider: RpcProvider,
   params: { transactionHash: string }
-) => {
+): Promise<toolResult> => {
   try {
     const transactionReceipt = await provider.getTransactionReceipt(
       params.transactionHash
@@ -11,7 +12,7 @@ export const getTransactionReceipt = async (
 
     return {
       status: 'success',
-      transactionReceipt,
+      data: { transactionReceipt, },
     };
   } catch (error) {
     return {

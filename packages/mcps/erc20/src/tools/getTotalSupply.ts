@@ -1,5 +1,5 @@
 import { Contract } from 'starknet';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 import {
   validateToken,
   formatBalance,
@@ -20,7 +20,7 @@ import { getTotalSupplySchema } from '../schemas/index.js';
 export const getTotalSupply = async (
   env: onchainWrite,
   params: z.infer<typeof getTotalSupplySchema>
-) => {
+): Promise<toolResult> => {
   try {
     const provider = env.provider;
 
@@ -40,8 +40,10 @@ export const getTotalSupply = async (
 
     return {
       status: 'success',
-      totalSupply: formattedSupply,
-      symbol: token.symbol,
+      data: {
+        totalSupply: formattedSupply,
+        symbol: token.symbol,
+      },
     };
   } catch (error) {
     return {

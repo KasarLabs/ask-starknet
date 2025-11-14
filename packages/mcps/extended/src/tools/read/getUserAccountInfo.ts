@@ -5,6 +5,7 @@ import {
 } from '../../lib/types/index.js';
 import { apiGet } from '../../lib/utils/api.js';
 import { GetUserAccountInfoSchema } from '../../schemas/index.js';
+import { toolResult } from '@kasarlabs/ask-starknet-core';
 
 export const getUserAccountInfo = async (
   env: ExtendedApiEnv,

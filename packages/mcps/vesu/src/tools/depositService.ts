@@ -22,7 +22,7 @@ import {
   getExtensionContract,
   getVTokenContract,
 } from '../lib/utils/contracts.js';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 
 /**
  * Service for managing deposit operations and earning positions
@@ -147,7 +147,7 @@ export class DepositEarnService {
   async depositEarnTransaction(
     params: DepositParams,
     env: onchainWrite
-  ): Promise<DepositResult> {
+  ): Promise<toolResult> {
     try {
       const account = new Account(
         this.env.provider,
@@ -205,15 +205,15 @@ export class DepositEarnService {
 
       await provider.waitForTransaction(tx.transaction_hash);
 
-      const transferResult: DepositResult = {
+      return {
         status: 'success',
-        amount: params.depositAmount,
-        symbol: params.depositTokenSymbol,
-        recipients_address: account.address,
-        transaction_hash: tx.transaction_hash,
+        data: {
+          amount: params.depositAmount,
+          symbol: params.depositTokenSymbol,
+          recipients_address: account.address,
+          transaction_hash: tx.transaction_hash,
+        },
       };
-
-      return transferResult;
     } catch (error) {
       // console.error('Detailed deposit error:', error);
       if (error instanceof Error) {
@@ -256,19 +256,16 @@ export const createDepositEarnService = (
 export const depositEarnPosition = async (
   env: onchainWrite,
   params: DepositParams
-) => {
+) : Promise<toolResult> => {
   const accountAddress = env.account?.address;
   try {
     const depositEarnService = createDepositEarnService(env, accountAddress);
     const result = await depositEarnService.depositEarnTransaction(params, env);
-    return result;
-  } catch (error) {
-    // console.error('Detailed deposit error:', error);
-    if (error instanceof Error) {
-      // console.error('Error type:', error.constructor.name);
-      // console.error('Error message:', error.message);
-      // console.error('Error stack:', error.stack);
+    return {
+      status: 'success',
+      data: result
     }
+  } catch (error) {
     return {
       status: 'failure',
       error: error instanceof Error ? error.message : 'Unknown error',

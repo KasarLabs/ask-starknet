@@ -3,9 +3,9 @@ import {
   getUnderlyingTokenName,
 } from '../../lib/utils/contracts.js';
 import { ClaimSchema } from '../../schemas/index.js';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 
-export const claim = async (env: onchainWrite, params: ClaimSchema) => {
+export const claim = async (env: onchainWrite, params: ClaimSchema): Promise<toolResult> => {
   try {
     const account = env.account;
     const withdrawQueueContract = getWithdrawQueueNFTContract(

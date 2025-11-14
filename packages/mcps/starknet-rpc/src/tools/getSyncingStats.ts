@@ -1,12 +1,13 @@
 import { RpcProvider } from 'starknet';
+import { toolResult } from '@kasarlabs/ask-starknet-core';
 
-export const getSyncingStats = async (provider: RpcProvider) => {
+export const getSyncingStats = async (provider: RpcProvider): Promise<toolResult> => {
   try {
     const syncingStats = await provider.getSyncingStats();
 
     return {
       status: 'success',
-      syncingStats: syncingStats as any,
+      data: { syncingStats: syncingStats as any, },
     };
   } catch (error) {
     return {

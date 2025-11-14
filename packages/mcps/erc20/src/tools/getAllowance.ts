@@ -1,5 +1,5 @@
 import { Contract } from 'starknet';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 import {
   formatBalance,
   validateToken,
@@ -23,7 +23,7 @@ import {
 export const getAllowance = async (
   env: onchainWrite,
   params: z.infer<typeof getAllowanceSchema>
-) => {
+): Promise<toolResult> => {
   try {
     const provider = env.provider;
 
@@ -45,10 +45,12 @@ export const getAllowance = async (
 
     return {
       status: 'success',
-      owner: params.ownerAddress,
-      spender: params.spenderAddress,
-      allowance: formatBalance(allowanceResponse, token.decimals),
-      symbol: token.symbol,
+      data: {
+        owner: params.ownerAddress,
+        spender: params.spenderAddress,
+        allowance: formatBalance(allowanceResponse, token.decimals),
+        symbol: token.symbol,
+      },
     };
   } catch (error) {
     return {
@@ -68,7 +70,7 @@ export const getAllowance = async (
 export const getMyGivenAllowance = async (
   env: onchainWrite,
   params: z.infer<typeof getMyGivenAllowanceSchema>
-) => {
+): Promise<toolResult> => {
   try {
     const provider = env.provider;
     const ownerAddress = env.account.address;
@@ -91,10 +93,12 @@ export const getMyGivenAllowance = async (
 
     return {
       status: 'success',
-      owner: ownerAddress,
-      spender: params.spenderAddress,
-      allowance: formatBalance(allowanceResponse, token.decimals),
-      symbol: token.symbol,
+      data: {
+        owner: ownerAddress,
+        spender: params.spenderAddress,
+        allowance: formatBalance(allowanceResponse, token.decimals),
+        symbol: token.symbol,
+      },
     };
   } catch (error) {
     return {
@@ -114,7 +118,7 @@ export const getMyGivenAllowance = async (
 export const getAllowanceGivenToMe = async (
   env: onchainWrite,
   params: z.infer<typeof getAllowanceGivenToMeSchema>
-) => {
+): Promise<toolResult> => {
   try {
     const provider = env.provider;
     const spenderAddress = env.account.address;
@@ -137,10 +141,12 @@ export const getAllowanceGivenToMe = async (
 
     return {
       status: 'success',
-      owner: params.ownerAddress,
-      spender: spenderAddress,
-      allowance: formatBalance(allowanceResponse, token.decimals),
-      symbol: token.symbol,
+      data: {
+        owner: params.ownerAddress,
+        spender: spenderAddress,
+        allowance: formatBalance(allowanceResponse, token.decimals),
+        symbol: token.symbol,
+      },
     };
   } catch (error) {
     return {

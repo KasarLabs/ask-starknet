@@ -1,5 +1,5 @@
 import { Contract } from 'starknet';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 import { detectAbiType } from '../lib/utils/utils.js';
 import {
   formatBalance,
@@ -20,7 +20,7 @@ import { getBalanceSchema, getOwnBalanceSchema } from '../schemas/index.js';
 export const getOwnBalance = async (
   env: onchainWrite,
   params: z.infer<typeof getOwnBalanceSchema>
-) => {
+): Promise<toolResult> => {
   try {
     const provider = env.provider;
     const account = env.account;
@@ -50,8 +50,10 @@ export const getOwnBalance = async (
 
     return {
       status: 'success',
-      balance: formattedBalance,
-      symbol: token.symbol,
+      data: {
+        balance: formattedBalance,
+        symbol: token.symbol,
+      },
     };
   } catch (error) {
     return {
@@ -71,7 +73,7 @@ export const getOwnBalance = async (
 export const getBalance = async (
   env: onchainWrite,
   params: z.infer<typeof getBalanceSchema>
-) => {
+): Promise<toolResult> => {
   try {
     if (!params?.accountAddress) {
       throw new Error('Account address are required');
@@ -97,8 +99,10 @@ export const getBalance = async (
 
     return {
       status: 'success',
-      balance: formattedBalance,
-      symbol: token.symbol,
+      data: {
+        balance: formattedBalance,
+        symbol: token.symbol,
+      },
     };
   } catch (error) {
     return {

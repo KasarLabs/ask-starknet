@@ -1,11 +1,12 @@
 import { RpcProvider } from 'starknet';
 import { blockIdAndContractAddressSchema } from '../schemas/index.js';
 import { z } from 'zod';
+import { toolResult } from '@kasarlabs/ask-starknet-core';
 
 export const getClass = async (
   provider: RpcProvider,
   params: z.infer<typeof blockIdAndContractAddressSchema>
-) => {
+): Promise<toolResult> => {
   try {
     const contractClass = await provider.getClass(
       params.classHash,
@@ -14,7 +15,7 @@ export const getClass = async (
 
     return {
       status: 'success',
-      contractClass,
+      data: { contractClass, },
     };
   } catch (error) {
     return {

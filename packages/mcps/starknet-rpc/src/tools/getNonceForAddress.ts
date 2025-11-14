@@ -1,9 +1,10 @@
 import { RpcProvider } from 'starknet';
+import { toolResult } from '@kasarlabs/ask-starknet-core';
 
 export const getNonceForAddress = async (
   provider: RpcProvider,
   params: { contractAddress: string; blockId?: string }
-) => {
+): Promise<toolResult> => {
   try {
     const nonce = await provider.getNonceForAddress(
       params.contractAddress,
@@ -12,7 +13,7 @@ export const getNonceForAddress = async (
 
     return {
       status: 'success',
-      nonce,
+      data: { nonce, },
     };
   } catch (error) {
     return {
