@@ -114,7 +114,7 @@ export const registerTools = (snaknetToolRegistry: SnaknetTool[]) => {
   });
 };
 
-const server: any = new McpServer({
+const server = new McpServer({
   name: 'ask-starknet-mcp',
   version: packageJson.version,
 });
@@ -139,8 +139,7 @@ export const RegisterToolInServer = async (env: envInput) => {
       const baseSchema = extractBaseSchema(tool.schema);
       server.tool(
         tool.name,
-        tool.description,
-        baseSchema.shape,
+        (baseSchema as z.ZodObject<z.ZodRawShape>).shape,
         async (input: any, extra: any) => {
           const result = await tool.execute(env, input);
           return {
