@@ -76,6 +76,28 @@ export function convertFeePercentToU128(feePercent: number): string {
 }
 
 /**
+ * Convert fee from Ekubo's u128 format back to percentage
+ * @param feeU128 Fee in Ekubo's u128 format as a string
+ * @returns Fee as a percentage (e.g., 0.05 for 0.05%, 0.3 for 0.3%, 1 for 1%)
+ *
+ * Reverse of convertFeePercentToU128
+ * Formula: fee_percent = (fee_u128 / 2^128) * 100
+ */
+export function convertFeeU128ToPercent(feeU128: string): number {
+  const TWO_POW_128 = BigInt(2) ** BigInt(128);
+  const feeBigInt = BigInt(feeU128);
+
+  // Calculate fee_decimal = fee_u128 / 2^128
+  // We need to do this with proper precision
+  const feeDecimal = Number(feeBigInt) / Number(TWO_POW_128);
+
+  // Convert to percentage: fee_decimal * 100
+  const feePercent = feeDecimal * 100;
+
+  return feePercent;
+}
+
+/**
  * Convert tick spacing percentage to tick exponent
  * @param tickSpacingPercent Tick spacing as a percentage (e.g., 0.01 for 0.01%, 0.1 for 0.1%, 1 for 1%)
  * @returns Tick spacing as an integer exponent
@@ -101,6 +123,33 @@ export function convertTickSpacingPercentToExponent(
   // log_base(a)(b) = ln(b) / ln(a)
   const tickSpacing = Math.log(1 + spacingDecimal) / Math.log(1.000001);
   return Math.round(tickSpacing);
+}
+
+/**
+ * Convert tick spacing exponent back to percentage
+ * @param tickSpacingExponent Tick spacing as an integer exponent (e.g., 1000, 5000, 10000)
+ * @returns Tick spacing as a percentage (e.g., 0.01 for 0.01%, 0.1 for 0.1%, 1 for 1%)
+ *
+ * Reverse of convertTickSpacingPercentToExponent
+ * Formula: tick_spacing_percent = (1.000001^exponent - 1) * 100
+ *
+ * Examples:
+ * - 1000 -> ~0.01%
+ * - 5000 -> ~0.05%
+ * - 10000 -> ~0.1%
+ * - 100000 -> ~1%
+ */
+export function convertTickSpacingExponentToPercent(
+  tickSpacingExponent: number
+): number {
+  // Calculate 1.000001^exponent
+  const base = 1.000001;
+  const result = Math.pow(base, tickSpacingExponent);
+
+  // Convert to percentage: (result - 1) * 100
+  const tickSpacingPercent = (result - 1) * 100;
+
+  return tickSpacingPercent;
 }
 
 /**

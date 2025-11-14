@@ -2,6 +2,11 @@ import { getContract } from '../../lib/utils/contracts.js';
 import { preparePoolKeyFromParams } from '../../lib/utils/pools.js';
 import { WithdrawLiquiditySchema } from '../../schemas/index.js';
 import { buildBounds } from '../../lib/utils/liquidity.js';
+import {
+  convertTickSpacingExponentToPercent,
+  convertFeeU128ToPercent,
+} from '../../lib/utils/math.js';
+import { fetchPositionData } from '../../lib/utils/position.js';
 import { onchainWrite } from '@kasarlabs/ask-starknet-core';
 
 export const withdrawLiquidity = async (
@@ -12,20 +17,34 @@ export const withdrawLiquidity = async (
     const account = env.account;
     const positionsContract = await getContract(env.provider, 'positions');
 
-    const { poolKey, token0, token1 } = await preparePoolKeyFromParams(
-      env.provider,
-      {
-        token0_symbol: params.token0_symbol,
-        token0_address: params.token0_address,
-        token1_symbol: params.token1_symbol,
-        token1_address: params.token1_address,
-        fee: params.fee,
-        tick_spacing: params.tick_spacing,
-        extension: params.extension,
-      }
-    );
+    // Fetch position data from API
+    const positionData = await fetchPositionData(params.position_id);
 
-    const bounds = buildBounds(params.lower_tick, params.upper_tick);
+    // Use API data or provided params
+    const token0_address = params.token0_address || positionData.token0;
+    const token1_address = params.token1_address || positionData.token1;
+    const fee = convertFeeU128ToPercent(positionData.fee);
+    const tick_spacing = convertTickSpacingExponentToPercent(
+      Number(positionData.tick_spacing)
+    );
+    const extension = positionData.extension || '0x0';
+
+    const { poolKey, token0, token1, isTokenALower } =
+      await preparePoolKeyFromParams(env.provider, {
+        token0_symbol: params.token0_symbol,
+        token0_address,
+        token1_symbol: params.token1_symbol,
+        token1_address,
+        fee,
+        tick_spacing,
+        extension,
+      });
+
+    // Use ticks directly from API
+    const lowerTick = Number(positionData.tick_lower);
+    const upperTick = Number(positionData.tick_upper);
+
+    const bounds = buildBounds(lowerTick, upperTick);
     const liquidity = params.fees_only ? 0 : BigInt(params.liquidity_amount);
     const minToken0 = 0;
     const minToken1 = 0;
@@ -71,6 +90,8 @@ export const withdrawLiquidity = async (
         liquidity_withdrawn: liquidity.toString(),
         fees_only: params.fees_only,
         collect_fees: collectFees,
+        lower_tick: lowerTick,
+        upper_tick: upperTick,
       },
     };
   } catch (error: any) {
