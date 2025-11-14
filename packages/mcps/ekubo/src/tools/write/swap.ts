@@ -1,6 +1,4 @@
-import { cairo } from 'starknet';
-import { getERC20Contract } from '../../lib/utils/contracts.js';
-import { getContract } from '../../lib/utils/contracts.js';
+import { getERC20Contract, getContract } from '../../lib/utils/contracts.js';
 import { SwapTokensSchema } from '../../schemas/index.js';
 import { preparePoolKeyFromParams } from '../../lib/utils/pools.js';
 import {
@@ -12,9 +10,32 @@ import {
   getSwapQuote,
   extractExpectedOutput,
   calculateMinimumOutputU256,
+  extractRequiredInput,
+  createExactOutputMinimum,
 } from '../../lib/utils/quote.js';
 import { onchainWrite } from '@kasarlabs/ask-starknet-core';
 
+/**
+ * Executes a token swap on Ekubo DEX
+ *
+ * Supports two swap modes:
+ * 1. Exact Input (is_amount_in=true): User specifies exact input amount, receives variable output
+ *    - Slippage protection: Applied to output amount (minimum output = quote output * (1 - slippage))
+ *
+ * 2. Exact Output (is_amount_in=false): User specifies exact output desired, pays variable input
+ *    - Slippage protection: Applied via sqrtRatioLimit to prevent excessive input cost
+ *    - Minimum output = desired output (no reduction) since user wants exactly that amount
+ *
+ * Sign handling in Ekubo quotes:
+ * - Positive amounts (sign=false): Tokens being spent (inputs)
+ * - Negative amounts (sign=true): Tokens being received (outputs)
+ *
+ * Transaction flow:
+ * 1. Transfer input tokens to router
+ * 2. Execute swap with specified route and amount
+ * 3. Clear output tokens with minimum check (ensures minimum output is received)
+ * 4. Clear remaining tokens back to sender
+ */
 export const swap = async (env: onchainWrite, params: SwapTokensSchema) => {
   try {
     const account = env.account;
@@ -73,36 +94,14 @@ export const swap = async (env: onchainWrite, params: SwapTokensSchema) => {
         params.slippage_tolerance
       );
     } else {
-      const isTokenInToken0 = tokenIn.address === poolKey.token0;
-
-      const amount0 = BigInt(quote.amount0.mag.toString());
-      const amount1 = BigInt(quote.amount1.mag.toString());
-      const sign0 = quote.amount0.sign;
-      const sign1 = quote.amount1.sign;
-
-      let requiredInput: bigint;
-      if (isTokenInToken0) {
-        // tokenIn is token0, so amount0 should be positive (input)
-        requiredInput = sign0 ? -amount0 : amount0;
-      } else {
-        // tokenIn is token1, so amount1 should be positive (input)
-        requiredInput = sign1 ? -amount1 : amount1;
-      }
-
-      // Ensure it's positive (absolute value)
-      if (requiredInput < 0n) {
-        requiredInput = -requiredInput;
-      }
-
+      // Exact output swap: user specifies exact output amount, we need to calculate required input
+      const requiredInput = extractRequiredInput(quote, isTokenInToken0);
       transferAmount = requiredInput.toString();
 
-      // For exact output, minimum is the desired output amount (params.amount) minus slippage
+      // For exact output swaps, the minimum output equals the desired output
+      // (slippage protection is handled by sqrtRatioLimit on the input side)
       const desiredOutput = BigInt(params.amount);
-      const slippageMultiplier = 1 - params.slippage_tolerance / 100;
-      const minimumAmount = BigInt(
-        Math.floor(Number(desiredOutput) * slippageMultiplier)
-      );
-      minimumOutput = cairo.uint256(minimumAmount.toString());
+      minimumOutput = createExactOutputMinimum(desiredOutput);
     }
 
     const tokenInContract = getERC20Contract(tokenIn.address, env.provider);
@@ -152,10 +151,9 @@ export const swap = async (env: onchainWrite, params: SwapTokensSchema) => {
       },
     };
   } catch (error: any) {
-    // console.error('Error swapping tokens:', error);
     return {
       status: 'failure',
-      error: error.toString(),
+      error: error.message || 'Unknown error during swap',
     };
   }
 };

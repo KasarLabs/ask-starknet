@@ -179,30 +179,6 @@ export const addLiquiditySchema = z.object({
   amount1: z
     .string()
     .describe('The amount of token1 to add (in token decimals)'),
-  token0_symbol: z
-    .string()
-    .optional()
-    .describe(
-      'The symbol of the first token (e.g., "ETH", "USDC"). If not provided, will be fetched from position data.'
-    ),
-  token0_address: z
-    .string()
-    .optional()
-    .describe(
-      'The contract address of the first token. If not provided, will be fetched from position data.'
-    ),
-  token1_symbol: z
-    .string()
-    .optional()
-    .describe(
-      'The symbol of the second token (e.g., "ETH", "USDC"). If not provided, will be fetched from position data.'
-    ),
-  token1_address: z
-    .string()
-    .optional()
-    .describe(
-      'The contract address of the second token. If not provided, will be fetched from position data.'
-    ),
 });
 
 export type AddLiquiditySchema = z.infer<typeof addLiquiditySchema>;
@@ -226,30 +202,6 @@ export const withdrawLiquiditySchema = z.object({
     .optional()
     .default(true)
     .describe('Whether to collect accumulated fees (defaults to true)'),
-  token0_symbol: z
-    .string()
-    .optional()
-    .describe(
-      'The symbol of the first token (e.g., "ETH", "USDC"). If not provided, will be fetched from position data.'
-    ),
-  token0_address: z
-    .string()
-    .optional()
-    .describe(
-      'The contract address of the first token. If not provided, will be fetched from position data.'
-    ),
-  token1_symbol: z
-    .string()
-    .optional()
-    .describe(
-      'The symbol of the second token (e.g., "ETH", "USDC"). If not provided, will be fetched from position data.'
-    ),
-  token1_address: z
-    .string()
-    .optional()
-    .describe(
-      'The contract address of the second token. If not provided, will be fetched from position data.'
-    ),
 });
 
 export type WithdrawLiquiditySchema = z.infer<typeof withdrawLiquiditySchema>;

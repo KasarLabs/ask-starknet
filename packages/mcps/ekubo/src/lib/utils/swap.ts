@@ -14,6 +14,19 @@ export function buildRouteNode(poolKey: any, sqrtRatioLimit: string) {
 
 /**
  * Builds a TokenAmount for Ekubo Router swap
+ *
+ * @param tokenAddress - The token contract address
+ * @param amount - The amount in token's smallest unit (e.g., wei)
+ * @param isAmountIn - Whether this is an exact input (true) or exact output (false) swap
+ * @returns TokenAmount object formatted for Ekubo router
+ *
+ * @remarks
+ * The sign field in Ekubo's TokenAmount has special meaning:
+ * - sign=false (positive): Exact input mode - user specifies how much to spend
+ * - sign=true (negative): Exact output mode - user specifies how much to receive
+ *
+ * In exact output mode, the router interprets the negative amount as "I want to
+ * receive this much" and calculates the required input amount internally.
  */
 export function buildTokenAmount(
   tokenAddress: string,

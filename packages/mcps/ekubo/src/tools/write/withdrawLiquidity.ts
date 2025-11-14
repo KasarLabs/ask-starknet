@@ -20,29 +20,41 @@ export const withdrawLiquidity = async (
     // Fetch position data from API
     const positionData = await fetchPositionData(params.position_id);
 
-    // Use API data or provided params
-    const token0_address = params.token0_address || positionData.token0;
-    const token1_address = params.token1_address || positionData.token1;
+    // Use API data
+    const token0_address = positionData.token0;
+    const token1_address = positionData.token1;
     const fee = convertFeeU128ToPercent(positionData.fee);
     const tick_spacing = convertTickSpacingExponentToPercent(
       Number(positionData.tick_spacing)
     );
     const extension = positionData.extension || '0x0';
 
-    const { poolKey, token0, token1, isTokenALower } =
-      await preparePoolKeyFromParams(env.provider, {
-        token0_symbol: params.token0_symbol,
+    const { poolKey, token0, token1 } = await preparePoolKeyFromParams(
+      env.provider,
+      {
         token0_address,
-        token1_symbol: params.token1_symbol,
         token1_address,
         fee,
         tick_spacing,
         extension,
-      });
+      }
+    );
 
     // Use ticks directly from API
     const lowerTick = Number(positionData.tick_lower);
     const upperTick = Number(positionData.tick_upper);
+
+    if (isNaN(lowerTick) || isNaN(upperTick)) {
+      throw new Error(
+        `Invalid tick values: lower=${positionData.tick_lower}, upper=${positionData.tick_upper}`
+      );
+    }
+
+    if (lowerTick >= upperTick) {
+      throw new Error(
+        `Lower tick (${lowerTick}) must be less than upper tick (${upperTick})`
+      );
+    }
 
     const bounds = buildBounds(lowerTick, upperTick);
     const liquidity = params.fees_only ? 0 : BigInt(params.liquidity_amount);

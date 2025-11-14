@@ -2,13 +2,12 @@ import {
   getChain,
   getEkuboAddress,
   getERC20Contract,
+  getContract,
 } from '../../lib/utils/contracts.js';
-import { getContract } from '../../lib/utils/contracts.js';
 import { preparePoolKeyFromParams } from '../../lib/utils/pools.js';
 import { buildBounds } from '../../lib/utils/liquidity.js';
 import {
   calculateTickFromPrice,
-  convertTickSpacingPercentToExponent,
   roundTickToSpacing,
 } from '../../lib/utils/math.js';
 import { extractPositionIdFromReceipt } from '../../lib/utils/events.js';
@@ -19,8 +18,6 @@ export const createPosition = async (
   env: onchainWrite,
   params: CreatePositionSchema
 ) => {
-  // Tool under maintenance - pool initialization required
-
   try {
     const account = env.account;
     const positionsContract = await getContract(env.provider, 'positions');

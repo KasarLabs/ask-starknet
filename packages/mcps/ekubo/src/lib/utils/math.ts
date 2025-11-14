@@ -21,8 +21,8 @@ export function calculateTickFromSqrtPrice(sqrtPrice: bigint): number {
   const Q128 = BigInt(2) ** BigInt(128);
   const sqrtPriceFloat = Number(sqrtPrice) / Number(Q128);
   const price = sqrtPriceFloat * sqrtPriceFloat;
-  // tick = log_base(1.0001)(price)
-  return Math.floor(Math.log(price) / Math.log(1.0001));
+  // tick = log_base(1.000001)(price)
+  return Math.floor(Math.log(price) / Math.log(1.000001));
 }
 
 /**

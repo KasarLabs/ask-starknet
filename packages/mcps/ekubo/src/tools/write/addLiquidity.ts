@@ -1,5 +1,4 @@
-import { getERC20Contract } from '../../lib/utils/contracts.js';
-import { getContract } from '../../lib/utils/contracts.js';
+import { getERC20Contract, getContract } from '../../lib/utils/contracts.js';
 import { AddLiquiditySchema } from '../../schemas/index.js';
 import { preparePoolKeyFromParams } from '../../lib/utils/pools.js';
 import { buildBounds } from '../../lib/utils/liquidity.js';
@@ -21,9 +20,9 @@ export const addLiquidity = async (
     // Fetch position data from API
     const positionData = await fetchPositionData(params.position_id);
 
-    // Use API data or provided params
-    const token0_address = params.token0_address || positionData.token0;
-    const token1_address = params.token1_address || positionData.token1;
+    // Use API data
+    const token0_address = positionData.token0;
+    const token1_address = positionData.token1;
     const fee = convertFeeU128ToPercent(positionData.fee);
     const tick_spacing = convertTickSpacingExponentToPercent(
       Number(positionData.tick_spacing)
@@ -32,9 +31,7 @@ export const addLiquidity = async (
 
     const { poolKey, token0, token1, isTokenALower } =
       await preparePoolKeyFromParams(env.provider, {
-        token0_symbol: params.token0_symbol,
         token0_address,
-        token1_symbol: params.token1_symbol,
         token1_address,
         fee,
         tick_spacing,
@@ -44,6 +41,18 @@ export const addLiquidity = async (
     // Use ticks directly from API
     const lowerTick = Number(positionData.tick_lower);
     const upperTick = Number(positionData.tick_upper);
+
+    if (isNaN(lowerTick) || isNaN(upperTick)) {
+      throw new Error(
+        `Invalid tick values: lower=${positionData.tick_lower}, upper=${positionData.tick_upper}`
+      );
+    }
+
+    if (lowerTick >= upperTick) {
+      throw new Error(
+        `Lower tick (${lowerTick}) must be less than upper tick (${upperTick})`
+      );
+    }
 
     const config = isTokenALower
       ? {

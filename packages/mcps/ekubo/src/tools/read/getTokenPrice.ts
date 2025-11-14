@@ -29,8 +29,8 @@ export const getTokenPrice = async (
     // Price from Ekubo is always token1/token0
     const price = calculateActualPrice(
       sqrtPrice,
-      token0.decimals,
-      token1.decimals
+      isTokenALower ? token0.decimals : token1.decimals,
+      isTokenALower ? token1.decimals : token0.decimals
     );
 
     const finalPrice = isTokenALower ? price : 1 / price;
