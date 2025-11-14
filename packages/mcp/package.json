@@ -32,6 +32,7 @@
     "server"
   ],
   "dependencies": {
+    "@kasarlabs/ask-starknet-core": "workspace:*",
     "@langchain/anthropic": "^0.3.27",
     "@langchain/community": "^0.3.55",
     "@langchain/core": "^0.3.72",
