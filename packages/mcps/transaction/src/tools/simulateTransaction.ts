@@ -44,9 +44,9 @@ export const simulateInvokeTransaction = async (
 
     return {
       status: 'success',
-      data : {
-        transaction_output: transaction_output
-      }
+      data: {
+        transaction_output: transaction_output,
+      },
     };
   } catch (error) {
     return {
@@ -93,9 +93,9 @@ export const simulateDeployAccountTransaction = async (
 
     return {
       status: 'success',
-      data : {
-        transaction_output: transaction_output
-      }
+      data: {
+        transaction_output: transaction_output,
+      },
     };
   } catch (error) {
     return {
@@ -136,9 +136,9 @@ export const simulateDeployTransaction = async (
 
     return {
       status: 'success',
-      data : {
-        transaction_output: transaction_output
-      }
+      data: {
+        transaction_output: transaction_output,
+      },
     };
   } catch (error) {
     return {
@@ -178,9 +178,9 @@ export const simulateDeclareTransaction = async (
 
     return {
       status: 'success',
-      data : {
-        transaction_output: transaction_output
-      }
+      data: {
+        transaction_output: transaction_output,
+      },
     };
   } catch (error) {
     return {

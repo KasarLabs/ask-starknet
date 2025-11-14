@@ -5,7 +5,11 @@ import {
   getUnderlyingTokenName,
 } from '../../lib/utils/contracts.js';
 import { GetUserBalanceSchema } from '../../schemas/index.js';
-import { onchainRead, onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
+import {
+  onchainRead,
+  onchainWrite,
+  toolResult,
+} from '@kasarlabs/ask-starknet-core';
 import { formatUnits } from '../../lib/utils/formatting.js';
 
 export const getUserBalance = async (

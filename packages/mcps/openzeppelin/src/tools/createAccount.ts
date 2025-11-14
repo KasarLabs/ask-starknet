@@ -22,7 +22,7 @@ export const CreateOZAccount = async (): Promise<toolResult> => {
         publicKey: accountDetails.publicKey,
         privateKey: accountDetails.privateKey,
         contractAddress: accountDetails.contractAddress,
-      }
+      },
     };
   } catch (error) {
     return {

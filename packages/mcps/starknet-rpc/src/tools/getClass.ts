@@ -15,7 +15,7 @@ export const getClass = async (
 
     return {
       status: 'success',
-      data: { contractClass, },
+      data: { contractClass },
     };
   } catch (error) {
     return {

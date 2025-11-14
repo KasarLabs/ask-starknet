@@ -15,7 +15,7 @@ export const getClassHashAt = async (
 
     return {
       status: 'success',
-      data: { classHash, },
+      data: { classHash },
     };
   } catch (error) {
     return {

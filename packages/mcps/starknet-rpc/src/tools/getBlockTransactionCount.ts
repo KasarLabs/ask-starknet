@@ -14,7 +14,7 @@ export const getBlockTransactionCount = async (
 
     return {
       status: 'success',
-      data: { blockTransactionCount, },
+      data: { blockTransactionCount },
     };
   } catch (error) {
     return {

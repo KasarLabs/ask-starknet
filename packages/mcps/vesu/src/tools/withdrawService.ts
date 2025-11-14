@@ -167,10 +167,7 @@ export class WithdrawEarnService {
    * @param {onchainWrite | onchainRead} env - The onchain environment
    * @returns {Promise<WithdrawResult>} Result of the withdrawal operation
    */
-  async withdrawEarnTransaction(
-    params: WithdrawParams,
-    env: onchainWrite
-  ) {
+  async withdrawEarnTransaction(params: WithdrawParams, env: onchainWrite) {
     try {
       const account = new Account(
         this.env.provider,
@@ -274,15 +271,15 @@ export const withdrawService = (
 export const withdrawEarnPosition = async (
   env: onchainWrite,
   params: WithdrawParams
-) : Promise<toolResult> => {
+): Promise<toolResult> => {
   const accountAddress = env.account?.address;
   try {
     const withdrawEarn = withdrawService(env, accountAddress);
     const result = await withdrawEarn.withdrawEarnTransaction(params, env);
     return {
-      status: "success",
-      data: result
-    }
+      status: 'success',
+      data: result,
+    };
   } catch (error) {
     return {
       status: 'failure',

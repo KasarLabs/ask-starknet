@@ -183,8 +183,8 @@ export const batchSwapTokens = async (
     const result = await swapService.executeSwapTransaction(params);
     return {
       status: 'success',
-      data: result
-    }
+      data: result,
+    };
   } catch (error) {
     return {
       status: 'failure',

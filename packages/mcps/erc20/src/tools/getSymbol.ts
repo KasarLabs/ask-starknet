@@ -191,7 +191,7 @@ export const getSymbol = async (
       symbol = 'UNKNOWN';
     }
 
-    return { status: 'success', data : { symbol } };
+    return { status: 'success', data: { symbol } };
   } catch (error) {
     return {
       status: 'failure',

@@ -30,7 +30,7 @@ export const DeployOZAccount = async (
         wallet: 'OpenZeppelin',
         transaction_hash: tx.transactionHash,
         contract_address: tx.contractAddress,
-      }
+      },
     };
   } catch (error) {
     return {

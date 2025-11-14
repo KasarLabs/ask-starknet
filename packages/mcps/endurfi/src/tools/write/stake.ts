@@ -9,7 +9,10 @@ import { StakeSchema } from '../../schemas/index.js';
 import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 import { formatUnits } from '../../lib/utils/formatting.js';
 
-export const stake = async (env: onchainWrite, params: StakeSchema): Promise<toolResult> => {
+export const stake = async (
+  env: onchainWrite,
+  params: StakeSchema
+): Promise<toolResult> => {
   try {
     const account = env.account;
     const liquidTokenContract = getLiquidTokenContract(

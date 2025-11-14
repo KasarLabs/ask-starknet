@@ -12,7 +12,7 @@ export const getBlockTransactionsTraces = async (
 
     return {
       status: 'success',
-      data: { blockTransactionsTraces: blockTransactionsTraces as any, },
+      data: { blockTransactionsTraces: blockTransactionsTraces as any },
     };
   } catch (error) {
     return {

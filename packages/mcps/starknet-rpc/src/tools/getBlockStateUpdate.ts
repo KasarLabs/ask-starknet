@@ -10,7 +10,7 @@ export const getBlockStateUpdate = async (
 
     return {
       status: 'success',
-      data: { blockStateUpdate, },
+      data: { blockStateUpdate },
     };
   } catch (error) {
     return {

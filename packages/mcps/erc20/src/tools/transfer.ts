@@ -68,14 +68,14 @@ export const transfer = async (
       status: 'success',
       data: {
         amount: params.amount,
-          recipients_address: recipientAddress,
+        recipients_address: recipientAddress,
         transaction_hash: txH,
       },
     };
   } catch (error) {
     return {
       status: 'failure',
-      error: error instanceof Error ? error.message : 'Unknown error'
-    }
+      error: error instanceof Error ? error.message : 'Unknown error',
+    };
   }
 };

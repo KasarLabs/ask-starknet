@@ -14,7 +14,7 @@ export const getTransactionStatus = async (
 
     return {
       status: 'success',
-      data: { transactionStatus: transactionStatus as any, },
+      data: { transactionStatus: transactionStatus as any },
     };
   } catch (error) {
     return {

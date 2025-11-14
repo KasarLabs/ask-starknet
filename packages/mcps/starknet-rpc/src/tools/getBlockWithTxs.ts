@@ -10,7 +10,7 @@ export const getBlockWithTxs = async (
 
     return {
       status: 'success',
-      data: { blockWithTxs: blockWithTxs as any, },
+      data: { blockWithTxs: blockWithTxs as any },
     };
   } catch (error) {
     return {

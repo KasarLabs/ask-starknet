@@ -27,7 +27,7 @@ export const DeployArgentAccount = async (
         wallet: 'AX',
         transaction_hash: tx.transactionHash,
         contract_address: tx.contractAddress,
-      }
+      },
     };
   } catch (error) {
     return {

@@ -18,7 +18,7 @@ try {
     name: 'ask_starknet',
     arguments: {
       userInput: 'can you deploy account argent 0x2251?',
-      rawTools: true
+      rawTools: true,
     },
   });
   console.log(result);

@@ -33,12 +33,12 @@ const extractBaseSchema = (schema: z.ZodTypeAny): z.ZodObject<any> => {
  */
 const formatToolResult = (result: any) => {
   return {
-    isError: result.status === "failure" ? true : false,
+    isError: result.status === 'failure' ? true : false,
     content: [
       {
         type: 'text',
         text: JSON.stringify(
-          result.status === "failure" ? result.error : result.data
+          result.status === 'failure' ? result.error : result.data
         ),
       },
     ],
@@ -66,7 +66,7 @@ export const registerToolsWithServer = async (
         tool.name,
         tool.description,
         baseSchema.shape,
-        async (params: any, extra: any) => {
+        async (params: any) => {
           const result = await tool.execute(params);
           return formatToolResult(result);
         }

@@ -17,7 +17,8 @@ import { specializedPrompt } from './prompts.js';
 const llmCache = new Map<string, ReturnType<typeof createLLM>>();
 
 function getCachedLLM(env: MCPEnvironment) {
-  const cacheKey = env.ANTHROPIC_API_KEY || env.GEMINI_API_KEY || env.OPENAI_API_KEY || '';
+  const cacheKey =
+    env.ANTHROPIC_API_KEY || env.GEMINI_API_KEY || env.OPENAI_API_KEY || '';
 
   if (!llmCache.has(cacheKey)) {
     const llm = createLLM(env);

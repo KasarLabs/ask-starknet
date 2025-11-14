@@ -16,7 +16,7 @@ export const getStorageAt = async (
 
     return {
       status: 'success',
-      data: { storageValue, },
+      data: { storageValue },
     };
   } catch (error) {
     return {

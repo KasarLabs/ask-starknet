@@ -1,5 +1,9 @@
 import { RpcProvider, validateAndParseAddress } from 'starknet';
-import { onchainRead, onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
+import {
+  onchainRead,
+  onchainWrite,
+  toolResult,
+} from '@kasarlabs/ask-starknet-core';
 import {
   formatBalance,
   validateToken,
@@ -171,9 +175,9 @@ export const getMyGivenAllowance = async (
     return {
       status: 'success',
       data: {
-          owner: owner,
-          spender: params.spenderAddress,
-          allowance: formatted,
+        owner: owner,
+        spender: params.spenderAddress,
+        allowance: formatted,
       },
     };
   } catch (error) {

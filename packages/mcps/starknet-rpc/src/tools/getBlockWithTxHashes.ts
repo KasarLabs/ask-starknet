@@ -14,7 +14,7 @@ export const getBlockWithTxHashes = async (
 
     return {
       status: 'success',
-      data: { blockWithTxHashes: blockWithTxHashes as any, },
+      data: { blockWithTxHashes: blockWithTxHashes as any },
     };
   } catch (error) {
     return {

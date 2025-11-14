@@ -108,7 +108,7 @@ export const getTotalSupply = async (
       status: 'success',
       data: {
         totalSupply: formattedSupply,
-        },
+      },
     };
   } catch (error) {
     return {

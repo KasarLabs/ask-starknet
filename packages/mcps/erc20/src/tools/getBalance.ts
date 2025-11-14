@@ -1,5 +1,9 @@
 import { RpcProvider, validateAndParseAddress } from 'starknet';
-import { onchainRead, onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
+import {
+  onchainRead,
+  onchainWrite,
+  toolResult,
+} from '@kasarlabs/ask-starknet-core';
 import {
   formatBalance,
   validateToken,
@@ -115,7 +119,7 @@ export const getOwnBalance = async (
     return {
       status: 'success',
       data: {
-        balance: formattedBalance
+        balance: formattedBalance,
       },
     };
   } catch (error) {
@@ -170,7 +174,7 @@ export const getBalance = async (
       status: 'success',
       data: {
         balance: formattedBalance,
-        },
+      },
     };
   } catch (error) {
     return {

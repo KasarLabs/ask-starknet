@@ -1,7 +1,9 @@
 import { RpcProvider } from 'starknet';
 import { toolResult } from '@kasarlabs/ask-starknet-core';
 
-export const getBlockLatestAccepted = async (provider: RpcProvider): Promise<toolResult> => {
+export const getBlockLatestAccepted = async (
+  provider: RpcProvider
+): Promise<toolResult> => {
   try {
     const blockHashAndNumber = await provider.getBlockLatestAccepted();
 

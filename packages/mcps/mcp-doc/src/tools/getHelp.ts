@@ -11,7 +11,9 @@ const __dirname = dirname(__filename);
 /**
  * Provide help on how to use Ask Starknet
  */
-export const getHelp = async (params: z.infer<typeof getHelpSchema>): Promise<toolResult> => {
+export const getHelp = async (
+  params: z.infer<typeof getHelpSchema>
+): Promise<toolResult> => {
   try {
     // Read the help markdown file
     const content = readFileSync(

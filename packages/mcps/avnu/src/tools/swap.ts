@@ -157,14 +157,17 @@ export const createSwapService = (env: onchainWrite): SwapService => {
   return new SwapService(env);
 };
 
-export const swapTokens = async (env: onchainWrite, params: SwapParams) : Promise <toolResult> => {
+export const swapTokens = async (
+  env: onchainWrite,
+  params: SwapParams
+): Promise<toolResult> => {
   try {
     const swapService = createSwapService(env);
     const result = await swapService.executeSwapTransaction(params);
     return {
-      status: "success",
-      data : result
-    }
+      status: 'success',
+      data: result,
+    };
   } catch (error) {
     return {
       status: 'failure',

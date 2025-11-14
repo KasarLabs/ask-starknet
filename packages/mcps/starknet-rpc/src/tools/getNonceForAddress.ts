@@ -13,7 +13,7 @@ export const getNonceForAddress = async (
 
     return {
       status: 'success',
-      data: { nonce, },
+      data: { nonce },
     };
   } catch (error) {
     return {

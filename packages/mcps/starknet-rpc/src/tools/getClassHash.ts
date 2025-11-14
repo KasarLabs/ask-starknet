@@ -13,7 +13,7 @@ export const getClassHash = async (
 
     return {
       status: 'success',
-      data: { classHash, },
+      data: { classHash },
     };
   } catch (error) {
     return {

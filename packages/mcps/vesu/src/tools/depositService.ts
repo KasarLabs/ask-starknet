@@ -256,15 +256,15 @@ export const createDepositEarnService = (
 export const depositEarnPosition = async (
   env: onchainWrite,
   params: DepositParams
-) : Promise<toolResult> => {
+): Promise<toolResult> => {
   const accountAddress = env.account?.address;
   try {
     const depositEarnService = createDepositEarnService(env, accountAddress);
     const result = await depositEarnService.depositEarnTransaction(params, env);
     return {
       status: 'success',
-      data: result
-    }
+      data: result,
+    };
   } catch (error) {
     return {
       status: 'failure',

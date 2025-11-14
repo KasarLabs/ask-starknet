@@ -1,13 +1,15 @@
 import { RpcProvider } from 'starknet';
 import { toolResult } from '@kasarlabs/ask-starknet-core';
 
-export const getSpecVersion = async (provider: RpcProvider): Promise<toolResult> => {
+export const getSpecVersion = async (
+  provider: RpcProvider
+): Promise<toolResult> => {
   try {
     const specVersion = await provider.getSpecVersion();
 
     return {
       status: 'success',
-      data: { specVersion, },
+      data: { specVersion },
     };
   } catch (error) {
     return {

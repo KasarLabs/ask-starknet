@@ -10,7 +10,10 @@ import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 import { formatUnits } from '../../lib/utils/formatting.js';
 import { extractWithdrawRequestIdFromReceipt } from '../../lib/utils/events.js';
 
-export const unstake = async (env: onchainWrite, params: UnstakeSchema): Promise<toolResult> => {
+export const unstake = async (
+  env: onchainWrite,
+  params: UnstakeSchema
+): Promise<toolResult> => {
   try {
     const account = env.account;
     const liquidTokenContract = getLiquidTokenContract(

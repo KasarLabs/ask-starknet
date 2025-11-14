@@ -60,7 +60,7 @@ export const approve = async (
   } catch (error) {
     return {
       status: 'failure',
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error.message : 'Unknown error',
     };
   }
 };

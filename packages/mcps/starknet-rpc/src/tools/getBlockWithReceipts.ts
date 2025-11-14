@@ -14,7 +14,7 @@ export const getBlockWithReceipts = async (
 
     return {
       status: 'success',
-      data: { blockWithReceipts: blockWithReceipts as any, },
+      data: { blockWithReceipts: blockWithReceipts as any },
     };
   } catch (error) {
     return {

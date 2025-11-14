@@ -1,10 +1,7 @@
 import { RpcProvider } from 'starknet';
 import { ARGENT_CLASS_HASH } from '../lib/constant/contract.js';
 import { AccountManager } from '../lib/utils/AccountManager.js';
-import {
-  onchainRead,
-  toolResult,
-} from '@kasarlabs/ask-starknet-core';
+import { onchainRead, toolResult } from '@kasarlabs/ask-starknet-core';
 
 /**
  * Creates a new Argent account.
@@ -14,7 +11,9 @@ import {
  * @returns {Promise<object>} Object with account details
  * @throws {Error} If account creation fails
  */
-export const CreateArgentAccount = async (env: onchainRead): Promise<toolResult> => {
+export const CreateArgentAccount = async (
+  env: onchainRead
+): Promise<toolResult> => {
   try {
     const accountManager = new AccountManager(env.provider);
     const accountDetails =
@@ -22,12 +21,12 @@ export const CreateArgentAccount = async (env: onchainRead): Promise<toolResult>
 
     return {
       status: 'success',
-      data : {
+      data: {
         wallet: 'AX',
         publicKey: accountDetails.publicKey,
         privateKey: accountDetails.privateKey,
         contractAddress: accountDetails.contractAddress,
-      }
+      },
     };
   } catch (error) {
     return {

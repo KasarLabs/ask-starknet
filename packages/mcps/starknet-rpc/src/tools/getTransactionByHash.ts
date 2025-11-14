@@ -12,7 +12,7 @@ export const getTransactionByHash = async (
 
     return {
       status: 'success',
-      data: { transaction: transaction as any, },
+      data: { transaction: transaction as any },
     };
   } catch (error) {
     return {

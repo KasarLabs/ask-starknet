@@ -14,7 +14,10 @@ import {
 } from '../../lib/utils/quote.js';
 import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 
-export const swap = async (env: onchainWrite, params: SwapTokensSchema): Promise<toolResult> => {
+export const swap = async (
+  env: onchainWrite,
+  params: SwapTokensSchema
+): Promise<toolResult> => {
   return {
     status: 'failure',
     error: 'This tool is currently under maintenance. ',

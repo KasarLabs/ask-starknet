@@ -3,7 +3,10 @@ import { PoolKey } from '../../schemas/index.js';
 import { getContract } from '../../lib/utils/contracts.js';
 import { preparePoolKeyFromParams } from '../../lib/utils/pools.js';
 
-export const getPoolLiquidity = async (env: onchainRead, params: PoolKey): Promise<toolResult> => {
+export const getPoolLiquidity = async (
+  env: onchainRead,
+  params: PoolKey
+): Promise<toolResult> => {
   const provider = env.provider;
   try {
     const contract = await getContract(provider, 'core');

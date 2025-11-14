@@ -12,7 +12,7 @@ export const getTransactionTrace = async (
 
     return {
       status: 'success',
-      data: { transactionTrace, },
+      data: { transactionTrace },
     };
   } catch (error) {
     return {

@@ -12,7 +12,7 @@ export const getTransactionReceipt = async (
 
     return {
       status: 'success',
-      data: { transactionReceipt, },
+      data: { transactionReceipt },
     };
   } catch (error) {
     return {

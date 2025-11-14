@@ -22,7 +22,7 @@ export const CreateOKXAccount = async (): Promise<toolResult> => {
         publicKey: accountDetails.publicKey,
         privateKey: accountDetails.privateKey,
         contractAddress: accountDetails.contractAddress,
-      }
+      },
     };
   } catch (error) {
     return {
