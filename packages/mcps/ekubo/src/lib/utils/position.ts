@@ -1,3 +1,5 @@
+import { EKUBO_API_URL } from "../constants/index.js";
+
 /**
  * Fetches position data from the Ekubo API
  * @param positionId - The position ID to fetch
@@ -12,7 +14,7 @@ export async function fetchPositionData(positionId: number): Promise<{
   token0: string;
   token1: string;
 }> {
-  const url = `https://starknet-mainnet-api.ekubo.org/${positionId}`;
+  const url = `${EKUBO_API_URL}/${positionId}`;
 
   const response = await fetch(url, {
     method: 'GET',
