@@ -1,15 +1,16 @@
 import { RpcProvider } from 'starknet';
+import { toolResult } from '@kasarlabs/ask-starknet-core';
 
 export const getBlockWithTxs = async (
   provider: RpcProvider,
   params: { blockId: string }
-) => {
+): Promise<toolResult> => {
   try {
     const blockWithTxs = await provider.getBlockWithTxs(params.blockId);
 
     return {
       status: 'success',
-      blockWithTxs: blockWithTxs as any,
+      data: { blockWithTxs: blockWithTxs as any },
     };
   } catch (error) {
     return {

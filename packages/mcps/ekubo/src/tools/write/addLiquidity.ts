@@ -3,12 +3,12 @@ import { getContract } from '../../lib/utils/contracts.js';
 import { AddLiquiditySchema } from '../../schemas/index.js';
 import { preparePoolKeyFromParams } from '../../lib/utils/pools.js';
 import { buildBounds } from '../../lib/utils/liquidity.js';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 
 export const addLiquidity = async (
   env: onchainWrite,
   params: AddLiquiditySchema
-) => {
+): Promise<toolResult> => {
   // Tool under maintenance - pool initialization required
   return {
     status: 'failure',

@@ -1,9 +1,10 @@
 import { RpcProvider } from 'starknet';
+import { toolResult } from '@kasarlabs/ask-starknet-core';
 
 export const getClassHash = async (
   provider: RpcProvider,
   params: { contractAddress: string; blockId?: string }
-) => {
+): Promise<toolResult> => {
   try {
     const classHash = await provider.getClassHashAt(
       params.contractAddress,
@@ -12,7 +13,7 @@ export const getClassHash = async (
 
     return {
       status: 'success',
-      classHash,
+      data: { classHash },
     };
   } catch (error) {
     return {

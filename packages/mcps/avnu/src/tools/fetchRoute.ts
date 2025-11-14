@@ -1,5 +1,9 @@
 import { fetchQuotes, QuoteRequest } from '@avnu/avnu-sdk';
-import { onchainRead, onchainWrite } from '@kasarlabs/ask-starknet-core';
+import {
+  onchainRead,
+  onchainWrite,
+  toolResult,
+} from '@kasarlabs/ask-starknet-core';
 import { TokenService } from './fetchTokens.js';
 import { RouteSchemaType } from '../schemas/index.js';
 import { RouteResult } from '../interfaces/index.js';
@@ -96,7 +100,10 @@ export class RouteFetchService {
  * @param {string} accountAddress - The account address
  * @returns {Promise<RouteResult>} The route fetch result
  */
-export const getRoute = async (env: onchainWrite, params: RouteSchemaType) => {
+export const getRoute = async (
+  env: onchainWrite,
+  params: RouteSchemaType
+): Promise<toolResult> => {
   try {
     const routeService = new RouteFetchService();
     const result = await routeService.fetchRoute(
@@ -104,9 +111,13 @@ export const getRoute = async (env: onchainWrite, params: RouteSchemaType) => {
       env,
       env.account.address
     );
-    return JSON.stringify(result, (_, value) =>
+    const res = JSON.stringify(result, (_, value) =>
       typeof value === 'bigint' ? value.toString() : value
     );
+    return {
+      status: 'success',
+      data: { res },
+    };
   } catch (error) {
     return {
       status: 'failure',

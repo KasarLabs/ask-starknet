@@ -1,6 +1,7 @@
 import { ExtendedApiEnv, ExtendedApiResponse } from '../../lib/types/index.js';
 import { apiGet } from '../../lib/utils/api.js';
 import { GetMarketTradesSchema } from '../../schemas/index.js';
+import { toolResult } from '@kasarlabs/ask-starknet-core';
 
 export interface MarketTrade {
   i: number;

@@ -2,7 +2,7 @@ import { LaunchOnEkuboParams } from '../schemas/index.js';
 import { FACTORY_ABI } from '../lib/abis/unruggableFactory.js';
 import { FACTORY_ADDRESS } from '../lib/constants/index.js';
 import { Contract } from 'starknet';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 
 /**
  * Launches a memecoin on the Ekubo DEX with concentrated liquidity.
@@ -60,7 +60,7 @@ import { onchainWrite } from '@kasarlabs/ask-starknet-core';
 export const launchOnEkubo = async (
   env: onchainWrite,
   params: LaunchOnEkuboParams
-) => {
+): Promise<toolResult> => {
   try {
     const provider = env.provider;
 
@@ -95,12 +95,12 @@ export const launchOnEkubo = async (
 
     return {
       status: 'success',
-      response,
+      data: { response },
     };
   } catch (error) {
     console.error('Error launching on Ekubo:', error);
     return {
-      status: 'failed',
+      status: 'failure',
       error: error.message,
     };
   }

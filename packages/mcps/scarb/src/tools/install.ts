@@ -3,6 +3,7 @@ import { getScarbVersion, checkScarbInstalled } from '../lib/utils/index.js';
 import { installScarbSchema } from '../schemas/index.js';
 import { exec } from 'child_process';
 import { promisify } from 'util';
+import { toolResult } from '@kasarlabs/ask-starknet-core';
 
 const execAsync = promisify(exec);
 
@@ -15,24 +16,28 @@ const execAsync = promisify(exec);
  */
 export const installScarb = async (
   params: z.infer<typeof installScarbSchema>
-) => {
+): Promise<toolResult> => {
   try {
     // Check if Scarb is already installed
     const currentVersion = await getScarbVersion();
     if (currentVersion !== 'unknown') {
       // If a specific version is requested, check if it matches
       if (params.version && currentVersion.includes(params.version)) {
-        return JSON.stringify({
+        return {
           status: 'success',
-          message: `Scarb version ${params.version} is already installed`,
-          currentVersion: currentVersion,
-        });
+          data: {
+            message: `Scarb version ${params.version} is already installed`,
+            currentVersion: currentVersion,
+          },
+        };
       } else if (!params.version) {
-        return JSON.stringify({
+        return {
           status: 'success',
-          message: `Scarb is already installed (version: ${currentVersion})`,
-          currentVersion: currentVersion,
-        });
+          data: {
+            message: `Scarb is already installed (version: ${currentVersion})`,
+            currentVersion: currentVersion,
+          },
+        };
       }
       // If different version requested, continue with installation
     }
@@ -60,19 +65,20 @@ export const installScarb = async (
 
     return {
       status: 'success',
-      message: params.version
-        ? `Scarb version ${params.version} installed successfully`
-        : 'Scarb installed successfully (latest version)',
-      requestedVersion: params.version || 'latest',
-      installedVersion: installedVersion,
-      output: stdout,
-      errors: stderr || undefined,
+      data: {
+        message: params.version
+          ? `Scarb version ${params.version} installed successfully`
+          : 'Scarb installed successfully (latest version)',
+        requestedVersion: params.version || 'latest',
+        installedVersion: installedVersion,
+        output: stdout,
+        errors: stderr || undefined,
+      },
     };
   } catch (error) {
     return {
       status: 'failure',
       error: error instanceof Error ? error.message : 'Unknown error',
-      message: `Failed to install Scarb${params.version ? ` version ${params.version}` : ''}`,
     };
   }
 };

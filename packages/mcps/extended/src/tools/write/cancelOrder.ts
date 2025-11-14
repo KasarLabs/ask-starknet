@@ -1,6 +1,7 @@
 import { ExtendedApiEnv, ExtendedApiResponse } from '../../lib/types/index.js';
 import { apiDelete } from '../../lib/utils/api.js';
 import { CancelOrderSchema } from '../../schemas/index.js';
+import { toolResult } from '@kasarlabs/ask-starknet-core';
 
 interface CancelOrderResponse {
   success: boolean;
@@ -10,7 +11,7 @@ interface CancelOrderResponse {
 export const cancelOrder = async (
   env: ExtendedApiEnv,
   params: CancelOrderSchema
-): Promise<ExtendedApiResponse<CancelOrderResponse>> => {
+): Promise<toolResult> => {
   try {
     if (!env.privateKey) {
       throw new Error('EXTENDED_PRIVATE_KEY is required for order creation');

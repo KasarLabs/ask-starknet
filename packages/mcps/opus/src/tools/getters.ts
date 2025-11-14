@@ -1,11 +1,11 @@
 import { GetTroveHealthParams, GetUserTrovesParams } from '../schemas/index.js';
 import { createTroveManager } from '../lib/utils/troveManager.js';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 
 export const getUserTroves = async (
   env: onchainWrite,
   params: GetUserTrovesParams
-) => {
+): Promise<toolResult> => {
   const accountAddress = env.account?.address;
 
   try {
@@ -17,7 +17,7 @@ export const getUserTroves = async (
     };
   } catch (error) {
     return {
-      status: 'error',
+      status: 'failure',
       error: error instanceof Error ? error.message : 'Unknown error',
     };
   }
@@ -26,7 +26,7 @@ export const getUserTroves = async (
 export const getTroveHealth = async (
   env: onchainWrite,
   params: GetTroveHealthParams
-) => {
+): Promise<toolResult> => {
   const accountAddress = env.account?.address;
 
   try {
@@ -38,13 +38,13 @@ export const getTroveHealth = async (
     };
   } catch (error) {
     return {
-      status: 'error',
+      status: 'failure',
       error: error instanceof Error ? error.message : 'Unknown error',
     };
   }
 };
 
-export const getBorrowFee = async (env: onchainWrite) => {
+export const getBorrowFee = async (env: onchainWrite): Promise<toolResult> => {
   const accountAddress = env.account?.address;
 
   try {
@@ -56,7 +56,7 @@ export const getBorrowFee = async (env: onchainWrite) => {
     };
   } catch (error) {
     return {
-      status: 'error',
+      status: 'failure',
       error: error instanceof Error ? error.message : 'Unknown error',
     };
   }

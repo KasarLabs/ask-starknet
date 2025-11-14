@@ -1,4 +1,4 @@
-import { onchainRead } from '@kasarlabs/ask-starknet-core';
+import { onchainRead, toolResult } from '@kasarlabs/ask-starknet-core';
 import { PoolKey } from '../../schemas/index.js';
 import { getContract } from '../../lib/utils/contracts.js';
 import { preparePoolKeyFromParams } from '../../lib/utils/pools.js';
@@ -6,7 +6,7 @@ import { preparePoolKeyFromParams } from '../../lib/utils/pools.js';
 export const getPoolFeesPerLiquidity = async (
   env: onchainRead,
   params: PoolKey
-) => {
+): Promise<toolResult> => {
   const provider = env.provider;
   try {
     const contract = await getContract(provider, 'core');

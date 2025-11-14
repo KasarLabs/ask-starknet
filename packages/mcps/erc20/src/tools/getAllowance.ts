@@ -1,5 +1,9 @@
 import { RpcProvider, validateAndParseAddress } from 'starknet';
-import { onchainRead, onchainWrite } from '@kasarlabs/ask-starknet-core';
+import {
+  onchainRead,
+  onchainWrite,
+  toolResult,
+} from '@kasarlabs/ask-starknet-core';
 import {
   formatBalance,
   validateToken,
@@ -94,7 +98,7 @@ async function readAllowanceRaw(
 export const getAllowance = async (
   env: onchainRead,
   params: z.infer<typeof getAllowanceSchema>
-) => {
+): Promise<toolResult> => {
   try {
     const provider = env.provider;
     const token = await validateToken(
@@ -113,9 +117,11 @@ export const getAllowance = async (
 
     return {
       status: 'success',
-      owner: params.ownerAddress,
-      spender: params.spenderAddress,
-      allowance: formatted,
+      data: {
+        owner: params.ownerAddress,
+        spender: params.spenderAddress,
+        allowance: formatted,
+      },
     };
   } catch (error) {
     return {
@@ -146,7 +152,7 @@ export const getAllowance = async (
 export const getMyGivenAllowance = async (
   env: onchainWrite,
   params: z.infer<typeof getMyGivenAllowanceSchema>
-) => {
+): Promise<toolResult> => {
   try {
     const provider = env.provider;
     const owner = env.account.address;
@@ -168,9 +174,11 @@ export const getMyGivenAllowance = async (
 
     return {
       status: 'success',
-      owner,
-      spender: params.spenderAddress,
-      allowance: formatted,
+      data: {
+        owner: owner,
+        spender: params.spenderAddress,
+        allowance: formatted,
+      },
     };
   } catch (error) {
     return {
@@ -201,7 +209,7 @@ export const getMyGivenAllowance = async (
 export const getAllowanceGivenToMe = async (
   env: onchainWrite,
   params: z.infer<typeof getAllowanceGivenToMeSchema>
-) => {
+): Promise<toolResult> => {
   try {
     const provider = env.provider;
     const spender = env.account.address;
@@ -223,9 +231,11 @@ export const getAllowanceGivenToMe = async (
 
     return {
       status: 'success',
-      owner: params.ownerAddress,
-      spender,
-      allowance: formatted,
+      data: {
+        owner: params.ownerAddress,
+        spender,
+        allowance: formatted,
+      },
     };
   } catch (error) {
     return {

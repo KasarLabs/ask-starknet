@@ -1,5 +1,5 @@
 import { RpcProvider } from 'starknet';
-import { onchainRead } from '@kasarlabs/ask-starknet-core';
+import { onchainRead, toolResult } from '@kasarlabs/ask-starknet-core';
 import {
   validateToken,
   formatBalance,
@@ -90,7 +90,7 @@ export async function callTotalSupplyRaw(
 export const getTotalSupply = async (
   env: onchainRead,
   params: z.infer<typeof getTotalSupplySchema>
-) => {
+): Promise<toolResult> => {
   try {
     const provider = env.provider;
 
@@ -106,7 +106,9 @@ export const getTotalSupply = async (
 
     return {
       status: 'success',
-      totalSupply: formattedSupply,
+      data: {
+        totalSupply: formattedSupply,
+      },
     };
   } catch (error) {
     return {

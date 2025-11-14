@@ -1,11 +1,11 @@
 import { RepayTroveParams } from '../schemas/index.js';
 import { createTroveManager } from '../lib/utils/troveManager.js';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 
 export const repayTrove = async (
   env: onchainWrite,
   params: RepayTroveParams
-) => {
+): Promise<toolResult> => {
   const accountAddress = env.account?.address;
 
   try {
@@ -17,7 +17,7 @@ export const repayTrove = async (
     };
   } catch (error) {
     return {
-      status: 'error',
+      status: 'failure',
       error: error instanceof Error ? error.message : 'Unknown error',
     };
   }

@@ -5,13 +5,13 @@ import {
   getUnderlyingTokenName,
 } from '../../lib/utils/contracts.js';
 import { GetTotalStakedSchema } from '../../schemas/index.js';
-import { onchainRead } from '@kasarlabs/ask-starknet-core';
+import { onchainRead, toolResult } from '@kasarlabs/ask-starknet-core';
 import { formatUnits } from '../../lib/utils/formatting.js';
 
 export const getTotalStaked = async (
   env: onchainRead,
   params: GetTotalStakedSchema
-) => {
+): Promise<toolResult> => {
   try {
     const liquidTokenContract = getLiquidTokenContract(
       env.provider,

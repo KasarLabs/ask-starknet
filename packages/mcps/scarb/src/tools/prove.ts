@@ -9,6 +9,7 @@ import { proveProject } from '../lib/utils/workspace.js';
 import { exec } from 'child_process';
 import { promisify } from 'util';
 import * as path from 'path';
+import { toolResult } from '@kasarlabs/ask-starknet-core';
 
 const execPromise = promisify(exec);
 
@@ -19,7 +20,7 @@ const execPromise = promisify(exec);
  */
 export const proveProgram = async (
   params: z.infer<typeof proveProgramSchema>
-) => {
+): Promise<toolResult> => {
   let projectDir = '';
 
   try {
@@ -34,20 +35,18 @@ export const proveProgram = async (
 
     return {
       status: 'success',
-      message: 'Program proved successfully',
-      proofPath: fullPath,
-      result: result,
-      projectPath: projectDir,
+      data: {
+        message: 'Program proved successfully',
+        proofPath: fullPath,
+        result: result,
+        projectPath: projectDir,
+      },
     };
   } catch (error) {
     const errors = formatCompilationError(error);
     return {
       status: 'failure',
-      errors: errors,
-      metadata: {
-        error_type: 'proving_error',
-        needs_exact_forwarding: true,
-      },
+      error: typeof errors === 'string' ? errors : JSON.stringify(errors),
     };
   } finally {
     if (projectDir) {

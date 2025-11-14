@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { getOnchainWrite } from '@kasarlabs/ask-starknet-core';
+import { getOnchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 import { declareContractSchema } from '../schemas/index.js';
 import {
   validateFilePaths,
@@ -14,7 +14,7 @@ import {
  */
 export const declareContract = async (
   params: z.infer<typeof declareContractSchema>
-) => {
+): Promise<toolResult> => {
   try {
     // Validate file paths exist
     await validateFilePaths(params.sierraFilePath, params.casmFilePath);
@@ -42,20 +42,19 @@ export const declareContract = async (
 
     return {
       status: 'success',
-      transactionHash: declareResponse.transaction_hash || '',
-      classHash: declareResponse.class_hash || calculatedClassHash,
-      sierraFilePath: params.sierraFilePath,
-      casmFilePath: params.casmFilePath,
-      message: 'Contract declared successfully',
+      data: {
+        transactionHash: declareResponse.transaction_hash || '',
+        classHash: declareResponse.class_hash || calculatedClassHash,
+        sierraFilePath: params.sierraFilePath,
+        casmFilePath: params.casmFilePath,
+        message: 'Contract declared successfully',
+      },
     };
   } catch (error) {
     const errorMessage = formatContractError(error);
     return {
       status: 'failure',
-      error: errorMessage,
-      step: 'contract declaration',
-      sierraFilePath: params.sierraFilePath,
-      casmFilePath: params.casmFilePath,
+      error: `${errorMessage} (step: contract declaration)`,
     };
   }
 };

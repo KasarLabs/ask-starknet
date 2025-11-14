@@ -1,5 +1,9 @@
 import { RpcProvider, validateAndParseAddress } from 'starknet';
-import { onchainRead, onchainWrite } from '@kasarlabs/ask-starknet-core';
+import {
+  onchainRead,
+  onchainWrite,
+  toolResult,
+} from '@kasarlabs/ask-starknet-core';
 import {
   formatBalance,
   validateToken,
@@ -92,7 +96,7 @@ async function getBalanceRaw(
 export const getOwnBalance = async (
   env: onchainWrite,
   params: z.infer<typeof getOwnBalanceSchema>
-) => {
+): Promise<toolResult> => {
   try {
     const provider = env.provider;
     const account = env.account;
@@ -114,7 +118,9 @@ export const getOwnBalance = async (
 
     return {
       status: 'success',
-      balance: formattedBalance,
+      data: {
+        balance: formattedBalance,
+      },
     };
   } catch (error) {
     return {
@@ -144,7 +150,7 @@ export const getOwnBalance = async (
 export const getBalance = async (
   env: onchainRead,
   params: z.infer<typeof getBalanceSchema>
-) => {
+): Promise<toolResult> => {
   try {
     if (!params?.accountAddress) {
       throw new Error('Account address is required');
@@ -166,7 +172,9 @@ export const getBalance = async (
 
     return {
       status: 'success',
-      balance: formattedBalance,
+      data: {
+        balance: formattedBalance,
+      },
     };
   } catch (error) {
     return {

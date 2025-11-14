@@ -1,6 +1,7 @@
 import { ExtendedApiEnv, ExtendedApiResponse } from '../../lib/types/index.js';
 import { apiPatch } from '../../lib/utils/api.js';
 import { UpdateLeverageSchema } from '../../schemas/index.js';
+import { toolResult } from '@kasarlabs/ask-starknet-core';
 
 interface UpdateLeverageResponse {
   success: boolean;
@@ -10,7 +11,7 @@ interface UpdateLeverageResponse {
 export const updateLeverage = async (
   env: ExtendedApiEnv,
   params: UpdateLeverageSchema
-): Promise<ExtendedApiResponse<UpdateLeverageResponse>> => {
+): Promise<toolResult> => {
   try {
     if (!env.privateKey) {
       throw new Error('EXTENDED_PRIVATE_KEY is required for order creation');

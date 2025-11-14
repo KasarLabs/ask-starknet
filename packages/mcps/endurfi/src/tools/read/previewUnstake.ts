@@ -5,13 +5,13 @@ import {
   getUnderlyingTokenName,
 } from '../../lib/utils/contracts.js';
 import { PreviewUnstakeSchema } from '../../schemas/index.js';
-import { onchainRead } from '@kasarlabs/ask-starknet-core';
+import { onchainRead, toolResult } from '@kasarlabs/ask-starknet-core';
 import { formatUnits } from '../../lib/utils/formatting.js';
 
 export const previewUnstake = async (
   env: onchainRead,
   params: PreviewUnstakeSchema
-) => {
+): Promise<toolResult> => {
   try {
     const liquidTokenContract = getLiquidTokenContract(
       env.provider,

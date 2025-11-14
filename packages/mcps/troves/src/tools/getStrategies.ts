@@ -11,10 +11,14 @@ export async function getStrategies(): Promise<any> {
     }
 
     const data = await response.json();
-    return data;
+    return {
+      status: 'success',
+      data,
+    };
   } catch (error) {
-    throw new Error(
-      `Error fetching strategies: ${error instanceof Error ? error.message : String(error)}`
-    );
+    return {
+      status: 'failure',
+      error: error instanceof Error ? error.message : String(error),
+    };
   }
 }

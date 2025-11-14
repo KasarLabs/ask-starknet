@@ -5,13 +5,13 @@ import {
   getUnderlyingTokenName,
 } from '../../lib/utils/contracts.js';
 import { GetWithdrawRequestInfoSchema } from '../../schemas/index.js';
-import { onchainRead } from '@kasarlabs/ask-starknet-core';
+import { onchainRead, toolResult } from '@kasarlabs/ask-starknet-core';
 import { formatUnits } from '../../lib/utils/formatting.js';
 
 export const getWithdrawRequestInfo = async (
   env: onchainRead,
   params: GetWithdrawRequestInfoSchema
-) => {
+): Promise<toolResult> => {
   try {
     const withdrawQueueContract = getWithdrawQueueNFTContract(
       env.provider,

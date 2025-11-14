@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { getOnchainWrite } from '@kasarlabs/ask-starknet-core';
+import { getOnchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 import { deployContractSchema } from '../schemas/index.js';
 import {
   validateFilePaths,
@@ -13,7 +13,7 @@ import {
  */
 export const deployContract = async (
   params: z.infer<typeof deployContractSchema>
-) => {
+): Promise<toolResult> => {
   try {
     // Validate file paths exist
     // await validateFilePaths(params.sierraFilePath, params.casmFilePath);
@@ -36,24 +36,21 @@ export const deployContract = async (
 
     return {
       status: 'success',
-      transactionHash: deployResponse.transaction_hash,
-      contractAddress: deployResponse.contract_address,
-      classHash: params.classHash,
-      constructorArgs: params.constructorArgs || [],
-      sierraFilePath: params.sierraFilePath,
-      casmFilePath: params.casmFilePath,
-      message: 'Contract deployed successfully',
+      data: {
+        transactionHash: deployResponse.transaction_hash,
+        contractAddress: deployResponse.contract_address,
+        classHash: params.classHash,
+        constructorArgs: params.constructorArgs || [],
+        sierraFilePath: params.sierraFilePath,
+        casmFilePath: params.casmFilePath,
+        message: 'Contract deployed successfully',
+      },
     };
   } catch (error) {
     const errorMessage = formatContractError(error);
     return {
       status: 'failure',
-      error: errorMessage,
-      step: 'contract deployment',
-      classHash: params.classHash,
-      constructorArgs: params.constructorArgs || [],
-      sierraFilePath: params.sierraFilePath,
-      casmFilePath: params.casmFilePath,
+      error: `${errorMessage} (step: contract deployment, classHash: ${params.classHash})`,
     };
   }
 };

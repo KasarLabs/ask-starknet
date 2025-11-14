@@ -11,7 +11,7 @@ import {
   DEPLOY_ERC721_ABI_MAINNET,
 } from '../../lib/abis/deploy.js';
 import { z } from 'zod';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 
 /**
  * Deploys an ERC721 contract.
@@ -22,7 +22,7 @@ import { onchainWrite } from '@kasarlabs/ask-starknet-core';
 export const deployERC721Contract = async (
   env: onchainWrite,
   params: z.infer<typeof deployERC721Schema>
-) => {
+): Promise<toolResult> => {
   try {
     const provider = env.provider;
     const account = env.account;
@@ -53,8 +53,10 @@ export const deployERC721Contract = async (
 
     return {
       status: 'success',
-      transactionHash: response.transactionHash,
-      contractAddress: response.contractAddress,
+      data: {
+        transactionHash: response.transactionHash,
+        contractAddress: response.contractAddress,
+      },
     };
   } catch (error) {
     return {

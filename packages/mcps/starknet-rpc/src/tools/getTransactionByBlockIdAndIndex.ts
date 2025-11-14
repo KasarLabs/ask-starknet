@@ -1,9 +1,10 @@
 import { RpcProvider } from 'starknet';
+import { toolResult } from '@kasarlabs/ask-starknet-core';
 
 export const getTransactionByBlockIdAndIndex = async (
   provider: RpcProvider,
   params: { blockId: string; index: number }
-) => {
+): Promise<toolResult> => {
   try {
     const transaction = await provider.getTransactionByBlockIdAndIndex(
       params.blockId,
@@ -12,7 +13,7 @@ export const getTransactionByBlockIdAndIndex = async (
 
     return {
       status: 'success',
-      transaction: transaction as any,
+      data: { transaction: transaction as any },
     };
   } catch (error) {
     return {

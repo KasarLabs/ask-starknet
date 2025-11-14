@@ -22,7 +22,7 @@ import {
   getExtensionContract,
   getVTokenContract,
 } from '../lib/utils/contracts.js';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 
 /**
  * Service for managing withdrawal operations from earning positions
@@ -167,10 +167,7 @@ export class WithdrawEarnService {
    * @param {onchainWrite | onchainRead} env - The onchain environment
    * @returns {Promise<WithdrawResult>} Result of the withdrawal operation
    */
-  async withdrawEarnTransaction(
-    params: WithdrawParams,
-    env: onchainWrite
-  ): Promise<WithdrawResult> {
+  async withdrawEarnTransaction(params: WithdrawParams, env: onchainWrite) {
     try {
       const account = new Account(
         this.env.provider,
@@ -224,14 +221,14 @@ export class WithdrawEarnService {
       // logger.info('approval initiated. Transaction hash:', tx.transaction_hash);
       await provider.waitForTransaction(tx.transaction_hash);
 
-      const transferResult: WithdrawResult = {
+      return {
         status: 'success',
-        symbol: params.withdrawTokenSymbol,
-        recipients_address: account.address,
-        transaction_hash: tx.transaction_hash,
+        data: {
+          symbol: params.withdrawTokenSymbol,
+          recipients_address: account.address,
+          transaction_hash: tx.transaction_hash,
+        },
       };
-
-      return transferResult;
     } catch (error) {
       console.error('Detailed deposit error:', error);
       if (error instanceof Error) {
@@ -274,19 +271,16 @@ export const withdrawService = (
 export const withdrawEarnPosition = async (
   env: onchainWrite,
   params: WithdrawParams
-) => {
+): Promise<toolResult> => {
   const accountAddress = env.account?.address;
   try {
     const withdrawEarn = withdrawService(env, accountAddress);
     const result = await withdrawEarn.withdrawEarnTransaction(params, env);
-    return result;
+    return {
+      status: 'success',
+      data: result,
+    };
   } catch (error) {
-    // console.error('Detailed withdraw error:', error);
-    if (error instanceof Error) {
-      // console.error('Error type:', error.constructor.name);
-      // console.error('Error message:', error.message);
-      // console.error('Error stack:', error.stack);
-    }
     return {
       status: 'failure',
       error: error instanceof Error ? error.message : 'Unknown error',

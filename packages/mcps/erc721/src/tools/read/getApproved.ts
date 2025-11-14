@@ -5,7 +5,7 @@ import { validateAndFormatTokenId } from '../../lib/utils/utils.js';
 import { z } from 'zod';
 import { getApprovedSchema } from '../../schemas/index.js';
 import { validateAndParseAddress } from 'starknet';
-import { onchainRead } from '@kasarlabs/ask-starknet-core';
+import { onchainRead, toolResult } from '@kasarlabs/ask-starknet-core';
 
 /**
  * Get the address that has been approved to transfer the token.
@@ -16,7 +16,7 @@ import { onchainRead } from '@kasarlabs/ask-starknet-core';
 export const getApproved = async (
   env: onchainRead,
   params: z.infer<typeof getApprovedSchema>
-) => {
+): Promise<toolResult> => {
   try {
     if (!params?.tokenId || !params?.contractAddress) {
       throw new Error('Both token ID and contract address are required');
@@ -37,7 +37,7 @@ export const getApproved = async (
 
     return {
       status: 'success',
-      approved: approvedResponse.toString(),
+      data: { approved: approvedResponse.toString() },
     };
   } catch (error) {
     return {

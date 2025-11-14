@@ -1,5 +1,5 @@
 import { Account, shortString, cairo } from 'starknet';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 import { ContractManager } from '../lib/utils/contractManager.js';
 import { deployERC20Schema } from '../schemas/index.js';
 import {
@@ -22,7 +22,7 @@ import { z } from 'zod';
 export const deployERC20Contract = async (
   env: onchainWrite,
   params: z.infer<typeof deployERC20Schema>
-) => {
+): Promise<toolResult> => {
   try {
     const provider = env.provider;
     const account = env.account;
@@ -48,8 +48,10 @@ export const deployERC20Contract = async (
 
     return {
       status: 'success',
-      transactionHash: response.transactionHash,
-      contractAddress: response.contractAddress,
+      data: {
+        transactionHash: response.transactionHash,
+        contractAddress: response.contractAddress,
+      },
     };
   } catch (error) {
     return {

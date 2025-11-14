@@ -1,5 +1,5 @@
 import { RpcProvider } from 'starknet';
-import { onchainRead } from '@kasarlabs/ask-starknet-core';
+import { onchainRead, toolResult } from '@kasarlabs/ask-starknet-core';
 import { AccountManager } from '../lib/utils/AccountManager.js';
 import { z } from 'zod';
 import { accountDetailsSchema } from '../schemas/index.js';
@@ -21,7 +21,7 @@ import {
 export const DeployBraavosAccount = async (
   env: onchainRead,
   params: z.infer<typeof accountDetailsSchema>
-) => {
+): Promise<toolResult> => {
   try {
     const provider = env.provider;
 
@@ -36,9 +36,11 @@ export const DeployBraavosAccount = async (
 
     return {
       status: 'success',
-      wallet: 'Braavos',
-      transaction_hash: tx.transactionHash,
-      contract_address: tx.contractAddress,
+      data: {
+        wallet: 'Braavos',
+        transaction_hash: tx.transactionHash,
+        contract_address: tx.contractAddress,
+      },
     };
   } catch (error) {
     return {
@@ -58,7 +60,7 @@ export const DeployBraavosAccount = async (
  */
 export const DeployBraavosAccountSignature = async (
   params: z.infer<typeof accountDetailsSchema>
-) => {
+): Promise<toolResult> => {
   try {
     const provider = new RpcProvider({ nodeUrl: process.env.STARKNET_RPC_URL });
 
@@ -73,9 +75,11 @@ export const DeployBraavosAccountSignature = async (
 
     return {
       status: 'success',
-      wallet: 'Braavos',
-      transaction_hash: tx.transactionHash,
-      contract_address: tx.contractAddress,
+      data: {
+        wallet: 'Braavos',
+        transaction_hash: tx.transactionHash,
+        contract_address: tx.contractAddress,
+      },
     };
   } catch (error) {
     return {

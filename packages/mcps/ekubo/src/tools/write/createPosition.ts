@@ -8,12 +8,12 @@ import { preparePoolKeyFromParams } from '../../lib/utils/pools.js';
 import { buildBounds } from '../../lib/utils/liquidity.js';
 import { extractPositionIdFromReceipt } from '../../lib/utils/events.js';
 import { CreatePositionSchema } from '../../schemas/index.js';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 
 export const createPosition = async (
   env: onchainWrite,
   params: CreatePositionSchema
-) => {
+): Promise<toolResult> => {
   // Tool under maintenance - pool initialization required
   return {
     status: 'failure',

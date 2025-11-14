@@ -1,11 +1,12 @@
 import { RpcProvider } from 'starknet';
 import { blockIdSchema } from '../schemas/index.js';
 import { z } from 'zod';
+import { toolResult } from '@kasarlabs/ask-starknet-core';
 
 export const getBlockWithTxHashes = async (
   provider: RpcProvider,
   params: z.infer<typeof blockIdSchema>
-) => {
+): Promise<toolResult> => {
   try {
     const blockWithTxHashes = await provider.getBlockWithTxHashes(
       params.blockId
@@ -13,7 +14,7 @@ export const getBlockWithTxHashes = async (
 
     return {
       status: 'success',
-      blockWithTxHashes: blockWithTxHashes as any,
+      data: { blockWithTxHashes: blockWithTxHashes as any },
     };
   } catch (error) {
     return {
