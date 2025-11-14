@@ -16,25 +16,8 @@ import {
 import { onchainWrite } from '@kasarlabs/ask-starknet-core';
 
 /**
- * Executes a token swap on Ekubo DEX
- *
- * Supports two swap modes:
- * 1. Exact Input (is_amount_in=true): User specifies exact input amount, receives variable output
- *    - Slippage protection: Applied to output amount (minimum output = quote output * (1 - slippage))
- *
- * 2. Exact Output (is_amount_in=false): User specifies exact output desired, pays variable input
- *    - Slippage protection: Applied via sqrtRatioLimit to prevent excessive input cost
- *    - Minimum output = desired output (no reduction) since user wants exactly that amount
- *
- * Sign handling in Ekubo quotes:
- * - Positive amounts (sign=false): Tokens being spent (inputs)
- * - Negative amounts (sign=true): Tokens being received (outputs)
- *
- * Transaction flow:
- * 1. Transfer input tokens to router
- * 2. Execute swap with specified route and amount
- * 3. Clear output tokens with minimum check (ensures minimum output is received)
- * 4. Clear remaining tokens back to sender
+ * Executes a token swap on Ekubo DEX with slippage protection.
+ * Supports exact input (is_amount_in=true) and exact output (is_amount_in=false) modes.
  */
 export const swap = async (env: onchainWrite, params: SwapTokensSchema) => {
   try {
