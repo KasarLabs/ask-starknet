@@ -16,6 +16,7 @@ import {
 } from '@langchain/core/messages';
 import { getAllMcpInfo } from './graph/mcps/utilities.js';
 import { MCPServerInfo } from './graph/mcps/interfaces.js';
+import { extractBaseSchema } from '@kasarlabs/ask-starknet-core';
 
 const performStarknetActionsSchema = z.object({
   userInput: z.string().describe('The actions that the user want to do'),
@@ -112,10 +113,11 @@ export const RegisterToolInServer = async (env: envInput) => {
         };
       });
     } else {
+      const baseSchema = extractBaseSchema(tool.schema);
       server.tool(
         tool.name,
         tool.description,
-        tool.schema.shape,
+        baseSchema.shape,
         async (input: any, extra: any) => {
           const result = await tool.execute(env, input);
           return {
