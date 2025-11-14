@@ -7,7 +7,7 @@ import { Account, RpcProvider, constants } from 'starknet';
  * @param schema - The Zod schema (can be ZodObject or ZodEffects)
  * @returns The base ZodObject schema
  */
-export const extractBaseSchema = (schema: z.ZodTypeAny): z.ZodObject<any> => {
+const extractBaseSchema = (schema: z.ZodTypeAny): z.ZodObject<any> => {
   // If it's already a ZodObject, return it
   if (schema instanceof z.ZodObject) {
     return schema;

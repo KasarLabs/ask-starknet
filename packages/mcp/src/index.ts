@@ -16,7 +16,30 @@ import {
 } from '@langchain/core/messages';
 import { getAllMcpInfo } from './graph/mcps/utilities.js';
 import { MCPServerInfo } from './graph/mcps/interfaces.js';
-import { extractBaseSchema } from '@kasarlabs/ask-starknet-core';
+
+/**
+ * Extract the base ZodObject schema from a ZodTypeAny, unwrapping ZodEffects if necessary
+ * @param schema - The Zod schema (can be ZodObject or ZodEffects)
+ * @returns The base ZodObject schema
+ */
+const extractBaseSchema = (schema: z.ZodTypeAny): z.ZodObject<any> => {
+  // If it's already a ZodObject, return it
+  if (schema instanceof z.ZodObject) {
+    return schema;
+  }
+
+  // If it's a ZodEffects, unwrap it recursively
+  if (schema instanceof z.ZodEffects) {
+    return extractBaseSchema((schema as any)._def.schema);
+  }
+
+  // Fallback: try to access shape directly (for other Zod types)
+  if ('shape' in schema) {
+    return schema as z.ZodObject<any>;
+  }
+
+  throw new Error('Unable to extract base schema from provided Zod schema');
+};
 
 const performStarknetActionsSchema = z.object({
   userInput: z.string().describe('The actions that the user want to do'),
@@ -91,7 +114,7 @@ export const registerTools = (snaknetToolRegistry: SnaknetTool[]) => {
   });
 };
 
-const server = new McpServer({
+const server: any = new McpServer({
   name: 'ask-starknet-mcp',
   version: packageJson.version,
 });
