@@ -1,29 +1,10 @@
-import {
-  validateAndParseAddress,
-  num,
-  RPC,
-  Contract,
-  Provider,
-  shortString,
-  cairo,
-} from 'starknet';
-import { tokenAddresses } from '../constants/constant.js';
+import { validateAndParseAddress, Contract, Provider, cairo } from 'starknet';
 import { ParamsValidationResult, ExecuteV3Args } from '../types/types.js';
 import { DECIMALS } from '../types/types.js';
 import { OLD_ERC20_ABI } from '../abis/old.js';
 import { NEW_ERC20_ABI_MAINNET } from '../abis/new.js';
 import { validToken } from '../types/types.js';
-
-/**
- * Returns the number of decimals for a token
- * @param symbol - Token symbol
- * @returns Number of decimals
- */
-export const getTokenDecimals = (symbol: string): number => {
-  const stablecoinSymbols = ['USDC', 'USDT'];
-  const decimals = stablecoinSymbols.includes(symbol.toUpperCase()) ? 6 : 18;
-  return decimals;
-};
+import { tokenAddresses } from '../constants/constant.js';
 
 /**
  * Formats a balance string to the correct decimal places
@@ -60,22 +41,6 @@ export const formatBalance = (
   } catch (error) {
     return '0';
   }
-};
-
-/**
- * Validates and formats an address
- * @param address - Starknet address
- * @returns Formatted address
- * @throws Error if validation fails
- */
-export const validateTokenAddress = (symbol: string): string => {
-  const tokenAddress = tokenAddresses[symbol];
-  if (!tokenAddress) {
-    throw new Error(
-      `Token ${symbol} not supported. Available tokens: ${Object.keys(tokenAddresses).join(', ')}`
-    );
-  }
-  return tokenAddress;
 };
 
 /**
@@ -125,33 +90,6 @@ export const validateAndFormatParams = (
 };
 
 /**
- * Creates a V3 transaction details payload with predefined gas parameters
- * @returns {Object} V3 transaction details payload with gas parameters
- */
-export const getV3DetailsPayload = () => {
-  const maxL1Gas = 2000n;
-  const maxL1GasPrice = 100000n * 10n ** 9n;
-
-  return {
-    version: 3,
-    maxFee: 10n ** 16n,
-    feeDataAvailabilityMode: RPC.EDataAvailabilityMode.L1,
-    tip: 10n ** 14n,
-    paymasterData: [],
-    resourceBounds: {
-      l1_gas: {
-        max_amount: num.toHex(maxL1Gas),
-        max_price_per_unit: num.toHex(maxL1GasPrice),
-      },
-      l2_gas: {
-        max_amount: num.toHex(0n),
-        max_price_per_unit: num.toHex(0n),
-      },
-    },
-  };
-};
-
-/**
  * Executes a V3 transaction with preconfigured gas parameters
  * @param {ExecuteV3Args} args - Contains call and account
  * @returns {Promise<string>} Transaction hash
@@ -172,68 +110,60 @@ export const executeV3Transaction = async ({
 };
 
 /**
- * Validates token by his symbol or address
+ * Validates token by his address or symbol
  * @param {Provider} provider - The Starknet provider
- * @param {string} assetSymbol - The ERC20 token symbol
- * @param {string} assetAddress - The ERC20 token contract address
+ * @param {string} assetAddress - The ERC20 token contract address (optional)
+ * @param {string} assetSymbol - The ERC20 token symbol (optional)
  * @returns {Promise<validToken>} The valid token
  * @throws {Error} If token is not valid
  */
 export async function validateToken(
   provider: Provider,
-  assetSymbol?: string,
-  assetAddress?: string
+  assetAddress?: string,
+  assetSymbol?: string
 ): Promise<validToken> {
-  if (!assetSymbol && !assetAddress) {
-    throw new Error('Either asset symbol or asset address is required');
+  if (!assetAddress && !assetSymbol) {
+    throw new Error('Either asset address or asset symbol is required');
   }
 
-  let address: string = '',
-    symbol: string = '',
-    decimals: number = 0;
+  let address: string;
+
   if (assetSymbol) {
-    symbol = assetSymbol.toUpperCase();
-    address = validateTokenAddress(symbol);
-    if (!address) {
-      throw new Error(`Token ${symbol} not supported`);
+    const symbol = assetSymbol.toUpperCase();
+    const tokenAddress = tokenAddresses[symbol];
+    if (!tokenAddress) {
+      throw new Error(
+        `Token ${symbol} not supported. Available tokens: ${Object.keys(tokenAddresses).join(', ')}`
+      );
     }
-    decimals = DECIMALS[symbol as keyof typeof DECIMALS] || DECIMALS.DEFAULT;
+    address = validateAndParseAddress(tokenAddress);
   } else if (assetAddress) {
     address = validateAndParseAddress(assetAddress);
+  } else {
+    throw new Error('Either asset address or asset symbol is required');
+  }
+
+  let decimals: number = 0;
+
+  try {
+    const abi = await detectAbiType(address, provider);
+    const contract = new Contract(abi, address, provider);
     try {
-      const abi = await detectAbiType(address, provider);
-      const contract = new Contract(abi, address, provider);
-
-      try {
-        const rawSymbol = await contract.symbol();
-        symbol =
-          abi == OLD_ERC20_ABI
-            ? shortString.decodeShortString(rawSymbol)
-            : rawSymbol.toUpperCase();
-      } catch (error) {
-        console.warn(`Error getting symbol: ${error.message}`);
-        symbol = 'UNKNOWN';
-      }
-
-      try {
-        const decimalsBigInt = await contract.decimals();
-        decimals =
-          typeof decimalsBigInt === 'bigint'
-            ? Number(decimalsBigInt)
-            : decimalsBigInt;
-      } catch (error) {
-        console.warn(`Error getting decimals: ${error.message}`);
-        decimals = DECIMALS.DEFAULT;
-      }
+      const decimalsBigInt = await contract.decimals();
+      decimals =
+        typeof decimalsBigInt === 'bigint'
+          ? Number(decimalsBigInt)
+          : decimalsBigInt;
     } catch (error) {
-      console.warn(`Error retrieving token info: ${error.message}`);
-      symbol = 'UNKNOWN';
+      console.warn(`Error getting decimals: ${error.message}`);
       decimals = DECIMALS.DEFAULT;
     }
+  } catch (error) {
+    console.warn(`Error retrieving token info: ${error.message}`);
+    decimals = DECIMALS.DEFAULT;
   }
   return {
     address,
-    symbol,
     decimals,
   };
 }
@@ -262,23 +192,15 @@ export async function detectAbiType(address: string, provider: Provider) {
 }
 
 /**
- * Extracts asset information from the new asset schema
- * @param {Object} asset - The asset object with assetType and assetValue
- * @returns {Object} Object with assetSymbol and assetAddress
+ * Converts a Uint256 value from its low and high parts (hex strings) into a single bigint.
+ * Uint256 is represented as two 128-bit values: low (least significant) and high (most significant).
+ *
+ * @param lowHex - The low 128 bits as a hexadecimal string
+ * @param highHex - The high 128 bits as a hexadecimal string
+ * @returns The combined 256-bit value as a bigint
  */
-export function extractAssetInfo(asset: {
-  assetType: 'SYMBOL' | 'ADDRESS';
-  assetValue: string;
-}) {
-  if (asset.assetType === 'SYMBOL') {
-    return {
-      assetSymbol: asset.assetValue,
-      assetAddress: undefined,
-    };
-  } else {
-    return {
-      assetSymbol: undefined,
-      assetAddress: asset.assetValue,
-    };
-  }
+export function uint256HexToBigInt(lowHex: string, highHex: string): bigint {
+  const low = BigInt(lowHex);
+  const high = BigInt(highHex);
+  return (high << 128n) + low;
 }

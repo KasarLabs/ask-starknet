@@ -20,14 +20,6 @@ export class RouteFetchService {
   }
 
   /**
-   * Initializes the token service
-   * @returns {Promise<void>}
-   */
-  async initialize(): Promise<void> {
-    await this.tokenService.initializeTokens();
-  }
-
-  /**
    * Fetches a trading route based on provided parameters
    * @param {RouteSchemaType} params - The route parameters
    * @param {onchainRead} env - The onchain read environment
@@ -40,12 +32,13 @@ export class RouteFetchService {
     accountAddress: string
   ): Promise<RouteResult> {
     try {
-      await this.initialize();
-
-      const { sellToken, buyToken } = this.tokenService.validateTokenPair(
-        params.sellTokenSymbol,
-        params.buyTokenSymbol
-      );
+      const { sellToken, buyToken } =
+        await this.tokenService.validateTokenPairBySymbolOrAddress(
+          params.sellTokenSymbol,
+          params.sellTokenAddress,
+          params.buyTokenSymbol,
+          params.buyTokenAddress
+        );
 
       const contractInteractor = new ContractInteractor(env.provider);
 
