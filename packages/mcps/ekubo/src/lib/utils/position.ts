@@ -1,4 +1,4 @@
-import { EKUBO_API_URL } from "../constants/index.js";
+import { EKUBO_API_URL } from '../constants/index.js';
 
 /**
  * Fetches position data from the Ekubo API
