@@ -66,7 +66,7 @@ export const registerToolsWithServer = async (
         tool.name,
         tool.description,
         baseSchema.shape,
-        async (params: any) => {
+        async (params: any, _extra: any) => {
           const result = await tool.execute(params);
           return formatToolResult(result);
         }
