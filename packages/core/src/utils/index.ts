@@ -49,6 +49,7 @@ export const registerToolsWithServer = async (
   }
 };
 
+
 export const getOnchainRead = (): onchainRead => {
   if (!process.env.STARKNET_RPC_URL) {
     throw new Error('Missing required environment variables: STARKNET_RPC_URL');
