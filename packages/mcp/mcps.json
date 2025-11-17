@@ -354,6 +354,7 @@
         "get_pool_liquidity",
         "get_pool_fees_per_liquidity",
         "get_token_price",
+        "get_position",
         "swap",
         "create_position",
         "add_liquidity",
