@@ -91,9 +91,10 @@ export const getPosition = async (
     };
   } catch (error: unknown) {
     console.error('Error getting position:', error);
-    const errorMessage = error instanceof Error
-      ? error.message
-      : 'Unknown error while getting position';
+    const errorMessage =
+      error instanceof Error
+        ? error.message
+        : 'Unknown error while getting position';
     return {
       status: 'failure',
       error: errorMessage,

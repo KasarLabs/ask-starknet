@@ -35,9 +35,10 @@ export const transferPosition = async (
       },
     };
   } catch (error: unknown) {
-    const errorMessage = error instanceof Error
-      ? error.message
-      : 'Unknown error while transferring position';
+    const errorMessage =
+      error instanceof Error
+        ? error.message
+        : 'Unknown error while transferring position';
     return {
       status: 'failure',
       error: errorMessage,

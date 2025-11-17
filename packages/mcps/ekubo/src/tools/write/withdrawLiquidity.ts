@@ -107,9 +107,10 @@ export const withdrawLiquidity = async (
       },
     };
   } catch (error: unknown) {
-    const errorMessage = error instanceof Error
-      ? error.message
-      : 'Unknown error while withdrawing liquidity';
+    const errorMessage =
+      error instanceof Error
+        ? error.message
+        : 'Unknown error while withdrawing liquidity';
     return {
       status: 'failure',
       error: errorMessage,

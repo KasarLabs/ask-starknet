@@ -142,9 +142,8 @@ export const swap = async (env: onchainWrite, params: SwapTokensSchema) => {
       },
     };
   } catch (error: unknown) {
-    const errorMessage = error instanceof Error
-      ? error.message
-      : 'Unknown error during swap';
+    const errorMessage =
+      error instanceof Error ? error.message : 'Unknown error during swap';
     return {
       status: 'failure',
       error: errorMessage,

@@ -162,9 +162,10 @@ export const createPosition = async (
       },
     };
   } catch (error: unknown) {
-    const errorMessage = error instanceof Error
-      ? error.message
-      : 'Unknown error while adding liquidity';
+    const errorMessage =
+      error instanceof Error
+        ? error.message
+        : 'Unknown error while adding liquidity';
     return {
       status: 'failure',
       error: errorMessage,
