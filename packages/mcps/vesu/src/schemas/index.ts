@@ -34,6 +34,14 @@ export const getSchema = z.object({
     .boolean()
     .default(true)
     .describe('Filter to only show pools with enabled assets'),
+  poolId: z
+    .string()
+    .optional()
+    .describe('Optional pool ID to fetch a specific pool'),
+  pool_name: z
+    .string()
+    .optional()
+    .describe('Optional pool name to filter pools by name'),
 });
 
 export type GetSchemaType = z.infer<typeof getSchema>;
