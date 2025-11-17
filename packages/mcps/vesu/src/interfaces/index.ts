@@ -154,19 +154,23 @@ export const poolParser = z.object({
  * @interface DepositParams
  * @property {string} depositTokenSymbol - Symbol of token to deposit
  * @property {string} depositAmount - Amount to deposit
+ * @property {string} [pool_id] - Optional pool ID. If not provided, GENESIS_POOLID will be used
  */
 export interface DepositParams {
   depositTokenSymbol: string;
   depositAmount: string;
+  pool_id?: string;
 }
 
 /**
  * Parameters for withdrawal operations
  * @interface WithdrawParams
  * @property {string} withdrawTokenSymbol - Symbol of token to withdraw
+ * @property {string} [pool_id] - Optional pool ID. If not provided, GENESIS_POOLID will be used
  */
 export interface WithdrawParams {
   withdrawTokenSymbol: string;
+  pool_id?: string;
 }
 
 /**

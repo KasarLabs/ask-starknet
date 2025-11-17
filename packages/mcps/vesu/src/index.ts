@@ -6,12 +6,18 @@ import {
   mcpTool,
   registerToolsWithServer,
   getOnchainWrite,
+  getOnchainRead,
 } from '@kasarlabs/ask-starknet-core';
 import dotenv from 'dotenv';
 
-import { depositEarnSchema, withdrawEarnSchema } from './schemas/index.js';
-import { depositEarnPosition } from './tools/depositService.js';
-import { withdrawEarnPosition } from './tools/withdrawService.js';
+import {
+  depositEarnSchema,
+  getSchema,
+  withdrawEarnSchema,
+} from './schemas/index.js';
+import { depositEarnPosition } from './tools/write/deposit.js';
+import { withdrawEarnPosition } from './tools/write/withdraw.js';
+import { getPools } from './tools/read/getPools.js';
 
 dotenv.config();
 
@@ -27,7 +33,7 @@ const registerTools = (VesuToolRegistry: mcpTool[]) => {
     schema: depositEarnSchema,
     execute: async (params: any) => {
       const onchainWrite = getOnchainWrite();
-      return await depositEarnPosition(onchainWrite as any, params);
+      return await depositEarnPosition(onchainWrite, params);
     },
   });
 
@@ -37,7 +43,18 @@ const registerTools = (VesuToolRegistry: mcpTool[]) => {
     schema: withdrawEarnSchema,
     execute: async (params: any) => {
       const onchainWrite = getOnchainWrite();
-      return await withdrawEarnPosition(onchainWrite as any, params);
+      return await withdrawEarnPosition(onchainWrite, params);
+    },
+  });
+
+  VesuToolRegistry.push({
+    name: 'get_pools',
+    description:
+      'Retrieves all the pools in the protocol with their information, like assets, stats, configs on Vesu protocol',
+    schema: getSchema,
+    execute: async (params: any) => {
+      const onchainRead = getOnchainRead();
+      return await getPools(onchainRead, params);
     },
   });
 };
