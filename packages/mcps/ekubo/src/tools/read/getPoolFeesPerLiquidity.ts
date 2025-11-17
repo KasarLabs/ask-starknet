@@ -30,11 +30,14 @@ export const getPoolFeesPerLiquidity = async (
         fee_growth_global_1: feesResult.value1.toString(),
       },
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error getting pool fees per liquidity:', error);
+    const errorMessage = error instanceof Error
+      ? error.message
+      : 'Unknown error while getting pool fees per liquidity';
     return {
       status: 'failure',
-      error: error.message,
+      error: errorMessage,
     };
   }
 };

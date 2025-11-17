@@ -47,9 +47,11 @@ export const getTokenPrice = async (
         sqrt_price: sqrtPrice.toString(),
       },
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error getting token price:', error);
-    const errorMessage = error.message;
+    const errorMessage = error instanceof Error
+      ? error.message
+      : 'Unknown error while getting token price';
     const suggestion =
       errorMessage.includes('Pool not found') ||
       errorMessage.includes('does not exist')

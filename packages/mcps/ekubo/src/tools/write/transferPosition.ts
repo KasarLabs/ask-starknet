@@ -34,10 +34,13 @@ export const transferPosition = async (
         to: params.to_address,
       },
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error
+      ? error.message
+      : 'Unknown error while transferring position';
     return {
       status: 'failure',
-      error: error.message || 'Unknown error while transferring position',
+      error: errorMessage,
     };
   }
 };

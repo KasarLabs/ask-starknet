@@ -89,11 +89,14 @@ export const getPosition = async (
         tick_spacing: tick_spacing,
       },
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error getting position:', error);
+    const errorMessage = error instanceof Error
+      ? error.message
+      : 'Unknown error while getting position';
     return {
       status: 'failure',
-      error: error.message || 'Unknown error while getting position',
+      error: errorMessage,
     };
   }
 };

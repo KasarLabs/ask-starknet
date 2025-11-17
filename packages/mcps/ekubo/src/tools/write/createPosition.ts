@@ -161,10 +161,13 @@ export const createPosition = async (
         pool_fee: params.fee,
       },
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error
+      ? error.message
+      : 'Unknown error while adding liquidity';
     return {
       status: 'failure',
-      error: error.message || 'Unknown error while adding liquidity',
+      error: errorMessage,
     };
   }
 };

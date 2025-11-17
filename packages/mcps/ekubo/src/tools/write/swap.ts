@@ -141,10 +141,13 @@ export const swap = async (env: onchainWrite, params: SwapTokensSchema) => {
         slippage_tolerance: params.slippage_tolerance,
       },
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error
+      ? error.message
+      : 'Unknown error during swap';
     return {
       status: 'failure',
-      error: error.message || 'Unknown error during swap',
+      error: errorMessage,
     };
   }
 };

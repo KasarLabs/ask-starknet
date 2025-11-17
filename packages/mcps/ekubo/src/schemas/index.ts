@@ -170,6 +170,8 @@ export type SwapTokensSchema = z.infer<typeof swapTokensSchema>;
 export const addLiquiditySchema = z.object({
   position_id: z
     .number()
+    .int()
+    .positive()
     .describe('The NFT position ID (u64) to add liquidity to'),
   amount0: z
     .string()
@@ -186,7 +188,11 @@ export const addLiquiditySchema = z.object({
 export type AddLiquiditySchema = z.infer<typeof addLiquiditySchema>;
 
 export const withdrawLiquiditySchema = z.object({
-  position_id: z.number().describe('The NFT position ID (u64)'),
+  position_id: z
+    .number()
+    .int()
+    .positive()
+    .describe('The NFT position ID (u64)'),
   liquidity_amount: z
     .string()
     .describe(
@@ -209,7 +215,11 @@ export const withdrawLiquiditySchema = z.object({
 export type WithdrawLiquiditySchema = z.infer<typeof withdrawLiquiditySchema>;
 
 export const transferPositionSchema = z.object({
-  position_id: z.number().describe('The NFT position ID to transfer (u64)'),
+  position_id: z
+    .number()
+    .int()
+    .positive()
+    .describe('The NFT position ID to transfer (u64)'),
   to_address: z
     .string()
     .describe('The recipient address to transfer the position to'),
@@ -289,6 +299,8 @@ export type CreatePositionSchema = z.infer<typeof createPositionSchema>;
 export const getPositionSchema = z.object({
   position_id: z
     .number()
+    .int()
+    .positive()
     .describe('The NFT position ID (u64) to get liquidity information for'),
 });
 

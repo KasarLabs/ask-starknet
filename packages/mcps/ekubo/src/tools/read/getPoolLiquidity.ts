@@ -26,11 +26,14 @@ export const getPoolLiquidity = async (env: onchainRead, params: PoolKey) => {
         liquidity: liquidityResult.toString(),
       },
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error getting pool liquidity:', error);
+    const errorMessage = error instanceof Error
+      ? error.message
+      : 'Unknown error while getting pool liquidity';
     return {
       status: 'failure',
-      error: error.message,
+      error: errorMessage,
     };
   }
 };
