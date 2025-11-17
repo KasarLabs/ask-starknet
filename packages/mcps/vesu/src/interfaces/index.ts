@@ -112,7 +112,7 @@ export interface IPoolAsset extends IBaseToken {
  * @property {string} id - Pool identifier
  * @property {string} name - Pool name
  * @property {Hex} owner - Pool owner address
- * @property {Hex} extensionContractAddress - Address of pool extension contract
+ * @property {Hex | null} extensionContractAddress - Address of pool extension contract (null if not available)
  * @property {boolean} isVerified - Pool verification status
  * @property {IPoolAsset[]} assets - Pool assets
  * @property {Object} [stats] - Optional pool statistics
@@ -123,7 +123,7 @@ export interface IPool {
   name: string;
   owner: Hex;
   // shutdownStatus: PoolShutdownStatus
-  extensionContractAddress: Hex;
+  extensionContractAddress: Hex | null;
   isVerified: boolean;
   assets: IPoolAsset[];
   stats?: {
@@ -141,7 +141,7 @@ export const poolParser = z.object({
   id: z.string(),
   name: z.string(),
   owner: addressSchema,
-  extensionContractAddress: addressSchema,
+  extensionContractAddress: addressSchema.nullable(),
   isVerified: z.boolean(),
   assets: z.any(),
   pairs: z.any(),

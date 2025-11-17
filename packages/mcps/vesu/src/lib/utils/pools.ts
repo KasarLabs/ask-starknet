@@ -49,11 +49,9 @@ export async function getPoolAssetsPriceAndRiskMdx(
 ): Promise<IPoolAsset[]> {
   return await Promise.all(
     poolAssets.map(async (asset) => {
-      const usdPrice = await getTokenPrice(
-        asset,
-        poolId,
-        poolExtensionContractAddress
-      );
+      const usdPrice = poolExtensionContractAddress
+        ? await getTokenPrice(asset, poolId, poolExtensionContractAddress)
+        : undefined;
 
       return {
         ...asset,

@@ -25,6 +25,15 @@ export const withdrawEarnSchema = z.object({
     .describe('Optional pool ID. If not provided, GENESIS_POOLID will be used'),
 });
 
-export const getSchema = z.object({});
+export const getSchema = z.object({
+  onlyVerified: z
+    .boolean()
+    .default(true)
+    .describe('Filter to only show verified pools'),
+  onlyEnabledAssets: z
+    .boolean()
+    .default(true)
+    .describe('Filter to only show pools with enabled assets'),
+});
 
 export type GetSchemaType = z.infer<typeof getSchema>;

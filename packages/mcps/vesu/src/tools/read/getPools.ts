@@ -15,7 +15,9 @@ export const getPools = async (
   params: GetSchemaType
 ): Promise<IPool[]> => {
   try {
-    const response = await fetch(`${VESU_API_URL}/pools`);
+    const response = await fetch(
+      `${VESU_API_URL}/pools?onlyVerified=${params.onlyVerified}&onlyEnabledAssets=${params.onlyEnabledAssets}`
+    );
 
     if (!response.ok) {
       throw new Error(`API request failed with status ${response.status}`);
