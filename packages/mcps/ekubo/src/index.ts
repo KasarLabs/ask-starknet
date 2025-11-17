@@ -18,12 +18,14 @@ import {
   withdrawLiquiditySchema,
   transferPositionSchema,
   createPositionSchema,
+  getPositionSchema,
 } from './schemas/index.js';
 
 import { getPoolInfo } from './tools/read/getPoolInfo.js';
 import { getTokenPrice } from './tools/read/getTokenPrice.js';
 import { getPoolLiquidity } from './tools/read/getPoolLiquidity.js';
 import { getPoolFeesPerLiquidity } from './tools/read/getPoolFeesPerLiquidity.js';
+import { getPosition } from './tools/read/getPosition.js';
 
 import { swap } from './tools/write/swap.js';
 import { createPosition } from './tools/write/createPosition.js';
@@ -80,6 +82,17 @@ const registerTools = (EkuboToolRegistry: mcpTool[]) => {
     execute: async (params: any) => {
       const onchainRead = getOnchainRead();
       return await getPoolFeesPerLiquidity(onchainRead, params);
+    },
+  });
+
+  EkuboToolRegistry.push({
+    name: 'get_position',
+    description:
+      'Get liquidity information for a specific Ekubo position. Returns the liquidity amount and fees per liquidity for the position.',
+    schema: getPositionSchema,
+    execute: async (params: any) => {
+      const onchainRead = getOnchainRead();
+      return await getPosition(onchainRead, params);
     },
   });
 

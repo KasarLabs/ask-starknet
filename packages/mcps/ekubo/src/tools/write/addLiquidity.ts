@@ -7,6 +7,7 @@ import {
   convertFeeU128ToPercent,
 } from '../../lib/utils/math.js';
 import { fetchPositionData } from '../../lib/utils/position.js';
+import { formatTokenAmount } from '../../lib/utils/token.js';
 import { onchainWrite } from '@kasarlabs/ask-starknet-core';
 
 export const addLiquidity = async (
@@ -54,16 +55,20 @@ export const addLiquidity = async (
       );
     }
 
+    // Convert amounts from human decimals to token decimals
+    const formatAmount0 = formatTokenAmount(params.amount0, token0.decimals);
+    const formatAmount1 = formatTokenAmount(params.amount1, token1.decimals);
+
     const config = isTokenALower
       ? {
-          amount0: params.amount0,
-          amount1: params.amount1,
+          amount0: formatAmount0,
+          amount1: formatAmount1,
           transferToken0: token0,
           transferToken1: token1,
         }
       : {
-          amount0: params.amount1,
-          amount1: params.amount0,
+          amount0: formatAmount1,
+          amount1: formatAmount0,
           transferToken0: token1,
           transferToken1: token0,
         };

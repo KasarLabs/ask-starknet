@@ -13,6 +13,7 @@ import {
   extractRequiredInput,
   createExactOutputMinimum,
 } from '../../lib/utils/quote.js';
+import { formatTokenAmount } from '../../lib/utils/token.js';
 import { onchainWrite } from '@kasarlabs/ask-starknet-core';
 
 /**
@@ -54,12 +55,18 @@ export const swap = async (env: onchainWrite, params: SwapTokensSchema) => {
       isSellingToken0
     );
 
+    // Convert amount from human decimals to token decimals
+    const tokenForAmount = params.is_amount_in ? tokenIn : tokenOut;
+    const formatAmountIn = formatTokenAmount(
+      params.amount,
+      tokenForAmount.decimals
+    );
+
     // Build route node and token amount for swap
     const routeNode = buildRouteNode(poolKey, sqrtRatioLimit);
-    const tokenForAmount = params.is_amount_in ? tokenIn : tokenOut;
     const tokenAmount = buildTokenAmount(
       tokenForAmount.address,
-      params.amount,
+      formatAmountIn,
       params.is_amount_in
     );
 
@@ -71,7 +78,8 @@ export const swap = async (env: onchainWrite, params: SwapTokensSchema) => {
 
     if (params.is_amount_in) {
       const expectedOutput = extractExpectedOutput(quote, isTokenALower);
-      transferAmount = params.amount;
+      // Use the converted amount in token decimals for transfer
+      transferAmount = formatAmountIn;
       minimumOutput = calculateMinimumOutputU256(
         expectedOutput,
         params.slippage_tolerance
@@ -83,7 +91,7 @@ export const swap = async (env: onchainWrite, params: SwapTokensSchema) => {
 
       // For exact output swaps, the minimum output equals the desired output
       // (slippage protection is handled by sqrtRatioLimit on the input side)
-      const desiredOutput = BigInt(params.amount);
+      const desiredOutput = BigInt(formatAmountIn);
       minimumOutput = createExactOutputMinimum(desiredOutput);
     }
 

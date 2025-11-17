@@ -121,9 +121,7 @@ export const swapTokensSchema = z
       .describe('The contract address of the token to buy'),
     amount: z
       .string()
-      .describe(
-        'The amount to swap (in token decimals, e.g., "1000000" for 1 USDC with 6 decimals)'
-      ),
+      .describe('The amount to swap (in human decimals, e.g., "1" for 1 USDC)'),
     is_amount_in: z
       .boolean()
       .optional()
@@ -175,10 +173,14 @@ export const addLiquiditySchema = z.object({
     .describe('The NFT position ID (u64) to add liquidity to'),
   amount0: z
     .string()
-    .describe('The amount of token0 to add (in token decimals)'),
+    .describe(
+      'The amount of token0 to add (in human decimals, e.g., "1" for 1 USDC)'
+    ),
   amount1: z
     .string()
-    .describe('The amount of token1 to add (in token decimals)'),
+    .describe(
+      'The amount of token1 to add (in human decimals, e.g., "1" for 1 USDC)'
+    ),
 });
 
 export type AddLiquiditySchema = z.infer<typeof addLiquiditySchema>;
@@ -219,10 +221,14 @@ export const createPositionSchema = z
   .object({
     amount0: z
       .string()
-      .describe('The amount of token0 to add (in token decimals)'),
+      .describe(
+        'The amount of token0 to add (in human decimals, e.g., "1" for 1 USDC)'
+      ),
     amount1: z
       .string()
-      .describe('The amount of token1 to add (in token decimals)'),
+      .describe(
+        'The amount of token1 to add (in human decimals, e.g., "1" for 1 USDC)'
+      ),
     token0_symbol: z
       .string()
       .optional()
@@ -279,3 +285,11 @@ export const createPositionSchema = z
   });
 
 export type CreatePositionSchema = z.infer<typeof createPositionSchema>;
+
+export const getPositionSchema = z.object({
+  position_id: z
+    .number()
+    .describe('The NFT position ID (u64) to get liquidity information for'),
+});
+
+export type GetPositionSchema = z.infer<typeof getPositionSchema>;

@@ -11,6 +11,7 @@ import {
   roundTickToSpacing,
 } from '../../lib/utils/math.js';
 import { extractPositionIdFromReceipt } from '../../lib/utils/events.js';
+import { formatTokenAmount } from '../../lib/utils/token.js';
 import { CreatePositionSchema } from '../../schemas/index.js';
 import { onchainWrite } from '@kasarlabs/ask-starknet-core';
 
@@ -33,14 +34,18 @@ export const createPosition = async (
         extension: params.extension,
       });
 
+    // Convert amounts from human decimals to token decimals
+    const formatAmount0 = formatTokenAmount(params.amount0, token0.decimals);
+    const formatAmount1 = formatTokenAmount(params.amount1, token1.decimals);
+
     const config = isTokenALower
       ? {
           lowerPrice: params.lower_price,
           upperPrice: params.upper_price,
           decimals0: token0.decimals,
           decimals1: token1.decimals,
-          amount0: params.amount0,
-          amount1: params.amount1,
+          amount0: formatAmount0,
+          amount1: formatAmount1,
           transferToken0: token0,
           transferToken1: token1,
         }
@@ -49,8 +54,8 @@ export const createPosition = async (
           upperPrice: 1 / params.lower_price,
           decimals0: token1.decimals,
           decimals1: token0.decimals,
-          amount0: params.amount1,
-          amount1: params.amount0,
+          amount0: formatAmount1,
+          amount1: formatAmount0,
           transferToken0: token1,
           transferToken1: token0,
         };

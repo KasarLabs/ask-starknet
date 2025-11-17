@@ -1,6 +1,41 @@
 import { EKUBO_API_URL } from '../constants/index.js';
 
 /**
+ * Fetches position owner from the Ekubo state API
+ * @param positionId - The position ID to fetch
+ * @returns The owner address of the position
+ */
+export async function fetchPositionOwner(positionId: number): Promise<string> {
+  const url = `${EKUBO_API_URL}/${positionId}/state`;
+
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(
+      `Failed to fetch position owner: ${response.status} ${response.statusText}`
+    );
+  }
+
+  const data = await response.json();
+
+  // Extract owner from the response
+  // The API returns 'last_owner' field
+  const owner =
+    data.last_owner || data.owner || data.owner_address || data.ownerAddress;
+
+  if (!owner) {
+    throw new Error(`Owner not found in API response: ${JSON.stringify(data)}`);
+  }
+
+  return String(owner);
+}
+
+/**
  * Fetches position data from the Ekubo API
  * @param positionId - The position ID to fetch
  * @returns Position data including tick_lower, tick_upper, tick_spacing, extension, fee, token0, token1
