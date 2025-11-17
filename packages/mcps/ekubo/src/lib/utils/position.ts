@@ -8,12 +8,25 @@ import { EKUBO_API_URL } from '../constants/index.js';
 export async function fetchPositionOwner(positionId: number): Promise<string> {
   const url = `${EKUBO_API_URL}/${positionId}/state`;
 
-  const response = await fetch(url, {
-    method: 'GET',
-    headers: {
-      accept: 'application/json',
-    },
-  });
+  let response: Response;
+  try {
+    response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+      },
+    });
+  } catch (error) {
+    // Handle network errors (DNS failures, connection refused, etc.)
+    if (error instanceof TypeError && error.message.includes('fetch')) {
+      throw new Error(
+        `Network error while fetching position owner: ${error.message}. This may be due to DNS resolution failure or connection refused.`
+      );
+    }
+    throw new Error(
+      `Failed to fetch position owner: ${error instanceof Error ? error.message : String(error)}`
+    );
+  }
 
   if (!response.ok) {
     throw new Error(
@@ -21,7 +34,14 @@ export async function fetchPositionOwner(positionId: number): Promise<string> {
     );
   }
 
-  const data = await response.json();
+  let data: any;
+  try {
+    data = await response.json();
+  } catch (error) {
+    throw new Error(
+      `Failed to parse JSON response while fetching position owner: ${error instanceof Error ? error.message : String(error)}`
+    );
+  }
 
   // Extract owner from the response
   // The API returns 'last_owner' field
@@ -51,12 +71,25 @@ export async function fetchPositionData(positionId: number): Promise<{
 }> {
   const url = `${EKUBO_API_URL}/${positionId}`;
 
-  const response = await fetch(url, {
-    method: 'GET',
-    headers: {
-      accept: 'application/json',
-    },
-  });
+  let response: Response;
+  try {
+    response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+      },
+    });
+  } catch (error) {
+    // Handle network errors (DNS failures, connection refused, etc.)
+    if (error instanceof TypeError && error.message.includes('fetch')) {
+      throw new Error(
+        `Network error while fetching position data: ${error.message}. This may be due to DNS resolution failure or connection refused.`
+      );
+    }
+    throw new Error(
+      `Failed to fetch position data: ${error instanceof Error ? error.message : String(error)}`
+    );
+  }
 
   if (!response.ok) {
     throw new Error(
@@ -64,7 +97,14 @@ export async function fetchPositionData(positionId: number): Promise<{
     );
   }
 
-  const data = await response.json();
+  let data: any;
+  try {
+    data = await response.json();
+  } catch (error) {
+    throw new Error(
+      `Failed to parse JSON response while fetching position data: ${error instanceof Error ? error.message : String(error)}`
+    );
+  }
 
   // Extract data from attributes array
   const attributes = data.attributes || [];
