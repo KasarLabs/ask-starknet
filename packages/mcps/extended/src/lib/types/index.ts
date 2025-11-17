@@ -1,7 +1,13 @@
+import { Decimal, Long } from '../utils/lib-extended/index.js';
+
 export interface ExtendedApiEnv {
   apiKey?: string | undefined;
   apiUrl: string;
   privateKey?: string | undefined;
+  builderParams?: {
+    builderId: Long;
+    builderFee: Decimal;
+  };
 }
 
 export interface ExtendedApiResponse<T = any> {

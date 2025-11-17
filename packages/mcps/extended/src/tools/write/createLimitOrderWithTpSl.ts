@@ -61,6 +61,8 @@ export const createLimitOrderWithTpSl = async (
       starknetDomain,
       vaultId,
       starkPrivateKey,
+      builderId: env.builderParams?.builderId,
+      builderFee: env.builderParams?.builderFee,
     });
 
     // Helper to round prices
