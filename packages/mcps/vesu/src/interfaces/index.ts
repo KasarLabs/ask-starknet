@@ -166,10 +166,12 @@ export interface DepositParams {
  * Parameters for withdrawal operations
  * @interface WithdrawParams
  * @property {string} withdrawTokenSymbol - Symbol of token to withdraw
+ * @property {string} [withdrawAmount] - Optional amount to withdraw in human decimal format. If "0" or not provided, withdraws all available tokens
  * @property {string} [pool_id] - Optional pool ID. If not provided, GENESIS_POOLID will be used
  */
 export interface WithdrawParams {
   withdrawTokenSymbol: string;
+  withdrawAmount?: string;
   pool_id?: string;
 }
 
@@ -223,3 +225,208 @@ export interface WithdrawResult {
   error?: string;
   step?: string;
 }
+
+/**
+ * Token value information for positions
+ * @interface IPositionTokenValue
+ * @property {Address} address - Token address
+ * @property {string} name - Token name
+ * @property {string} symbol - Token symbol
+ * @property {number} decimals - Token decimals
+ * @property {string} value - Token amount as string
+ */
+export interface IPositionTokenValue {
+  address: Address;
+  name: string;
+  symbol: string;
+  decimals: number;
+  value: string;
+}
+
+/**
+ * Token value with USD price information for positions
+ * @interface IPositionTokenValueWithUsdPrice
+ * @extends IPositionTokenValue
+ * @property {Object} usdPrice - USD price information
+ * @property {string} usdPrice.value - Token value in USD
+ * @property {number} usdPrice.decimals - Token value in USD decimals
+ */
+export interface IPositionTokenValueWithUsdPrice extends IPositionTokenValue {
+  usdPrice: {
+    value: string;
+    decimals: number;
+  };
+}
+
+/**
+ * BigInt value information
+ * @interface IBigIntValue
+ * @property {string} value - Value as string
+ * @property {number} decimals - Decimal places
+ */
+export interface IBigIntValue {
+  value: string;
+  decimals: number;
+}
+
+/**
+ * Pool information within a position
+ * @interface IPositionPool
+ * @property {string} id - Pool identifier
+ * @property {string} name - Pool name
+ * @property {Hex | null} extensionContractAddress - Pool extension contract address (nullable)
+ */
+export interface IPositionPool {
+  id: string;
+  name: string;
+  extensionContractAddress: Hex | null;
+}
+
+/**
+ * Rebalancing configuration
+ * @interface IRebalancing
+ * @property {boolean} isEnabled - Whether rebalancing is enabled
+ * @property {IBigIntValue} targetLTV - Target loan-to-value ratio
+ * @property {IBigIntValue} tolerance - Tolerance for rebalancing
+ * @property {IBigIntValue} minDelta - Minimum delta for rebalancing
+ */
+export interface IRebalancing {
+  isEnabled: boolean;
+  targetLTV: IBigIntValue;
+  tolerance: IBigIntValue;
+  minDelta: IBigIntValue;
+}
+
+/**
+ * LTV (Loan-to-Value) information
+ * @interface ILTV
+ * @property {IBigIntValue} max - Maximum LTV
+ * @property {IBigIntValue} current - Current LTV
+ */
+export interface ILTV {
+  max: IBigIntValue;
+  current: IBigIntValue;
+}
+
+/**
+ * Earn position (type: "earn")
+ * @interface IEarnPosition
+ * @property {string} protocolVersion - Protocol version (v1 or v2)
+ * @property {'earn'} type - Position type
+ * @property {IPositionPool} pool - Pool information
+ * @property {boolean} isDeprecated - Whether the position needs to be migrated
+ * @property {Address} walletAddress - Wallet address
+ * @property {IPositionTokenValueWithUsdPrice} collateral - Collateral token information
+ * @property {IPositionTokenValue} collateralShares - Collateral shares token information
+ */
+export interface IEarnPosition {
+  protocolVersion: 'v1' | 'v2';
+  type: 'earn';
+  pool: IPositionPool;
+  isDeprecated: boolean;
+  walletAddress: Address;
+  collateral: IPositionTokenValueWithUsdPrice;
+  collateralShares: IPositionTokenValue;
+}
+
+/**
+ * Borrow or Multiply position (type: "borrow" or "multiply")
+ * @interface IBorrowOrMultiplyPosition
+ * @property {'borrow' | 'multiply'} type - Position type
+ * @property {IPositionPool} pool - Pool information
+ * @property {Address} walletAddress - Wallet address
+ * @property {IPositionTokenValue} collateralShares - Collateral shares token information
+ * @property {IPositionTokenValueWithUsdPrice} collateral - Collateral token information
+ * @property {IPositionTokenValue} nominalDebt - Nominal debt token information
+ * @property {IPositionTokenValueWithUsdPrice} debt - Debt token information with USD price
+ * @property {ILTV} ltv - Loan-to-value information
+ * @property {string | null} healthFactor - Health Factor (null if debt is zero)
+ * @property {IRebalancing} rebalancing - Rebalancing configuration
+ */
+export interface IBorrowOrMultiplyPosition {
+  type: 'borrow' | 'multiply';
+  pool: IPositionPool;
+  walletAddress: Address;
+  collateralShares: IPositionTokenValue;
+  collateral: IPositionTokenValueWithUsdPrice;
+  nominalDebt: IPositionTokenValue;
+  debt: IPositionTokenValueWithUsdPrice;
+  ltv: ILTV;
+  healthFactor: string | null;
+  rebalancing: IRebalancing;
+}
+
+/**
+ * Position information (union type)
+ * @type IPosition
+ */
+export type IPosition = IEarnPosition | IBorrowOrMultiplyPosition;
+
+/**
+ * Position data validation schemas
+ */
+const tokenValueSchema = z.object({
+  address: addressSchema,
+  name: z.string(),
+  symbol: z.string(),
+  decimals: z.number(),
+  value: z.string(),
+});
+
+const tokenValueWithUsdPriceSchema = tokenValueSchema.extend({
+  usdPrice: z.object({
+    value: z.string(),
+    decimals: z.number(),
+  }),
+});
+
+const bigIntValueSchema = z.object({
+  value: z.string(),
+  decimals: z.number(),
+});
+
+const positionPoolSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  extensionContractAddress: addressSchema.nullable(),
+});
+
+const earnPositionSchema = z.object({
+  protocolVersion: z.enum(['v1', 'v2']),
+  type: z.literal('earn'),
+  pool: positionPoolSchema,
+  isDeprecated: z.boolean(),
+  walletAddress: addressSchema,
+  collateral: tokenValueWithUsdPriceSchema,
+  collateralShares: tokenValueSchema,
+});
+
+const borrowOrMultiplyPositionSchema = z.object({
+  type: z.enum(['borrow', 'multiply']),
+  pool: positionPoolSchema,
+  walletAddress: addressSchema,
+  collateralShares: tokenValueSchema,
+  collateral: tokenValueWithUsdPriceSchema,
+  nominalDebt: tokenValueSchema,
+  debt: tokenValueWithUsdPriceSchema,
+  ltv: z.object({
+    max: bigIntValueSchema,
+    current: bigIntValueSchema,
+  }),
+  healthFactor: z.string().nullable(),
+  rebalancing: z.object({
+    isEnabled: z.boolean(),
+    targetLTV: bigIntValueSchema,
+    tolerance: bigIntValueSchema,
+    minDelta: bigIntValueSchema,
+  }),
+});
+
+/**
+ * Position data validation schema (discriminated union)
+ * @constant {z.ZodType}
+ */
+export const positionParser = z.discriminatedUnion('type', [
+  earnPositionSchema,
+  borrowOrMultiplyPositionSchema,
+]);

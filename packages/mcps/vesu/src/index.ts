@@ -13,11 +13,15 @@ import dotenv from 'dotenv';
 import {
   depositEarnSchema,
   getSchema,
+  getPositionsSchema,
+  getTokensSchema,
   withdrawEarnSchema,
 } from './schemas/index.js';
-import { depositEarnPosition } from './tools/write/deposit.js';
-import { withdrawEarnPosition } from './tools/write/withdraw.js';
+import { depositEarnPosition } from './tools/write/deposit_earn.js';
+import { withdrawEarnPosition } from './tools/write/withdraw_earn.js';
 import { getPools } from './tools/read/getPools.js';
+import { getPositions } from './tools/read/getPositions.js';
+import { getTokens } from './tools/read/getTokens.js';
 
 dotenv.config();
 
@@ -28,7 +32,7 @@ const server = new McpServer({
 
 const registerTools = (VesuToolRegistry: mcpTool[]) => {
   VesuToolRegistry.push({
-    name: 'vesu_deposit_earn',
+    name: 'deposit_earn',
     description: 'Deposit tokens to earn yield on Vesu protocol',
     schema: depositEarnSchema,
     execute: async (params: any) => {
@@ -38,7 +42,7 @@ const registerTools = (VesuToolRegistry: mcpTool[]) => {
   });
 
   VesuToolRegistry.push({
-    name: 'vesu_withdraw_earn',
+    name: 'withdraw_earn',
     description: 'Withdraw tokens from earning position on Vesu protocol',
     schema: withdrawEarnSchema,
     execute: async (params: any) => {
@@ -55,6 +59,28 @@ const registerTools = (VesuToolRegistry: mcpTool[]) => {
     execute: async (params: any) => {
       const onchainRead = getOnchainRead();
       return await getPools(onchainRead, params);
+    },
+  });
+
+  VesuToolRegistry.push({
+    name: 'get_positions',
+    description:
+      'Retrieves positions for a given wallet address on Vesu protocol. Can filter by type (earn, borrow, multiply), max health factor, and rebalancing status',
+    schema: getPositionsSchema,
+    execute: async (params: any) => {
+      const onchainRead = getOnchainRead();
+      return await getPositions(onchainRead, params);
+    },
+  });
+
+  VesuToolRegistry.push({
+    name: 'get_tokens',
+    description:
+      'Retrieves all the supported tokens in Vesu UI. Can optionally filter by token address or symbol to check if a specific token is supported',
+    schema: getTokensSchema,
+    execute: async (params: any) => {
+      const onchainRead = getOnchainRead();
+      return await getTokens(onchainRead, params);
     },
   });
 };

@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { addressSchema } from '../interfaces/index.js';
 
 export const depositEarnSchema = z.object({
   depositTokenSymbol: z
@@ -7,7 +8,7 @@ export const depositEarnSchema = z.object({
   depositAmount: z
     .string()
     .describe(
-      'The amount to swap (in token decimals, e.g., "1000000" for 1 USDC with 6 decimals)'
+      'The amount to deposit in human decimal format (e.g., "1.5" for 1.5 tokens, "0.0001" for 0.0001 tokens)'
     ),
   pool_id: z
     .string()
@@ -19,6 +20,12 @@ export const withdrawEarnSchema = z.object({
   withdrawTokenSymbol: z
     .string()
     .describe("Symbol of the token to withdraw (e.g., 'ETH', 'USDC')"),
+  withdrawAmount: z
+    .string()
+    .optional()
+    .describe(
+      'Optional amount to withdraw in human decimal format (e.g., "1.5" for 1.5 tokens). If "0" or not provided, withdraws all available tokens'
+    ),
   pool_id: z
     .string()
     .optional()
@@ -45,3 +52,45 @@ export const getSchema = z.object({
 });
 
 export type GetSchemaType = z.infer<typeof getSchema>;
+
+export const getPositionsSchema = z.object({
+  walletAddress: addressSchema.describe(
+    'Wallet address to fetch positions for'
+  ),
+  type: z
+    .array(z.enum(['earn', 'borrow', 'multiply']))
+    .optional()
+    .describe(
+      'Optional array of position types to filter (earn, borrow, multiply)'
+    ),
+  maxHealthFactor: z
+    .string()
+    .optional()
+    .describe(
+      'Optional filter to return positions with health factor less than or equal to this value'
+    ),
+  hasRebalancingEnabled: z
+    .boolean()
+    .optional()
+    .describe(
+      'Optional filter to return positions that have rebalancing enabled or not'
+    ),
+});
+
+export type GetPositionsSchemaType = z.infer<typeof getPositionsSchema>;
+
+export const getTokensSchema = z.object({
+  address: addressSchema
+    .optional()
+    .describe(
+      'Optional token address to check if a specific token is supported'
+    ),
+  symbol: z
+    .string()
+    .optional()
+    .describe(
+      "Optional token symbol to check if a specific token is supported (e.g., 'ETH', 'USDC')"
+    ),
+});
+
+export type GetTokensSchemaType = z.infer<typeof getTokensSchema>;

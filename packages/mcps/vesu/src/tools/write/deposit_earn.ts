@@ -4,7 +4,10 @@ import { GENESIS_POOLID } from '../../lib/constants/index.js';
 import { toU256 } from '../../lib/utils/num.js';
 import { getVTokenContract } from '../../lib/utils/contracts.js';
 import { getPool } from '../../lib/utils/pools.js';
-import { approveVTokenCalls } from '../../lib/utils/tokens.js';
+import {
+  approveVTokenCalls,
+  formatTokenAmount,
+} from '../../lib/utils/tokens.js';
 import { onchainWrite } from '@kasarlabs/ask-starknet-core';
 
 /**
@@ -51,7 +54,12 @@ export class DepositEarnService {
         throw new Error('Collateral asset not found in pool');
       }
 
-      const collateralAmount = BigInt(params.depositAmount);
+      // Convert human decimal amount to token decimals format
+      const formattedAmount = formatTokenAmount(
+        params.depositAmount,
+        collateralPoolAsset.decimals
+      );
+      const collateralAmount = BigInt(formattedAmount);
 
       const vtokenContract = getVTokenContract(
         collateralPoolAsset.vToken.address
@@ -155,11 +163,3 @@ export const depositEarnPosition = async (
     };
   }
 };
-
-/**
- * Default deposit function - executes a deposit operation
- * @param {onchainWrite} env - The onchain environment
- * @param {DepositParams} params - The deposit parameters
- * @returns {Promise<DepositResult>} Result of the deposit operation
- */
-export const deposit = depositEarnPosition;

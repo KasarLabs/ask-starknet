@@ -1,10 +1,10 @@
-import { Account } from 'starknet';
+import { Account, Contract } from 'starknet';
 import { WithdrawParams, WithdrawResult } from '../../interfaces/index.js';
 import { GENESIS_POOLID } from '../../lib/constants/index.js';
-import { Hex, toU256 } from '../../lib/utils/num.js';
-import { getVTokenContract } from '../../lib/utils/contracts.js';
+import { Hex, toU256, toBN } from '../../lib/utils/num.js';
+import { vTokenAbi } from '../../lib/abis/vTokenAbi.js';
 import { getPool } from '../../lib/utils/pools.js';
-import { getTokenBalance } from '../../lib/utils/tokens.js';
+import { formatTokenAmount } from '../../lib/utils/tokens.js';
 import { onchainWrite } from '@kasarlabs/ask-starknet-core';
 
 /**
@@ -51,21 +51,59 @@ export class WithdrawEarnService {
         throw new Error('Collateral asset not found in pool');
       }
 
-      const vtokenContract = getVTokenContract(
-        collateralPoolAsset.vToken.address
-      );
+      // Use the environment provider to get the vToken contract
+      const vtokenContract = new Contract(
+        vTokenAbi,
+        collateralPoolAsset.vToken.address,
+        env.provider
+      ).typedv2(vTokenAbi);
 
-      const vTokenShares = await getTokenBalance(
-        collateralPoolAsset.vToken,
-        account.address as Hex
-      );
+      // Get vToken balance using the contract directly with the environment provider
+      const vTokenShares = await vtokenContract
+        .balance_of(account.address)
+        .then((result: any) => toBN(result))
+        .catch((error: any) => {
+          throw new Error(`Failed to get vToken balance: ${error.message}`);
+        });
+
+      // Determine the amount to withdraw (in vToken shares)
+      let amountToWithdraw: bigint;
+      if (params.withdrawAmount && params.withdrawAmount !== '0') {
+        // Convert human decimal amount to token decimals format (assets)
+        const formattedAmount = formatTokenAmount(
+          params.withdrawAmount,
+          collateralPoolAsset.decimals
+        );
+        const assetsAmount = BigInt(formattedAmount);
+
+        // Convert assets amount to vToken shares using convert_to_shares
+        // This is more accurate than preview_withdraw as it doesn't include fees
+        const sharesNeeded = await vtokenContract
+          .convert_to_shares(toU256(assetsAmount))
+          .then((result: any) => toBN(result))
+          .catch(() => {
+            throw new Error('Failed to convert assets to shares');
+          });
+
+        // Ensure we don't withdraw more than available
+        if (sharesNeeded > vTokenShares) {
+          throw new Error(
+            `Insufficient balance. Available shares: ${vTokenShares}, Required shares: ${sharesNeeded}`
+          );
+        }
+
+        amountToWithdraw = sharesNeeded;
+      } else {
+        // Withdraw all available shares
+        amountToWithdraw = vTokenShares;
+      }
 
       const provider = env.provider;
 
       const wallet = env.account;
 
       const redeemVTokenCall = await vtokenContract.populateTransaction.redeem(
-        toU256(vTokenShares),
+        toU256(amountToWithdraw),
         account.address,
         account.address
       );
@@ -149,11 +187,3 @@ export const withdrawEarnPosition = async (
     };
   }
 };
-
-/**
- * Default withdraw function - executes a withdrawal operation
- * @param {onchainWrite} env - The onchain environment
- * @param {WithdrawParams} params - The withdrawal parameters
- * @returns {Promise<WithdrawResult>} Result of the withdrawal operation
- */
-export const withdraw = withdrawEarnPosition;
