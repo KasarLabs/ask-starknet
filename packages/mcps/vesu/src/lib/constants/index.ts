@@ -1,7 +1,7 @@
 import { BigDecimal } from '../../interfaces/index.js';
 
 export const GENESIS_POOLID =
-  '0x04dc4f0ca6ea4961e4c8373265bfd5317678f4fe374d76f3fd7135f57763bf28';
+  '0x0451fe483d5921a2919ddd81d0de6696669bccdacd859f72a4fba7656b97c3b5';
 
 export const VESU_API_URL = 'https://staging.api.vesu.xyz';
 
