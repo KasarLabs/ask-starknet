@@ -9,8 +9,10 @@ export const getPoolLiquidity = async (env: onchainRead, params: PoolKey) => {
     const contract = await getContract(provider, 'core');
 
     const { poolKey } = await preparePoolKeyFromParams(env.provider, {
-      token0: params.token0,
-      token1: params.token1,
+      token0_symbol: params.token0_symbol,
+      token0_address: params.token0_address,
+      token1_symbol: params.token1_symbol,
+      token1_address: params.token1_address,
       fee: params.fee,
       tick_spacing: params.tick_spacing,
       extension: params.extension,
@@ -24,11 +26,15 @@ export const getPoolLiquidity = async (env: onchainRead, params: PoolKey) => {
         liquidity: liquidityResult.toString(),
       },
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error getting pool liquidity:', error);
+    const errorMessage =
+      error instanceof Error
+        ? error.message
+        : 'Unknown error while getting pool liquidity';
     return {
       status: 'failure',
-      error: error.message,
+      error: errorMessage,
     };
   }
 };

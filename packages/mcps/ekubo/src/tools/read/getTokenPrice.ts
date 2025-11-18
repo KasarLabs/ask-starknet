@@ -14,8 +14,10 @@ export const getTokenPrice = async (
 
     const { poolKey, token0, token1, isTokenALower } =
       await preparePoolKeyFromParams(env.provider, {
-        token0: params.token,
-        token1: params.quote_currency,
+        token0_symbol: params.token_symbol,
+        token0_address: params.token_address,
+        token1_symbol: params.quote_currency_symbol,
+        token1_address: params.quote_currency_address,
         fee: params.fee,
         tick_spacing: params.tick_spacing,
         extension: params.extension,
@@ -27,8 +29,8 @@ export const getTokenPrice = async (
     // Price from Ekubo is always token1/token0
     const price = calculateActualPrice(
       sqrtPrice,
-      token0.decimals,
-      token1.decimals
+      isTokenALower ? token0.decimals : token1.decimals,
+      isTokenALower ? token1.decimals : token0.decimals
     );
 
     const finalPrice = isTokenALower ? price : 1 / price;
@@ -36,15 +38,21 @@ export const getTokenPrice = async (
     return {
       status: 'success',
       data: {
-        base_token: params.token.assetValue,
-        quote_token: params.quote_currency.assetValue,
+        base_token: params.token_symbol || params.token_address || 'unknown',
+        quote_token:
+          params.quote_currency_symbol ||
+          params.quote_currency_address ||
+          'unknown',
         price: finalPrice,
         sqrt_price: sqrtPrice.toString(),
       },
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error getting token price:', error);
-    const errorMessage = error.message;
+    const errorMessage =
+      error instanceof Error
+        ? error.message
+        : 'Unknown error while getting token price';
     const suggestion =
       errorMessage.includes('Pool not found') ||
       errorMessage.includes('does not exist')

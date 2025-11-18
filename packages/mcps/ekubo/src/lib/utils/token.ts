@@ -1,14 +1,10 @@
 import {
   validateAndParseAddress,
-  num,
-  RPC,
   Contract,
   Provider,
   shortString,
   cairo,
   Uint256,
-  Call,
-  Account,
 } from 'starknet';
 import { erc20Addresses } from '../constants/addresses.js';
 import { NEW_ERC20_ABI, OLD_ERC20_ABI } from '../constants/abis/index.js';
@@ -42,16 +38,6 @@ export interface validToken {
 export interface ParamsValidationResult {
   address: string;
   amount: Uint256;
-}
-
-/**
- * V3 transaction execution arguments
- * @property {Call} call
- * @property {Account} account
- */
-export interface ExecuteV3Args {
-  call: Call;
-  account: Account;
 }
 
 /**
@@ -260,26 +246,4 @@ export async function validateToken(
     symbol,
     decimals,
   };
-}
-
-/**
- * Extracts asset information from the new asset schema
- * @param {Object} asset - The asset object with assetType and assetValue
- * @returns {Object} Object with assetSymbol and assetAddress
- */
-export function extractAssetInfo(asset: {
-  assetType: 'SYMBOL' | 'ADDRESS';
-  assetValue: string;
-}) {
-  if (asset.assetType === 'SYMBOL') {
-    return {
-      assetSymbol: asset.assetValue,
-      assetAddress: undefined,
-    };
-  } else {
-    return {
-      assetSymbol: undefined,
-      assetAddress: asset.assetValue,
-    };
-  }
 }
