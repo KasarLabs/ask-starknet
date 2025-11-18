@@ -41,11 +41,11 @@ export const safeTransferFrom = async (
     const contractAddress = validateAndParseAddress(params.contractAddress);
     const data = ['0x0'];
 
-    const contract = new Contract(
-      INTERACT_ERC721_ABI,
-      contractAddress,
-      provider
-    );
+    const contract = new Contract({
+      abi: INTERACT_ERC721_ABI,
+      address: contractAddress,
+      providerOrAccount: provider,
+    });
     contract.connect(account);
 
     const calldata = contract.populate('safe_transfer_from', [

@@ -48,7 +48,11 @@ export const transferFrom = async (
     const fromAddress = address;
     const toAddress = validateAndParseAddress(params.toAddress);
 
-    const contract = new Contract(abi, token.address, provider);
+    const contract = new Contract({
+      abi,
+      address: token.address,
+      providerOrAccount: provider,
+    });
 
     contract.connect(account);
 

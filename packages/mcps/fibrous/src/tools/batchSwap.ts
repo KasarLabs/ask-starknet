@@ -61,13 +61,11 @@ export class BatchSwapService {
       await this.initialize();
 
       const provider = this.env.provider;
-      const account = new Account(
+      const account = new Account({
         provider,
-        this.walletAddress,
-        this.env.account.signer,
-        undefined,
-        constants.TRANSACTION_VERSION.V3
-      );
+        address: this.walletAddress,
+        signer: this.env.account.signer,
+      });
 
       const swapParams = this.extractBatchSwapParams(params);
 

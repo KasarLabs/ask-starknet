@@ -21,7 +21,11 @@ export const placePixel = async (
     const account = env.account;
     const provider = env.provider;
 
-    const artpeaceContract = new Contract(artpeaceAbi, artpeaceAddr, provider);
+    const artpeaceContract = new Contract({
+      abi: artpeaceAbi,
+      address: artpeaceAddr,
+      providerOrAccount: provider,
+    });
     const checker = new Checker(params[0].canvasId ?? 0);
     const id = await checker.checkWorld();
     await checker.getColors();

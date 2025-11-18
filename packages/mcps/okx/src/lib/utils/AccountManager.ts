@@ -140,4 +140,3 @@ export const wrapAccountCreationResponse = (response: string) => {
     return response;
   }
 };
-~

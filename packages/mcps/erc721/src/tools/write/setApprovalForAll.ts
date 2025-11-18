@@ -34,11 +34,11 @@ export const setApprovalForAll = async (
     const operatorAddress = validateAndParseAddress(params.operatorAddress);
     const contractAddress = validateAndParseAddress(params.contractAddress);
 
-    const contract = new Contract(
-      INTERACT_ERC721_ABI,
-      contractAddress,
-      provider
-    );
+    const contract = new Contract({
+      abi: INTERACT_ERC721_ABI,
+      address: contractAddress,
+      providerOrAccount: provider,
+    });
     contract.connect(account);
 
     const calldata = contract.populate('set_approval_for_all', [

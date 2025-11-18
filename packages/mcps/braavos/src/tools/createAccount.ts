@@ -62,7 +62,7 @@ export const CreateBraavosAccountSignature = async () => {
 
     const suggestedMaxFee =
       await accountManager.estimateAccountDeployFee(accountDetails);
-    const maxFee = suggestedMaxFee * 2n;
+    const maxFee = suggestedMaxFee.maxFee;
 
     return {
       status: 'success',

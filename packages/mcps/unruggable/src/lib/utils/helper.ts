@@ -13,8 +13,8 @@ import { onchainWrite } from '@kasarlabs/ask-starknet-core';
  * For operations where you need the actual return value:
  * ```typescript
  * // Example of getting return value directly:
- * const account = new Account(rpcProvider, accountAddress, privateKey);
- * const contract = new Contract(abi, FACTORY_ADDRESS, account);
+ * const account = new Account({ provider: rpcProvider, address: accountAddress, signer: privateKey });
+ * const contract = new Contract({ abi, address: FACTORY_ADDRESS, providerOrAccount: account });
  * const result = await contract.yourFunctionName(your, params, here);
  * // Now you have access to the actual return value
  * ```
