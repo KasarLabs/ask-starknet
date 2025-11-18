@@ -19,7 +19,7 @@
     "@kasarlabs/ask-starknet-core": "workspace:*",
     "@modelcontextprotocol/sdk": "^1.11.2",
     "dotenv": "^16.4.7",
-    "starknet": "^7.6.4",
+        "starknet": "8.6.0",
     "winston": "^3.17.0",
     "zod": "^3.24.2"
   },

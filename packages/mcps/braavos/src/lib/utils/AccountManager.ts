@@ -8,6 +8,8 @@ import {
   BigNumberish,
   Calldata,
   num,
+  ETransactionVersion,
+  EDataAvailabilityMode,
 } from 'starknet';
 
 import {
@@ -75,7 +77,7 @@ export class AccountManager implements BaseUtilityClass {
     accountDetails: AccountDetails
   ): Promise<bigint> {
     try {
-      const version = constants.TRANSACTION_VERSION.V1;
+      const version = ETransactionVersion.V3;
       const nonce = constants.ZERO;
       const chainId = await this.provider.getChainId();
 
@@ -104,7 +106,18 @@ export class AccountManager implements BaseUtilityClass {
         { version, nonce }
       );
 
-      return stark.estimatedFeeToMaxFee(response.overall_fee);
+      // Calculate the overall fee from resource bounds with overhead
+      // This accounts for L1 gas (data availability) and L2 gas (execution)
+      const l1GasFee = BigInt(response.resourceBounds.l1_gas.max_amount) *
+                       BigInt(response.resourceBounds.l1_gas.max_price_per_unit);
+      const l2GasFee = BigInt(response.resourceBounds.l2_gas.max_amount) *
+                       BigInt(response.resourceBounds.l2_gas.max_price_per_unit);
+
+      // Add 50% overhead for safety margin (same as toOverheadOverallFee)
+      const totalFee = l1GasFee + l2GasFee;
+      const feeWithOverhead = (totalFee * BigInt(150)) / BigInt(100);
+
+      return feeWithOverhead;
     } catch (error) {
       throw new Error(`Failed to estimate deploy fee: ${error.message}`);
     }
@@ -124,7 +137,7 @@ export class AccountManager implements BaseUtilityClass {
     maxFee?: BigNumberish
   ): Promise<TransactionResult> {
     try {
-      const version = constants.TRANSACTION_VERSION.V1;
+      const version = ETransactionVersion.V3;
       const nonce = constants.ZERO;
       const chainId = await this.provider.getChainId();
 
@@ -189,15 +202,25 @@ export class AccountManager implements BaseUtilityClass {
     maxFee: BigNumberish,
     chainId: constants.StarknetChainId,
     nonce: bigint,
-    privateKey: BigNumberish
+    privateKey: BigNumberish,
+        contractAddress: BigNumberish;
+        classHash: BigNumberish;
+        compiledConstructorCalldata: Calldata;
+        salt: BigNumberish;
+        chainId: ;
+        nonce: BigNumberish;
+        nonceDataAvailabilityMode: EDAMode$1;
+        feeDataAvailabilityMode: EDAMode$1;
+        resourceBounds: ResourceBoundsBN;
+        tip: BigNumberish;
+        paymasterData: BigNumberish[];
   ): string[] {
     const txHash = hash.calculateDeployAccountTransactionHash({
       contractAddress,
       classHash: this.proxyClassHash,
-      constructorCalldata,
+      compiledConstructorCalldata : constructorCalldata,
       salt: publicKey,
-      version: constants.TRANSACTION_VERSION.V1,
-      maxFee,
+      version: ETransactionVersion.V3,
       chainId,
       nonce,
     });

@@ -75,11 +75,11 @@ export class AccountManager implements BaseUtilityClass {
     accountDetails: AccountDetails
   ): Promise<TransactionResult> {
     try {
-      const account = new Account(
-        this.provider,
-        accountDetails.contractAddress,
-        accountDetails.privateKey
-      );
+      const account = new Account({
+        provider: this.provider,
+        address: accountDetails.contractAddress,
+        signer: accountDetails.privateKey,
+      });
 
       const axSigner = new CairoCustomEnum({
         Starknet: { pubkey: accountDetails.publicKey },
@@ -124,12 +124,11 @@ export class AccountManager implements BaseUtilityClass {
     accountDetails: AccountDetails
   ) {
     try {
-      const account = new Account(
-        this.provider,
-        accountDetails.contractAddress,
-        accountDetails.privateKey
-      );
-
+      const account = new Account({
+        provider: this.provider,
+        address: accountDetails.contractAddress,
+        signer: accountDetails.privateKey,
+      });
       const axSigner = new CairoCustomEnum({
         Starknet: { pubkey: accountDetails.publicKey },
       });

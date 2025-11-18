@@ -22,7 +22,7 @@
     "@modelcontextprotocol/sdk": "^1.11.2",
     "dotenv": "^16.4.7",
     "fibrous-router-sdk": "0.4.3",
-    "starknet": "^7.6.4",
+        "starknet": "8.6.0",
     "winston": "^3.17.0",
     "zod": "^3.24.2"
   },

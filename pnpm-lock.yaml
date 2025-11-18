@@ -58,8 +58,8 @@ importers:
   packages/core:
     dependencies:
       starknet:
-        specifier: ^7.6.4
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -90,7 +90,7 @@ importers:
         version: 0.3.55(@browserbasehq/sdk@2.6.0(encoding@0.1.13))(@browserbasehq/stagehand@1.14.0(@playwright/test@1.55.0)(deepmerge@4.3.1)(dotenv@16.5.0)(encoding@0.1.13)(openai@5.12.2(ws@8.18.2)(zod@3.25.76))(zod@3.25.76))(@ibm-cloud/watsonx-ai@1.6.12)(@langchain/anthropic@0.3.27(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))))(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))(@langchain/google-genai@0.2.18(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))))(axios@1.12.2)(encoding@0.1.13)(fast-xml-parser@4.5.3)(handlebars@4.7.8)(ibm-cloud-sdk-core@5.4.2)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@5.12.2(ws@8.18.2)(zod@3.25.76))(playwright@1.55.0)(weaviate-client@3.8.1(encoding@0.1.13))(ws@8.18.2)
       '@langchain/core':
         specifier: ^0.3.72
-        version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(zod@3.25.76))
       '@langchain/google-genai':
         specifier: ^0.2.18
         version: 0.2.18(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))
@@ -127,7 +127,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.75
-        version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: ^1.11.2
         version: 1.17.5
@@ -135,8 +135,8 @@ importers:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: ^7.6.4
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -158,7 +158,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: ^1.11.2
         version: 1.17.5
@@ -169,8 +169,8 @@ importers:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: ^7.1.0
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -189,13 +189,13 @@ importers:
     dependencies:
       '@avnu/avnu-sdk':
         specifier: ^3.1.1
-        version: 3.1.1(ethers@6.15.0)(moment@2.30.1)(qs@6.14.0)(starknet@7.6.4)
+        version: 3.1.1(ethers@6.15.0)(moment@2.30.1)(qs@6.14.0)(starknet@8.6.0)
       '@kasarlabs/ask-starknet-core':
         specifier: workspace:*
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.75
-        version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: ^1.11.2
         version: 1.17.5
@@ -203,8 +203,8 @@ importers:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: ^7.6.4
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -226,7 +226,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.75
-        version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: ^1.11.2
         version: 1.17.5
@@ -234,8 +234,8 @@ importers:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: ^7.6.4
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -293,8 +293,8 @@ importers:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: ^7.6.4
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -324,8 +324,8 @@ importers:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: ^7.6.4
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       zod:
         specifier: ^3.24.2
         version: 3.25.76
@@ -349,8 +349,8 @@ importers:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: ^7.6.4
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       zod:
         specifier: ^3.24.2
         version: 3.25.76
@@ -369,7 +369,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: ^1.11.2
         version: 1.17.5
@@ -377,8 +377,8 @@ importers:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: ^7.6.4
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -400,7 +400,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: ^1.11.2
         version: 1.17.5
@@ -408,8 +408,8 @@ importers:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: ^7.6.4
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -454,8 +454,8 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       starknet:
-        specifier: ^7.6.4
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       zod:
         specifier: ^3.24.2
         version: 3.25.76
@@ -480,7 +480,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: ^1.11.2
         version: 1.17.5
@@ -491,8 +491,8 @@ importers:
         specifier: 0.4.3
         version: 0.4.3(encoding@0.1.13)
       starknet:
-        specifier: ^7.6.4
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -532,14 +532,17 @@ importers:
         specifier: ^5.8.2
         version: 5.9.2
 
-  packages/mcps/okx:
+  packages/mcps/mist-cash:
     dependencies:
       '@kasarlabs/ask-starknet-core':
         specifier: workspace:*
         version: link:../../core
       '@langchain/core':
-        specifier: ^0.3.75
-        version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
+        specifier: ^0.3.42
+        version: 0.3.75(openai@5.12.2(zod@3.25.76))
+      '@mistcash/sdk':
+        specifier: ^0.2.1
+        version: 0.2.1
       '@modelcontextprotocol/sdk':
         specifier: ^1.11.2
         version: 1.17.5
@@ -547,8 +550,39 @@ importers:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: ^7.6.4
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
+      winston:
+        specifier: ^3.17.0
+        version: 3.17.0
+      zod:
+        specifier: ^3.24.2
+        version: 3.25.76
+    devDependencies:
+      '@types/node':
+        specifier: ^22.13.10
+        version: 22.15.17
+      typescript:
+        specifier: ^5.8.2
+        version: 5.9.2
+
+  packages/mcps/okx:
+    dependencies:
+      '@kasarlabs/ask-starknet-core':
+        specifier: workspace:*
+        version: link:../../core
+      '@langchain/core':
+        specifier: ^0.3.75
+        version: 0.3.75(openai@5.12.2(zod@3.25.76))
+      '@modelcontextprotocol/sdk':
+        specifier: ^1.11.2
+        version: 1.17.5
+      dotenv:
+        specifier: ^16.4.7
+        version: 16.5.0
+      starknet:
+        specifier: 8.6.0
+        version: 8.6.0
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -570,7 +604,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: ^1.11.2
         version: 1.17.5
@@ -578,8 +612,8 @@ importers:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: ^7.6.4
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -601,7 +635,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: ^1.11.2
         version: 1.17.5
@@ -612,8 +646,8 @@ importers:
         specifier: ^6.15.0
         version: 6.15.0
       starknet:
-        specifier: ^7.6.4
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -666,7 +700,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: ^1.11.2
         version: 1.17.5
@@ -674,8 +708,8 @@ importers:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: ^7.6.4
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -697,7 +731,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: ^1.11.2
         version: 1.17.5
@@ -705,8 +739,8 @@ importers:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: ^7.1.0
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -728,7 +762,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.75
-        version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: ^1.11.2
         version: 1.17.5
@@ -756,7 +790,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: ^1.11.2
         version: 1.17.5
@@ -764,8 +798,8 @@ importers:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: ^7.6.4
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -787,7 +821,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: ^1.11.2
         version: 1.17.5
@@ -798,8 +832,8 @@ importers:
         specifier: ^6.13.5
         version: 6.15.0
       starknet:
-        specifier: ^7.6.4
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -2019,6 +2053,15 @@ packages:
     resolution: {integrity: sha512-Z7C/xXCiGWsg0KuKsHTKJxbWhpI3Vs5GwLfOean7MGyVFGqdRgBbAjOCh6u4bbjPc/8MJ2pZmK/0DLdCbivLDA==}
     engines: {node: '>=8'}
 
+  '@mistcash/config@0.2.1':
+    resolution: {integrity: sha512-getRAAyRV2k91Y+WP1VskktReXw6LbXfHSE7qEfbHTdBQTnWq/OcW5yKlhC/+VhSBm5sPNAcb9k8x6aGnVBFsQ==}
+
+  '@mistcash/crypto@0.2.1':
+    resolution: {integrity: sha512-pGWONQrDBYK8BLZ094NQDXqXZRFJqZlrfk5+6bJsztvybnKei9Nb0lJupzeqdRE8txkTCBDFRbgabNQB8MsKYg==}
+
+  '@mistcash/sdk@0.2.1':
+    resolution: {integrity: sha512-oHrvtj2TLgWilnBpVKeVSKKaUbvZxX8ngJgkMjI1W7ce5LxQfqumBoz97LW87+z2JfiTQUgCOPWqTKp7HNqUhA==}
+
   '@modelcontextprotocol/sdk@1.17.5':
     resolution: {integrity: sha512-QakrKIGniGuRVfWBdMsDea/dx1PNE739QJ7gCM41s9q+qaCYTHCdsIBXQVVXry3mfWAiaM9kT22Hyz53Uw8mfg==}
     engines: {node: '>=18'}
@@ -2360,6 +2403,9 @@ packages:
 
   '@starknet-io/types-js@0.8.4':
     resolution: {integrity: sha512-0RZ3TZHcLsUTQaq1JhDSCM8chnzO4/XNsSCozwDET64JK5bjFDIf2ZUkta+tl5Nlbf4usoU7uZiDI/Q57kt2SQ==}
+
+  '@starknet-io/types-js@0.9.2':
+    resolution: {integrity: sha512-vWOc0FVSn+RmabozIEWcEny1I73nDGTvOrLYJsR1x7LGA3AZmqt4i/aW69o/3i2NN5CVP8Ok6G1ayRQJKye3Wg==}
 
   '@tokenizer/inflate@0.2.7':
     resolution: {integrity: sha512-MADQgmZT1eKjp06jpI2yozxaU9uVs4GzzgSL+uEq7bVcJ9V1ZXQkeGNql1fsSI0gMy1vhvNTNbUqrx+pZfJVmg==}
@@ -3624,6 +3670,9 @@ packages:
   function-bind@1.1.2:
     resolution: {integrity: sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==}
 
+  garaga@0.18.2:
+    resolution: {integrity: sha512-pf/IWXx5lXbhAQBG9z/gp4HdC1q96pX2Q+KflfCjz2qqeMhkUSxx4e87sJq7ubSubc3aZuX3k285aGO03iDUvw==}
+
   gensync@1.0.0-beta.2:
     resolution: {integrity: sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==}
     engines: {node: '>=6.9.0'}
@@ -4447,8 +4496,8 @@ packages:
   long@5.3.2:
     resolution: {integrity: sha512-mNAgZ1GmyNhD7AuqnTG3/VQ26o760+ZYBPKjPvugO8+nLbYfX6TVpJPseBvopbdY+qpZ/lKUnmEc1LeZYS3QAA==}
 
-  lossless-json@4.0.2:
-    resolution: {integrity: sha512-+z0EaLi2UcWi8MZRxA5iTb6m4Ys4E80uftGY+yG5KNFJb5EceQXOhdW/pWJZ8m97s26u7yZZAYMcKWNztSZssA==}
+  lossless-json@4.3.0:
+    resolution: {integrity: sha512-ToxOC+SsduRmdSuoLZLYAr5zy1Qu7l5XhmPWM3zefCZ5IcrzW/h108qbJUKfOlDlhvhjUK84+8PSVX0kxnit0g==}
 
   lru-cache@10.4.3:
     resolution: {integrity: sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==}
@@ -5413,8 +5462,8 @@ packages:
   starknet@6.24.1:
     resolution: {integrity: sha512-g7tiCt73berhcNi41otlN3T3kxZnIvZhMi8WdC21Y6GC6zoQgbI2z1t7JAZF9c4xZiomlanwVnurcpyfEdyMpg==}
 
-  starknet@7.6.4:
-    resolution: {integrity: sha512-FB20IaLCDbh/XomkB+19f5jmNxG+RzNdRO7QUhm7nfH81UPIt2C/MyWAlHCYkbv2wznSEb73wpxbp9tytokTgQ==}
+  starknet@8.6.0:
+    resolution: {integrity: sha512-5rDiJPnc3GpH7KA8B/TqCzKgdpZbxaA52clf/OEhDKhMbbJpWeRcDqKKC8u+kFD9Nd/Rt6y2hwmZ32u82Ycurg==}
     engines: {node: '>=22'}
 
   statuses@2.0.1:
@@ -5999,12 +6048,12 @@ snapshots:
 
   '@anthropic-ai/sdk@0.56.0': {}
 
-  '@avnu/avnu-sdk@3.1.1(ethers@6.15.0)(moment@2.30.1)(qs@6.14.0)(starknet@7.6.4)':
+  '@avnu/avnu-sdk@3.1.1(ethers@6.15.0)(moment@2.30.1)(qs@6.14.0)(starknet@8.6.0)':
     dependencies:
       ethers: 6.15.0
       moment: 2.30.1
       qs: 6.14.0
-      starknet: 7.6.4
+      starknet: 8.6.0
 
   '@babel/code-frame@7.27.1':
     dependencies:
@@ -6805,14 +6854,14 @@ snapshots:
   '@langchain/anthropic@0.3.27(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))':
     dependencies:
       '@anthropic-ai/sdk': 0.56.0
-      '@langchain/core': 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
+      '@langchain/core': 0.3.75(openai@5.12.2(zod@3.25.76))
       fast-xml-parser: 4.5.3
 
   '@langchain/community@0.3.55(@browserbasehq/sdk@2.6.0(encoding@0.1.13))(@browserbasehq/stagehand@1.14.0(@playwright/test@1.55.0)(deepmerge@4.3.1)(dotenv@16.5.0)(encoding@0.1.13)(openai@5.12.2(ws@8.18.2)(zod@3.25.76))(zod@3.25.76))(@ibm-cloud/watsonx-ai@1.6.12)(@langchain/anthropic@0.3.27(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))))(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))(@langchain/google-genai@0.2.18(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))))(axios@1.12.2)(encoding@0.1.13)(fast-xml-parser@4.5.3)(handlebars@4.7.8)(ibm-cloud-sdk-core@5.4.2)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@5.12.2(ws@8.18.2)(zod@3.25.76))(playwright@1.55.0)(weaviate-client@3.8.1(encoding@0.1.13))(ws@8.18.2)':
     dependencies:
       '@browserbasehq/stagehand': 1.14.0(@playwright/test@1.55.0)(deepmerge@4.3.1)(dotenv@16.5.0)(encoding@0.1.13)(openai@5.12.2(ws@8.18.2)(zod@3.25.76))(zod@3.25.76)
       '@ibm-cloud/watsonx-ai': 1.6.12
-      '@langchain/core': 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
+      '@langchain/core': 0.3.75(openai@5.12.2(zod@3.25.76))
       '@langchain/openai': 0.6.11(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))(ws@8.18.2)
       '@langchain/weaviate': 0.2.2(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))(encoding@0.1.13)
       binary-extensions: 2.3.0
@@ -6821,7 +6870,7 @@ snapshots:
       ibm-cloud-sdk-core: 5.4.2
       js-yaml: 4.1.0
       langchain: 0.3.33(@langchain/anthropic@0.3.27(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))))(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))(@langchain/google-genai@0.2.18(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))))(axios@1.12.2)(handlebars@4.7.8)(openai@5.12.2(ws@8.18.2)(zod@3.25.76))(ws@8.18.2)
-      langsmith: 0.3.67(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
+      langsmith: 0.3.67(openai@5.12.2(zod@3.25.76))
       openai: 5.12.2(ws@8.18.2)(zod@3.25.76)
       uuid: 10.0.0
       zod: 3.25.76
@@ -6854,14 +6903,14 @@ snapshots:
       - handlebars
       - peggy
 
-  '@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))':
+  '@langchain/core@0.3.75(openai@5.12.2(zod@3.25.76))':
     dependencies:
       '@cfworker/json-schema': 4.1.1
       ansi-styles: 5.2.0
       camelcase: 6.3.0
       decamelize: 1.2.0
       js-tiktoken: 1.0.20
-      langsmith: 0.3.67(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
+      langsmith: 0.3.67(openai@5.12.2(zod@3.25.76))
       mustache: 4.2.0
       p-queue: 6.6.2
       p-retry: 4.6.2
@@ -6877,12 +6926,12 @@ snapshots:
   '@langchain/google-genai@0.2.18(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))':
     dependencies:
       '@google/generative-ai': 0.24.1
-      '@langchain/core': 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
+      '@langchain/core': 0.3.75(openai@5.12.2(zod@3.25.76))
       uuid: 11.1.0
 
   '@langchain/langgraph-checkpoint@0.1.1(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))':
     dependencies:
-      '@langchain/core': 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
+      '@langchain/core': 0.3.75(openai@5.12.2(zod@3.25.76))
       uuid: 10.0.0
 
   '@langchain/langgraph-sdk@0.1.2(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))':
@@ -6892,11 +6941,11 @@ snapshots:
       p-retry: 4.6.2
       uuid: 9.0.1
     optionalDependencies:
-      '@langchain/core': 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
+      '@langchain/core': 0.3.75(openai@5.12.2(zod@3.25.76))
 
   '@langchain/langgraph@0.4.9(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))(zod-to-json-schema@3.24.5(zod@3.25.76))':
     dependencies:
-      '@langchain/core': 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
+      '@langchain/core': 0.3.75(openai@5.12.2(zod@3.25.76))
       '@langchain/langgraph-checkpoint': 0.1.1(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))
       '@langchain/langgraph-sdk': 0.1.2(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))
       uuid: 10.0.0
@@ -6909,7 +6958,7 @@ snapshots:
 
   '@langchain/mcp-adapters@0.6.0(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))':
     dependencies:
-      '@langchain/core': 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
+      '@langchain/core': 0.3.75(openai@5.12.2(zod@3.25.76))
       '@modelcontextprotocol/sdk': 1.17.5
       debug: 4.4.1
       zod: 3.25.76
@@ -6920,7 +6969,7 @@ snapshots:
 
   '@langchain/openai@0.6.11(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))(ws@8.18.2)':
     dependencies:
-      '@langchain/core': 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
+      '@langchain/core': 0.3.75(openai@5.12.2(zod@3.25.76))
       js-tiktoken: 1.0.20
       openai: 5.12.2(ws@8.18.2)(zod@3.25.76)
       zod: 3.25.76
@@ -6929,12 +6978,12 @@ snapshots:
 
   '@langchain/textsplitters@0.1.0(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))':
     dependencies:
-      '@langchain/core': 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
+      '@langchain/core': 0.3.75(openai@5.12.2(zod@3.25.76))
       js-tiktoken: 1.0.20
 
   '@langchain/weaviate@0.2.2(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))(encoding@0.1.13)':
     dependencies:
-      '@langchain/core': 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
+      '@langchain/core': 0.3.75(openai@5.12.2(zod@3.25.76))
       uuid: 10.0.0
       weaviate-client: 3.8.1(encoding@0.1.13)
     transitivePeerDependencies:
@@ -7019,6 +7068,20 @@ snapshots:
       - typescript
 
   '@lukeed/csprng@1.1.0': {}
+
+  '@mistcash/config@0.2.1':
+    dependencies:
+      starknet: 8.6.0
+
+  '@mistcash/crypto@0.2.1':
+    dependencies:
+      garaga: 0.18.2
+
+  '@mistcash/sdk@0.2.1':
+    dependencies:
+      '@mistcash/config': 0.2.1
+      '@mistcash/crypto': 0.2.1
+      starknet: 8.6.0
 
   '@modelcontextprotocol/sdk@1.17.5':
     dependencies:
@@ -7458,6 +7521,8 @@ snapshots:
   '@starknet-io/types-js@0.7.10': {}
 
   '@starknet-io/types-js@0.8.4': {}
+
+  '@starknet-io/types-js@0.9.2': {}
 
   '@tokenizer/inflate@0.2.7':
     dependencies:
@@ -8935,6 +9000,8 @@ snapshots:
 
   function-bind@1.1.2: {}
 
+  garaga@0.18.2: {}
+
   gensync@1.0.0-beta.2: {}
 
   get-caller-file@2.0.5: {}
@@ -9782,13 +9849,13 @@ snapshots:
 
   langchain@0.3.33(@langchain/anthropic@0.3.27(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))))(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))(@langchain/google-genai@0.2.18(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))))(axios@1.12.2)(handlebars@4.7.8)(openai@5.12.2(ws@8.18.2)(zod@3.25.76))(ws@8.18.2):
     dependencies:
-      '@langchain/core': 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
+      '@langchain/core': 0.3.75(openai@5.12.2(zod@3.25.76))
       '@langchain/openai': 0.6.11(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))(ws@8.18.2)
       '@langchain/textsplitters': 0.1.0(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))
       js-tiktoken: 1.0.20
       js-yaml: 4.1.0
       jsonpointer: 5.0.1
-      langsmith: 0.3.67(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
+      langsmith: 0.3.67(openai@5.12.2(zod@3.25.76))
       openapi-types: 12.1.3
       p-retry: 4.6.2
       uuid: 10.0.0
@@ -9806,7 +9873,7 @@ snapshots:
       - openai
       - ws
 
-  langsmith@0.3.67(openai@5.12.2(ws@8.18.2)(zod@3.25.76)):
+  langsmith@0.3.67(openai@5.12.2(zod@3.25.76)):
     dependencies:
       '@types/uuid': 10.0.0
       chalk: 4.1.2
@@ -10006,7 +10073,7 @@ snapshots:
 
   long@5.3.2: {}
 
-  lossless-json@4.0.2: {}
+  lossless-json@4.3.0: {}
 
   lru-cache@10.4.3: {}
 
@@ -11063,23 +11130,23 @@ snapshots:
       abi-wan-kanabi: 2.2.4
       fetch-cookie: 3.0.1
       isomorphic-fetch: 3.0.0(encoding@0.1.13)
-      lossless-json: 4.0.2
+      lossless-json: 4.3.0
       pako: 2.1.0
       starknet-types-07: '@starknet-io/types-js@0.7.10'
       ts-mixer: 6.0.4
     transitivePeerDependencies:
       - encoding
 
-  starknet@7.6.4:
+  starknet@8.6.0:
     dependencies:
       '@noble/curves': 1.7.0
       '@noble/hashes': 1.6.0
       '@scure/base': 1.2.1
       '@scure/starknet': 1.1.0
-      '@starknet-io/starknet-types-07': '@starknet-io/types-js@0.7.10'
       '@starknet-io/starknet-types-08': '@starknet-io/types-js@0.8.4'
+      '@starknet-io/starknet-types-09': '@starknet-io/types-js@0.9.2'
       abi-wan-kanabi: 2.2.4
-      lossless-json: 4.0.2
+      lossless-json: 4.3.0
       pako: 2.1.0
       ts-mixer: 6.0.4
 
