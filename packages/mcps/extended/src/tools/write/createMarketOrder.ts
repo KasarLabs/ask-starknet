@@ -75,6 +75,8 @@ export const createMarketOrder = async (
       starknetDomain,
       vaultId,
       starkPrivateKey,
+      builderId: env.builderParams?.builderId,
+      builderFee: env.builderParams?.builderFee,
     });
     const orderPayload = Order.create({
       marketName: params.market,

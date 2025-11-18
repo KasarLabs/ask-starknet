@@ -39,7 +39,7 @@ import { createMarketOrder } from './tools/write/createMarketOrder.js';
 import { addPositionTpSl } from './tools/write/addPositionTpSl.js';
 import { cancelOrder } from './tools/write/cancelOrder.js';
 import { updateLeverage } from './tools/write/updateLeverage.js';
-
+import { Decimal, Long } from './lib/utils/lib-extended/index.js';
 // Import schemas
 import {
   GetBalanceSchema,
@@ -84,7 +84,16 @@ const createApiEnv = (): ExtendedApiEnv => {
   const apiUrl =
     process.env.EXTENDED_API_URL || 'https://api.starknet.extended.exchange';
   const privateKey = process.env.EXTENDED_PRIVATE_KEY;
-
+  const builderFee = process.env.EXTENDED_BUILDER_FEE
+    ? Decimal(parseInt(process.env.EXTENDED_BUILDER_FEE))
+    : undefined;
+  const builderId = process.env.EXTENDED_BUILDER_ID
+    ? Long(parseInt(process.env.EXTENDED_BUILDER_ID))
+    : undefined;
+  const builderParams =
+    builderId !== undefined && builderFee !== undefined
+      ? { builderId, builderFee }
+      : undefined;
   // Validate required environment variables
   if (!apiKey) {
     throw new Error(
@@ -93,11 +102,11 @@ const createApiEnv = (): ExtendedApiEnv => {
         'Get your API key from https://starknet.extended.exchange/'
     );
   }
-
   return {
     apiKey,
     apiUrl,
     privateKey,
+    builderParams,
   };
 };
 

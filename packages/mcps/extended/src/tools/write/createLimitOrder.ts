@@ -61,6 +61,8 @@ export const createLimitOrder = async (
       starknetDomain,
       vaultId,
       starkPrivateKey,
+      builderId: env.builderParams?.builderId,
+      builderFee: env.builderParams?.builderFee,
     });
 
     // Calculate expiry time if GTT

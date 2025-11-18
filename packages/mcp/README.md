@@ -56,6 +56,8 @@ Used by: **Starknet RPC**
 - `EXTENDED_API_KEY`: Your Extended API key
 - `EXTENDED_API_URL`: Extended API endpoint
 - `EXTENDED_PRIVATE_KEY`: Your Stark private key for Extended
+- `EXTENDED_BUILDER_ID` (optional): Builder identifier for referral/fee sharing programs on Extended exchange
+- `EXTENDED_BUILDER_FEE` (optional): Builder fee rate (in basis points) applied to trades when using a builder ID
 
 Used by: **Extended**
 
