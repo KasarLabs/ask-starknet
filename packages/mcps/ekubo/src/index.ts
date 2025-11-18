@@ -100,7 +100,7 @@ const registerTools = (EkuboToolRegistry: mcpTool[]) => {
   EkuboToolRegistry.push({
     name: 'swap',
     description:
-      'Swap tokens on Ekubo DEX. Supports both exact input (specify input amount) and exact output (specify desired output amount) swaps with configurable slippage tolerance.',
+      'Swap tokens on Ekubo DEX. Supports both exact input (specify input amount) and exact output (specify desired output amount) swaps with configurable slippage tolerance. You can use token symbols (e.g., "STRK", "USDC", "ETH") or contract addresses. Supported symbols: STRK, USDC, USDT, ETH, DAI, WBTC, and many others. Either token_in_symbol or token_in_address must be provided, and either token_out_symbol or token_out_address must be provided.',
     schema: swapTokensSchema,
     execute: async (params: any) => {
       const onchainWrite = getOnchainWrite();

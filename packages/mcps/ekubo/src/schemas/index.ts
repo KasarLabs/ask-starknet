@@ -5,19 +5,27 @@ export const poolKeySchema = z
     token0_symbol: z
       .string()
       .optional()
-      .describe('The symbol of the first token (e.g., "ETH", "USDC")'),
+      .describe(
+        'The symbol of the first token (e.g., "STRK", "USDC", "ETH", "WBTC"). Either token0_symbol or token0_address must be provided. Supported symbols include: STRK, USDC, USDT, ETH, DAI, WBTC, and many others.'
+      ),
     token0_address: z
       .string()
       .optional()
-      .describe('The contract address of the first token'),
+      .describe(
+        'The contract address of the first token. Either token0_symbol or token0_address must be provided.'
+      ),
     token1_symbol: z
       .string()
       .optional()
-      .describe('The symbol of the second token (e.g., "ETH", "USDC")'),
+      .describe(
+        'The symbol of the second token (e.g., "STRK", "USDC", "ETH", "WBTC"). Either token1_symbol or token1_address must be provided. Supported symbols include: STRK, USDC, USDT, ETH, DAI, WBTC, and many others.'
+      ),
     token1_address: z
       .string()
       .optional()
-      .describe('The contract address of the second token'),
+      .describe(
+        'The contract address of the second token. Either token1_symbol or token1_address must be provided.'
+      ),
     fee: z
       .number()
       .optional()
@@ -55,20 +63,26 @@ export const getTokenPriceSchema = z
       .string()
       .optional()
       .describe(
-        'The symbol of the token to get the price for (e.g., "ETH", "USDC")'
+        'The symbol of the token to get the price for (e.g., "STRK", "USDC", "ETH", "WBTC"). Either token_symbol or token_address must be provided. Supported symbols include: STRK, USDC, USDT, ETH, DAI, WBTC, and many others.'
       ),
     token_address: z
       .string()
       .optional()
-      .describe('The contract address of the token to get the price for'),
+      .describe(
+        'The contract address of the token to get the price for. Either token_symbol or token_address must be provided.'
+      ),
     quote_currency_symbol: z
       .string()
       .optional()
-      .describe('The symbol of the quote currency (e.g., "USDC", "ETH")'),
+      .describe(
+        'The symbol of the quote currency (e.g., "STRK", "USDC", "ETH", "WBTC"). Either quote_currency_symbol or quote_currency_address must be provided. Supported symbols include: STRK, USDC, USDT, ETH, DAI, WBTC, and many others.'
+      ),
     quote_currency_address: z
       .string()
       .optional()
-      .describe('The contract address of the quote currency'),
+      .describe(
+        'The contract address of the quote currency. Either quote_currency_symbol or quote_currency_address must be provided.'
+      ),
     fee: z
       .number()
       .optional()
@@ -106,19 +120,27 @@ export const swapTokensSchema = z
     token_in_symbol: z
       .string()
       .optional()
-      .describe('The symbol of the token to sell (e.g., "ETH", "USDC")'),
+      .describe(
+        'The symbol of the token to sell (e.g., "STRK", "USDC", "ETH", "WBTC"). Either token_in_symbol or token_in_address must be provided. Supported symbols include: STRK, USDC, USDT, ETH, DAI, WBTC, and many others.'
+      ),
     token_in_address: z
       .string()
       .optional()
-      .describe('The contract address of the token to sell'),
+      .describe(
+        'The contract address of the token to sell. Either token_in_symbol or token_in_address must be provided.'
+      ),
     token_out_symbol: z
       .string()
       .optional()
-      .describe('The symbol of the token to buy (e.g., "ETH", "USDC")'),
+      .describe(
+        'The symbol of the token to buy (e.g., "STRK", "USDC", "ETH", "WBTC"). Either token_out_symbol or token_out_address must be provided. Supported symbols include: STRK, USDC, USDT, ETH, DAI, WBTC, and many others.'
+      ),
     token_out_address: z
       .string()
       .optional()
-      .describe('The contract address of the token to buy'),
+      .describe(
+        'The contract address of the token to buy. Either token_out_symbol or token_out_address must be provided.'
+      ),
     amount: z
       .string()
       .describe('The amount to swap (in human decimals, e.g., "1" for 1 USDC)'),
@@ -171,7 +193,7 @@ export const addLiquiditySchema = z.object({
   position_id: z
     .number()
     .int()
-    .positive()
+    .min(1)
     .describe('The NFT position ID (u64) to add liquidity to'),
   amount0: z
     .string()
@@ -188,11 +210,7 @@ export const addLiquiditySchema = z.object({
 export type AddLiquiditySchema = z.infer<typeof addLiquiditySchema>;
 
 export const withdrawLiquiditySchema = z.object({
-  position_id: z
-    .number()
-    .int()
-    .positive()
-    .describe('The NFT position ID (u64)'),
+  position_id: z.number().int().min(1).describe('The NFT position ID (u64)'),
   liquidity_amount: z
     .string()
     .describe(
@@ -218,7 +236,7 @@ export const transferPositionSchema = z.object({
   position_id: z
     .number()
     .int()
-    .positive()
+    .min(1)
     .describe('The NFT position ID to transfer (u64)'),
   to_address: z
     .string()
@@ -242,19 +260,27 @@ export const createPositionSchema = z
     token0_symbol: z
       .string()
       .optional()
-      .describe('The symbol of the first token (e.g., "ETH", "USDC")'),
+      .describe(
+        'The symbol of the first token (e.g., "STRK", "USDC", "ETH", "WBTC"). Either token0_symbol or token0_address must be provided. Supported symbols include: STRK, USDC, USDT, ETH, DAI, WBTC, and many others.'
+      ),
     token0_address: z
       .string()
       .optional()
-      .describe('The contract address of the first token'),
+      .describe(
+        'The contract address of the first token. Either token0_symbol or token0_address must be provided.'
+      ),
     token1_symbol: z
       .string()
       .optional()
-      .describe('The symbol of the second token (e.g., "ETH", "USDC")'),
+      .describe(
+        'The symbol of the second token (e.g., "STRK", "USDC", "ETH", "WBTC"). Either token1_symbol or token1_address must be provided. Supported symbols include: STRK, USDC, USDT, ETH, DAI, WBTC, and many others.'
+      ),
     token1_address: z
       .string()
       .optional()
-      .describe('The contract address of the second token'),
+      .describe(
+        'The contract address of the second token. Either token1_symbol or token1_address must be provided.'
+      ),
     lower_price: z
       .number()
       .describe(
@@ -300,7 +326,7 @@ export const getPositionSchema = z.object({
   position_id: z
     .number()
     .int()
-    .positive()
+    .min(1)
     .describe('The NFT position ID (u64) to get liquidity information for'),
 });
 
