@@ -30,7 +30,8 @@ const registerTools = (MistCashToolRegistry: mcpTool[]) => {
   // Deposit to chamber tool
   MistCashToolRegistry.push({
     name: 'mist_cash_deposit',
-    description: 'Deposit tokens into a Mist Cash chamber for private transactions. Generates a claiming key that can be used to withdraw the funds later.',
+    description:
+      'Deposit tokens into a Mist Cash chamber for private transactions. Generates a claiming key that can be used to withdraw the funds later.',
     schema: depositToChamberSchema,
     execute: async (params: any) => {
       const onchainWrite = getOnchainWrite();
@@ -41,7 +42,8 @@ const registerTools = (MistCashToolRegistry: mcpTool[]) => {
   // Get chamber info tool (read-only)
   MistCashToolRegistry.push({
     name: 'mist_cash_get_chamber_info',
-    description: 'Get information about a chamber (deposited funds) using a claiming key and recipient address. Shows token, amount, and whether the transaction still exists in the merkle tree.',
+    description:
+      'Get information about a chamber (deposited funds) using a claiming key and recipient address. Shows token, amount, and whether the transaction still exists in the merkle tree.',
     schema: getChamberInfoSchema,
     execute: async (params: any) => {
       const onchainRead = getOnchainRead();
@@ -52,7 +54,8 @@ const registerTools = (MistCashToolRegistry: mcpTool[]) => {
   // Withdraw from chamber tool
   MistCashToolRegistry.push({
     name: 'mist_cash_withdraw',
-    description: 'Withdraw tokens from a Mist Cash chamber using the claiming key. The tokens will be sent to the recipient address specified during deposit.',
+    description:
+      'Withdraw tokens from a Mist Cash chamber using the claiming key. The tokens will be sent to the recipient address specified during deposit.',
     schema: withdrawFromChamberSchema,
     execute: async (params: any) => {
       const onchainWrite = getOnchainWrite();

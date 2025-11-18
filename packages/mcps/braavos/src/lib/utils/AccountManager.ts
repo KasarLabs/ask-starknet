@@ -8,8 +8,9 @@ import {
   BigNumberish,
   Calldata,
   num,
+  EDAMode,
   ETransactionVersion,
-  EDataAvailabilityMode,
+  ResourceBoundsBN,
 } from 'starknet';
 
 import {
@@ -77,7 +78,7 @@ export class AccountManager implements BaseUtilityClass {
     accountDetails: AccountDetails
   ): Promise<bigint> {
     try {
-      const version = ETransactionVersion.V3;
+      const version = constants.TRANSACTION_VERSION.V1;
       const nonce = constants.ZERO;
       const chainId = await this.provider.getChainId();
 
@@ -106,18 +107,7 @@ export class AccountManager implements BaseUtilityClass {
         { version, nonce }
       );
 
-      // Calculate the overall fee from resource bounds with overhead
-      // This accounts for L1 gas (data availability) and L2 gas (execution)
-      const l1GasFee = BigInt(response.resourceBounds.l1_gas.max_amount) *
-                       BigInt(response.resourceBounds.l1_gas.max_price_per_unit);
-      const l2GasFee = BigInt(response.resourceBounds.l2_gas.max_amount) *
-                       BigInt(response.resourceBounds.l2_gas.max_price_per_unit);
-
-      // Add 50% overhead for safety margin (same as toOverheadOverallFee)
-      const totalFee = l1GasFee + l2GasFee;
-      const feeWithOverhead = (totalFee * BigInt(150)) / BigInt(100);
-
-      return feeWithOverhead;
+      return stark.estimatedFeeToMaxFee(response.overall_fee);
     } catch (error) {
       throw new Error(`Failed to estimate deploy fee: ${error.message}`);
     }
@@ -137,7 +127,7 @@ export class AccountManager implements BaseUtilityClass {
     maxFee?: BigNumberish
   ): Promise<TransactionResult> {
     try {
-      const version = ETransactionVersion.V3;
+      const version = constants.TRANSACTION_VERSION.V1;
       const nonce = constants.ZERO;
       const chainId = await this.provider.getChainId();
 
@@ -197,32 +187,34 @@ export class AccountManager implements BaseUtilityClass {
 
   private getBraavosSignature(
     contractAddress: BigNumberish,
-    constructorCalldata: Calldata,
+    compiledConstructorCalldata: Calldata,
     publicKey: BigNumberish,
     maxFee: BigNumberish,
     chainId: constants.StarknetChainId,
     nonce: bigint,
     privateKey: BigNumberish,
-        contractAddress: BigNumberish;
-        classHash: BigNumberish;
-        compiledConstructorCalldata: Calldata;
-        salt: BigNumberish;
-        chainId: ;
-        nonce: BigNumberish;
-        nonceDataAvailabilityMode: EDAMode$1;
-        feeDataAvailabilityMode: EDAMode$1;
-        resourceBounds: ResourceBoundsBN;
-        tip: BigNumberish;
-        paymasterData: BigNumberish[];
+    classHash: BigNumberish,
+    salt: BigNumberish,
+    nonceDataAvailabilityMode: EDAMode,
+    feeDataAvailabilityMode: EDAMode,
+    resourceBounds: ResourceBoundsBN,
+    tip: BigNumberish
   ): string[] {
     const txHash = hash.calculateDeployAccountTransactionHash({
       contractAddress,
       classHash: this.proxyClassHash,
-      compiledConstructorCalldata : constructorCalldata,
+      compiledConstructorCalldata,
       salt: publicKey,
       version: ETransactionVersion.V3,
       chainId,
       nonce,
+      nonceDataAvailabilityMode: EDAMode.L2,
+      feeDataAvailabilityMode: EDAMode.L2,
+      resourceBounds,
+      // paymasterData is required by CalcV3DeployAccountTxHashArgs in the typings;
+      // provide a default "no paymaster" value to satisfy the type
+      paymasterData: { paymaster: '0', paymaster_input: [] },
+      tip,
     });
 
     const parsedOtherSigner = [0, 0, 0, 0, 0, 0, 0];

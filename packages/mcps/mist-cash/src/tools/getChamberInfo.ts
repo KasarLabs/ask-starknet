@@ -1,5 +1,10 @@
 import { GetChamberInfoParams } from '../schemas/index.js';
-import { getChamber, fetchTxAssets, checkTxExists, fmtAmount } from '@mistcash/sdk';
+import {
+  getChamber,
+  fetchTxAssets,
+  checkTxExists,
+  fmtAmount,
+} from '@mistcash/sdk';
 import { Contract } from 'starknet';
 import { ERC20_ABI } from '@mistcash/config';
 import { onchainRead } from '@kasarlabs/ask-starknet-core';
@@ -16,19 +21,30 @@ export async function getChamberInfo(
     const chamberContract = getChamber();
 
     // Fetch transaction assets
-    console.error(`Fetching chamber info for claiming key: ${claimingKey.substring(0, 10)}...`);
-    const asset = await fetchTxAssets(chamberContract, claimingKey, recipientAddress);
+    console.error(
+      `Fetching chamber info for claiming key: ${claimingKey.substring(0, 10)}...`
+    );
+    const asset = await fetchTxAssets(
+      chamberContract,
+      claimingKey,
+      recipientAddress
+    );
 
     if (!asset || !asset.addr || asset.amount === 0n) {
-      return JSON.stringify({
-        success: false,
-        message: 'No chamber found for the provided claiming key and recipient',
-        data: {
-          claimingKey,
-          recipientAddress,
-          found: false,
+      return JSON.stringify(
+        {
+          success: false,
+          message:
+            'No chamber found for the provided claiming key and recipient',
+          data: {
+            claimingKey,
+            recipientAddress,
+            found: false,
+          },
         },
-      }, null, 2);
+        null,
+        2
+      );
     }
 
     // Get token information
@@ -60,25 +76,29 @@ export async function getChamberInfo(
     // Format amount for display
     const formattedAmount = fmtAmount(asset.amount, decimals);
 
-    return JSON.stringify({
-      success: true,
-      message: 'Chamber info retrieved successfully',
-      data: {
-        found: true,
-        exists: txExists,
-        claimingKey,
-        recipientAddress,
-        tokenAddress: asset.addr,
-        tokenName,
-        tokenSymbol,
-        amount: asset.amount.toString(),
-        formattedAmount,
-        decimals,
-        warning: txExists
-          ? 'Transaction exists in merkle tree (can be withdrawn)'
-          : 'Transaction NOT found in merkle tree (may have been withdrawn already)',
+    return JSON.stringify(
+      {
+        success: true,
+        message: 'Chamber info retrieved successfully',
+        data: {
+          found: true,
+          exists: txExists,
+          claimingKey,
+          recipientAddress,
+          tokenAddress: asset.addr,
+          tokenName,
+          tokenSymbol,
+          amount: asset.amount.toString(),
+          formattedAmount,
+          decimals,
+          warning: txExists
+            ? 'Transaction exists in merkle tree (can be withdrawn)'
+            : 'Transaction NOT found in merkle tree (may have been withdrawn already)',
+        },
       },
-    }, null, 2);
+      null,
+      2
+    );
   } catch (error: any) {
     console.error('Error in getChamberInfo:', error);
     throw new Error(`Get chamber info failed: ${error.message}`);

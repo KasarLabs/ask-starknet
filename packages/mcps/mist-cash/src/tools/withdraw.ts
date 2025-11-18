@@ -60,7 +60,9 @@ export async function withdrawFromChamber(
       txIndex
     );
 
-    console.error(`Merkle proof calculated with ${merkleProof.length} elements`);
+    console.error(
+      `Merkle proof calculated with ${merkleProof.length} elements`
+    );
 
     // Perform the withdraw
     console.error(`Withdrawing ${amount} tokens from chamber...`);
@@ -75,24 +77,30 @@ export async function withdrawFromChamber(
     );
 
     await account.waitForTransaction(withdrawTx.transaction_hash);
-    console.error(`Withdraw transaction confirmed: ${withdrawTx.transaction_hash}`);
+    console.error(
+      `Withdraw transaction confirmed: ${withdrawTx.transaction_hash}`
+    );
 
     // Format amount for display
     const formattedAmount = fmtAmount(BigInt(amount), decimals);
 
-    return JSON.stringify({
-      success: true,
-      message: 'Successfully withdrawn from chamber',
-      data: {
-        recipientAddress,
-        tokenAddress,
-        amount,
-        formattedAmount,
-        decimals,
-        transactionHash: withdrawTx.transaction_hash,
-        merkleProofLength: merkleProof.length,
+    return JSON.stringify(
+      {
+        success: true,
+        message: 'Successfully withdrawn from chamber',
+        data: {
+          recipientAddress,
+          tokenAddress,
+          amount,
+          formattedAmount,
+          decimals,
+          transactionHash: withdrawTx.transaction_hash,
+          merkleProofLength: merkleProof.length,
+        },
       },
-    }, null, 2);
+      null,
+      2
+    );
   } catch (error: any) {
     console.error('Error in withdrawFromChamber:', error);
     throw new Error(`Withdraw from chamber failed: ${error.message}`);
