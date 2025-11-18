@@ -1,26 +1,32 @@
+import { onchainRead } from '@kasarlabs/ask-starknet-core';
+import { GetPositionSchema } from '../../schemas/index.js';
 import { getContract } from '../../lib/utils/contracts.js';
 import { preparePoolKeyFromParams } from '../../lib/utils/pools.js';
-import { WithdrawLiquiditySchema } from '../../schemas/index.js';
 import { buildBounds } from '../../lib/utils/liquidity.js';
 import {
   convertTickSpacingExponentToPercent,
   convertFeeU128ToPercent,
 } from '../../lib/utils/math.js';
-import { fetchPositionData } from '../../lib/utils/position.js';
-import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
+import {
+  fetchPositionData,
+  fetchPositionOwner,
+} from '../../lib/utils/position.js';
 
-export const withdrawLiquidity = async (
-  env: onchainWrite,
-  params: WithdrawLiquiditySchema
-): Promise<toolResult> => {
+export const getPosition = async (
+  env: onchainRead,
+  params: GetPositionSchema
+) => {
+  const provider = env.provider;
   try {
-    const account = env.account;
-    const positionsContract = await getContract(env.provider, 'positions');
+    const positionsContract = await getContract(provider, 'positions');
 
-    // Fetch position data from API
+    // Fetch position data from API to get pool info and bounds
     const positionData = await fetchPositionData(params.position_id);
 
-    // Use API data
+    // Fetch owner from state API
+    const ownerAddress = await fetchPositionOwner(params.position_id);
+
+    // Use API data to prepare pool key
     const token0_address = positionData.token0;
     const token1_address = positionData.token1;
     const fee = convertFeeU128ToPercent(positionData.fee);
@@ -30,7 +36,7 @@ export const withdrawLiquidity = async (
     const extension = positionData.extension || '0x0';
 
     const { poolKey, token0, token1 } = await preparePoolKeyFromParams(
-      env.provider,
+      provider,
       {
         token0_address,
         token1_address,
@@ -56,61 +62,39 @@ export const withdrawLiquidity = async (
       );
     }
 
+    // Build bounds from ticks
     const bounds = buildBounds(lowerTick, upperTick);
-    const liquidity = params.fees_only ? 0 : BigInt(params.liquidity_amount);
-    const minToken0 = 0;
-    const minToken1 = 0;
-    const collectFees = params.collect_fees ?? true;
 
-    positionsContract.connect(account);
-    const withdrawCalldata = positionsContract.populate('withdraw', [
+    const positionResult = await positionsContract.get_token_info(
       params.position_id,
       poolKey,
-      bounds,
-      liquidity,
-      minToken0,
-      minToken1,
-      collectFees,
-    ]);
-
-    const clearToken0Calldata = positionsContract.populate('clear', [
-      { contract_address: token0.address },
-    ]);
-
-    const clearToken1Calldata = positionsContract.populate('clear', [
-      { contract_address: token1.address },
-    ]);
-
-    const { transaction_hash } = await account.execute([
-      withdrawCalldata,
-      clearToken0Calldata,
-      clearToken1Calldata,
-    ]);
-
-    const receipt = await account.waitForTransaction(transaction_hash);
-    if (!receipt.isSuccess()) {
-      throw new Error('Transaction confirmed but failed');
-    }
+      bounds
+    );
 
     return {
       status: 'success',
       data: {
-        transaction_hash,
-        token0: token0.symbol,
-        token1: token1.symbol,
         position_id: params.position_id,
-        liquidity_withdrawn: liquidity.toString(),
-        fees_only: params.fees_only,
-        collect_fees: collectFees,
+        owner_address: ownerAddress,
+        liquidity: positionResult.liquidity.toString(),
+        amount0: positionResult.amount0.toString(),
+        amount1: positionResult.amount1.toString(),
+        fees0: positionResult.fees0.toString(),
+        fees1: positionResult.fees1.toString(),
+        token0: token0.symbol || token0.address,
+        token1: token1.symbol || token1.address,
         lower_tick: lowerTick,
         upper_tick: upperTick,
+        pool_fee: fee,
+        tick_spacing: tick_spacing,
       },
     };
   } catch (error: unknown) {
+    console.error('Error getting position:', error);
     const errorMessage =
       error instanceof Error
         ? error.message
-        : 'Unknown error while withdrawing liquidity';
+        : 'Unknown error while getting position';
     return {
       status: 'failure',
       error: errorMessage,

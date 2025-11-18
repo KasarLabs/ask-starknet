@@ -15,16 +15,23 @@ export const getPoolInfo = async (
   try {
     const contract = await getContract(provider, 'core');
 
-    const { poolKey, token0, token1 } = await preparePoolKeyFromParams(
-      env.provider,
-      {
-        token0: params.token0,
-        token1: params.token1,
-        fee: params.fee,
-        tick_spacing: params.tick_spacing,
-        extension: params.extension,
-      }
-    );
+    const {
+      poolKey,
+      token0: t0,
+      token1: t1,
+      isTokenALower,
+    } = await preparePoolKeyFromParams(env.provider, {
+      token0_symbol: params.token0_symbol,
+      token0_address: params.token0_address,
+      token1_symbol: params.token1_symbol,
+      token1_address: params.token1_address,
+      fee: params.fee,
+      tick_spacing: params.tick_spacing,
+      extension: params.extension,
+    });
+
+    // Normalize: ensure token0 is always the lower address token
+    const [token0, token1] = isTokenALower ? [t0, t1] : [t1, t0];
 
     const priceResult = await contract.get_pool_price(poolKey);
     const liquidityResult = await contract.get_pool_liquidity(poolKey);
