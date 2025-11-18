@@ -18,12 +18,14 @@ import {
   withdrawLiquiditySchema,
   transferPositionSchema,
   createPositionSchema,
+  getPositionSchema,
 } from './schemas/index.js';
 
 import { getPoolInfo } from './tools/read/getPoolInfo.js';
 import { getTokenPrice } from './tools/read/getTokenPrice.js';
 import { getPoolLiquidity } from './tools/read/getPoolLiquidity.js';
 import { getPoolFeesPerLiquidity } from './tools/read/getPoolFeesPerLiquidity.js';
+import { getPosition } from './tools/read/getPosition.js';
 
 import { swap } from './tools/write/swap.js';
 import { createPosition } from './tools/write/createPosition.js';
@@ -83,11 +85,22 @@ const registerTools = (EkuboToolRegistry: mcpTool[]) => {
     },
   });
 
+  EkuboToolRegistry.push({
+    name: 'get_position',
+    description:
+      'Get liquidity information for a specific Ekubo position. Returns the liquidity amount and fees per liquidity for the position.',
+    schema: getPositionSchema,
+    execute: async (params: any) => {
+      const onchainRead = getOnchainRead();
+      return await getPosition(onchainRead, params);
+    },
+  });
+
   // Write operations
   EkuboToolRegistry.push({
     name: 'swap',
     description:
-      'Swap tokens on Ekubo DEX. Supports both exact input (specify input amount) and exact output (specify desired output amount) swaps with configurable slippage tolerance.',
+      'Swap tokens on Ekubo DEX. Supports both exact input (specify input amount) and exact output (specify desired output amount) swaps with configurable slippage tolerance. You can use token symbols (e.g., "STRK", "USDC", "ETH") or contract addresses. Supported symbols: STRK, USDC, USDT, ETH, DAI, WBTC, and many others. Either token_in_symbol or token_in_address must be provided, and either token_out_symbol or token_out_address must be provided.',
     schema: swapTokensSchema,
     execute: async (params: any) => {
       const onchainWrite = getOnchainWrite();
