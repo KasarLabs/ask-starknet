@@ -5,7 +5,6 @@ import {
 } from '../../lib/types/index.js';
 import { apiGet } from '../../lib/utils/api.js';
 import { GetOrdersHistorySchema } from '../../schemas/index.js';
-import { toolResult } from '@kasarlabs/ask-starknet-core';
 
 export const getOrdersHistory = async (
   env: ExtendedApiEnv,

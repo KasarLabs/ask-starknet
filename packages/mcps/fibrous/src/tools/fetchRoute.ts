@@ -2,7 +2,6 @@ import { TokenService } from './fetchTokens.js';
 import { Router as FibrousRouter, RouteResponse } from 'fibrous-router-sdk';
 import { BigNumber } from '@ethersproject/bignumber';
 import { RouteSchemaType } from '../schemas/index.js';
-import { toolResult } from '@kasarlabs/ask-starknet-core';
 
 export interface RouteResult {
   status: 'success' | 'failure';

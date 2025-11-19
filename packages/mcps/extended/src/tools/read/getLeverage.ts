@@ -5,7 +5,6 @@ import {
 } from '../../lib/types/index.js';
 import { apiGet } from '../../lib/utils/api.js';
 import { GetLeverageSchema } from '../../schemas/index.js';
-import { toolResult } from '@kasarlabs/ask-starknet-core';
 
 export const getLeverage = async (
   env: ExtendedApiEnv,

@@ -1,6 +1,5 @@
 import { ExtendedApiEnv, ExtendedApiResponse } from '../../lib/types/index.js';
 import { apiGet } from '../../lib/utils/api.js';
-import { toolResult } from '@kasarlabs/ask-starknet-core';
 
 interface BridgeChain {
   chain: string;

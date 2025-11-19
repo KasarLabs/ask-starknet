@@ -5,7 +5,6 @@ import {
 } from '../../lib/types/index.js';
 import { apiGet } from '../../lib/utils/api.js';
 import { GetPositionsSchema } from '../../schemas/index.js';
-import { toolResult } from '@kasarlabs/ask-starknet-core';
 
 export const getPositions = async (
   env: ExtendedApiEnv,

@@ -215,12 +215,6 @@ export class DepositEarnService {
         },
       };
     } catch (error) {
-      // console.error('Detailed deposit error:', error);
-      if (error instanceof Error) {
-        //     console.error('Error type:', error.constructor.name);
-        //     console.error('Error message:', error.message);
-        // console.error('Error stack:', error.stack);
-      }
       return {
         status: 'failure',
         error: error instanceof Error ? error.message : 'Unknown error',
@@ -260,11 +254,8 @@ export const depositEarnPosition = async (
   const accountAddress = env.account?.address;
   try {
     const depositEarnService = createDepositEarnService(env, accountAddress);
-    const result = await depositEarnService.depositEarnTransaction(params, env);
-    return {
-      status: 'success',
-      data: result,
-    };
+    const res = await depositEarnService.depositEarnTransaction(params, env);
+    return res;
   } catch (error) {
     return {
       status: 'failure',

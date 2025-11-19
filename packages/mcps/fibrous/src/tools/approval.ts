@@ -2,7 +2,6 @@ import { Account, Call, Contract } from 'starknet';
 import { ERC20_ABI } from '../lib/abis/erc20Abi.js';
 import { Router } from 'fibrous-router-sdk';
 import { BigNumber } from '@ethersproject/bignumber';
-import { toolResult } from '@kasarlabs/ask-starknet-core';
 
 export class ApprovalService {
   private fibrous: Router;

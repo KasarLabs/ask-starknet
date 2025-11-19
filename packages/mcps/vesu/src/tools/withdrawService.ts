@@ -167,7 +167,7 @@ export class WithdrawEarnService {
    * @param {onchainWrite | onchainRead} env - The onchain environment
    * @returns {Promise<WithdrawResult>} Result of the withdrawal operation
    */
-  async withdrawEarnTransaction(params: WithdrawParams, env: onchainWrite) {
+  async withdrawEarnTransaction(params: WithdrawParams, env: onchainWrite) : Promise<toolResult> {
     try {
       const account = new Account(
         this.env.provider,
@@ -231,11 +231,6 @@ export class WithdrawEarnService {
       };
     } catch (error) {
       console.error('Detailed deposit error:', error);
-      if (error instanceof Error) {
-        // console.error('Error type:', error.constructor.name);
-        // console.error('Error message:', error.message);
-        // console.error('Error stack:', error.stack);
-      }
       return {
         status: 'failure',
         error: error instanceof Error ? error.message : 'Unknown error',
