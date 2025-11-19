@@ -371,7 +371,9 @@
       "env": {
         "EXTENDED_API_KEY": "",
         "EXTENDED_API_URL": "",
-        "EXTENDED_PRIVATE_KEY": ""
+        "EXTENDED_PRIVATE_KEY": "",
+        "EXTENDED_BUILDER_ID": "",
+        "EXTENDED_BUILDER_FEE": ""
       }
     },
     "description": "Extended high-performance perpetuals exchange on Starknet for trading derivatives with on-chain settlement",
