@@ -466,5 +466,26 @@
         "mcp_doc_suggest_projects"
       ]
     }
+  },
+  "mist-cash": {
+    "client": {
+      "command": "npx",
+      "args": ["-y", "@kasarlabs/mist-cash-mcp@latest"],
+      "transport": "stdio",
+      "env": {
+        "STARKNET_RPC_URL": "",
+        "STARKNET_ACCOUNT_ADDRESS": "",
+        "STARKNET_PRIVATE_KEY": ""
+      }
+    },
+    "description": "Mist Cash privacy protocol for confidential deposits and withdrawals on Starknet using zero-knowledge proofs",
+    "promptInfo": {
+      "expertise": "Privacy-preserving transactions with Mist Cash protocol on Starknet",
+      "tools": [
+        "mist_cash_deposit",
+        "mist_cash_get_chamber_info",
+        "mist_cash_withdraw"
+      ]
+    }
   }
 }
