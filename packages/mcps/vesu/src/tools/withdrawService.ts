@@ -167,7 +167,10 @@ export class WithdrawEarnService {
    * @param {onchainWrite | onchainRead} env - The onchain environment
    * @returns {Promise<WithdrawResult>} Result of the withdrawal operation
    */
-  async withdrawEarnTransaction(params: WithdrawParams, env: onchainWrite) : Promise<toolResult> {
+  async withdrawEarnTransaction(
+    params: WithdrawParams,
+    env: onchainWrite
+  ): Promise<toolResult> {
     try {
       const account = new Account(
         this.env.provider,
