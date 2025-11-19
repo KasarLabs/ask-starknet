@@ -53,7 +53,11 @@ export const isMemecoin = async (
 ) => {
   try {
     const provider = env.provider;
-    const contract = new Contract(FACTORY_ABI, FACTORY_ADDRESS, provider);
+    const contract = new Contract({
+      abi: FACTORY_ABI,
+      address: FACTORY_ADDRESS,
+      providerOrAccount: provider,
+    });
     const result = await contract.is_memecoin(params.contractAddress);
 
     return {

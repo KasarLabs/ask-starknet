@@ -122,7 +122,11 @@ export const getSymbol = async (
     const address = validateAndParseAddress(params.assetAddress);
 
     const abi = await detectAbiType(address, provider);
-    const contract = new Contract(abi, address, provider);
+    const contract = new Contract({
+      abi,
+      address,
+      providerOrAccount: provider,
+    });
 
     let out: string[] = [];
     try {

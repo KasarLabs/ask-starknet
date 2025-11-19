@@ -56,7 +56,11 @@ export const getLiquidTokenContract = (
   }
 
   // All liquid tokens use the ERC4626 ABI (same as xSTRK)
-  return new Contract(XSTRK_ABI, address, provider);
+  return new Contract({
+    abi: XSTRK_ABI,
+    address: address,
+    providerOrAccount: provider,
+  });
 };
 
 /**
@@ -76,7 +80,11 @@ export const getUnderlyingTokenContract = (
     );
   }
 
-  return new Contract(NEW_ERC20_ABI, address, provider);
+  return new Contract({
+    abi: NEW_ERC20_ABI,
+    address,
+    providerOrAccount: provider,
+  });
 };
 
 /**
@@ -96,7 +104,11 @@ export const getWithdrawQueueNFTContract = (
     );
   }
 
-  return new Contract(WITHDRAW_QUEUE_ABI, address, provider);
+  return new Contract({
+    abi: WITHDRAW_QUEUE_ABI,
+    address,
+    providerOrAccount: provider,
+  });
 };
 
 /**

@@ -50,7 +50,7 @@ export const CreateArgentAccountSignature = async () => {
       ARGENT_CLASS_HASH,
       accountDetails
     );
-    const maxFee = suggestedMaxFee.suggestedMaxFee * 2n;
+    const maxFee = suggestedMaxFee.overall_fee * 2n; // TODO : Adjust multiplier as needed has been changed to overall_fee instead of suggestedMaxFee
 
     return {
       status: 'success',

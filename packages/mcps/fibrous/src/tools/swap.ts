@@ -35,13 +35,11 @@ export class SwapService {
 
       const provider = this.env.provider;
       const contractInteractor = new ContractInteractor(provider);
-      const account = new Account(
+      const account = new Account({
         provider,
-        this.walletAddress,
-        this.env.account.signer,
-        undefined,
-        constants.TRANSACTION_VERSION.V3
-      );
+        address: this.walletAddress,
+        signer: this.env.account.signer,
+      });
 
       const { sellToken, buyToken } = this.tokenService.validateTokenPair(
         params.sellTokenSymbol,

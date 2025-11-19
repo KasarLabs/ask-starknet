@@ -1,4 +1,11 @@
-import { Account, Contract, Call, CallData, hash, EstimateFee } from 'starknet';
+import {
+  Account,
+  Contract,
+  Call,
+  CallData,
+  hash,
+  EstimateFeeResponseOverhead,
+} from 'starknet';
 import {
   BaseUtilityClass,
   ContractDeployResult,
@@ -39,7 +46,7 @@ export class ContractInteractor implements BaseUtilityClass {
     classHash: string,
     constructorCalldata: any[] = [],
     salt?: string
-  ): Promise<EstimateFee> {
+  ): Promise<EstimateFeeResponseOverhead> {
     try {
       const deployPayload = {
         classHash,
@@ -73,7 +80,7 @@ export class ContractInteractor implements BaseUtilityClass {
   async estimateMulticall(
     account: Account,
     calls: Call[]
-  ): Promise<EstimateFee> {
+  ): Promise<EstimateFeeResponseOverhead> {
     try {
       return account.estimateInvokeFee(calls);
     } catch (error) {
@@ -82,7 +89,11 @@ export class ContractInteractor implements BaseUtilityClass {
   }
 
   createContract(abi: any[], address: string, account?: Account): Contract {
-    return new Contract(abi, address, account || this.provider);
+    return new Contract({
+      abi,
+      address,
+      providerOrAccount: account || this.provider,
+    });
   }
 
   async readContract(
@@ -122,7 +133,7 @@ export class ContractInteractor implements BaseUtilityClass {
     contract: Contract,
     method: string,
     args: any[] = []
-  ): Promise<EstimateFee> {
+  ): Promise<EstimateFeeResponseOverhead> {
     if (!contract.account) {
       throw new Error(
         'Contract must be connected to an account to estimate fees'

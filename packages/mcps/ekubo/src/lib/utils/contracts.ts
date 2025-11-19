@@ -54,7 +54,7 @@ export async function getContract(
   const address = getEkuboAddress(contractType, chain);
   const abi = CONTRACT_ABIS[contractType];
 
-  return new Contract(abi, address, provider);
+  return new Contract({ abi, address, providerOrAccount: provider });
 }
 
 /**
@@ -67,5 +67,9 @@ export function getERC20Contract(
   tokenAddress: string,
   provider: RpcProvider
 ): Contract {
-  return new Contract(NEW_ERC20_ABI, tokenAddress, provider);
+  return new Contract({
+    abi: NEW_ERC20_ABI,
+    address: tokenAddress,
+    providerOrAccount: provider,
+  });
 }

@@ -39,7 +39,11 @@ export const approve = async (
 
     const spenderAddress = address;
 
-    const contract = new Contract(abi, token.address, provider);
+    const contract = new Contract({
+      abi,
+      address: token.address,
+      providerOrAccount: provider,
+    });
     contract.connect(account);
 
     const calldata = contract.populate('approve', [spenderAddress, amount]);

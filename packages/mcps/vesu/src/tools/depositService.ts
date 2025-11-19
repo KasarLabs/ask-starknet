@@ -149,11 +149,11 @@ export class DepositEarnService {
     env: onchainWrite
   ): Promise<DepositResult> {
     try {
-      const account = new Account(
-        this.env.provider,
-        this.walletAddress,
-        this.env.account.signer
-      );
+      const account = new Account({
+        provider: this.env.provider,
+        address: this.walletAddress,
+        signer: this.env.account.signer,
+      });
       const pool = await this.getPool(GENESIS_POOLID);
 
       const collateralPoolAsset = pool.assets.find(
