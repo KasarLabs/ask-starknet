@@ -9,7 +9,7 @@ import { z } from 'zod';
 import { safeTransferFromSchema } from '../../schemas/index.js';
 import { TransactionResult } from '../../lib/types/types.js';
 import { validateAndParseAddress } from 'starknet';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 
 /**
  * Safely transfers a token from one address to another.
@@ -20,7 +20,7 @@ import { onchainWrite } from '@kasarlabs/ask-starknet-core';
 export const safeTransferFrom = async (
   env: onchainWrite,
   params: z.infer<typeof safeTransferFromSchema>
-) => {
+): Promise<toolResult> => {
   try {
     if (
       !params?.fromAddress ||
@@ -60,21 +60,19 @@ export const safeTransferFrom = async (
       account: account,
     });
 
-    const result: TransactionResult = {
+    return {
       status: 'success',
-      tokenId: params.tokenId,
-      from: fromAddress,
-      to: toAddress,
-      transactionHash: txH,
+      data: {
+        tokenId: params.tokenId,
+        from: fromAddress,
+        to: toAddress,
+        transactionHash: txH,
+      },
     };
-
-    return JSON.stringify(result);
   } catch (error) {
-    const result: TransactionResult = {
+    return {
       status: 'failure',
       error: error instanceof Error ? error.message : 'Unknown error',
-      step: 'safe transfer execution',
     };
-    return JSON.stringify(result);
   }
 };

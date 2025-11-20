@@ -7,12 +7,12 @@ import {
   convertFeeU128ToPercent,
 } from '../../lib/utils/math.js';
 import { fetchPositionData } from '../../lib/utils/position.js';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 
 export const withdrawLiquidity = async (
   env: onchainWrite,
   params: WithdrawLiquiditySchema
-) => {
+): Promise<toolResult> => {
   try {
     const account = env.account;
     const positionsContract = await getContract(env.provider, 'positions');

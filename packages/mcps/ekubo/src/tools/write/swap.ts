@@ -14,13 +14,16 @@ import {
   createExactOutputMinimum,
 } from '../../lib/utils/quote.js';
 import { formatTokenAmount } from '../../lib/utils/token.js';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 
 /**
  * Executes a token swap on Ekubo DEX with slippage protection.
  * Supports exact input (is_amount_in=true) and exact output (is_amount_in=false) modes.
  */
-export const swap = async (env: onchainWrite, params: SwapTokensSchema) => {
+export const swap = async (
+  env: onchainWrite,
+  params: SwapTokensSchema
+): Promise<toolResult> => {
   try {
     const account = env.account;
     const routerContract = await getContract(env.provider, 'routerV3');

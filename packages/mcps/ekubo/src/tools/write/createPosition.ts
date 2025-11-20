@@ -13,12 +13,12 @@ import {
 import { extractPositionIdFromReceipt } from '../../lib/utils/events.js';
 import { formatTokenAmount } from '../../lib/utils/token.js';
 import { CreatePositionSchema } from '../../schemas/index.js';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 
 export const createPosition = async (
   env: onchainWrite,
   params: CreatePositionSchema
-) => {
+): Promise<toolResult> => {
   try {
     const account = env.account;
     const positionsContract = await getContract(env.provider, 'positions');
