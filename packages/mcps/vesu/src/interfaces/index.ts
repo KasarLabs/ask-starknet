@@ -114,6 +114,7 @@ export interface IPoolAsset extends IBaseToken {
  * @property {Hex} owner - Pool owner address
  * @property {Hex | null} extensionContractAddress - Address of pool extension contract (null if not available)
  * @property {boolean} isVerified - Pool verification status
+ * @property {'v1' | 'v2'} protocolVersion - Protocol version (v1 or v2)
  * @property {IPoolAsset[]} assets - Pool assets
  * @property {Object} [stats] - Optional pool statistics
  * @property {IPoolAssetPair[]} [pairs] - Optional asset pairs configuration
@@ -125,6 +126,7 @@ export interface IPool {
   // shutdownStatus: PoolShutdownStatus
   extensionContractAddress: Hex | null;
   isVerified: boolean;
+  protocolVersion: 'v1' | 'v2';
   assets: IPoolAsset[];
   stats?: {
     usdTotalSupplied: ITokenValue;
@@ -143,6 +145,7 @@ export const poolParser = z.object({
   owner: addressSchema,
   extensionContractAddress: addressSchema.nullable(),
   isVerified: z.boolean(),
+  protocolVersion: z.enum(['v1', 'v2']),
   assets: z.any(),
   pairs: z.any(),
   // assets: z.array(poolAssetParser),
@@ -171,6 +174,38 @@ export interface DepositParams {
  */
 export interface WithdrawParams {
   withdrawTokenSymbol: string;
+  withdrawAmount?: string;
+  pool_id?: string;
+}
+
+/**
+ * Parameters for multiply deposit operations
+ * @interface DepositMultiplyParams
+ * @property {string} collateralTokenSymbol - Symbol of collateral token to deposit
+ * @property {string} debtTokenSymbol - Symbol of debt token to borrow
+ * @property {string} depositAmount - Amount of collateral to deposit in human decimal format
+ * @property {string} [targetLTV] - Optional target LTV (Loan-to-Value) ratio. If not provided, will use maximum LTV
+ * @property {string} [pool_id] - Optional pool ID. If not provided, GENESIS_POOLID will be used
+ */
+export interface DepositMultiplyParams {
+  collateralTokenSymbol: string;
+  debtTokenSymbol: string;
+  depositAmount: string;
+  targetLTV?: string;
+  pool_id?: string;
+}
+
+/**
+ * Parameters for multiply withdraw operations
+ * @interface WithdrawMultiplyParams
+ * @property {string} collateralTokenSymbol - Symbol of collateral token to withdraw
+ * @property {string} debtTokenSymbol - Symbol of debt token to repay
+ * @property {string} [withdrawAmount] - Optional amount of collateral to withdraw in human decimal format. If "0" or not provided, closes the entire position
+ * @property {string} [pool_id] - Optional pool ID. If not provided, GENESIS_POOLID will be used
+ */
+export interface WithdrawMultiplyParams {
+  collateralTokenSymbol: string;
+  debtTokenSymbol: string;
   withdrawAmount?: string;
   pool_id?: string;
 }
@@ -224,6 +259,120 @@ export interface WithdrawResult {
   transaction_hash?: string;
   error?: string;
   step?: string;
+}
+
+/**
+ * Result of a multiply deposit operation
+ * @interface DepositMultiplyResult
+ * @property {'success' | 'failure'} status - Operation status
+ * @property {string} [amount] - Amount deposited
+ * @property {string} [collateralSymbol] - Collateral token symbol
+ * @property {string} [debtSymbol] - Debt token symbol
+ * @property {string} [recipients_address] - Recipient address
+ * @property {string} [transaction_hash] - Transaction hash
+ * @property {string} [error] - Error message if failed
+ */
+export interface DepositMultiplyResult {
+  status: 'success' | 'failure';
+  amount?: string;
+  collateralSymbol?: string;
+  debtSymbol?: string;
+  recipients_address?: string;
+  transaction_hash?: string;
+  error?: string;
+}
+
+/**
+ * Result of a multiply withdraw operation
+ * @interface WithdrawMultiplyResult
+ * @property {'success' | 'failure'} status - Operation status
+ * @property {string} [collateralSymbol] - Collateral token symbol
+ * @property {string} [debtSymbol] - Debt token symbol
+ * @property {string} [recipients_address] - Recipient address
+ * @property {string} [transaction_hash] - Transaction hash
+ * @property {string} [error] - Error message if failed
+ */
+export interface WithdrawMultiplyResult {
+  status: 'success' | 'failure';
+  collateralSymbol?: string;
+  debtSymbol?: string;
+  recipients_address?: string;
+  transaction_hash?: string;
+  error?: string;
+}
+
+/**
+ * Parameters for borrow deposit operations
+ * @interface DepositBorrowParams
+ * @property {string} collateralTokenSymbol - Symbol of collateral token to deposit
+ * @property {string} debtTokenSymbol - Symbol of debt token to borrow
+ * @property {string} depositAmount - Amount of collateral to deposit in human decimal format
+ * @property {string} [targetLTV] - Optional target LTV (Loan-to-Value) ratio. If not provided, will use maximum LTV
+ * @property {string} [pool_id] - Optional pool ID. If not provided, GENESIS_POOLID will be used
+ */
+export interface DepositBorrowParams {
+  collateralTokenSymbol: string;
+  debtTokenSymbol: string;
+  depositAmount: string;
+  targetLTV?: string;
+  pool_id?: string;
+}
+
+/**
+ * Result of a borrow deposit operation
+ * @interface DepositBorrowResult
+ * @property {'success' | 'failure'} status - Operation status
+ * @property {string} [amount] - Amount deposited
+ * @property {string} [collateralSymbol] - Collateral token symbol
+ * @property {string} [debtSymbol] - Debt token symbol
+ * @property {string} [recipients_address] - Recipient address
+ * @property {string} [transaction_hash] - Transaction hash
+ * @property {string} [error] - Error message if failed
+ */
+export interface DepositBorrowResult {
+  status: 'success' | 'failure';
+  amount?: string;
+  collateralSymbol?: string;
+  debtSymbol?: string;
+  recipients_address?: string;
+  transaction_hash?: string;
+  error?: string;
+}
+
+/**
+ * Parameters for borrow repay operations (repay debt without withdrawing collateral)
+ * @interface RepayBorrowParams
+ * @property {string} collateralTokenSymbol - Symbol of collateral token
+ * @property {string} debtTokenSymbol - Symbol of debt token to repay
+ * @property {string} [repayAmount] - Optional amount of debt to repay in human decimal format. If not provided, repays all debt
+ * @property {string} [pool_id] - Optional pool ID. If not provided, GENESIS_POOLID will be used
+ */
+export interface RepayBorrowParams {
+  collateralTokenSymbol: string;
+  debtTokenSymbol: string;
+  repayAmount?: string;
+  pool_id?: string;
+}
+
+/**
+ * Result of a borrow repay operation
+ * @interface RepayBorrowResult
+ * @property {'success' | 'failure'} status - Operation status
+ * @property {string} [repayAmount] - Amount repaid
+ * @property {string} [collateralSymbol] - Collateral token symbol
+ * @property {string} [debtSymbol] - Debt token symbol
+ * @property {string} [recipients_address] - Recipient address
+ * @property {string} [transaction_hash] - Transaction hash
+ * @property {string} [error] - Error message if failed
+ */
+export interface RepayBorrowResult {
+  status: 'success' | 'failure';
+  repayAmount?: string;
+  collateralSymbol?: string;
+  debtSymbol?: string;
+  recipients_address?: string;
+  transaction_hash?: string;
+  error?: string;
 }
 
 /**
@@ -286,15 +435,15 @@ export interface IPositionPool {
  * Rebalancing configuration
  * @interface IRebalancing
  * @property {boolean} isEnabled - Whether rebalancing is enabled
- * @property {IBigIntValue} targetLTV - Target loan-to-value ratio
- * @property {IBigIntValue} tolerance - Tolerance for rebalancing
- * @property {IBigIntValue} minDelta - Minimum delta for rebalancing
+ * @property {IBigIntValue} [targetLTV] - Target loan-to-value ratio (optional)
+ * @property {IBigIntValue} [tolerance] - Tolerance for rebalancing (optional)
+ * @property {IBigIntValue} [minDelta] - Minimum delta for rebalancing (optional)
  */
 export interface IRebalancing {
   isEnabled: boolean;
-  targetLTV: IBigIntValue;
-  tolerance: IBigIntValue;
-  minDelta: IBigIntValue;
+  targetLTV?: IBigIntValue;
+  tolerance?: IBigIntValue;
+  minDelta?: IBigIntValue;
 }
 
 /**
@@ -416,9 +565,9 @@ const borrowOrMultiplyPositionSchema = z.object({
   healthFactor: z.string().nullable(),
   rebalancing: z.object({
     isEnabled: z.boolean(),
-    targetLTV: bigIntValueSchema,
-    tolerance: bigIntValueSchema,
-    minDelta: bigIntValueSchema,
+    targetLTV: bigIntValueSchema.optional(),
+    tolerance: bigIntValueSchema.optional(),
+    minDelta: bigIntValueSchema.optional(),
   }),
 });
 

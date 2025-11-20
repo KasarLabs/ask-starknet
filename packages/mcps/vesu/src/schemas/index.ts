@@ -32,6 +32,92 @@ export const withdrawEarnSchema = z.object({
     .describe('Optional pool ID. If not provided, GENESIS_POOLID will be used'),
 });
 
+export const depositMultiplySchema = z.object({
+  collateralTokenSymbol: z
+    .string()
+    .describe("Symbol of the collateral token to deposit (e.g., 'ETH', 'USDC')"),
+  debtTokenSymbol: z
+    .string()
+    .describe("Symbol of the debt token to borrow (e.g., 'ETH', 'USDC')"),
+  depositAmount: z
+    .string()
+    .describe(
+      'Amount of collateral to deposit in human decimal format (e.g., "1.5" for 1.5 tokens)'
+    ),
+  targetLTV: z
+    .string()
+    .optional()
+    .describe(
+      'Optional target LTV (Loan-to-Value) ratio as a percentage (e.g., "75" for 75%). If not provided, will use maximum LTV'
+    ),
+  pool_id: z
+    .string()
+    .optional()
+    .describe('Optional pool ID. If not provided, GENESIS_POOLID will be used'),
+});
+
+export const withdrawMultiplySchema = z.object({
+  collateralTokenSymbol: z
+    .string()
+    .describe("Symbol of the collateral token to withdraw (e.g., 'ETH', 'USDC')"),
+  debtTokenSymbol: z
+    .string()
+    .describe("Symbol of the debt token to repay (e.g., 'ETH', 'USDC')"),
+  withdrawAmount: z
+    .string()
+    .optional()
+    .describe(
+      'Optional amount of collateral to withdraw in human decimal format (e.g., "1.5" for 1.5 tokens). If "0" or not provided, closes the entire position'
+    ),
+  pool_id: z
+    .string()
+    .optional()
+    .describe('Optional pool ID. If not provided, GENESIS_POOLID will be used'),
+});
+
+export const depositBorrowSchema = z.object({
+  collateralTokenSymbol: z
+    .string()
+    .describe("Symbol of the collateral token to deposit (e.g., 'ETH', 'USDC')"),
+  debtTokenSymbol: z
+    .string()
+    .describe("Symbol of the debt token to borrow (e.g., 'ETH', 'USDC')"),
+  depositAmount: z
+    .string()
+    .describe(
+      'Amount of collateral to deposit in human decimal format (e.g., "1.5" for 1.5 tokens)'
+    ),
+  targetLTV: z
+    .string()
+    .optional()
+    .describe(
+      'Optional target LTV (Loan-to-Value) ratio as a percentage (e.g., "75" for 75%). If not provided, will use maximum LTV'
+    ),
+  pool_id: z
+    .string()
+    .optional()
+    .describe('Optional pool ID. If not provided, GENESIS_POOLID will be used'),
+});
+
+export const repayBorrowSchema = z.object({
+  collateralTokenSymbol: z
+    .string()
+    .describe("Symbol of the collateral token (e.g., 'ETH', 'USDC')"),
+  debtTokenSymbol: z
+    .string()
+    .describe("Symbol of the debt token to repay (e.g., 'ETH', 'USDC')"),
+  repayAmount: z
+    .string()
+    .optional()
+    .describe(
+      'Optional amount of debt to repay in human decimal format (e.g., "1.5" for 1.5 tokens). If not provided, repays all debt'
+    ),
+  pool_id: z
+    .string()
+    .optional()
+    .describe('Optional pool ID. If not provided, GENESIS_POOLID will be used'),
+});
+
 export const getSchema = z.object({
   onlyVerified: z
     .boolean()

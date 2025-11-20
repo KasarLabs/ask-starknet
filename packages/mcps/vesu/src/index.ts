@@ -16,9 +16,17 @@ import {
   getPositionsSchema,
   getTokensSchema,
   withdrawEarnSchema,
+  depositMultiplySchema,
+  withdrawMultiplySchema,
+  depositBorrowSchema,
+  repayBorrowSchema,
 } from './schemas/index.js';
 import { depositEarnPosition } from './tools/write/deposit_earn.js';
 import { withdrawEarnPosition } from './tools/write/withdraw_earn.js';
+import { depositMultiplyPosition } from './tools/write/deposit_multiply.js';
+import { withdrawMultiplyPosition } from './tools/write/withdraw_multiply.js';
+import { depositBorrowPosition } from './tools/write/deposit_borrow.js';
+import { repayBorrowPosition } from './tools/write/repay_borrow.js';
 import { getPools } from './tools/read/getPools.js';
 import { getPositions } from './tools/read/getPositions.js';
 import { getTokens } from './tools/read/getTokens.js';
@@ -48,6 +56,46 @@ const registerTools = (VesuToolRegistry: mcpTool[]) => {
     execute: async (params: any) => {
       const onchainWrite = getOnchainWrite();
       return await withdrawEarnPosition(onchainWrite, params);
+    },
+  });
+
+  VesuToolRegistry.push({
+    name: 'deposit_multiply',
+    description: 'Deposit collateral and borrow debt to create or increase a multiply position on Vesu protocol v2',
+    schema: depositMultiplySchema,
+    execute: async (params: any) => {
+      const onchainWrite = getOnchainWrite();
+      return await depositMultiplyPosition(onchainWrite, params);
+    },
+  });
+
+  VesuToolRegistry.push({
+    name: 'withdraw_multiply',
+    description: 'Withdraw collateral and repay debt to decrease or close a multiply position on Vesu protocol v2',
+    schema: withdrawMultiplySchema,
+    execute: async (params: any) => {
+      const onchainWrite = getOnchainWrite();
+      return await withdrawMultiplyPosition(onchainWrite, params);
+    },
+  });
+
+  VesuToolRegistry.push({
+    name: 'deposit_borrow',
+    description: 'Deposit collateral and borrow debt to create or increase a borrow position on Vesu protocol v2',
+    schema: depositBorrowSchema,
+    execute: async (params: any) => {
+      const onchainWrite = getOnchainWrite();
+      return await depositBorrowPosition(onchainWrite, params);
+    },
+  });
+
+  VesuToolRegistry.push({
+    name: 'repay_borrow',
+    description: 'Repay debt without withdrawing collateral to decrease debt in a borrow position on Vesu protocol v2',
+    schema: repayBorrowSchema,
+    execute: async (params: any) => {
+      const onchainWrite = getOnchainWrite();
+      return await repayBorrowPosition(onchainWrite, params);
     },
   });
 
