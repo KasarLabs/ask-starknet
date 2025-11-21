@@ -41,12 +41,11 @@ export const transferFrom = async (
     const tokenId = validateAndFormatTokenId(params.tokenId);
     const contractAddress = validateAndParseAddress(params.contractAddress);
 
-    const contract = new Contract(
-      INTERACT_ERC721_ABI,
-      contractAddress,
-      provider
-    );
-    contract.connect(account);
+    const contract = new Contract({
+      abi: INTERACT_ERC721_ABI,
+      address: contractAddress,
+      providerOrAccount: account,
+    });
 
     const calldata = contract.populate('transfer_from', [
       fromAddress,
@@ -98,21 +97,17 @@ export const transfer = async (
     const tokenId = validateAndFormatTokenId(params.tokenId);
     const contractAddress = validateAndParseAddress(params.contractAddress);
 
-    const account = new Account(
+    const account = new Account({
       provider,
-      accountCredentials.address,
-      accountCredentials.signer,
-      undefined,
-      constants.TRANSACTION_VERSION.V3
-    );
+      address: accountCredentials.address,
+      signer: accountCredentials.signer,
+    });
 
-    const contract = new Contract(
-      INTERACT_ERC721_ABI,
-      contractAddress,
-      provider
-    );
-    contract.connect(account);
-
+    const contract = new Contract({
+      abi: INTERACT_ERC721_ABI,
+      address: contractAddress,
+      providerOrAccount: account,
+    });
     const calldata = contract.populate('transfer_from', [
       accountCredentials.address,
       toAddress,

@@ -27,7 +27,7 @@
     "access": "public"
   },
   "dependencies": {
-    "starknet": "^7.6.4",
+    "starknet": "8.6.0",
     "winston": "^3.17.0",
     "zod": "^3.24.2"
   },

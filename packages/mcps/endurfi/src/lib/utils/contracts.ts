@@ -1,4 +1,4 @@
-import { Contract, RpcProvider } from 'starknet';
+import { Account, Contract, RpcProvider } from 'starknet';
 import { TOKEN_CONFIG } from '../constants/tokenConfig.js';
 import {
   WITHDRAW_QUEUE_ABI,
@@ -45,7 +45,8 @@ export function getUnderlyingTokenAddress(
  */
 export const getLiquidTokenContract = (
   provider: RpcProvider,
-  tokenType: TokenType
+  tokenType: TokenType,
+  account?: Account
 ): Contract => {
   const network = getNetwork(provider);
   const config = TOKEN_CONFIG[tokenType];
@@ -56,17 +57,22 @@ export const getLiquidTokenContract = (
   }
 
   // All liquid tokens use the ERC4626 ABI (same as xSTRK)
-  return new Contract(XSTRK_ABI, address, provider);
+  return new Contract({
+    abi: XSTRK_ABI,
+    address: address,
+    providerOrAccount: account ?? provider,
+  });
 };
 
 /**
  * Get the underlying token contract (STRK, WBTC, etc.) for a given token type
  */
 export const getUnderlyingTokenContract = (
+  account: Account,
   provider: RpcProvider,
   tokenType: TokenType
 ): Contract => {
-  const network = getNetwork(provider);
+  const network = getNetwork(account);
   const config = TOKEN_CONFIG[tokenType];
   const address = config.underlyingToken[network];
 
@@ -76,7 +82,11 @@ export const getUnderlyingTokenContract = (
     );
   }
 
-  return new Contract(NEW_ERC20_ABI, address, provider);
+  return new Contract({
+    abi: NEW_ERC20_ABI,
+    address,
+    providerOrAccount: provider,
+  });
 };
 
 /**
@@ -84,7 +94,8 @@ export const getUnderlyingTokenContract = (
  */
 export const getWithdrawQueueNFTContract = (
   provider: RpcProvider,
-  tokenType: TokenType
+  tokenType: TokenType,
+  account?: Account
 ): Contract => {
   const network = getNetwork(provider);
   const config = TOKEN_CONFIG[tokenType];
@@ -96,13 +107,18 @@ export const getWithdrawQueueNFTContract = (
     );
   }
 
-  return new Contract(WITHDRAW_QUEUE_ABI, address, provider);
+  return new Contract({
+    abi: WITHDRAW_QUEUE_ABI,
+    address,
+    providerOrAccount: account ?? provider,
+  });
 };
 
 /**
  * Get the withdraw queue NFT contract address for a given token type
  */
 export const getWithdrawQueueNFTAddress = (
+  account: Account,
   provider: RpcProvider,
   tokenType: TokenType
 ): string => {

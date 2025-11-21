@@ -15,7 +15,11 @@ export const withdrawLiquidity = async (
 ): Promise<toolResult> => {
   try {
     const account = env.account;
-    const positionsContract = await getContract(env.provider, 'positions');
+    const positionsContract = await getContract(
+      env.provider,
+      'positions',
+      account
+    );
 
     // Fetch position data from API
     const positionData = await fetchPositionData(params.position_id);
@@ -62,7 +66,6 @@ export const withdrawLiquidity = async (
     const minToken1 = 0;
     const collectFees = params.collect_fees ?? true;
 
-    positionsContract.connect(account);
     const withdrawCalldata = positionsContract.populate('withdraw', [
       params.position_id,
       poolKey,

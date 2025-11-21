@@ -41,13 +41,11 @@ export const approve = async (
     const contractAddress = validateAndParseAddress(params.contractAddress);
     const tokenId = validateAndFormatTokenId(params.tokenId);
 
-    const contract = new Contract(
-      INTERACT_ERC721_ABI,
-      contractAddress,
-      provider
-    );
-    contract.connect(account);
-
+    const contract = new Contract({
+      abi: INTERACT_ERC721_ABI,
+      address: contractAddress,
+      providerOrAccount: account,
+    });
     const calldata = contract.populate('approve', [approvedAddress, tokenId]);
 
     const txH = await executeV3Transaction({

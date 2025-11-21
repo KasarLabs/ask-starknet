@@ -1,7 +1,10 @@
-import { SimulateTransactionResponse } from 'starknet';
+import {
+  SimulateTransactionOverheadResponse,
+  SimulateTransactionResponse,
+} from 'starknet';
 
 export const TransactionReponseFormat = (
-  transactionResponse: SimulateTransactionResponse
+  transactionResponse: SimulateTransactionOverheadResponse
 ): Array<{
   transaction_number: number;
   fee_estimation: {
@@ -18,10 +21,9 @@ export const TransactionReponseFormat = (
       max_price_per_unit: string;
     };
   };
-  suggested_max_fee: string;
 }> => {
   const transactionDetails = transactionResponse.map((transaction, index) => {
-    const feeData = transaction.fee_estimation;
+    const overall_fee = transaction.overall_fee;
     const resourceBounds = transaction.resourceBounds;
 
     return {
@@ -30,22 +32,22 @@ export const TransactionReponseFormat = (
       fee_estimation: {
         title: 'Fee Estimation Breakdown',
         details: {
-          ...feeData,
+          overall_fee: overall_fee,
         },
       },
 
       resource_bounds: {
         l1_gas: {
-          max_amount: resourceBounds.l1_gas.max_amount,
-          max_price_per_unit: resourceBounds.l1_gas.max_price_per_unit,
+          max_amount: resourceBounds.l1_gas.max_amount.toString(),
+          max_price_per_unit:
+            resourceBounds.l1_gas.max_price_per_unit.toString(),
         },
         l2_gas: {
-          max_amount: resourceBounds.l2_gas.max_amount,
-          max_price_per_unit: resourceBounds.l2_gas.max_price_per_unit,
+          max_amount: resourceBounds.l2_gas.max_amount.toString(),
+          max_price_per_unit:
+            resourceBounds.l2_gas.max_price_per_unit.toString(),
         },
       },
-
-      suggested_max_fee: transaction.suggestedMaxFee.toString(),
     };
   });
   return transactionDetails;

@@ -83,12 +83,7 @@ export const simulateDeployAccountTransaction = async (
       }
     );
 
-    const simulate_transaction = await account.simulateTransaction(
-      invocations,
-      {
-        nonce: DEFAULT_NONCE,
-      }
-    );
+    const simulate_transaction = await account.simulateTransaction(invocations);
     const transaction_output = TransactionReponseFormat(simulate_transaction);
 
     return {
@@ -160,6 +155,10 @@ export const simulateDeclareTransaction = async (
 ): Promise<toolResult> => {
   try {
     const account = env.account;
+
+    if (!params.compiledClassHash) {
+      throw new Error('compiledClassHash is required for declare transaction');
+    }
 
     const invocations: Invocation_Declare[] = [
       {

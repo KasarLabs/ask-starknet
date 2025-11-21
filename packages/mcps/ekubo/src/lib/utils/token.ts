@@ -48,7 +48,11 @@ export interface ParamsValidationResult {
  */
 export async function detectAbiType(address: string, provider: Provider) {
   try {
-    const contract = new Contract(OLD_ERC20_ABI, address, provider);
+    const contract = new Contract({
+      abi: OLD_ERC20_ABI,
+      address,
+      providerOrAccount: provider,
+    });
     const symbol = await contract.symbol();
     if (symbol == 0n) {
       return NEW_ERC20_ABI;
@@ -204,7 +208,11 @@ export async function validateToken(
     address = validateAndParseAddress(assetAddress);
     try {
       const abi = await detectAbiType(address, provider);
-      const contract = new Contract(abi, address, provider);
+      const contract = new Contract({
+        abi,
+        address,
+        providerOrAccount: provider,
+      });
 
       try {
         const rawSymbol = await contract.symbol();
