@@ -35,7 +35,9 @@ export function getExtensionContractAddress(pool: IPool): Address | null {
  * @param {IPool} pool - Pool information
  * @returns {Promise<Address | null>} Singleton contract address or null if not available
  */
-export async function getSingletonAddress(pool: IPool): Promise<Address | null> {
+export async function getSingletonAddress(
+  pool: IPool
+): Promise<Address | null> {
   const extensionContractAddress = getExtensionContractAddress(pool);
   if (!extensionContractAddress) {
     return null;
@@ -53,11 +55,15 @@ export async function getSingletonAddress(pool: IPool): Promise<Address | null> 
       // For v2, if singleton() fails, the extension contract (pool.id) might be the singleton itself
       // But this usually means pool.id is not a valid contract address
       // Return extension address as fallback, but log a warning
-      console.warn(`Failed to call singleton() on extension contract for v2 pool. Using extension address as fallback: ${extensionContractAddress}`);
+      console.warn(
+        `Failed to call singleton() on extension contract for v2 pool. Using extension address as fallback: ${extensionContractAddress}`
+      );
       return extensionContractAddress;
     } else {
       // For v1, singleton() should work, so throw the error
-      throw new Error(`Failed to get singleton address from extension contract: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(
+        `Failed to get singleton address from extension contract: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
     }
   }
 }
@@ -98,7 +104,7 @@ export async function getPoolAssetsPriceAndRiskMdx(
   poolAssets: IPoolAsset[]
 ): Promise<IPoolAsset[]> {
   const extensionContractAddress = getExtensionContractAddress(pool);
-  
+
   return await Promise.all(
     poolAssets.map(async (asset) => {
       const usdPrice = extensionContractAddress
@@ -126,17 +132,14 @@ export async function getPool(poolId: string): Promise<IPool> {
     .object({ data: poolParser })
     .transform(({ data }) => data)
     .parse(data);
-  
+
   // Ensure assets is always defined
   const pool: IPool = {
     ...parsedData,
     assets: parsedData.assets || [],
   };
-  
-  const assets = await getPoolAssetsPriceAndRiskMdx(
-    pool,
-    pool.assets
-  );
+
+  const assets = await getPoolAssetsPriceAndRiskMdx(pool, pool.assets);
 
   return { ...pool, assets };
 }

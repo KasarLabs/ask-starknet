@@ -380,7 +380,22 @@ export const poolAbi = [
         ],
         state_mutability: 'external',
       },
+      {
+        type: 'function',
+        name: 'modify_delegation',
+        inputs: [
+          {
+            name: 'delegatee',
+            type: 'core::starknet::contract_address::ContractAddress',
+          },
+          {
+            name: 'delegation',
+            type: 'core::bool',
+          },
+        ],
+        outputs: [],
+        state_mutability: 'external',
+      },
     ],
   },
 ] as const;
-

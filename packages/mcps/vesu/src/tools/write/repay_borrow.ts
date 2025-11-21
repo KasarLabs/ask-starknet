@@ -7,9 +7,17 @@ import { GENESIS_POOLID } from '../../lib/constants/index.js';
 import { Hex, toU256, toI257, toBN, toHex } from '../../lib/utils/num.js';
 import type { Address } from '../../interfaces/index.js';
 import { addressSchema } from '../../interfaces/index.js';
-import { getPool, getExtensionContractAddress, getSingletonAddress } from '../../lib/utils/pools.js';
+import {
+  getPool,
+  getExtensionContractAddress,
+  getSingletonAddress,
+} from '../../lib/utils/pools.js';
 import { formatTokenAmount } from '../../lib/utils/tokens.js';
-import { getExtensionContract, getPoolContract, getErc20Contract } from '../../lib/utils/contracts.js';
+import {
+  getExtensionContract,
+  getPoolContract,
+  getErc20Contract,
+} from '../../lib/utils/contracts.js';
 import { VESU_API_URL } from '../../lib/constants/index.js';
 import { positionParser, IPosition } from '../../interfaces/index.js';
 import { singletonAbi } from '../../lib/abis/singletonAbi.js';
@@ -39,12 +47,14 @@ export class RepayBorrowService {
         this.env.account.signer
       );
       const poolId = String(params.pool_id || GENESIS_POOLID);
-      
+
       let pool: any;
       try {
         pool = await getPool(poolId);
       } catch (error) {
-        throw new Error(`Failed to get pool: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        throw new Error(
+          `Failed to get pool: ${error instanceof Error ? error.message : 'Unknown error'}`
+        );
       }
 
       const extensionContractAddressRaw = getExtensionContractAddress(pool);
@@ -54,9 +64,13 @@ export class RepayBorrowService {
       // Validate and normalize the address using addressSchema
       // For v1: extensionContractAddress is already a Hex address
       // For v2: pool.id should be a valid hex address
-      const extensionContractAddressParse = addressSchema.safeParse(extensionContractAddressRaw);
+      const extensionContractAddressParse = addressSchema.safeParse(
+        extensionContractAddressRaw
+      );
       if (!extensionContractAddressParse.success) {
-        throw new Error(`Invalid extension contract address: ${extensionContractAddressRaw}. ${extensionContractAddressParse.error.message}`);
+        throw new Error(
+          `Invalid extension contract address: ${extensionContractAddressRaw}. ${extensionContractAddressParse.error.message}`
+        );
       }
       const extensionContractAddress = extensionContractAddressParse.data;
 
@@ -67,17 +81,23 @@ export class RepayBorrowService {
           throw new Error('Singleton address not available');
         }
         // Convert to hex string if it's a bigint (for v1 pools)
-        const singletonAddressHex = typeof singletonAddressRaw === 'bigint' 
-          ? toHex(singletonAddressRaw)
-          : singletonAddressRaw;
+        const singletonAddressHex =
+          typeof singletonAddressRaw === 'bigint'
+            ? toHex(singletonAddressRaw)
+            : singletonAddressRaw;
         // Validate and normalize the singleton address
-        const singletonAddressParse = addressSchema.safeParse(singletonAddressHex);
+        const singletonAddressParse =
+          addressSchema.safeParse(singletonAddressHex);
         if (!singletonAddressParse.success) {
-          throw new Error(`Invalid singleton address: ${singletonAddressHex}. ${singletonAddressParse.error.message}`);
+          throw new Error(
+            `Invalid singleton address: ${singletonAddressHex}. ${singletonAddressParse.error.message}`
+          );
         }
         singletonAddress = singletonAddressParse.data;
       } catch (error) {
-        throw new Error(`Failed to get singleton address: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        throw new Error(
+          `Failed to get singleton address: ${error instanceof Error ? error.message : 'Unknown error'}`
+        );
       }
 
       const extensionContract = getExtensionContract(extensionContractAddress);
@@ -119,34 +139,48 @@ export class RepayBorrowService {
           );
 
           if (!response.ok) {
-            throw new Error(`API request failed with status ${response.status}`);
+            throw new Error(
+              `API request failed with status ${response.status}`
+            );
           }
 
           const data = await response.json();
 
           // Parse the response with a more permissive schema - we need debt info, nominalDebt and collateralShares for v2
           const positionsSchema = z.object({
-            data: z.array(z.object({
-              type: z.string(),
-              pool: z.object({
-                id: z.string(),
-              }),
-              collateral: z.object({
-                symbol: z.string(),
-              }).optional(),
-              debt: z.object({
-                symbol: z.string(),
-                value: z.string(),
-                decimals: z.number(),
-              }).optional(),
-              nominalDebt: z.object({
-                value: z.string(),
-                decimals: z.number(),
-              }).optional(),
-              collateralShares: z.object({
-                value: z.string(),
-              }).optional(),
-            }).passthrough()), // passthrough allows extra fields
+            data: z.array(
+              z
+                .object({
+                  type: z.string(),
+                  pool: z.object({
+                    id: z.string(),
+                  }),
+                  collateral: z
+                    .object({
+                      symbol: z.string(),
+                    })
+                    .optional(),
+                  debt: z
+                    .object({
+                      symbol: z.string(),
+                      value: z.string(),
+                      decimals: z.number(),
+                    })
+                    .optional(),
+                  nominalDebt: z
+                    .object({
+                      value: z.string(),
+                      decimals: z.number(),
+                    })
+                    .optional(),
+                  collateralShares: z
+                    .object({
+                      value: z.string(),
+                    })
+                    .optional(),
+                })
+                .passthrough()
+            ), // passthrough allows extra fields
           });
 
           const parsedData = positionsSchema.parse(data);
@@ -155,25 +189,32 @@ export class RepayBorrowService {
           // Find the position matching pool, collateral, and debt tokens
           const matchingPosition = positions.find((position: any) => {
             if (position.type !== 'borrow') return false;
-            
+
             return (
               position.pool.id === poolId &&
-              position.collateral?.symbol.toLocaleUpperCase() === params.collateralTokenSymbol.toLocaleUpperCase() &&
-              position.debt?.symbol.toLocaleUpperCase() === params.debtTokenSymbol.toLocaleUpperCase()
+              position.collateral?.symbol.toLocaleUpperCase() ===
+                params.collateralTokenSymbol.toLocaleUpperCase() &&
+              position.debt?.symbol.toLocaleUpperCase() ===
+                params.debtTokenSymbol.toLocaleUpperCase()
             );
           });
 
           if (!matchingPosition) {
             throw new Error('No matching borrow position found');
           }
-          
+
           // For v2, get collateralShares.value and nominalDebt.decimals
           if (pool.protocolVersion === 'v2') {
-            if (!matchingPosition.collateralShares || !matchingPosition.collateralShares.value) {
+            if (
+              !matchingPosition.collateralShares ||
+              !matchingPosition.collateralShares.value
+            ) {
               throw new Error('No collateralShares found in position');
             }
-            collateralSharesValue = BigInt(matchingPosition.collateralShares.value);
-            
+            collateralSharesValue = BigInt(
+              matchingPosition.collateralShares.value
+            );
+
             if (!matchingPosition.nominalDebt) {
               throw new Error('No nominalDebt found in position');
             }
@@ -181,13 +222,17 @@ export class RepayBorrowService {
               throw new Error('No nominalDebt.decimals found in position');
             }
           }
-          
+
           // If repayAmount is not provided, get the total debt amount from API
-          
+
           if (!params.repayAmount) {
             if (pool.protocolVersion === 'v2') {
               // For v2, use nominalDebt.value
-              if (!matchingPosition.nominalDebt || !matchingPosition.nominalDebt.value || !matchingPosition.nominalDebt.decimals) {
+              if (
+                !matchingPosition.nominalDebt ||
+                !matchingPosition.nominalDebt.value ||
+                !matchingPosition.nominalDebt.decimals
+              ) {
                 throw new Error('No nominalDebt found in position');
               }
               debtAmount = BigInt(matchingPosition.nominalDebt.value);
@@ -212,11 +257,13 @@ export class RepayBorrowService {
             debtAmount = BigInt(formattedAmount);
           }
         } catch (error) {
-          throw new Error(`Failed to get position data: ${error instanceof Error ? error.message : 'Unknown error'}`);
+          throw new Error(
+            `Failed to get position data: ${error instanceof Error ? error.message : 'Unknown error'}`
+          );
         }
       } else {
         // If repayAmount is provided and it's v1, calculate debtAmount from it
-        decimalsToUse = debtAsset.decimals
+        decimalsToUse = debtAsset.decimals;
         const formattedAmount = formatTokenAmount(
           params.repayAmount,
           decimalsToUse
@@ -224,7 +271,7 @@ export class RepayBorrowService {
         debtAmount = BigInt(formattedAmount);
       }
 
-      debtAmount = (debtAmount + 9n) / 10n * 10n;
+      debtAmount = ((debtAmount + 9n) / 10n) * 10n;
 
       if (debtAmount === 0n) {
         throw new Error('Repay amount must be greater than zero');
@@ -238,9 +285,10 @@ export class RepayBorrowService {
       // Approve debt token for repayment
       let debtTokenApproveCall;
       try {
-        const approveToAddress = pool.protocolVersion === 'v2' 
-          ? extensionContractAddress 
-          : singletonAddress;
+        const approveToAddress =
+          pool.protocolVersion === 'v2'
+            ? extensionContractAddress
+            : singletonAddress;
         if (!approveToAddress) {
           throw new Error('Approve address not available');
         }
@@ -250,35 +298,41 @@ export class RepayBorrowService {
           debtAmount
         );
       } catch (error) {
-        throw new Error(`Failed to approve token: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        throw new Error(
+          `Failed to approve token: ${error instanceof Error ? error.message : 'Unknown error'}`
+        );
       }
 
       let modifyPositionParams: any;
       let contractForTx: any;
-      
+
       if (pool.protocolVersion === 'v2') {
         if (collateralSharesValue === undefined) {
-          throw new Error('collateralShares.value is required for v2 but was not found');
+          throw new Error(
+            'collateralShares.value is required for v2 but was not found'
+          );
         }
-        
+
         const typedPoolContract = getPoolContract(extensionContractAddress);
         const poolContract = new Contract(
           typedPoolContract.abi,
           extensionContractAddress,
           env.provider
         );
-      
+
         contractForTx = poolContract;
         const assetsEnum = new CairoCustomEnum({ Assets: {} });
         const nativeEnum = new CairoCustomEnum({ Native: {} });
-      
+
         modifyPositionParams = {
           collateral_asset: collateralAsset.address as `0x${string}`,
           debt_asset: debtAsset.address as `0x${string}`,
           user: account.address as `0x${string}`,
           collateral: {
             denomination: params.repayAmount ? assetsEnum : nativeEnum,
-            value: params.repayAmount ? toI257(0n) : toI257(-collateralSharesValue), // Use collateralShares.value from API
+            value: params.repayAmount
+              ? toI257(0n)
+              : toI257(-collateralSharesValue), // Use collateralShares.value from API
           },
           debt: {
             denomination: params.repayAmount ? assetsEnum : nativeEnum,
@@ -291,11 +345,11 @@ export class RepayBorrowService {
           singletonAddress,
           env.provider
         );
-        
+
         const deltaEnum = new CairoCustomEnum({ Delta: {} });
         const targetEnum = new CairoCustomEnum({ Target: {} });
         const assetsEnum = new CairoCustomEnum({ Assets: {} });
-        
+
         modifyPositionParams = {
           pool_id: String(poolId),
           collateral_asset: collateralAsset.address,
@@ -317,11 +371,14 @@ export class RepayBorrowService {
 
       let modifyPositionCall;
       try {
-        modifyPositionCall = await contractForTx.populateTransaction.modify_position(
-          modifyPositionParams
-        );
+        modifyPositionCall =
+          await contractForTx.populateTransaction.modify_position(
+            modifyPositionParams
+          );
       } catch (error) {
-        throw new Error(`Failed to populate modify_position transaction: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        throw new Error(
+          `Failed to populate modify_position transaction: ${error instanceof Error ? error.message : 'Unknown error'}`
+        );
       }
 
       const provider = env.provider;
@@ -344,13 +401,17 @@ export class RepayBorrowService {
       try {
         tx = await wallet.execute(calls);
       } catch (error) {
-        throw new Error(`Failed to execute transaction: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        throw new Error(
+          `Failed to execute transaction: ${error instanceof Error ? error.message : 'Unknown error'}`
+        );
       }
 
       try {
         await provider.waitForTransaction(tx.transaction_hash);
       } catch (error) {
-        throw new Error(`Failed to wait for transaction: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        throw new Error(
+          `Failed to wait for transaction: ${error instanceof Error ? error.message : 'Unknown error'}`
+        );
       }
 
       // Convert debtAmount back to human-readable format for the result
@@ -361,8 +422,13 @@ export class RepayBorrowService {
         const divisor = 10n ** BigInt(decimalsToUse);
         const wholePart = debtAmount / divisor;
         const fractionalPart = debtAmount % divisor;
-        const fractionalStr = fractionalPart.toString().padStart(decimalsToUse, '0').replace(/0+$/, '');
-        repayAmountString = fractionalStr ? `${wholePart}.${fractionalStr}` : wholePart.toString();
+        const fractionalStr = fractionalPart
+          .toString()
+          .padStart(decimalsToUse, '0')
+          .replace(/0+$/, '');
+        repayAmountString = fractionalStr
+          ? `${wholePart}.${fractionalStr}`
+          : wholePart.toString();
       }
 
       const result: RepayBorrowResult = {
@@ -408,14 +474,8 @@ export const repayBorrowPosition = async (
 ) => {
   const accountAddress = env.account?.address;
   try {
-    const repayBorrowService = createRepayBorrowService(
-      env,
-      accountAddress
-    );
-    const result = await repayBorrowService.repayBorrowTransaction(
-      params,
-      env
-    );
+    const repayBorrowService = createRepayBorrowService(env, accountAddress);
+    const result = await repayBorrowService.repayBorrowTransaction(params, env);
     return result;
   } catch (error) {
     return {
@@ -424,4 +484,3 @@ export const repayBorrowPosition = async (
     };
   }
 };
-

@@ -7,9 +7,18 @@ import { GENESIS_POOLID } from '../../lib/constants/index.js';
 import { Hex, toU256, toI257, toBN, toHex } from '../../lib/utils/num.js';
 import type { Address } from '../../interfaces/index.js';
 import { addressSchema } from '../../interfaces/index.js';
-import { getPool, getExtensionContractAddress, getSingletonAddress } from '../../lib/utils/pools.js';
+import {
+  getPool,
+  getExtensionContractAddress,
+  getSingletonAddress,
+} from '../../lib/utils/pools.js';
 import { formatTokenAmount } from '../../lib/utils/tokens.js';
-import { getSingletonContract, getExtensionContract, getPoolContract, getErc20Contract } from '../../lib/utils/contracts.js';
+import {
+  getSingletonContract,
+  getExtensionContract,
+  getPoolContract,
+  getErc20Contract,
+} from '../../lib/utils/contracts.js';
 import { onchainWrite } from '@kasarlabs/ask-starknet-core';
 
 /**
@@ -35,12 +44,14 @@ export class DepositBorrowService {
         this.env.account.signer
       );
       const poolId = String(params.pool_id || GENESIS_POOLID);
-      
+
       let pool: any;
       try {
         pool = await getPool(poolId);
       } catch (error) {
-        throw new Error(`Failed to get pool: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        throw new Error(
+          `Failed to get pool: ${error instanceof Error ? error.message : 'Unknown error'}`
+        );
       }
 
       const extensionContractAddressRaw = getExtensionContractAddress(pool);
@@ -50,9 +61,13 @@ export class DepositBorrowService {
       // Validate and normalize the address using addressSchema
       // For v1: extensionContractAddress is already a Hex address
       // For v2: pool.id should be a valid hex address
-      const extensionContractAddressParse = addressSchema.safeParse(extensionContractAddressRaw);
+      const extensionContractAddressParse = addressSchema.safeParse(
+        extensionContractAddressRaw
+      );
       if (!extensionContractAddressParse.success) {
-        throw new Error(`Invalid extension contract address: ${extensionContractAddressRaw}. ${extensionContractAddressParse.error.message}`);
+        throw new Error(
+          `Invalid extension contract address: ${extensionContractAddressRaw}. ${extensionContractAddressParse.error.message}`
+        );
       }
       const extensionContractAddress = extensionContractAddressParse.data;
 
@@ -63,17 +78,23 @@ export class DepositBorrowService {
           throw new Error('Singleton address not available');
         }
         // Convert to hex string if it's a bigint (for v1 pools)
-        const singletonAddressHex = typeof singletonAddressRaw === 'bigint' 
-          ? toHex(singletonAddressRaw)
-          : singletonAddressRaw;
+        const singletonAddressHex =
+          typeof singletonAddressRaw === 'bigint'
+            ? toHex(singletonAddressRaw)
+            : singletonAddressRaw;
         // Validate and normalize the singleton address
-        const singletonAddressParse = addressSchema.safeParse(singletonAddressHex);
+        const singletonAddressParse =
+          addressSchema.safeParse(singletonAddressHex);
         if (!singletonAddressParse.success) {
-          throw new Error(`Invalid singleton address: ${singletonAddressHex}. ${singletonAddressParse.error.message}`);
+          throw new Error(
+            `Invalid singleton address: ${singletonAddressHex}. ${singletonAddressParse.error.message}`
+          );
         }
         singletonAddress = singletonAddressParse.data;
       } catch (error) {
-        throw new Error(`Failed to get singleton address: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        throw new Error(
+          `Failed to get singleton address: ${error instanceof Error ? error.message : 'Unknown error'}`
+        );
       }
 
       const extensionContract = getExtensionContract(extensionContractAddress);
@@ -106,10 +127,10 @@ export class DepositBorrowService {
 
       let maxLTVValue: bigint;
       let singletonContract: any = null;
-      
+
       if (pool.protocolVersion === 'v2') {
         const poolContract = getPoolContract(extensionContractAddress);
-        
+
         let pairConfig;
         try {
           pairConfig = await poolContract.pair_config(
@@ -117,13 +138,15 @@ export class DepositBorrowService {
             debtAsset.address as `0x${string}`
           );
         } catch (error) {
-          throw new Error(`Failed to get pair config: ${error instanceof Error ? error.message : 'Unknown error'}`);
+          throw new Error(
+            `Failed to get pair config: ${error instanceof Error ? error.message : 'Unknown error'}`
+          );
         }
-        
+
         maxLTVValue = toBN(pairConfig.max_ltv);
       } else {
         singletonContract = getSingletonContract(singletonAddress);
-        
+
         let ltvConfig;
         try {
           ltvConfig = await singletonContract.ltv_config(
@@ -132,9 +155,11 @@ export class DepositBorrowService {
             debtAsset.address as `0x${string}`
           );
         } catch (error) {
-          throw new Error(`Failed to get LTV config: ${error instanceof Error ? error.message : 'Unknown error'}`);
+          throw new Error(
+            `Failed to get LTV config: ${error instanceof Error ? error.message : 'Unknown error'}`
+          );
         }
-        
+
         maxLTVValue = toBN(ltvConfig.max_ltv);
       }
 
@@ -145,10 +170,12 @@ export class DepositBorrowService {
           throw new Error('Target LTV must be between 0 and 100');
         }
         targetLTVValue = ltvPercent * 100n;
-        
+
         if (targetLTVValue > maxLTVValue) {
           const maxLTVPercent = Number(maxLTVValue) / 100;
-          throw new Error(`Target LTV (${params.targetLTV}%) exceeds maximum LTV (${maxLTVPercent}%)`);
+          throw new Error(
+            `Target LTV (${params.targetLTV}%) exceeds maximum LTV (${maxLTVPercent}%)`
+          );
         }
       } else {
         targetLTVValue = maxLTVValue;
@@ -156,24 +183,28 @@ export class DepositBorrowService {
 
       let collateralPrice: any;
       let debtPrice: any;
-      
+
       if (pool.protocolVersion === 'v2') {
         const poolContract = getPoolContract(extensionContractAddress);
-        
+
         try {
           collateralPrice = await poolContract.price(
             collateralAsset.address as `0x${string}`
           );
         } catch (error) {
-          throw new Error(`Failed to get collateral price: ${error instanceof Error ? error.message : 'Unknown error'}`);
+          throw new Error(
+            `Failed to get collateral price: ${error instanceof Error ? error.message : 'Unknown error'}`
+          );
         }
-        
+
         try {
           debtPrice = await poolContract.price(
             debtAsset.address as `0x${string}`
           );
         } catch (error) {
-          throw new Error(`Failed to get debt price: ${error instanceof Error ? error.message : 'Unknown error'}`);
+          throw new Error(
+            `Failed to get debt price: ${error instanceof Error ? error.message : 'Unknown error'}`
+          );
         }
       } else {
         try {
@@ -182,16 +213,17 @@ export class DepositBorrowService {
             collateralAsset.address
           );
         } catch (error) {
-          throw new Error(`Failed to get collateral price: ${error instanceof Error ? error.message : 'Unknown error'}`);
-        }
-        
-        try {
-          debtPrice = await extensionContract.price(
-            poolId,
-            debtAsset.address
+          throw new Error(
+            `Failed to get collateral price: ${error instanceof Error ? error.message : 'Unknown error'}`
           );
+        }
+
+        try {
+          debtPrice = await extensionContract.price(poolId, debtAsset.address);
         } catch (error) {
-          throw new Error(`Failed to get debt price: ${error instanceof Error ? error.message : 'Unknown error'}`);
+          throw new Error(
+            `Failed to get debt price: ${error instanceof Error ? error.message : 'Unknown error'}`
+          );
         }
       }
 
@@ -201,14 +233,17 @@ export class DepositBorrowService {
 
       const collateralPriceBN = toBN(collateralPrice.value);
       const debtPriceBN = toBN(debtPrice.value);
-      
-      const collateralValueUSD = (collateralAmount * collateralPriceBN) / (10n ** BigInt(collateralAsset.decimals));
-      
+
+      const collateralValueUSD =
+        (collateralAmount * collateralPriceBN) /
+        10n ** BigInt(collateralAsset.decimals);
+
       const safetyMargin = 999n;
       const adjustedLTV = (targetLTVValue * safetyMargin) / 1000n;
       const debtValueUSD = (collateralValueUSD * adjustedLTV) / 10000n;
-      
-      const debtAmountRaw = (debtValueUSD * (10n ** BigInt(debtAsset.decimals))) / debtPriceBN;
+
+      const debtAmountRaw =
+        (debtValueUSD * 10n ** BigInt(debtAsset.decimals)) / debtPriceBN;
       const debtAmount = debtAmountRaw > 0n ? debtAmountRaw : 0n;
 
       if (debtAmount === 0n) {
@@ -222,24 +257,28 @@ export class DepositBorrowService {
 
       let collateralVTokenApproveCall;
       try {
-        const approveToAddress = pool.protocolVersion === 'v2' 
-          ? extensionContractAddress 
-          : singletonAddress;
+        const approveToAddress =
+          pool.protocolVersion === 'v2'
+            ? extensionContractAddress
+            : singletonAddress;
         if (!approveToAddress) {
           throw new Error('Approve address not available');
         }
         const tokenContract = getErc20Contract(collateralAsset.address);
-        collateralVTokenApproveCall = await tokenContract.populateTransaction.approve(
-          approveToAddress,
-          collateralAmount
-        );
+        collateralVTokenApproveCall =
+          await tokenContract.populateTransaction.approve(
+            approveToAddress,
+            collateralAmount
+          );
       } catch (error) {
-        throw new Error(`Failed to approve token: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        throw new Error(
+          `Failed to approve token: ${error instanceof Error ? error.message : 'Unknown error'}`
+        );
       }
 
       let modifyPositionParams: any;
       let contractForTx: any;
-      
+
       if (pool.protocolVersion === 'v2') {
         const typedPoolContract = getPoolContract(extensionContractAddress);
         const poolContract = new Contract(
@@ -247,10 +286,10 @@ export class DepositBorrowService {
           extensionContractAddress,
           env.provider
         );
-      
+
         contractForTx = poolContract;
         const assetsEnum = new CairoCustomEnum({ Assets: {} });
-      
+
         modifyPositionParams = {
           collateral_asset: collateralAsset.address as `0x${string}`,
           debt_asset: debtAsset.address as `0x${string}`,
@@ -268,16 +307,16 @@ export class DepositBorrowService {
         if (!singletonContract) {
           singletonContract = getSingletonContract(singletonAddress);
         }
-        
+
         contractForTx = new Contract(
           singletonContract.abi,
           singletonAddress,
           env.provider
         );
-        
+
         const deltaEnum = new CairoCustomEnum({ Delta: {} });
         const assetsEnum = new CairoCustomEnum({ Assets: {} });
-        
+
         modifyPositionParams = {
           pool_id: String(poolId),
           collateral_asset: collateralAsset.address,
@@ -299,11 +338,14 @@ export class DepositBorrowService {
 
       let modifyPositionCall;
       try {
-        modifyPositionCall = await contractForTx.populateTransaction.modify_position(
-    modifyPositionParams
-  );
+        modifyPositionCall =
+          await contractForTx.populateTransaction.modify_position(
+            modifyPositionParams
+          );
       } catch (error) {
-        throw new Error(`Failed to populate modify_position transaction: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        throw new Error(
+          `Failed to populate modify_position transaction: ${error instanceof Error ? error.message : 'Unknown error'}`
+        );
       }
 
       const provider = env.provider;
@@ -326,13 +368,17 @@ export class DepositBorrowService {
       try {
         tx = await wallet.execute(calls);
       } catch (error) {
-        throw new Error(`Failed to execute transaction: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        throw new Error(
+          `Failed to execute transaction: ${error instanceof Error ? error.message : 'Unknown error'}`
+        );
       }
 
       try {
         await provider.waitForTransaction(tx.transaction_hash);
       } catch (error) {
-        throw new Error(`Failed to wait for transaction: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        throw new Error(
+          `Failed to wait for transaction: ${error instanceof Error ? error.message : 'Unknown error'}`
+        );
       }
 
       const result: DepositBorrowResult = {
@@ -394,4 +440,3 @@ export const depositBorrowPosition = async (
     };
   }
 };
-
