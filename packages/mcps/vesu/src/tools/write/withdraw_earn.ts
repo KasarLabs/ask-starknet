@@ -14,7 +14,7 @@ import { onchainWrite } from '@kasarlabs/ask-starknet-core';
 export class WithdrawEarnService {
   /**
    * Creates an instance of WithdrawEarnService
-   * @param {onchainWrite | onchainRead} env - The onchain environment
+   * @param {onchainWrite} env - The onchain environment
    * @param {string} walletAddress - The wallet address executing the withdrawals
    */
   constructor(
@@ -38,13 +38,12 @@ export class WithdrawEarnService {
         this.walletAddress,
         this.env.account.signer
       );
-      const poolId = params.pool_id || GENESIS_POOLID;
+      const poolId = params.poolId || GENESIS_POOLID;
       const pool = await getPool(poolId);
 
       const collateralPoolAsset = pool.assets.find(
         (a) =>
-          a.symbol.toLocaleUpperCase() ===
-          params.withdrawTokenSymbol.toLocaleUpperCase()
+          a.symbol.toUpperCase() === params.withdrawTokenSymbol.toUpperCase()
       );
 
       if (!collateralPoolAsset) {
@@ -121,13 +120,13 @@ export class WithdrawEarnService {
       const transferResult: WithdrawResult = {
         status: 'success',
         symbol: params.withdrawTokenSymbol,
-        recipients_address: account.address,
+        recipient_address: account.address,
         transaction_hash: tx.transaction_hash,
       };
 
       return transferResult;
     } catch (error) {
-      console.error('Detailed deposit error:', error);
+      console.error('Detailed withdraw error:', error);
       if (error instanceof Error) {
         // console.error('Error type:', error.constructor.name);
         // console.error('Error message:', error.message);
@@ -143,7 +142,7 @@ export class WithdrawEarnService {
 
 /**
  * Creates a new WithdrawEarnService instance
- * @param {onchainWrite | onchainRead} env - The onchain environment
+ * @param {onchainWrite} env - The onchain environment
  * @param {string} [walletAddress] - The wallet address
  * @returns {WithdrawEarnService} A new WithdrawEarnService instance
  * @throws {Error} If wallet address is not provided
@@ -161,7 +160,7 @@ export const withdrawService = (
 
 /**
  * Utility function to execute a withdrawal operation
- * @param {onchainWrite | onchainRead} env - The onchain environment
+ * @param {onchainWrite} env - The onchain environment
  * @param {WithdrawParams} params - The withdrawal parameters
  * @returns {Promise<string>} JSON string containing the withdrawal result
  */

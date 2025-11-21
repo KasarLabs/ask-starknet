@@ -80,7 +80,7 @@ export const calculateEkuboLeverSwapData = (
   const ZERO_BI: BigIntValue = { value: 0n, decimals: DEFAULT_DECIMALS };
 
   return ekuboQuote.splits.map((split, index) => {
-    const weight = weights[index] || ZERO_BI.value;
+    const weight = weights[index] ?? ZERO_BI.value;
     const amount =
       (quotedAmount.value * weight) / 10n ** BigInt(DEFAULT_DECIMALS);
 
@@ -157,6 +157,12 @@ export const adjustEkuboWeights = (weights: bigint[]): bigint[] => {
 
   // Adjust the last weight to compensate for the difference
   adjustedWeights[lastIndex] = adjustedWeights[lastIndex] + difference;
+
+  if (adjustedWeights[lastIndex] < 0n) {
+    throw new Error(
+      `Cannot normalize weights: adjustment would result in negative weight (${adjustedWeights[lastIndex]})`
+    );
+  }
 
   // Verify the sum is now correct
   const newSum = adjustedWeights.reduce((sum, weight) => sum + weight, 0n);

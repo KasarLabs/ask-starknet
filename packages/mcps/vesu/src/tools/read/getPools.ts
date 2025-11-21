@@ -66,10 +66,10 @@ export const getPools = async (
       }));
     }
 
-    // If pool_name is provided, filter by name (case-insensitive)
-    if (params.pool_name) {
+    // If poolName is provided, filter by name (case-insensitive)
+    if (params.poolName) {
       pools = pools.filter(
-        (pool) => pool.name.toLowerCase() === params.pool_name!.toLowerCase()
+        (pool) => pool.name.toLowerCase() === params.poolName!.toLowerCase()
       );
     }
 

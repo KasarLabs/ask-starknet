@@ -33,7 +33,7 @@ export async function getTokenBalance(
  */
 export const formatTokenAmount = (amount: string, decimals: number): string => {
   const [whole, fraction = ''] = amount.split('.');
-  const paddedFraction = fraction.padEnd(decimals, '0');
+  const paddedFraction = fraction.padEnd(decimals, '0').slice(0, decimals);
   return whole + paddedFraction;
 };
 

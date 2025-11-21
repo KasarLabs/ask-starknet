@@ -10,7 +10,7 @@ export const depositEarnSchema = z.object({
     .describe(
       'The amount to deposit in human decimal format (e.g., "1.5" for 1.5 tokens, "0.0001" for 0.0001 tokens)'
     ),
-  pool_id: z
+  poolId: z
     .string()
     .optional()
     .describe('Optional pool ID. If not provided, GENESIS_POOLID will be used'),
@@ -26,7 +26,7 @@ export const withdrawEarnSchema = z.object({
     .describe(
       'Optional amount to withdraw in human decimal format (e.g., "1.5" for 1.5 tokens). If "0" or not provided, withdraws all available tokens'
     ),
-  pool_id: z
+  poolId: z
     .string()
     .optional()
     .describe('Optional pool ID. If not provided, GENESIS_POOLID will be used'),
@@ -52,7 +52,7 @@ export const depositMultiplySchema = z.object({
     .describe(
       'Optional target LTV (Loan-to-Value) ratio as a percentage (e.g., "75" for 75%). If not provided, will use maximum LTV'
     ),
-  pool_id: z
+  poolId: z
     .string()
     .optional()
     .describe('Optional pool ID. If not provided, GENESIS_POOLID will be used'),
@@ -101,7 +101,7 @@ export const withdrawMultiplySchema = z.object({
     .describe(
       'Optional amount of collateral to withdraw in human decimal format (e.g., "1.5" for 1.5 tokens). If "0" or not provided, closes the entire position'
     ),
-  pool_id: z
+  poolId: z
     .string()
     .optional()
     .describe('Optional pool ID. If not provided, GENESIS_POOLID will be used'),
@@ -155,7 +155,7 @@ export const depositBorrowSchema = z.object({
     .describe(
       'Optional target LTV (Loan-to-Value) ratio as a percentage (e.g., "75" for 75%). If not provided, will use maximum LTV'
     ),
-  pool_id: z
+  poolId: z
     .string()
     .optional()
     .describe('Optional pool ID. If not provided, GENESIS_POOLID will be used'),
@@ -174,7 +174,7 @@ export const repayBorrowSchema = z.object({
     .describe(
       'Optional amount of debt to repay in human decimal format (e.g., "1.5" for 1.5 tokens). If not provided, repays all debt'
     ),
-  pool_id: z
+  poolId: z
     .string()
     .optional()
     .describe('Optional pool ID. If not provided, GENESIS_POOLID will be used'),
@@ -193,7 +193,7 @@ export const getSchema = z.object({
     .string()
     .optional()
     .describe('Optional pool ID to fetch a specific pool'),
-  pool_name: z
+  poolName: z
     .string()
     .optional()
     .describe('Optional pool name to filter pools by name'),

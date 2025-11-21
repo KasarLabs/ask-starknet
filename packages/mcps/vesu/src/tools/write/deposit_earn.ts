@@ -41,13 +41,12 @@ export class DepositEarnService {
         this.walletAddress,
         this.env.account.signer
       );
-      const poolId = params.pool_id || GENESIS_POOLID;
+      const poolId = params.poolId || GENESIS_POOLID;
       const pool = await getPool(poolId);
 
       const collateralPoolAsset = pool.assets.find(
         (a) =>
-          a.symbol.toLocaleUpperCase() ===
-          params.depositTokenSymbol.toLocaleUpperCase()
+          a.symbol.toUpperCase() === params.depositTokenSymbol.toUpperCase()
       );
 
       if (!collateralPoolAsset) {
@@ -97,7 +96,7 @@ export class DepositEarnService {
         status: 'success',
         amount: params.depositAmount,
         symbol: params.depositTokenSymbol,
-        recipients_address: account.address,
+        recipient_address: account.address,
         transaction_hash: tx.transaction_hash,
       };
 

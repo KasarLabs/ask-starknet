@@ -20,10 +20,8 @@ import type { Address } from '../../interfaces/index.js';
  */
 export function getExtensionContractAddress(pool: IPool): Address | null {
   if (pool.protocolVersion === 'v1') {
-    // v1: extensionContractAddress exists
     return pool.extensionContractAddress;
   } else {
-    // v2: extensionContractAddress is null, use pool.id
     return pool.id as Address;
   }
 }

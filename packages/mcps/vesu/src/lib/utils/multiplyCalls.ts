@@ -1,4 +1,4 @@
-import { CairoCustomEnum, Call } from 'starknet';
+import { CairoCustomEnum, Call, RpcProvider } from 'starknet';
 import { Account, Contract } from 'starknet';
 import { IBaseToken } from '../../interfaces/index.js';
 import {
@@ -29,7 +29,7 @@ export const buildMultiplyCalls = async (
   debtAsset: IBaseToken,
   poolContractAddress: Hex,
   account: Account,
-  provider: any,
+  provider: RpcProvider,
   ekuboQuote?: EkuboQuote,
   slippageBps?: bigint // slippage in basis points (e.g., 50 = 0.5%)
 ): Promise<Call[]> => {

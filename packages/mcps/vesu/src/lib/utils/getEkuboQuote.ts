@@ -20,12 +20,8 @@ async function getChainId(provider: RpcProvider): Promise<string> {
 /**
  * Get Ekubo Router contract address based on chain
  */
-function getRouterAddress(chainId: string): string {
-  // Check if it's mainnet (SN_MAIN) or sepolia
-  if (chainId.includes('MAIN') || chainId === '0x534e5f4d41494e') {
-    return EKUBO_ROUTER_ADDRESSES.mainnet;
-  }
-  return EKUBO_ROUTER_ADDRESSES.sepolia;
+function getRouterAddress(): string {
+  return EKUBO_ROUTER_ADDRESSES.mainnet;
 }
 
 /**
@@ -41,7 +37,7 @@ function buildSwap(
     token_amount: {
       token: tokenIn.address,
       amount: {
-        mag: amount,
+        mag: cairo.uint256(amount.toString()),
         sign: !isExactIn, // false = exactIn, true = exactOut
       },
     },
@@ -68,45 +64,180 @@ function extractCalculatedAmount(
   deltas: any[],
   tokenIn: IBaseToken,
   tokenOut: IBaseToken,
-  isExactIn: boolean
+  isExactIn: boolean,
+  route?: EkuboRoute[]
 ): bigint {
-  if (deltas.length === 0) return 0n;
+  if (deltas.length === 0) {
+    throw new Error('Empty deltas array: no swap deltas returned');
+  }
+
+  // For multihop routes, we need to trace through the path
+  // If we have route information, use it to determine token flow
+  if (route && route.length > 1) {
+    return extractMultihopAmount(deltas, tokenIn, tokenOut, isExactIn, route);
+  }
+
+  // For single-hop routes, validate that we have exactly one delta
+  if (route && route.length === 1 && deltas.length !== 1) {
+    throw new Error(
+      `Single-hop route expected 1 delta, but got ${deltas.length} deltas`
+    );
+  }
+
+  // For single-hop routes, use the last (and only) delta
+  const delta = deltas[deltas.length - 1];
+  const amount0 = BigInt(delta.amount0.mag);
+  const amount1 = BigInt(delta.amount1.mag);
 
   // Determine token order (token0 is always the lower address)
   const isToken0Lower =
     tokenIn.address.toLowerCase() < tokenOut.address.toLowerCase();
 
-  // For multihop, we need to look at the last delta (final output)
-  // or sum all deltas depending on the route structure
-  // For simplicity, we'll use the last delta which represents the final pool
-  const lastDelta = deltas[deltas.length - 1];
-
-  const amount0 = BigInt(lastDelta.amount0.mag);
-  const amount1 = BigInt(lastDelta.amount1.mag);
-
-  // Delta signs: false = positive (receiving), true = negative (giving)
-  // For exactIn: we give tokenIn (negative) and receive tokenOut (positive)
-  // For exactOut: we give tokenIn (negative) and receive tokenOut (positive)
-
   if (isExactIn) {
     // We want the output amount (positive delta for tokenOut)
     if (isToken0Lower) {
       // tokenIn is token0, tokenOut is token1
-      // We receive token1 (positive amount1)
-      return !lastDelta.amount1.sign ? amount1 : 0n;
+      // We should receive token1 (positive amount1, sign = false)
+      if (delta.amount1.sign) {
+        throw new Error(
+          `Unexpected delta sign for tokenOut: expected positive (sign=false), got negative (sign=true). ` +
+            `amount0: ${amount0}, amount1: ${amount1}, amount0.sign: ${delta.amount0.sign}, amount1.sign: ${delta.amount1.sign}`
+        );
+      }
+      return amount1;
     } else {
       // tokenIn is token1, tokenOut is token0
-      // We receive token0 (positive amount0)
-      return !lastDelta.amount0.sign ? amount0 : 0n;
+      // We should receive token0 (positive amount0, sign = false)
+      if (delta.amount0.sign) {
+        throw new Error(
+          `Unexpected delta sign for tokenOut: expected positive (sign=false), got negative (sign=true). ` +
+            `amount0: ${amount0}, amount1: ${amount1}, amount0.sign: ${delta.amount0.sign}, amount1.sign: ${delta.amount1.sign}`
+        );
+      }
+      return amount0;
     }
   } else {
     // We want the input amount (negative delta for tokenIn)
     if (isToken0Lower) {
-      // tokenIn is token0, we give token0 (negative amount0)
-      return lastDelta.amount0.sign ? amount0 : 0n;
+      // tokenIn is token0, we give token0 (negative amount0, sign = true)
+      if (!delta.amount0.sign) {
+        throw new Error(
+          `Unexpected delta sign for tokenIn: expected negative (sign=true), got positive (sign=false). ` +
+            `amount0: ${amount0}, amount1: ${amount1}, amount0.sign: ${delta.amount0.sign}, amount1.sign: ${delta.amount1.sign}`
+        );
+      }
+      return amount0;
     } else {
-      // tokenIn is token1, we give token1 (negative amount1)
-      return lastDelta.amount1.sign ? amount1 : 0n;
+      // tokenIn is token1, we give token1 (negative amount1, sign = true)
+      if (!delta.amount1.sign) {
+        throw new Error(
+          `Unexpected delta sign for tokenIn: expected negative (sign=true), got positive (sign=false). ` +
+            `amount0: ${amount0}, amount1: ${amount1}, amount0.sign: ${delta.amount0.sign}, amount1.sign: ${delta.amount1.sign}`
+        );
+      }
+      return amount1;
+    }
+  }
+}
+
+/**
+ * Extract amount from multihop route by tracing through all deltas
+ * For multihop: TokenA -> TokenB -> TokenC
+ * - Delta[0]: TokenA (negative) -> TokenB (positive)
+ * - Delta[1]: TokenB (negative) -> TokenC (positive)
+ */
+function extractMultihopAmount(
+  deltas: any[],
+  tokenIn: IBaseToken,
+  tokenOut: IBaseToken,
+  isExactIn: boolean,
+  route: EkuboRoute[]
+): bigint {
+  if (deltas.length !== route.length) {
+    throw new Error(
+      `Mismatch between deltas (${deltas.length}) and route length (${route.length})`
+    );
+  }
+
+  if (isExactIn) {
+    // For exactIn, we want the final output token amount
+    // This is the positive delta in the last pool
+    const lastDelta = deltas[deltas.length - 1];
+    const lastPoolKey = route[route.length - 1].poolKey;
+
+    // Determine which token is tokenOut in the last pool
+    const isToken0Out =
+      tokenOut.address.toLowerCase() === lastPoolKey.token0.toLowerCase();
+    const isToken1Out =
+      tokenOut.address.toLowerCase() === lastPoolKey.token1.toLowerCase();
+
+    if (!isToken0Out && !isToken1Out) {
+      throw new Error(
+        `TokenOut ${tokenOut.address} not found in last pool (token0: ${lastPoolKey.token0}, token1: ${lastPoolKey.token1})`
+      );
+    }
+
+    const amount0 = BigInt(lastDelta.amount0.mag);
+    const amount1 = BigInt(lastDelta.amount1.mag);
+
+    if (isToken0Out) {
+      // tokenOut is token0, should have positive delta (sign = false)
+      if (lastDelta.amount0.sign) {
+        throw new Error(
+          `Unexpected delta sign for tokenOut in last pool: expected positive (sign=false), got negative (sign=true). ` +
+            `amount0: ${amount0}, amount1: ${amount1}`
+        );
+      }
+      return amount0;
+    } else {
+      // tokenOut is token1, should have positive delta (sign = false)
+      if (lastDelta.amount1.sign) {
+        throw new Error(
+          `Unexpected delta sign for tokenOut in last pool: expected positive (sign=false), got negative (sign=true). ` +
+            `amount0: ${amount0}, amount1: ${amount1}`
+        );
+      }
+      return amount1;
+    }
+  } else {
+    // For exactOut, we want the initial input token amount
+    // This is the negative delta in the first pool
+    const firstDelta = deltas[0];
+    const firstPoolKey = route[0].poolKey;
+
+    // Determine which token is tokenIn in the first pool
+    const isToken0In =
+      tokenIn.address.toLowerCase() === firstPoolKey.token0.toLowerCase();
+    const isToken1In =
+      tokenIn.address.toLowerCase() === firstPoolKey.token1.toLowerCase();
+
+    if (!isToken0In && !isToken1In) {
+      throw new Error(
+        `TokenIn ${tokenIn.address} not found in first pool (token0: ${firstPoolKey.token0}, token1: ${firstPoolKey.token1})`
+      );
+    }
+
+    const amount0 = BigInt(firstDelta.amount0.mag);
+    const amount1 = BigInt(firstDelta.amount1.mag);
+
+    if (isToken0In) {
+      // tokenIn is token0, should have negative delta (sign = true)
+      if (!firstDelta.amount0.sign) {
+        throw new Error(
+          `Unexpected delta sign for tokenIn in first pool: expected negative (sign=true), got positive (sign=false). ` +
+            `amount0: ${amount0}, amount1: ${amount1}`
+        );
+      }
+      return amount0;
+    } else {
+      // tokenIn is token1, should have negative delta (sign = true)
+      if (!firstDelta.amount1.sign) {
+        throw new Error(
+          `Unexpected delta sign for tokenIn in first pool: expected negative (sign=true), got positive (sign=false). ` +
+            `amount0: ${amount0}, amount1: ${amount1}`
+        );
+      }
+      return amount1;
     }
   }
 }
@@ -131,13 +262,13 @@ export async function getEkuboQuote(
   routes: EkuboRoute[]
 ): Promise<EkuboQuote> {
   try {
-    const chainId = await getChainId(provider);
-    const routerAddress = getRouterAddress(chainId);
+    const routerAddress = getRouterAddress();
 
     // Create router contract
     const routerContract = new Contract(routerAbi, routerAddress, provider);
 
     // Build swaps for each route (split)
+    // Note: Each route can be a single-hop or multihop path
     const swaps = routes.map((route) =>
       buildSwap(tokenIn, amount, isExactIn, [route])
     );
@@ -153,11 +284,15 @@ export async function getEkuboQuote(
       const deltas = quoteResult[i];
       const route = routes[i];
 
+      // Pass the route array to handle multihop routes correctly
+      // For single-hop, this will be [route], for multihop it could be multiple routes
+      const routeArray = [route];
       const amountCalculated = extractCalculatedAmount(
         deltas,
         tokenIn,
         tokenOut,
-        isExactIn
+        isExactIn,
+        routeArray
       );
 
       splits.push({

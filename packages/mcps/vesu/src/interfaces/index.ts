@@ -157,12 +157,12 @@ export const poolParser = z.object({
  * @interface DepositParams
  * @property {string} depositTokenSymbol - Symbol of token to deposit
  * @property {string} depositAmount - Amount to deposit
- * @property {string} [pool_id] - Optional pool ID. If not provided, GENESIS_POOLID will be used
+ * @property {string} [poolId] - Optional pool ID. If not provided, GENESIS_POOLID will be used
  */
 export interface DepositParams {
   depositTokenSymbol: string;
   depositAmount: string;
-  pool_id?: string;
+  poolId?: string;
 }
 
 /**
@@ -170,12 +170,12 @@ export interface DepositParams {
  * @interface WithdrawParams
  * @property {string} withdrawTokenSymbol - Symbol of token to withdraw
  * @property {string} [withdrawAmount] - Optional amount to withdraw in human decimal format. If "0" or not provided, withdraws all available tokens
- * @property {string} [pool_id] - Optional pool ID. If not provided, GENESIS_POOLID will be used
+ * @property {string} [poolId] - Optional pool ID. If not provided, GENESIS_POOLID will be used
  */
 export interface WithdrawParams {
   withdrawTokenSymbol: string;
   withdrawAmount?: string;
-  pool_id?: string;
+  poolId?: string;
 }
 
 /**
@@ -185,7 +185,7 @@ export interface WithdrawParams {
  * @property {string} debtTokenSymbol - Symbol of debt token to borrow
  * @property {string} depositAmount - Amount of collateral to deposit in human decimal format
  * @property {string} [targetLTV] - Optional target LTV (Loan-to-Value) ratio. If not provided, will use maximum LTV
- * @property {string} [pool_id] - Optional pool ID. If not provided, GENESIS_POOLID will be used
+ * @property {string} [poolId] - Optional pool ID. If not provided, GENESIS_POOLID will be used
  * @property {number} [ekuboFee] - Optional Ekubo pool fee tier as a percentage (e.g., 0.05 for 0.05%, 0.3 for 0.3%, 1 for 1%, defaults to 0.05)
  * @property {number} [ekuboTickSpacing] - Optional Ekubo pool tick spacing as a percentage (e.g., 0.01 for 0.01%, 0.1 for 0.1%, 1 for 1%, defaults to 0.1)
  * @property {string} [ekuboExtension] - Optional Ekubo pool extension contract address (default: "0x0")
@@ -196,7 +196,7 @@ export interface DepositMultiplyParams {
   debtTokenSymbol: string;
   depositAmount: string;
   targetLTV?: string;
-  pool_id?: string;
+  poolId?: string;
   ekuboFee?: number;
   ekuboTickSpacing?: number;
   ekuboExtension?: string;
@@ -209,7 +209,7 @@ export interface DepositMultiplyParams {
  * @property {string} collateralTokenSymbol - Symbol of collateral token to withdraw
  * @property {string} debtTokenSymbol - Symbol of debt token to repay
  * @property {string} [withdrawAmount] - Optional amount of collateral to withdraw in human decimal format. If "0" or not provided, closes the entire position
- * @property {string} [pool_id] - Optional pool ID. If not provided, GENESIS_POOLID will be used
+ * @property {string} [poolId] - Optional pool ID. If not provided, GENESIS_POOLID will be used
  * @property {number} [ekuboFee] - Optional Ekubo pool fee tier as a percentage (e.g., 0.05 for 0.05%, 0.3 for 0.3%, 1 for 1%, defaults to 0.05)
  * @property {number} [ekuboTickSpacing] - Optional Ekubo pool tick spacing as a percentage (e.g., 0.01 for 0.01%, 0.1 for 0.1%, 1 for 1%, defaults to 0.1)
  * @property {string} [ekuboExtension] - Optional Ekubo pool extension contract address (default: "0x0")
@@ -219,7 +219,7 @@ export interface WithdrawMultiplyParams {
   collateralTokenSymbol: string;
   debtTokenSymbol: string;
   withdrawAmount?: string;
-  pool_id?: string;
+  poolId?: string;
   ekuboFee?: number;
   ekuboTickSpacing?: number;
   ekuboExtension?: string;
@@ -243,7 +243,7 @@ export interface BigDecimal {
  * @property {'success' | 'failure'} status - Operation status
  * @property {string} [amount] - Amount deposited
  * @property {string} [symbol] - Token symbol
- * @property {string} [recipients_address] - Recipient address
+ * @property {string} [recipient_address] - Recipient address
  * @property {string} [transaction_hash] - Transaction hash
  * @property {string} [error] - Error message if failed
  * @property {string} [step] - Current step in process
@@ -252,7 +252,7 @@ export interface DepositResult {
   status: 'success' | 'failure';
   amount?: string;
   symbol?: string;
-  recipients_address?: string;
+  recipient_address?: string;
   transaction_hash?: string;
   error?: string;
   step?: string;
@@ -263,7 +263,7 @@ export interface DepositResult {
  * @interface WithdrawResult
  * @property {'success' | 'failure'} status - Operation status
  * @property {string} [symbol] - Token symbol
- * @property {string} [recipients_address] - Recipient address
+ * @property {string} [recipient_address] - Recipient address
  * @property {string} [transaction_hash] - Transaction hash
  * @property {string} [error] - Error message if failed
  * @property {string} [step] - Current step in process
@@ -271,7 +271,7 @@ export interface DepositResult {
 export interface WithdrawResult {
   status: 'success' | 'failure';
   symbol?: string;
-  recipients_address?: string;
+  recipient_address?: string;
   transaction_hash?: string;
   error?: string;
   step?: string;
@@ -284,7 +284,7 @@ export interface WithdrawResult {
  * @property {string} [amount] - Amount deposited
  * @property {string} [collateralSymbol] - Collateral token symbol
  * @property {string} [debtSymbol] - Debt token symbol
- * @property {string} [recipients_address] - Recipient address
+ * @property {string} [recipient_address] - Recipient address
  * @property {string} [transaction_hash] - Transaction hash
  * @property {string} [error] - Error message if failed
  */
@@ -293,7 +293,7 @@ export interface DepositMultiplyResult {
   amount?: string;
   collateralSymbol?: string;
   debtSymbol?: string;
-  recipients_address?: string;
+  recipient_address?: string;
   transaction_hash?: string;
   error?: string;
 }
@@ -304,7 +304,7 @@ export interface DepositMultiplyResult {
  * @property {'success' | 'failure'} status - Operation status
  * @property {string} [collateralSymbol] - Collateral token symbol
  * @property {string} [debtSymbol] - Debt token symbol
- * @property {string} [recipients_address] - Recipient address
+ * @property {string} [recipient_address] - Recipient address
  * @property {string} [transaction_hash] - Transaction hash
  * @property {string} [error] - Error message if failed
  */
@@ -312,7 +312,7 @@ export interface WithdrawMultiplyResult {
   status: 'success' | 'failure';
   collateralSymbol?: string;
   debtSymbol?: string;
-  recipients_address?: string;
+  recipient_address?: string;
   transaction_hash?: string;
   error?: string;
 }
@@ -324,14 +324,14 @@ export interface WithdrawMultiplyResult {
  * @property {string} debtTokenSymbol - Symbol of debt token to borrow
  * @property {string} depositAmount - Amount of collateral to deposit in human decimal format
  * @property {string} [targetLTV] - Optional target LTV (Loan-to-Value) ratio. If not provided, will use maximum LTV
- * @property {string} [pool_id] - Optional pool ID. If not provided, GENESIS_POOLID will be used
+ * @property {string} [poolId] - Optional pool ID. If not provided, GENESIS_POOLID will be used
  */
 export interface DepositBorrowParams {
   collateralTokenSymbol: string;
   debtTokenSymbol: string;
   depositAmount: string;
   targetLTV?: string;
-  pool_id?: string;
+  poolId?: string;
 }
 
 /**
@@ -341,7 +341,7 @@ export interface DepositBorrowParams {
  * @property {string} [amount] - Amount deposited
  * @property {string} [collateralSymbol] - Collateral token symbol
  * @property {string} [debtSymbol] - Debt token symbol
- * @property {string} [recipients_address] - Recipient address
+ * @property {string} [recipient_address] - Recipient address
  * @property {string} [transaction_hash] - Transaction hash
  * @property {string} [error] - Error message if failed
  */
@@ -350,7 +350,7 @@ export interface DepositBorrowResult {
   amount?: string;
   collateralSymbol?: string;
   debtSymbol?: string;
-  recipients_address?: string;
+  recipient_address?: string;
   transaction_hash?: string;
   error?: string;
 }
@@ -361,13 +361,13 @@ export interface DepositBorrowResult {
  * @property {string} collateralTokenSymbol - Symbol of collateral token
  * @property {string} debtTokenSymbol - Symbol of debt token to repay
  * @property {string} [repayAmount] - Optional amount of debt to repay in human decimal format. If not provided, repays all debt
- * @property {string} [pool_id] - Optional pool ID. If not provided, GENESIS_POOLID will be used
+ * @property {string} [poolId] - Optional pool ID. If not provided, GENESIS_POOLID will be used
  */
 export interface RepayBorrowParams {
   collateralTokenSymbol: string;
   debtTokenSymbol: string;
   repayAmount?: string;
-  pool_id?: string;
+  poolId?: string;
 }
 
 /**
@@ -377,7 +377,7 @@ export interface RepayBorrowParams {
  * @property {string} [repayAmount] - Amount repaid
  * @property {string} [collateralSymbol] - Collateral token symbol
  * @property {string} [debtSymbol] - Debt token symbol
- * @property {string} [recipients_address] - Recipient address
+ * @property {string} [recipient_address] - Recipient address
  * @property {string} [transaction_hash] - Transaction hash
  * @property {string} [error] - Error message if failed
  */
@@ -386,7 +386,7 @@ export interface RepayBorrowResult {
   repayAmount?: string;
   collateralSymbol?: string;
   debtSymbol?: string;
-  recipients_address?: string;
+  recipient_address?: string;
   transaction_hash?: string;
   error?: string;
 }

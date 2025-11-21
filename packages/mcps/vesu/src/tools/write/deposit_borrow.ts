@@ -43,7 +43,7 @@ export class DepositBorrowService {
         this.walletAddress,
         this.env.account.signer
       );
-      const poolId = String(params.pool_id || GENESIS_POOLID);
+      const poolId = String(params.poolId || GENESIS_POOLID);
 
       let pool: any;
       try {
@@ -101,14 +101,12 @@ export class DepositBorrowService {
 
       const collateralAsset = pool.assets.find(
         (a: any) =>
-          a.symbol.toLocaleUpperCase() ===
-          params.collateralTokenSymbol.toLocaleUpperCase()
+          a.symbol.toUpperCase() === params.collateralTokenSymbol.toUpperCase()
       );
 
       const debtAsset = pool.assets.find(
         (a: any) =>
-          a.symbol.toLocaleUpperCase() ===
-          params.debtTokenSymbol.toLocaleUpperCase()
+          a.symbol.toUpperCase() === params.debtTokenSymbol.toUpperCase()
       );
 
       if (!collateralAsset) {
@@ -166,8 +164,8 @@ export class DepositBorrowService {
       let targetLTVValue: bigint;
       if (params.targetLTV) {
         const ltvPercent = BigInt(params.targetLTV);
-        if (ltvPercent > 100n || ltvPercent < 0n) {
-          throw new Error('Target LTV must be between 0 and 100');
+        if (ltvPercent >= 100n || ltvPercent < 0n) {
+          throw new Error('Target LTV must be between 0 and 99');
         }
         targetLTVValue = ltvPercent * 100n;
 
@@ -238,8 +236,13 @@ export class DepositBorrowService {
         (collateralAmount * collateralPriceBN) /
         10n ** BigInt(collateralAsset.decimals);
 
+      // Apply safety margin (0.1%) to target LTV for additional protection
+      // This reduces risk of immediate liquidation due to price fluctuations
       const safetyMargin = 999n;
       const adjustedLTV = (targetLTVValue * safetyMargin) / 1000n;
+
+      // Simple loan formula: debt = collateral * LTV / 100
+      // This is a direct loan without leverage effect
       const debtValueUSD = (collateralValueUSD * adjustedLTV) / 10000n;
 
       const debtAmountRaw =
@@ -386,7 +389,7 @@ export class DepositBorrowService {
         amount: params.depositAmount,
         collateralSymbol: params.collateralTokenSymbol,
         debtSymbol: params.debtTokenSymbol,
-        recipients_address: account.address,
+        recipient_address: account.address,
         transaction_hash: tx.transaction_hash,
       };
 

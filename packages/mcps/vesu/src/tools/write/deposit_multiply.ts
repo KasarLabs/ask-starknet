@@ -44,9 +44,16 @@ export class DepositMultiplyService {
         this.walletAddress,
         this.env.account.signer
       );
-      // For v2, pool_id is the address of the pool contract
-      const poolId = (params.pool_id || GENESIS_POOLID) as Hex;
+      // For v2, poolId is the address of the pool contract
+      const poolId = (params.poolId || GENESIS_POOLID) as Hex;
       const pool = await getPool(poolId);
+
+      // Multiply operations are only supported on v2 pools
+      if (pool.protocolVersion !== 'v2') {
+        throw new Error(
+          `Multiply operations are only supported on v2 pools. This pool is ${pool.protocolVersion}`
+        );
+      }
 
       // For v2, poolId is the pool contract address
       const poolContractAddress = poolId;
@@ -54,14 +61,11 @@ export class DepositMultiplyService {
       // Find collateral and debt assets
       const collateralAsset = pool.assets.find(
         (a) =>
-          a.symbol.toLocaleUpperCase() ===
-          params.collateralTokenSymbol.toLocaleUpperCase()
+          a.symbol.toUpperCase() === params.collateralTokenSymbol.toUpperCase()
       );
 
       const debtAsset = pool.assets.find(
-        (a) =>
-          a.symbol.toLocaleUpperCase() ===
-          params.debtTokenSymbol.toLocaleUpperCase()
+        (a) => a.symbol.toUpperCase() === params.debtTokenSymbol.toUpperCase()
       );
 
       if (!collateralAsset) {
@@ -92,8 +96,8 @@ export class DepositMultiplyService {
       let targetLTVValue: bigint;
       if (params.targetLTV) {
         const ltvPercent = BigInt(params.targetLTV);
-        if (ltvPercent > 100n || ltvPercent < 0n) {
-          throw new Error('Target LTV must be between 0 and 100');
+        if (ltvPercent >= 100n || ltvPercent < 0n) {
+          throw new Error('Target LTV must be between 0 and 99');
         }
         // Convert percentage to basis points (e.g., 85% -> 8500)
         targetLTVValue = ltvPercent * 100n;
@@ -125,8 +129,11 @@ export class DepositMultiplyService {
         (collateralAmount * toBN(collateralPrice.value)) /
         10n ** BigInt(collateralAsset.decimals);
 
+      const safetyMargin = 999n;
+      const adjustedLTV = (targetLTVValue * safetyMargin) / 1000n;
+
       const debtValueUSD =
-        (collateralValueUSD * targetLTVValue) / (10000n - targetLTVValue);
+        (collateralValueUSD * adjustedLTV) / (10000n - adjustedLTV);
 
       const debtAmount =
         (debtValueUSD * 10n ** BigInt(debtAsset.decimals)) /
@@ -197,7 +204,6 @@ export class DepositMultiplyService {
           ekuboQuote = undefined; // Fall back to no routing
         }
       } catch (error) {
-
         console.warn(
           'Failed to get Ekubo quote, continuing without swap routing:',
           error
@@ -232,7 +238,7 @@ export class DepositMultiplyService {
         amount: params.depositAmount,
         collateralSymbol: params.collateralTokenSymbol,
         debtSymbol: params.debtTokenSymbol,
-        recipients_address: account.address,
+        recipient_address: account.address,
         transaction_hash: tx.transaction_hash,
       };
 

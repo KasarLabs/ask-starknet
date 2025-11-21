@@ -46,7 +46,7 @@ export class RepayBorrowService {
         this.walletAddress,
         this.env.account.signer
       );
-      const poolId = String(params.pool_id || GENESIS_POOLID);
+      const poolId = String(params.poolId || GENESIS_POOLID);
 
       let pool: any;
       try {
@@ -104,14 +104,12 @@ export class RepayBorrowService {
 
       const collateralAsset = pool.assets.find(
         (a: any) =>
-          a.symbol.toLocaleUpperCase() ===
-          params.collateralTokenSymbol.toLocaleUpperCase()
+          a.symbol.toUpperCase() === params.collateralTokenSymbol.toUpperCase()
       );
 
       const debtAsset = pool.assets.find(
         (a: any) =>
-          a.symbol.toLocaleUpperCase() ===
-          params.debtTokenSymbol.toLocaleUpperCase()
+          a.symbol.toUpperCase() === params.debtTokenSymbol.toUpperCase()
       );
 
       if (!collateralAsset) {
@@ -192,10 +190,10 @@ export class RepayBorrowService {
 
             return (
               position.pool.id === poolId &&
-              position.collateral?.symbol.toLocaleUpperCase() ===
-                params.collateralTokenSymbol.toLocaleUpperCase() &&
-              position.debt?.symbol.toLocaleUpperCase() ===
-                params.debtTokenSymbol.toLocaleUpperCase()
+              position.collateral?.symbol.toUpperCase() ===
+                params.collateralTokenSymbol.toUpperCase() &&
+              position.debt?.symbol.toUpperCase() ===
+                params.debtTokenSymbol.toUpperCase()
             );
           });
 
@@ -436,7 +434,7 @@ export class RepayBorrowService {
         repayAmount: repayAmountString,
         collateralSymbol: params.collateralTokenSymbol,
         debtSymbol: params.debtTokenSymbol,
-        recipients_address: account.address,
+        recipient_address: account.address,
         transaction_hash: tx.transaction_hash,
       };
 
