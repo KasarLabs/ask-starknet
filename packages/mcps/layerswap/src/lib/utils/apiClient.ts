@@ -19,7 +19,7 @@ export class LayerswapApiClient {
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
     };
-    
+
     // Only add X-LS-APIKEY header if API key is provided
     if (this.apiKey) {
       headers['X-LS-APIKEY'] = this.apiKey;
@@ -56,4 +56,3 @@ export class LayerswapApiClient {
     return this.request<T>('POST', endpoint, body);
   }
 }
-

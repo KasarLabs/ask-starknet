@@ -20,7 +20,10 @@ export const getQuote = async (
       queryParams.append('slippage', params.slippage);
     }
     if (params.use_deposit_address !== undefined) {
-      queryParams.append('use_deposit_address', params.use_deposit_address.toString());
+      queryParams.append(
+        'use_deposit_address',
+        params.use_deposit_address.toString()
+      );
     }
     if (params.refuel !== undefined) {
       queryParams.append('refuel', params.refuel.toString());
@@ -39,4 +42,3 @@ export const getQuote = async (
     };
   }
 };
-

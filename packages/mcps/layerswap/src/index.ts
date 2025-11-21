@@ -2,10 +2,7 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 
-import {
-  mcpTool,
-  registerToolsWithServer,
-} from '@kasarlabs/ask-starknet-core';
+import { mcpTool, registerToolsWithServer } from '@kasarlabs/ask-starknet-core';
 import dotenv from 'dotenv';
 
 import {
@@ -42,7 +39,9 @@ const server = new McpServer({
 });
 
 const getApiClient = (): LayerswapApiClient => {
-  const apiKey = process.env.LAYERSWAP_API_KEY || '1CMbpkKKt8a4m5iFpo9dkSZLz2AN/j1hQydCrofCrQ+yP2L5hErUTOoEkCK/eOD5oH4JLfIDACPvjXp+5FgaAQ';
+  const apiKey =
+    process.env.LAYERSWAP_API_KEY ||
+    '1CMbpkKKt8a4m5iFpo9dkSZLz2AN/j1hQydCrofCrQ+yP2L5hErUTOoEkCK/eOD5oH4JLfIDACPvjXp+5FgaAQ';
   const apiUrl = process.env.LAYERSWAP_API_URL || 'https://api.layerswap.io';
   return new LayerswapApiClient(apiKey, apiUrl);
 };
@@ -133,7 +132,8 @@ const registerTools = (LayerswapToolRegistry: mcpTool[]) => {
 
   LayerswapToolRegistry.push({
     name: 'layerswap_get_all_swaps',
-    description: 'Get all swaps for a specific destination address with optional pagination and expired swaps inclusion',
+    description:
+      'Get all swaps for a specific destination address with optional pagination and expired swaps inclusion',
     schema: getAllSwapsSchema,
     execute: async (params: any) => {
       return await getAllSwaps(apiClient, params);
@@ -168,4 +168,3 @@ main().catch((error) => {
   console.error('Fatal error in main():', error);
   process.exit(1);
 });
-

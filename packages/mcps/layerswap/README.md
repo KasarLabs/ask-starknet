@@ -5,6 +5,7 @@ MCP server for Layerswap cross-chain bridge operations on Starknet.
 ## Features
 
 This MCP provides tools for:
+
 - Getting available networks
 - Getting sources and destinations
 - Getting swap route limits
@@ -34,4 +35,3 @@ npm run build
 ```bash
 npm start
 ```
-
