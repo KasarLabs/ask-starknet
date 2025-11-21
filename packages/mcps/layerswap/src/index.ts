@@ -2,7 +2,11 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 
-import { mcpTool, registerToolsWithServer } from '@kasarlabs/ask-starknet-core';
+import {
+  mcpTool,
+  registerToolsWithServer,
+  getOnchainWrite,
+} from '@kasarlabs/ask-starknet-core';
 import dotenv from 'dotenv';
 
 import {
@@ -41,7 +45,7 @@ const server = new McpServer({
 const getApiClient = (): LayerswapApiClient => {
   const apiKey =
     process.env.LAYERSWAP_API_KEY ||
-    '1CMbpkKKt8a4m5iFpo9dkSZLz2AN/j1hQydCrofCrQ+yP2L5hErUTOoEkCK/eOD5oH4JLfIDACPvjXp+5FgaAQ';
+    'bwDJw8c1mesRyWfO3WrOB7iE48xAkVEI5QWlgnNFHnwH/4W+zHOcRoM5D3Sne3eCXRqUzHTMXBt0hrd+lO4ASw';
   const apiUrl = process.env.LAYERSWAP_API_URL || 'https://api.layerswap.io';
   return new LayerswapApiClient(apiKey, apiUrl);
 };
@@ -145,7 +149,8 @@ const registerTools = (LayerswapToolRegistry: mcpTool[]) => {
     description: 'Create a new swap for cross-chain transfer',
     schema: createSwapSchema,
     execute: async (params: any) => {
-      return await createSwap(apiClient, params);
+      const onchainWrite = getOnchainWrite();
+      return await createSwap(apiClient, params, onchainWrite);
     },
   });
 };

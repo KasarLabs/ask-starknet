@@ -7,7 +7,10 @@ export const getTransactionStatus = async (
   params: GetTransactionStatusSchemaType
 ): Promise<toolResult> => {
   try {
-    const endpoint = `/api/v2/swaps/${params.swap_id}/status`;
+    const queryParams = new URLSearchParams();
+    queryParams.append('network', params.network);
+    queryParams.append('transaction_id', params.transaction_id);
+    const endpoint = `/api/v2/transaction_status?${queryParams.toString()}`;
     const status: any = await apiClient.get<any>(endpoint);
     return {
       status: 'success',

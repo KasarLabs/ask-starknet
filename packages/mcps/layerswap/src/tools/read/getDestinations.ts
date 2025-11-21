@@ -18,10 +18,16 @@ export const getDestinations = async (
       queryParams.append('include_swaps', params.include_swaps.toString());
     }
     if (params?.include_unavailable !== undefined) {
-      queryParams.append('include_unavailable', params.include_unavailable.toString());
+      queryParams.append(
+        'include_unavailable',
+        params.include_unavailable.toString()
+      );
     }
     if (params?.include_unmatched !== undefined) {
-      queryParams.append('include_unmatched', params.include_unmatched.toString());
+      queryParams.append(
+        'include_unmatched',
+        params.include_unmatched.toString()
+      );
     }
     if (params?.network_types && params.network_types.length > 0) {
       params.network_types.forEach((type) => {

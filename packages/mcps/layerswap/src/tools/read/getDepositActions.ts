@@ -7,7 +7,14 @@ export const getDepositActions = async (
   params: GetDepositActionsSchemaType
 ): Promise<toolResult> => {
   try {
-    const endpoint = `/api/v2/swaps/${params.swap_id}/deposit_actions`;
+    const queryParams = new URLSearchParams();
+    if (params.source_address) {
+      queryParams.append('source_address', params.source_address);
+    }
+    const queryString = queryParams.toString();
+    const endpoint = `/api/v2/swaps/${params.swap_id}/deposit_actions${
+      queryString ? `?${queryString}` : ''
+    }`;
     const depositActions: any = await apiClient.get<any>(endpoint);
     return {
       status: 'success',

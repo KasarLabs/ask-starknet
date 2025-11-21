@@ -466,5 +466,32 @@
         "mcp_doc_suggest_projects"
       ]
     }
+  },
+  "layerswap": {
+    "client": {
+      "command": "npx",
+      "args": ["-y", "@kasarlabs/layerswap-mcp@latest"],
+      "transport": "stdio",
+      "env": {
+        "LAYERSWAP_API_URL": ""
+      }
+    },
+    "description": "Layerswap cross-chain bridge for transferring assets between different networks",
+    "promptInfo": {
+      "expertise": "Cross-chain asset transfers and bridge operations via Layerswap",
+      "tools": [
+        "layerswap_get_networks",
+        "layerswap_get_sources",
+        "layerswap_get_destinations",
+        "layerswap_get_swap_route_limits",
+        "layerswap_get_quote",
+        "layerswap_get_detailed_quote",
+        "layerswap_get_transaction_status",
+        "layerswap_get_swap_details",
+        "layerswap_get_deposit_actions",
+        "layerswap_get_all_swaps",
+        "layerswap_create_swap"
+      ]
+    }
   }
 }

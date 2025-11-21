@@ -21,7 +21,9 @@ export const getSourcesSchema = z.object({
   destination_token: z
     .string()
     .optional()
-    .describe('Destination token symbol - use the token symbol property (e.g., ETH)'),
+    .describe(
+      'Destination token symbol - use the token symbol property (e.g., ETH)'
+    ),
   include_swaps: z
     .boolean()
     .optional()
@@ -57,7 +59,9 @@ export const getDestinationsSchema = z.object({
   source_token: z
     .string()
     .optional()
-    .describe('Source token symbol - use the token symbol property (e.g., ETH)'),
+    .describe(
+      'Source token symbol - use the token symbol property (e.g., ETH)'
+    ),
   include_swaps: z
     .boolean()
     .optional()
@@ -178,17 +182,31 @@ export const getDetailedQuoteSchema = z.object({
 
 // Get Transaction Status
 export const getTransactionStatusSchema = z.object({
-  swap_id: z.string().describe('Swap ID to check status'),
+  network: z
+    .string()
+    .describe(
+      'Network name - use the network name property (e.g., ETHEREUM_MAINNET, BASE_MAINNET)'
+    ),
+  transaction_id: z.string().describe('Transaction ID to check status'),
 });
 
 // Get Swap Details
 export const getSwapDetailsSchema = z.object({
-  swap_id: z.string().describe('Swap ID to get details'),
+  swap_id: z.string().uuid().describe('Swap ID (UUID) to get details'),
+  exclude_deposit_actions: z
+    .boolean()
+    .optional()
+    .describe('Whether to exclude deposit actions from the response'),
+  source_address: z
+    .string()
+    .optional()
+    .describe('Source address to filter swap details'),
 });
 
 // Get Deposit Actions
 export const getDepositActionsSchema = z.object({
-  swap_id: z.string().describe('Swap ID to get deposit actions'),
+  swap_id: z.string().uuid().describe('Swap ID (UUID) to get deposit actions'),
+  source_address: z.string().optional().describe('Source address'),
 });
 
 // Get All Swaps
@@ -200,31 +218,63 @@ export const getAllSwapsSchema = z.object({
 
 // Create Swap
 export const createSwapSchema = z.object({
-  source: z
+  destination_address: z
+    .string()
+    .describe('Destination address where the swap will be received'),
+  source_network: z
     .string()
     .describe(
       'Source network name - use the network name property (e.g., ETHEREUM_MAINNET, BASE_MAINNET)'
     ),
-  destination: z
+  source_token: z
+    .string()
+    .describe(
+      'Source token symbol - use the token symbol property (e.g., ETH)'
+    ),
+  destination_network: z
     .string()
     .describe(
       'Destination network name - use the network name property (e.g., ETHEREUM_MAINNET, BASE_MAINNET)'
     ),
-  source_asset: z
+  destination_token: z
     .string()
     .describe(
-      'Source asset symbol - use the token symbol property (e.g., ETH)'
+      'Destination token symbol - use the token symbol property (e.g., ETH)'
     ),
-  destination_asset: z
+  reference_id: z
     .string()
     .optional()
-    .describe(
-      'Destination asset symbol - use the token symbol property (e.g., ETH)'
-    ),
-  amount: z.string().describe('Amount to swap'),
-  destination_address: z.string().describe('Destination address'),
+    .describe('Optional reference ID for tracking the swap'),
+  source_exchange: z
+    .string()
+    .optional()
+    .describe('Source exchange name if applicable'),
+  destination_exchange: z
+    .string()
+    .optional()
+    .describe('Destination exchange name if applicable'),
   refuel: z.boolean().optional().describe('Whether to include refuel'),
+  use_deposit_address: z
+    .boolean()
+    .optional()
+    .describe('Whether to use deposit address'),
+  use_new_deposit_address: z
+    .boolean()
+    .optional()
+    .describe('Whether to use a new deposit address'),
+  amount: z
+    .number()
+    .describe(
+      'Amount to swap in human decimal format (e.g., 1 = 1 ETH or 1 USDC)'
+    ),
   source_address: z.string().optional().describe('Source address'),
+  slippage: z
+    .string()
+    .optional()
+    .describe('Slippage tolerance in percentage format (e.g., 0.1 = 10%)'),
+  refund_address: z
+    .string()
+    .describe('Address to receive refunds if the swap fails'),
 });
 
 export type GetNetworksSchemaType = z.infer<typeof getNetworksSchema>;

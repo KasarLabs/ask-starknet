@@ -7,7 +7,20 @@ export const getSwapDetails = async (
   params: GetSwapDetailsSchemaType
 ): Promise<toolResult> => {
   try {
-    const endpoint = `/api/v2/swaps/${params.swap_id}`;
+    const queryParams = new URLSearchParams();
+    if (params.exclude_deposit_actions !== undefined) {
+      queryParams.append(
+        'exclude_deposit_actions',
+        params.exclude_deposit_actions.toString()
+      );
+    }
+    if (params.source_address) {
+      queryParams.append('source_address', params.source_address);
+    }
+    const queryString = queryParams.toString();
+    const endpoint = `/api/v2/swaps/${params.swap_id}${
+      queryString ? `?${queryString}` : ''
+    }`;
     const swapDetails: any = await apiClient.get<any>(endpoint);
     return {
       status: 'success',
