@@ -8,12 +8,12 @@ import {
 } from '../../lib/utils/math.js';
 import { fetchPositionData } from '../../lib/utils/position.js';
 import { formatTokenAmount } from '../../lib/utils/token.js';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 
 export const addLiquidity = async (
   env: onchainWrite,
   params: AddLiquiditySchema
-) => {
+): Promise<toolResult> => {
   try {
     const account = env.account;
     const positionsContract = await getContract(env.provider, 'positions');

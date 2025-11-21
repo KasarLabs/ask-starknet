@@ -6,11 +6,14 @@ import {
   getUnderlyingTokenName,
 } from '../../lib/utils/contracts.js';
 import { StakeSchema } from '../../schemas/index.js';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 import { formatUnits } from '../../lib/utils/formatting.js';
 import { Contract } from 'starknet';
 
-export const stake = async (env: onchainWrite, params: StakeSchema) => {
+export const stake = async (
+  env: onchainWrite,
+  params: StakeSchema
+): Promise<toolResult> => {
   try {
     const account = env.account;
     const liquidTokenContract = getLiquidTokenContract(

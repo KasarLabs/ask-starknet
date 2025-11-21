@@ -4,7 +4,7 @@ import { artpeaceAddr } from '../lib/constants/artpeace.js';
 import { ArtpeaceHelper } from '../lib/utils/helper.js';
 import { placePixelParam } from '../schemas/index.js';
 import { Checker } from '../lib/utils/checker.js';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 
 /**
  * Places pixels on a Starknet canvas using the Artpeace contract
@@ -15,7 +15,7 @@ import { onchainWrite } from '@kasarlabs/ask-starknet-core';
 export const placePixel = async (
   env: onchainWrite,
   input: { params: placePixelParam[] }
-) => {
+): Promise<toolResult> => {
   try {
     const { params } = input;
     const account = env.account;
@@ -52,15 +52,12 @@ export const placePixel = async (
 
     return {
       status: 'success',
-      transaction_hash: txHash,
+      data: { transaction_hash: txHash },
     };
   } catch (error: any) {
     return {
-      status: 'error',
-      error: {
-        code: 'PLACE_PIXEL_DATA_ERROR',
-        message: error.message || 'Failed to place a pixel',
-      },
+      status: 'failure',
+      error: error.message || 'Failed to place a pixel',
     };
   }
 };

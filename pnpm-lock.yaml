@@ -90,7 +90,7 @@ importers:
         version: 0.3.55(@browserbasehq/sdk@2.6.0(encoding@0.1.13))(@browserbasehq/stagehand@1.14.0(@playwright/test@1.55.0)(deepmerge@4.3.1)(dotenv@16.5.0)(encoding@0.1.13)(openai@5.12.2(ws@8.18.2)(zod@3.25.76))(zod@3.25.76))(@ibm-cloud/watsonx-ai@1.6.12)(@langchain/anthropic@0.3.27(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))))(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))(@langchain/google-genai@0.2.18(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))))(axios@1.12.2)(encoding@0.1.13)(fast-xml-parser@4.5.3)(handlebars@4.7.8)(ibm-cloud-sdk-core@5.4.2)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@5.12.2(ws@8.18.2)(zod@3.25.76))(playwright@1.55.0)(weaviate-client@3.8.1(encoding@0.1.13))(ws@8.18.2)
       '@langchain/core':
         specifier: ^0.3.72
-        version: 0.3.75(openai@5.12.2(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       '@langchain/google-genai':
         specifier: ^0.2.18
         version: 0.2.18(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))
@@ -127,7 +127,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.75
-        version: 0.3.75(openai@5.12.2(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: ^1.11.2
         version: 1.17.5
@@ -158,7 +158,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.75(openai@5.12.2(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: ^1.11.2
         version: 1.17.5
@@ -195,7 +195,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.75
-        version: 0.3.75(openai@5.12.2(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: ^1.11.2
         version: 1.17.5
@@ -226,7 +226,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.75
-        version: 0.3.75(openai@5.12.2(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: ^1.11.2
         version: 1.17.5
@@ -369,7 +369,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.75(openai@5.12.2(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: ^1.11.2
         version: 1.17.5
@@ -400,7 +400,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.75(openai@5.12.2(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: ^1.11.2
         version: 1.17.5
@@ -480,7 +480,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.75(openai@5.12.2(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: ^1.11.2
         version: 1.17.5
@@ -539,7 +539,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.75
-        version: 0.3.75(openai@5.12.2(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: ^1.11.2
         version: 1.17.5
@@ -570,7 +570,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.75(openai@5.12.2(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: ^1.11.2
         version: 1.17.5
@@ -601,7 +601,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.75(openai@5.12.2(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: ^1.11.2
         version: 1.17.5
@@ -666,7 +666,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.75(openai@5.12.2(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: ^1.11.2
         version: 1.17.5
@@ -697,7 +697,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.75(openai@5.12.2(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: ^1.11.2
         version: 1.17.5
@@ -728,7 +728,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.75
-        version: 0.3.75(openai@5.12.2(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: ^1.11.2
         version: 1.17.5
@@ -756,7 +756,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.75(openai@5.12.2(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: ^1.11.2
         version: 1.17.5
@@ -787,7 +787,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.75(openai@5.12.2(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: ^1.11.2
         version: 1.17.5
@@ -6813,14 +6813,14 @@ snapshots:
   '@langchain/anthropic@0.3.27(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))':
     dependencies:
       '@anthropic-ai/sdk': 0.56.0
-      '@langchain/core': 0.3.75(openai@5.12.2(zod@3.25.76))
+      '@langchain/core': 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       fast-xml-parser: 4.5.3
 
   '@langchain/community@0.3.55(@browserbasehq/sdk@2.6.0(encoding@0.1.13))(@browserbasehq/stagehand@1.14.0(@playwright/test@1.55.0)(deepmerge@4.3.1)(dotenv@16.5.0)(encoding@0.1.13)(openai@5.12.2(ws@8.18.2)(zod@3.25.76))(zod@3.25.76))(@ibm-cloud/watsonx-ai@1.6.12)(@langchain/anthropic@0.3.27(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))))(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))(@langchain/google-genai@0.2.18(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))))(axios@1.12.2)(encoding@0.1.13)(fast-xml-parser@4.5.3)(handlebars@4.7.8)(ibm-cloud-sdk-core@5.4.2)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@5.12.2(ws@8.18.2)(zod@3.25.76))(playwright@1.55.0)(weaviate-client@3.8.1(encoding@0.1.13))(ws@8.18.2)':
     dependencies:
       '@browserbasehq/stagehand': 1.14.0(@playwright/test@1.55.0)(deepmerge@4.3.1)(dotenv@16.5.0)(encoding@0.1.13)(openai@5.12.2(ws@8.18.2)(zod@3.25.76))(zod@3.25.76)
       '@ibm-cloud/watsonx-ai': 1.6.12
-      '@langchain/core': 0.3.75(openai@5.12.2(zod@3.25.76))
+      '@langchain/core': 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       '@langchain/openai': 0.6.11(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))(ws@8.18.2)
       '@langchain/weaviate': 0.2.2(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))(encoding@0.1.13)
       binary-extensions: 2.3.0
@@ -6829,7 +6829,7 @@ snapshots:
       ibm-cloud-sdk-core: 5.4.2
       js-yaml: 4.1.0
       langchain: 0.3.33(@langchain/anthropic@0.3.27(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))))(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))(@langchain/google-genai@0.2.18(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))))(axios@1.12.2)(handlebars@4.7.8)(openai@5.12.2(ws@8.18.2)(zod@3.25.76))(ws@8.18.2)
-      langsmith: 0.3.67(openai@5.12.2(zod@3.25.76))
+      langsmith: 0.3.67(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       openai: 5.12.2(ws@8.18.2)(zod@3.25.76)
       uuid: 10.0.0
       zod: 3.25.76
@@ -6862,14 +6862,14 @@ snapshots:
       - handlebars
       - peggy
 
-  '@langchain/core@0.3.75(openai@5.12.2(zod@3.25.76))':
+  '@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))':
     dependencies:
       '@cfworker/json-schema': 4.1.1
       ansi-styles: 5.2.0
       camelcase: 6.3.0
       decamelize: 1.2.0
       js-tiktoken: 1.0.20
-      langsmith: 0.3.67(openai@5.12.2(zod@3.25.76))
+      langsmith: 0.3.67(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       mustache: 4.2.0
       p-queue: 6.6.2
       p-retry: 4.6.2
@@ -6885,12 +6885,12 @@ snapshots:
   '@langchain/google-genai@0.2.18(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))':
     dependencies:
       '@google/generative-ai': 0.24.1
-      '@langchain/core': 0.3.75(openai@5.12.2(zod@3.25.76))
+      '@langchain/core': 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       uuid: 11.1.0
 
   '@langchain/langgraph-checkpoint@0.1.1(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))':
     dependencies:
-      '@langchain/core': 0.3.75(openai@5.12.2(zod@3.25.76))
+      '@langchain/core': 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       uuid: 10.0.0
 
   '@langchain/langgraph-sdk@0.1.2(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))':
@@ -6900,11 +6900,11 @@ snapshots:
       p-retry: 4.6.2
       uuid: 9.0.1
     optionalDependencies:
-      '@langchain/core': 0.3.75(openai@5.12.2(zod@3.25.76))
+      '@langchain/core': 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
 
   '@langchain/langgraph@0.4.9(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))(zod-to-json-schema@3.24.5(zod@3.25.76))':
     dependencies:
-      '@langchain/core': 0.3.75(openai@5.12.2(zod@3.25.76))
+      '@langchain/core': 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       '@langchain/langgraph-checkpoint': 0.1.1(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))
       '@langchain/langgraph-sdk': 0.1.2(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))
       uuid: 10.0.0
@@ -6917,7 +6917,7 @@ snapshots:
 
   '@langchain/mcp-adapters@0.6.0(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))':
     dependencies:
-      '@langchain/core': 0.3.75(openai@5.12.2(zod@3.25.76))
+      '@langchain/core': 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       '@modelcontextprotocol/sdk': 1.17.5
       debug: 4.4.1
       zod: 3.25.76
@@ -6928,7 +6928,7 @@ snapshots:
 
   '@langchain/openai@0.6.11(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))(ws@8.18.2)':
     dependencies:
-      '@langchain/core': 0.3.75(openai@5.12.2(zod@3.25.76))
+      '@langchain/core': 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       js-tiktoken: 1.0.20
       openai: 5.12.2(ws@8.18.2)(zod@3.25.76)
       zod: 3.25.76
@@ -6937,12 +6937,12 @@ snapshots:
 
   '@langchain/textsplitters@0.1.0(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))':
     dependencies:
-      '@langchain/core': 0.3.75(openai@5.12.2(zod@3.25.76))
+      '@langchain/core': 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       js-tiktoken: 1.0.20
 
   '@langchain/weaviate@0.2.2(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))(encoding@0.1.13)':
     dependencies:
-      '@langchain/core': 0.3.75(openai@5.12.2(zod@3.25.76))
+      '@langchain/core': 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       uuid: 10.0.0
       weaviate-client: 3.8.1(encoding@0.1.13)
     transitivePeerDependencies:
@@ -9176,7 +9176,7 @@ snapshots:
       isstream: 0.1.2
       jsonwebtoken: 9.0.2
       mime-types: 2.1.35
-      retry-axios: 2.6.0(axios@1.12.2(debug@4.4.1))
+      retry-axios: 2.6.0(axios@1.12.2)
       tough-cookie: 4.1.4
     transitivePeerDependencies:
       - supports-color
@@ -9792,13 +9792,13 @@ snapshots:
 
   langchain@0.3.33(@langchain/anthropic@0.3.27(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))))(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))(@langchain/google-genai@0.2.18(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))))(axios@1.12.2)(handlebars@4.7.8)(openai@5.12.2(ws@8.18.2)(zod@3.25.76))(ws@8.18.2):
     dependencies:
-      '@langchain/core': 0.3.75(openai@5.12.2(zod@3.25.76))
+      '@langchain/core': 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       '@langchain/openai': 0.6.11(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))(ws@8.18.2)
       '@langchain/textsplitters': 0.1.0(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))
       js-tiktoken: 1.0.20
       js-yaml: 4.1.0
       jsonpointer: 5.0.1
-      langsmith: 0.3.67(openai@5.12.2(zod@3.25.76))
+      langsmith: 0.3.67(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       openapi-types: 12.1.3
       p-retry: 4.6.2
       uuid: 10.0.0
@@ -9816,7 +9816,7 @@ snapshots:
       - openai
       - ws
 
-  langsmith@0.3.67(openai@5.12.2(zod@3.25.76)):
+  langsmith@0.3.67(openai@5.12.2(ws@8.18.2)(zod@3.25.76)):
     dependencies:
       '@types/uuid': 10.0.0
       chalk: 4.1.2
@@ -10851,7 +10851,7 @@ snapshots:
       onetime: 5.1.2
       signal-exit: 3.0.7
 
-  retry-axios@2.6.0(axios@1.12.2(debug@4.4.1)):
+  retry-axios@2.6.0(axios@1.12.2):
     dependencies:
       axios: 1.12.2(debug@4.4.1)
 

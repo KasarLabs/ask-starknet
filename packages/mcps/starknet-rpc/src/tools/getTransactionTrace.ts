@@ -1,15 +1,10 @@
 import { RpcProvider } from 'starknet';
+import { toolResult } from '@kasarlabs/ask-starknet-core';
 
 export const getTransactionTrace = async (
   provider: RpcProvider,
   params: { transactionHash: string }
-): Promise<
-  | {
-      status: 'success';
-      transactionTrace: Awaited<ReturnType<RpcProvider['getTransactionTrace']>>;
-    }
-  | { status: 'failure'; error: string }
-> => {
+): Promise<toolResult> => {
   try {
     const transactionTrace = await provider.getTransactionTrace(
       params.transactionHash
@@ -17,7 +12,7 @@ export const getTransactionTrace = async (
 
     return {
       status: 'success',
-      transactionTrace,
+      data: { transactionTrace },
     };
   } catch (error) {
     return {
