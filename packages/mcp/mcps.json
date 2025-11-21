@@ -332,7 +332,16 @@
     "description": "Vesu protocol for deposit and withdrawal operations for earning positions",
     "promptInfo": {
       "expertise": "Vesu protocol yield farming",
-      "tools": ["vesu_deposit_earn", "vesu_withdraw_earn"]
+      "tools": [
+        "vesu_deposit_earn",
+        "vesu_withdraw_earn",
+        "vesu_deposit_multiply",
+        "vesu_deposit_borrow",
+        "vesu_repay_borrow",
+        "vesu_get_pools",
+        "vesu_get_positions",
+        "vesu_get_tokens"
+      ]
     }
   },
   "ekubo": {
