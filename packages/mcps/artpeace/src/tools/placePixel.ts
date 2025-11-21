@@ -24,7 +24,7 @@ export const placePixel = async (
     const artpeaceContract = new Contract({
       abi: artpeaceAbi,
       address: artpeaceAddr,
-      providerOrAccount: provider,
+      providerOrAccount: account,
     });
     const checker = new Checker(params[0].canvasId ?? 0);
     const id = await checker.checkWorld();
@@ -38,7 +38,6 @@ export const placePixel = async (
       );
       const timestamp = Math.floor(Date.now() / 1000);
 
-      artpeaceContract.connect(account);
       const call = artpeaceContract.populate('place_pixel', {
         canvas_id: id,
         pos: position,

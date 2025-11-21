@@ -44,10 +44,8 @@ export const safeTransferFrom = async (
     const contract = new Contract({
       abi: INTERACT_ERC721_ABI,
       address: contractAddress,
-      providerOrAccount: provider,
+      providerOrAccount: account,
     });
-    contract.connect(account);
-
     const calldata = contract.populate('safe_transfer_from', [
       fromAddress,
       toAddress,

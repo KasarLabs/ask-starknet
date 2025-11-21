@@ -51,10 +51,8 @@ export const transferFrom = async (
     const contract = new Contract({
       abi,
       address: token.address,
-      providerOrAccount: provider,
+      providerOrAccount: account,
     });
-
-    contract.connect(account);
 
     const calldata = contract.populate('transfer_from', [
       fromAddress,

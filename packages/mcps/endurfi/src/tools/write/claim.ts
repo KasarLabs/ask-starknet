@@ -10,14 +10,14 @@ export const claim = async (env: onchainWrite, params: ClaimSchema) => {
     const account = env.account;
     const withdrawQueueContract = getWithdrawQueueNFTContract(
       env.provider,
-      params.token_type
+      params.token_type,
+      env.account
     );
     const underlyingTokenName = getUnderlyingTokenName(params.token_type);
 
     // Convert request_id string to u128
     const requestId = BigInt(params.withdraw_request_id);
 
-    withdrawQueueContract.connect(account);
     const claimCalldata = withdrawQueueContract.populate('claim_withdrawal', [
       requestId,
     ]);

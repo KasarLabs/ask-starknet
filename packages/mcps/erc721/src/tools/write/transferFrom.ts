@@ -44,9 +44,8 @@ export const transferFrom = async (
     const contract = new Contract({
       abi: INTERACT_ERC721_ABI,
       address: contractAddress,
-      providerOrAccount: provider,
+      providerOrAccount: account,
     });
-    contract.connect(account);
 
     const calldata = contract.populate('transfer_from', [
       fromAddress,
@@ -109,10 +108,8 @@ export const transfer = async (
     const contract = new Contract({
       abi: INTERACT_ERC721_ABI,
       address: contractAddress,
-      providerOrAccount: provider,
+      providerOrAccount: account,
     });
-    contract.connect(account);
-
     const calldata = contract.populate('transfer_from', [
       accountCredentials.address,
       toAddress,

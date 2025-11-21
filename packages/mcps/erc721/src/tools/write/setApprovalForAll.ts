@@ -37,10 +37,8 @@ export const setApprovalForAll = async (
     const contract = new Contract({
       abi: INTERACT_ERC721_ABI,
       address: contractAddress,
-      providerOrAccount: provider,
+      providerOrAccount: account,
     });
-    contract.connect(account);
-
     const calldata = contract.populate('set_approval_for_all', [
       operatorAddress,
       params.approved ? true : false,
