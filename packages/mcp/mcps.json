@@ -333,14 +333,14 @@
     "promptInfo": {
       "expertise": "Vesu protocol yield farming",
       "tools": [
-        "vesu_deposit_earn",
-        "vesu_withdraw_earn",
-        "vesu_deposit_multiply",
-        "vesu_deposit_borrow",
-        "vesu_repay_borrow",
-        "vesu_get_pools",
-        "vesu_get_positions",
-        "vesu_get_tokens"
+        "deposit_earn",
+        "withdraw_earn",
+        "deposit_multiply",
+        "deposit_borrow",
+        "repay_borrow",
+        "get_pools",
+        "get_positions",
+        "get_tokens"
       ]
     }
   },
