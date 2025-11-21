@@ -48,16 +48,34 @@ export const getSourcesSchema = z.object({
 
 // Get Destinations
 export const getDestinationsSchema = z.object({
-  source: z
+  source_network: z
     .string()
     .optional()
     .describe(
       'Source network name - use the network name property (e.g., ETHEREUM_MAINNET, BASE_MAINNET)'
     ),
-  asset: z
+  source_token: z
     .string()
     .optional()
-    .describe('Asset symbol - use the token symbol property (e.g., ETH)'),
+    .describe('Source token symbol - use the token symbol property (e.g., ETH)'),
+  include_swaps: z
+    .boolean()
+    .optional()
+    .describe('Whether to include swaps in the response'),
+  include_unavailable: z
+    .boolean()
+    .optional()
+    .describe('Whether to include unavailable destinations'),
+  include_unmatched: z
+    .boolean()
+    .optional()
+    .describe('Whether to include unmatched destinations'),
+  network_types: z
+    .array(z.string())
+    .optional()
+    .describe(
+      'Filter destinations by network type. Possible values: evm, starknet, solana, cosmos, starkex, zksynclite, ton, paradex, tron, fuel, bitcoin, hyperliquid'
+    ),
 });
 
 // Get Swap Route Limits
