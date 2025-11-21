@@ -6,7 +6,7 @@ import {
 } from '../../lib/types/index.js';
 import { apiPost, apiGet } from '../../lib/utils/api.js';
 import { CreateMarketOrderSchema } from '../../schemas/index.js';
-
+import { toolResult } from '@kasarlabs/ask-starknet-core';
 import {
   roundToMinChange,
   Decimal,
@@ -18,7 +18,7 @@ import {
 export const createMarketOrder = async (
   env: ExtendedApiEnv,
   params: CreateMarketOrderSchema
-): Promise<ExtendedApiResponse<OrderReturn>> => {
+): Promise<toolResult> => {
   try {
     if (!env.privateKey) {
       throw new Error('EXTENDED_PRIVATE_KEY is required for order creation');
@@ -75,6 +75,8 @@ export const createMarketOrder = async (
       starknetDomain,
       vaultId,
       starkPrivateKey,
+      builderId: env.builderParams?.builderId,
+      builderFee: env.builderParams?.builderFee,
     });
     const orderPayload = Order.create({
       marketName: params.market,

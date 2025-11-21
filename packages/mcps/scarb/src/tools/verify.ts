@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { checkScarbInstalled } from '../lib/utils/index.js';
 import { verifyProject } from '../lib/utils/workspace.js';
 import { verifyProgramSchema } from '../schemas/index.js';
+import { toolResult } from '@kasarlabs/ask-starknet-core';
 
 // verifyProgramSchema is now imported from schemas/index.js
 
@@ -12,7 +13,7 @@ import { verifyProgramSchema } from '../schemas/index.js';
  */
 export const verifyProgram = async (
   params: z.infer<typeof verifyProgramSchema>
-) => {
+): Promise<toolResult> => {
   try {
     await checkScarbInstalled();
 
@@ -23,14 +24,15 @@ export const verifyProgram = async (
 
     return {
       status: 'success',
-      message: 'Program verification completed',
-      result: result,
-      projectPath: params.path,
+      data: {
+        message: 'Program verification completed',
+        result: result,
+        projectPath: params.path,
+      },
     };
   } catch (error) {
     return {
       status: 'failure',
-      message: `Verification failed: ${error.message}`,
       error: error.message,
     };
   }

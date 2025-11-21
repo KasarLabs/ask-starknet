@@ -6,7 +6,7 @@ import {
 } from '../../lib/types/index.js';
 import { apiPost, apiGet } from '../../lib/utils/api.js';
 import { AddPositionTpSlSchema } from '../../schemas/index.js';
-
+import { toolResult } from '@kasarlabs/ask-starknet-core';
 import {
   roundToMinChange,
   Decimal,
@@ -18,7 +18,7 @@ import {
 export const addPositionTpSl = async (
   env: ExtendedApiEnv,
   params: AddPositionTpSlSchema
-): Promise<ExtendedApiResponse<OrderReturn>> => {
+): Promise<toolResult> => {
   try {
     if (!env.privateKey) {
       throw new Error('EXTENDED_PRIVATE_KEY is required for order creation');
@@ -61,6 +61,8 @@ export const addPositionTpSl = async (
       starknetDomain,
       vaultId,
       starkPrivateKey,
+      builderId: env.builderParams?.builderId,
+      builderFee: env.builderParams?.builderFee,
     });
 
     // Helper to round prices

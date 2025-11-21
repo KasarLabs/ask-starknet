@@ -1,5 +1,5 @@
 import { Account, Contract, RpcProvider, constants } from 'starknet';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 import {
   validateAndFormatParams,
   executeV3Transaction,
@@ -20,7 +20,7 @@ import { validToken } from '../lib/types/types.js';
 export const approve = async (
   env: onchainWrite,
   params: z.infer<typeof approveSchema>
-) => {
+): Promise<toolResult> => {
   try {
     const provider = env.provider;
     const account = env.account;
@@ -51,15 +51,16 @@ export const approve = async (
 
     return {
       status: 'success',
-      amount: params.amount,
-      spender_address: spenderAddress,
-      transactionHash: txH,
+      data: {
+        amount: params.amount,
+        spender_address: spenderAddress,
+        transactionHash: txH,
+      },
     };
   } catch (error) {
     return {
       status: 'failure',
       error: error instanceof Error ? error.message : 'Unknown error',
-      step: 'transfer execution',
     };
   }
 };

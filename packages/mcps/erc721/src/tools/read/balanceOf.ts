@@ -4,7 +4,7 @@ import { INTERACT_ERC721_ABI } from '../../lib/abis/interact.js';
 import { validateAndParseAddress } from 'starknet';
 import { z } from 'zod';
 import { getBalanceSchema, getOwnBalanceSchema } from '../../schemas/index.js';
-import { onchainRead } from '@kasarlabs/ask-starknet-core';
+import { onchainRead, toolResult } from '@kasarlabs/ask-starknet-core';
 
 /**
  * Gets ERC721 token balance
@@ -15,7 +15,7 @@ import { onchainRead } from '@kasarlabs/ask-starknet-core';
 export const getBalance = async (
   env: onchainRead,
   params: z.infer<typeof getBalanceSchema>
-) => {
+): Promise<toolResult> => {
   try {
     if (!params?.accountAddress || !params?.contractAddress) {
       throw new Error('Both account address and contract address are required');
@@ -36,7 +36,7 @@ export const getBalance = async (
 
     return {
       status: 'success',
-      balance: balanceResponse.toString(),
+      data: { balance: balanceResponse.toString() },
     };
   } catch (error) {
     return {

@@ -1,6 +1,6 @@
 import { RpcProvider } from 'starknet';
 import { PoolKey } from '../../schemas/index.js';
-import { extractAssetInfo, validateToken, validToken } from './token.js';
+import { validateToken, validToken } from './token.js';
 import {
   convertFeePercentToU128,
   convertTickSpacingPercentToExponent,
@@ -15,20 +15,23 @@ export async function preparePoolKeyFromParams(
   token1: validToken;
   isTokenALower: boolean;
 }> {
-  const { assetSymbol: symbolToken0, assetAddress: addressToken0 } =
-    extractAssetInfo(params.token0);
-  const { assetSymbol: symbolToken1, assetAddress: addressToken1 } =
-    extractAssetInfo(params.token1);
-
-  const token0 = await validateToken(provider, symbolToken0, addressToken0);
-  const token1 = await validateToken(provider, symbolToken1, addressToken1);
+  const token0 = await validateToken(
+    provider,
+    params.token0_symbol,
+    params.token0_address
+  );
+  const token1 = await validateToken(
+    provider,
+    params.token1_symbol,
+    params.token1_address
+  );
 
   const poolKey = {
-    ...params,
     token0: token0.address < token1.address ? token0.address : token1.address,
     token1: token0.address < token1.address ? token1.address : token0.address,
     fee: convertFeePercentToU128(params.fee),
     tick_spacing: convertTickSpacingPercentToExponent(params.tick_spacing),
+    extension: params.extension,
   };
 
   const isTokenALower = token0.address < token1.address ? true : false;

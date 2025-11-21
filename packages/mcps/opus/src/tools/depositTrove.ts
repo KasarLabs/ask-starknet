@@ -1,11 +1,11 @@
 import { DepositTroveParams } from '../schemas/index.js';
 import { createTroveManager } from '../lib/utils/troveManager.js';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 
 export const depositTrove = async (
   env: onchainWrite,
   params: DepositTroveParams
-) => {
+): Promise<toolResult> => {
   const accountAddress = env.account?.address;
 
   try {
@@ -17,7 +17,7 @@ export const depositTrove = async (
     };
   } catch (error) {
     return {
-      status: 'error',
+      status: 'failure',
       error: error instanceof Error ? error.message : 'Unknown error',
     };
   }

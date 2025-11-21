@@ -12,7 +12,7 @@ import {
 
 import { TransactionReponseFormat } from '../lib/utils/outputSimulateTransaction.js';
 import { DEFAULT_NONCE } from '../lib/constant/index.js';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 
 /**
  * Simulates invoke transaction
@@ -23,7 +23,7 @@ import { onchainWrite } from '@kasarlabs/ask-starknet-core';
 export const simulateInvokeTransaction = async (
   env: onchainWrite,
   params: SimulateInvokeTransactionParams
-) => {
+): Promise<toolResult> => {
   try {
     const account = env.account;
 
@@ -44,7 +44,9 @@ export const simulateInvokeTransaction = async (
 
     return {
       status: 'success',
-      transaction_output: transaction_output,
+      data: {
+        transaction_output: transaction_output,
+      },
     };
   } catch (error) {
     return {
@@ -63,7 +65,7 @@ export const simulateInvokeTransaction = async (
 export const simulateDeployAccountTransaction = async (
   env: onchainWrite,
   params: SimulateDeployTransactionAccountParams
-) => {
+): Promise<toolResult> => {
   try {
     const account = env.account;
 
@@ -91,7 +93,9 @@ export const simulateDeployAccountTransaction = async (
 
     return {
       status: 'success',
-      transaction_output: transaction_output,
+      data: {
+        transaction_output: transaction_output,
+      },
     };
   } catch (error) {
     return {
@@ -110,7 +114,7 @@ export const simulateDeployAccountTransaction = async (
 export const simulateDeployTransaction = async (
   env: onchainWrite,
   params: SimulateDeployTransactionParams
-) => {
+): Promise<toolResult> => {
   try {
     const account = env.account;
 
@@ -132,7 +136,9 @@ export const simulateDeployTransaction = async (
 
     return {
       status: 'success',
-      transaction_output: transaction_output,
+      data: {
+        transaction_output: transaction_output,
+      },
     };
   } catch (error) {
     return {
@@ -151,7 +157,7 @@ export const simulateDeployTransaction = async (
 export const simulateDeclareTransaction = async (
   env: onchainWrite,
   params: SimulateDeclareTransactionAccountParams
-) => {
+): Promise<toolResult> => {
   try {
     const account = env.account;
 
@@ -172,7 +178,9 @@ export const simulateDeclareTransaction = async (
 
     return {
       status: 'success',
-      transaction_output: transaction_output,
+      data: {
+        transaction_output: transaction_output,
+      },
     };
   } catch (error) {
     return {

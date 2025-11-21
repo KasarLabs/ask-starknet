@@ -14,11 +14,12 @@ import {
   Order,
   axiosClient,
 } from '../../lib/utils/lib-extended/index.js';
+import { toolResult } from '@kasarlabs/ask-starknet-core';
 
 export const createLimitOrderWithTpSl = async (
   env: ExtendedApiEnv,
   params: CreateLimitOrderWithTpSlSchema
-): Promise<ExtendedApiResponse<OrderReturn>> => {
+): Promise<toolResult> => {
   try {
     if (!env.privateKey) {
       throw new Error('EXTENDED_PRIVATE_KEY is required for order creation');
@@ -61,6 +62,8 @@ export const createLimitOrderWithTpSl = async (
       starknetDomain,
       vaultId,
       starkPrivateKey,
+      builderId: env.builderParams?.builderId,
+      builderFee: env.builderParams?.builderFee,
     });
 
     // Helper to round prices

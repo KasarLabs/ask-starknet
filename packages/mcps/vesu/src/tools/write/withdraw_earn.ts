@@ -5,7 +5,7 @@ import { Hex, toU256, toBN } from '../../lib/utils/num.js';
 import { vTokenAbi } from '../../lib/abis/vTokenAbi.js';
 import { getPool } from '../../lib/utils/pools.js';
 import { formatTokenAmount } from '../../lib/utils/tokens.js';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 
 /**
  * Service for managing withdrawal operations from earning positions
@@ -167,7 +167,7 @@ export const withdrawService = (
 export const withdrawEarnPosition = async (
   env: onchainWrite,
   params: WithdrawParams
-) => {
+): Promise<toolResult> => {
   const accountAddress = env.account?.address;
   try {
     const withdrawEarn = withdrawService(env, accountAddress);

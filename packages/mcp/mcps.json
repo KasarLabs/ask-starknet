@@ -354,6 +354,7 @@
         "get_pool_liquidity",
         "get_pool_fees_per_liquidity",
         "get_token_price",
+        "get_position",
         "swap",
         "create_position",
         "add_liquidity",
@@ -370,7 +371,9 @@
       "env": {
         "EXTENDED_API_KEY": "",
         "EXTENDED_API_URL": "",
-        "EXTENDED_PRIVATE_KEY": ""
+        "EXTENDED_PRIVATE_KEY": "",
+        "EXTENDED_BUILDER_ID": "",
+        "EXTENDED_BUILDER_FEE": ""
       }
     },
     "description": "Extended high-performance perpetuals exchange on Starknet for trading derivatives with on-chain settlement",

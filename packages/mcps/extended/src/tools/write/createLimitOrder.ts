@@ -14,11 +14,12 @@ import {
   Order,
   axiosClient,
 } from '../../lib/utils/lib-extended/index.js';
+import { toolResult } from '@kasarlabs/ask-starknet-core';
 
 export const createLimitOrder = async (
   env: ExtendedApiEnv,
   params: CreateLimitOrderSchema
-): Promise<ExtendedApiResponse<OrderReturn>> => {
+): Promise<toolResult> => {
   try {
     if (!env.privateKey) {
       throw new Error('EXTENDED_PRIVATE_KEY is required for order creation');
@@ -61,6 +62,8 @@ export const createLimitOrder = async (
       starknetDomain,
       vaultId,
       starkPrivateKey,
+      builderId: env.builderParams?.builderId,
+      builderFee: env.builderParams?.builderFee,
     });
 
     // Calculate expiry time if GTT

@@ -4,6 +4,7 @@ import {
   buildProject as buildScarbProject,
 } from '../lib/utils/index.js';
 import { buildProjectSchema } from '../schemas/index.js';
+import { toolResult } from '@kasarlabs/ask-starknet-core';
 
 /**
  * Build a Scarb project
@@ -12,7 +13,7 @@ import { buildProjectSchema } from '../schemas/index.js';
  */
 export const buildProject = async (
   params: z.infer<typeof buildProjectSchema>
-) => {
+): Promise<toolResult> => {
   try {
     await checkScarbInstalled();
 
@@ -21,14 +22,15 @@ export const buildProject = async (
 
     return {
       status: 'success',
-      message: 'Project built successfully',
-      ...JSON.parse(result),
-      buildPath: projectDir,
+      data: {
+        message: 'Project built successfully',
+        ...JSON.parse(result),
+        buildPath: projectDir,
+      },
     };
   } catch (error) {
     return {
       status: 'failure',
-      message: `Build failed: ${error.message}`,
       error: error.message,
     };
   }
