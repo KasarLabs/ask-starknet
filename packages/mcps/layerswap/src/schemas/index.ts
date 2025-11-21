@@ -12,16 +12,38 @@ export const getNetworksSchema = z.object({
 
 // Get Sources
 export const getSourcesSchema = z.object({
-  destination: z
+  destination_network: z
     .string()
     .optional()
     .describe(
       'Destination network name - use the network name property (e.g., ETHEREUM_MAINNET, BASE_MAINNET)'
     ),
-  asset: z
+  destination_token: z
     .string()
     .optional()
-    .describe('Asset symbol - use the token symbol property (e.g., ETH)'),
+    .describe('Destination token symbol - use the token symbol property (e.g., ETH)'),
+  include_swaps: z
+    .boolean()
+    .optional()
+    .describe('Whether to include swaps in the response'),
+  include_unavailable: z
+    .boolean()
+    .optional()
+    .describe('Whether to include unavailable sources'),
+  include_unmatched: z
+    .boolean()
+    .optional()
+    .describe('Whether to include unmatched sources'),
+  has_deposit_address: z
+    .boolean()
+    .optional()
+    .describe('Whether to filter sources that have deposit addresses'),
+  network_types: z
+    .array(z.string())
+    .optional()
+    .describe(
+      'Filter sources by network type. Possible values: evm, starknet, solana, cosmos, starkex, zksynclite, ton, paradex, tron, fuel, bitcoin, hyperliquid'
+    ),
 });
 
 // Get Destinations
