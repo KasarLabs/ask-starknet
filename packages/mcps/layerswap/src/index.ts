@@ -54,7 +54,7 @@ const registerTools = (LayerswapToolRegistry: mcpTool[]) => {
   const apiClient = getApiClient();
 
   LayerswapToolRegistry.push({
-    name: 'layerswap_get_networks',
+    name: 'get_networks',
     description: 'Get all available networks supported by Layerswap',
     schema: getNetworksSchema,
     execute: async (params: any) => {
@@ -63,7 +63,7 @@ const registerTools = (LayerswapToolRegistry: mcpTool[]) => {
   });
 
   LayerswapToolRegistry.push({
-    name: 'layerswap_get_sources',
+    name: 'get_sources',
     description: 'Get available sources for transfers',
     schema: getSourcesSchema,
     execute: async (params: any) => {
@@ -72,7 +72,7 @@ const registerTools = (LayerswapToolRegistry: mcpTool[]) => {
   });
 
   LayerswapToolRegistry.push({
-    name: 'layerswap_get_destinations',
+    name: 'get_destinations',
     description: 'Get available destinations for transfers',
     schema: getDestinationsSchema,
     execute: async (params: any) => {
@@ -81,7 +81,7 @@ const registerTools = (LayerswapToolRegistry: mcpTool[]) => {
   });
 
   LayerswapToolRegistry.push({
-    name: 'layerswap_get_swap_route_limits',
+    name: 'get_swap_route_limits',
     description: 'Get swap route limits for a specific source and destination',
     schema: getSwapRouteLimitsSchema,
     execute: async (params: any) => {
@@ -90,7 +90,7 @@ const registerTools = (LayerswapToolRegistry: mcpTool[]) => {
   });
 
   LayerswapToolRegistry.push({
-    name: 'layerswap_get_quote',
+    name: 'get_quote',
     description: 'Get a quote for a specific swap',
     schema: getQuoteSchema,
     execute: async (params: any) => {
@@ -99,7 +99,7 @@ const registerTools = (LayerswapToolRegistry: mcpTool[]) => {
   });
 
   LayerswapToolRegistry.push({
-    name: 'layerswap_get_detailed_quote',
+    name: 'get_detailed_quote',
     description: 'Get a detailed quote for a specific swap',
     schema: getDetailedQuoteSchema,
     execute: async (params: any) => {
@@ -108,7 +108,7 @@ const registerTools = (LayerswapToolRegistry: mcpTool[]) => {
   });
 
   LayerswapToolRegistry.push({
-    name: 'layerswap_get_transaction_status',
+    name: 'get_transaction_status',
     description: 'Get the status of a transaction',
     schema: getTransactionStatusSchema,
     execute: async (params: any) => {
@@ -117,7 +117,7 @@ const registerTools = (LayerswapToolRegistry: mcpTool[]) => {
   });
 
   LayerswapToolRegistry.push({
-    name: 'layerswap_get_swap_details',
+    name: 'get_swap_details',
     description: 'Get details of a specific swap',
     schema: getSwapDetailsSchema,
     execute: async (params: any) => {
@@ -126,7 +126,7 @@ const registerTools = (LayerswapToolRegistry: mcpTool[]) => {
   });
 
   LayerswapToolRegistry.push({
-    name: 'layerswap_get_deposit_actions',
+    name: 'get_deposit_actions',
     description: 'Get deposit actions for a swap',
     schema: getDepositActionsSchema,
     execute: async (params: any) => {
@@ -135,7 +135,7 @@ const registerTools = (LayerswapToolRegistry: mcpTool[]) => {
   });
 
   LayerswapToolRegistry.push({
-    name: 'layerswap_get_all_swaps',
+    name: 'get_all_swaps',
     description:
       'Get all swaps for a specific destination address with optional pagination and expired swaps inclusion',
     schema: getAllSwapsSchema,
@@ -145,7 +145,7 @@ const registerTools = (LayerswapToolRegistry: mcpTool[]) => {
   });
 
   LayerswapToolRegistry.push({
-    name: 'layerswap_create_swap',
+    name: 'create_swap',
     description: 'Create a new swap for cross-chain transfer',
     schema: createSwapSchema,
     execute: async (params: any) => {
