@@ -336,6 +336,7 @@
         "deposit_earn",
         "withdraw_earn",
         "deposit_multiply",
+        "withdraw_multiply",
         "deposit_borrow",
         "repay_borrow",
         "get_pools",
