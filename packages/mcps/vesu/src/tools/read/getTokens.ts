@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { onchainRead } from '@kasarlabs/ask-starknet-core';
+import { onchainRead, toolResult } from '@kasarlabs/ask-starknet-core';
 import { VESU_API_URL } from '../../lib/constants/index.js';
 import { GetTokensSchemaType } from '../../schemas/index.js';
 import { IBaseToken, addressSchema } from '../../interfaces/index.js';
@@ -19,12 +19,12 @@ const tokenParser = z.object({
  * Can filter by token address or symbol to check if a specific token is supported
  * @param {onchainRead} env - The onchain environment (not used for API calls but required by interface)
  * @param {GetTokensSchemaType} params - Function parameters
- * @returns {Promise<IBaseToken[]>} Array of supported tokens matching the criteria
+ * @returns {Promise<toolResult>} Array of supported tokens matching the criteria
  */
 export const getTokens = async (
   env: onchainRead,
   params: GetTokensSchemaType
-): Promise<IBaseToken[]> => {
+): Promise<toolResult> => {
   try {
     const response = await fetch(`${VESU_API_URL}/tokens`);
 
@@ -63,13 +63,18 @@ export const getTokens = async (
       );
     }
 
-    return tokens;
+    return {
+      status: 'success',
+      data: tokens,
+    };
   } catch (error) {
     console.error('Error fetching tokens:', error);
-    throw new Error(
-      error instanceof Error
-        ? `Failed to fetch tokens: ${error.message}`
-        : 'Failed to fetch tokens: Unknown error'
-    );
+    return {
+      status: 'failure',
+      error:
+        error instanceof Error
+          ? `Failed to fetch tokens: ${error.message}`
+          : 'Failed to fetch tokens: Unknown error',
+    };
   }
 };

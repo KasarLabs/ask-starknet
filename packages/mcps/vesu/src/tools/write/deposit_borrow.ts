@@ -19,7 +19,7 @@ import {
   getPoolContract,
   getErc20Contract,
 } from '../../lib/utils/contracts.js';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 
 /**
  * Service for managing borrow deposit operations
@@ -424,7 +424,7 @@ export const createDepositBorrowService = (
 export const depositBorrowPosition = async (
   env: onchainWrite,
   params: DepositBorrowParams
-) => {
+): Promise<toolResult> => {
   const accountAddress = env.account?.address;
   try {
     const depositBorrowService = createDepositBorrowService(
@@ -435,7 +435,24 @@ export const depositBorrowPosition = async (
       params,
       env
     );
-    return result;
+
+    if (result.status === 'success') {
+      return {
+        status: 'success',
+        data: {
+          amount: result.amount,
+          collateralSymbol: result.collateralSymbol,
+          debtSymbol: result.debtSymbol,
+          recipient_address: result.recipient_address,
+          transaction_hash: result.transaction_hash,
+        },
+      };
+    } else {
+      return {
+        status: 'failure',
+        error: result.error || 'Unknown error',
+      };
+    }
   } catch (error) {
     return {
       status: 'failure',

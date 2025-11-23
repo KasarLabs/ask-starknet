@@ -1,30 +1,29 @@
 import { Account } from 'starknet';
 import {
-  DepositMultiplyParams,
-  DepositMultiplyResult,
+  WithdrawMultiplyParams,
+  WithdrawMultiplyResult,
 } from '../../interfaces/index.js';
-import { GENESIS_POOLID } from '../../lib/constants/index.js';
-import { Hex, toBN } from '../../lib/utils/num.js';
+import { GENESIS_POOLID, VESU_API_URL } from '../../lib/constants/index.js';
+import { Hex } from '../../lib/utils/num.js';
 import { getPool } from '../../lib/utils/pools.js';
-import { formatTokenAmount } from '../../lib/utils/tokens.js';
-import { getPoolContract } from '../../lib/utils/contracts.js';
 import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 import {
   type EkuboQuote,
   type EkuboSplit,
   type EkuboRoute,
 } from '../../lib/utils/ekubo.js';
-import { buildMultiplyCalls } from '../../lib/utils/multiplyCalls.js';
+import { buildCloseMultiplyCalls } from '../../lib/utils/multiplyCalls.js';
+import { z } from 'zod';
 
 /**
- * Service for managing multiply deposit operations
- * @class DepositMultiplyService
+ * Service for managing multiply withdraw operations
+ * @class WithdrawMultiplyService
  */
-export class DepositMultiplyService {
+export class WithdrawMultiplyService {
   /**
-   * Creates an instance of DepositMultiplyService
+   * Creates an instance of WithdrawMultiplyService
    * @param {onchainWrite} env - The onchain environment
-   * @param {string} walletAddress - The wallet address executing the deposits
+   * @param {string} walletAddress - The wallet address executing the withdrawals
    */
   constructor(
     private env: onchainWrite,
@@ -32,15 +31,15 @@ export class DepositMultiplyService {
   ) {}
 
   /**
-   * Executes a multiply deposit transaction
-   * @param {DepositMultiplyParams} params - Multiply deposit parameters
+   * Executes a multiply withdraw transaction
+   * @param {WithdrawMultiplyParams} params - Multiply withdraw parameters
    * @param {onchainWrite} env - The onchain environment
-   * @returns {Promise<DepositMultiplyResult>} Result of the multiply deposit operation
+   * @returns {Promise<WithdrawMultiplyResult>} Result of the multiply withdraw operation
    */
-  async depositMultiplyTransaction(
-    params: DepositMultiplyParams,
+  async withdrawMultiplyTransaction(
+    params: WithdrawMultiplyParams,
     env: onchainWrite
-  ): Promise<DepositMultiplyResult> {
+  ): Promise<WithdrawMultiplyResult> {
     try {
       const account = new Account(
         this.env.provider,
@@ -79,83 +78,103 @@ export class DepositMultiplyService {
         throw new Error('Debt asset not found in pool');
       }
 
-      // Convert human decimal amount to token decimals format
-      const formattedAmount = formatTokenAmount(
-        params.depositAmount,
-        collateralAsset.decimals
-      );
-      const collateralAmount = BigInt(formattedAmount);
-
-      // Get pool contract for v2
-      const poolContract = getPoolContract(poolContractAddress);
-
-      // Get LTV config from pool contract (v2 uses pair_config)
-      const pairConfig = await poolContract.pair_config(
-        collateralAsset.address as `0x${string}`,
-        debtAsset.address as `0x${string}`
-      );
-
-      // Calculate debt amount based on target LTV or max LTV
-      let targetLTVValue: bigint;
-      if (params.targetLTV) {
-        const ltvPercent = BigInt(params.targetLTV);
-        if (ltvPercent >= 100n || ltvPercent < 0n) {
-          throw new Error('Target LTV must be between 0 and 99');
-        }
-        // Convert percentage to basis points (e.g., 85% -> 8500)
-        targetLTVValue = ltvPercent * 100n;
-
-        const maxLTVValue = toBN(pairConfig.max_ltv);
-        if (targetLTVValue > maxLTVValue) {
-          const maxLTVPercent = Number(maxLTVValue) / 100;
-          throw new Error(
-            `Target LTV (${params.targetLTV}%) exceeds maximum LTV (${maxLTVPercent}%)`
-          );
-        }
-      } else {
-        targetLTVValue = toBN(pairConfig.max_ltv);
-      }
-
-      // Get asset prices from pool contract (v2)
-      const collateralPrice = await poolContract.price(
-        collateralAsset.address as `0x${string}`
-      );
-      const debtPrice = await poolContract.price(
-        debtAsset.address as `0x${string}`
-      );
-
-      if (!collateralPrice.is_valid || !debtPrice.is_valid) {
-        throw new Error('Invalid price data for assets');
-      }
-
-      const collateralValueUSD =
-        (collateralAmount * toBN(collateralPrice.value)) /
-        10n ** BigInt(collateralAsset.decimals);
-
-      const safetyMargin = 999n;
-      const adjustedLTV = (targetLTVValue * safetyMargin) / 1000n;
-
-      const debtValueUSD =
-        (collateralValueUSD * adjustedLTV) / (10000n - adjustedLTV);
-
-      const debtAmount =
-        (debtValueUSD * 10n ** BigInt(debtAsset.decimals)) /
-        toBN(debtPrice.value);
-
       const provider = env.provider;
       const wallet = env.account;
 
-      // Use Ekubo API to get quote and automatically extract pool parameters
-      // For deposit: swap debt -> collateral, so order is debtToken/collateralToken
-      let ekuboQuote: EkuboQuote | undefined = undefined;
-      // Get slippage from params or use default (50 = 0.5%)
       const slippageBps: bigint = BigInt(params.ekuboSlippage ?? 50);
 
+      // Fetch position to get debt amount
+      let debtAmount: bigint;
+      try {
+        const queryParams = new URLSearchParams();
+        queryParams.append('walletAddress', account.address);
+        queryParams.append('type', 'multiply');
+
+        const response = await fetch(
+          `${VESU_API_URL}/positions?${queryParams.toString()}`
+        );
+
+        if (!response.ok) {
+          throw new Error(`API request failed with status ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        // Parse the response
+        const positionsSchema = z.object({
+          data: z.array(
+            z
+              .object({
+                type: z.string(),
+                pool: z.object({
+                  id: z.string(),
+                }),
+                collateral: z
+                  .object({
+                    symbol: z.string(),
+                  })
+                  .optional(),
+                debt: z
+                  .object({
+                    symbol: z.string(),
+                  })
+                  .optional(),
+                nominalDebt: z
+                  .object({
+                    value: z.string(),
+                    decimals: z.number(),
+                  })
+                  .optional(),
+              })
+              .passthrough()
+          ),
+        });
+
+        const parsedData = positionsSchema.parse(data);
+        const positions = parsedData.data;
+
+        const matchingPosition = positions.find((position: any) => {
+          if (position.type !== 'multiply') return false;
+
+          return (
+            position.pool.id === poolId &&
+            position.collateral?.symbol.toUpperCase() ===
+              params.collateralTokenSymbol.toUpperCase() &&
+            position.debt?.symbol.toUpperCase() ===
+              params.debtTokenSymbol.toUpperCase()
+          );
+        });
+
+        if (!matchingPosition) {
+          throw new Error('No matching multiply position found');
+        }
+
+        // For v2, use nominalDebt.value
+        if (
+          !matchingPosition.nominalDebt ||
+          !matchingPosition.nominalDebt.value
+        ) {
+          throw new Error('No nominalDebt found in position');
+        }
+        debtAmount = BigInt(matchingPosition.nominalDebt.value);
+      } catch (error) {
+        throw new Error(
+          `Failed to get position data: ${error instanceof Error ? error.message : 'Unknown error'}`
+        );
+      }
+
+      if (debtAmount === 0n) {
+        throw new Error('Position has no debt to close');
+      }
+
+      // Use Ekubo API to get quote and automatically extract pool parameters
+      // For withdraw: swap debt -> collateral, so order is debtToken/collateralToken
+      let ekuboQuote: EkuboQuote | undefined = undefined;
       try {
         // Call Ekubo quoter API: amount is negative for exactOut
-        // Format: /{amount}/{tokenOut}/{tokenIn}
-        // For deposit (open position): we want exact collateral amount out, so we use -collateralAmount
-        const ekuboQuoterUrl = `https://starknet-mainnet-quoter-api.ekubo.org/${-collateralAmount}/${collateralAsset.address}/${debtAsset.address}`;
+        // Format: /{amount}/{tokenIn}/{tokenOut}
+        // For withdraw (close position): we swap debt -> collateral
+        const ekuboQuoterUrl = `https://starknet-mainnet-quoter-api.ekubo.org/${-debtAmount}/${debtAsset.address}/${collateralAsset.address}`;
 
         const ekuboResponse = await fetch(ekuboQuoterUrl);
 
@@ -294,7 +313,7 @@ export class DepositMultiplyService {
           );
 
           ekuboQuote = {
-            type: 'exactOut', // We want exact collateral amount out
+            type: 'exactOut', // We're closing position, so exactOut
             splits,
             totalCalculated: BigInt(ekuboData.total_calculated), // Negative for exactOut
             priceImpact: ekuboData.price_impact || null,
@@ -309,8 +328,7 @@ export class DepositMultiplyService {
         ekuboQuote = undefined;
       }
 
-      const callsData = await buildMultiplyCalls(
-        collateralAmount,
+      const callsData = await buildCloseMultiplyCalls(
         collateralAsset,
         debtAsset,
         poolContractAddress,
@@ -318,6 +336,13 @@ export class DepositMultiplyService {
         provider,
         ekuboQuote,
         slippageBps
+      );
+
+      console.error('=== WITHDRAW_MULTIPLY: After buildCloseMultiplyCalls ===');
+      console.error('callsData.length:', callsData.length);
+      console.error(
+        'callsData entrypoints:',
+        callsData.map((c) => c.entrypoint)
       );
 
       // Convert calls to the format expected by wallet.execute
@@ -331,9 +356,8 @@ export class DepositMultiplyService {
 
       await provider.waitForTransaction(tx.transaction_hash);
 
-      const result: DepositMultiplyResult = {
+      const result: WithdrawMultiplyResult = {
         status: 'success',
-        amount: params.depositAmount,
         collateralSymbol: params.collateralTokenSymbol,
         debtSymbol: params.debtTokenSymbol,
         recipient_address: account.address,
@@ -342,7 +366,7 @@ export class DepositMultiplyService {
 
       return result;
     } catch (error) {
-      console.error('Detailed multiply deposit error:', error);
+      console.error('Detailed multiply withdraw error:', error);
       if (error instanceof Error) {
         // console.error('Error type:', error.constructor.name);
         // console.error('Error message:', error.message);
@@ -357,40 +381,40 @@ export class DepositMultiplyService {
 }
 
 /**
- * Creates a new DepositMultiplyService instance
+ * Creates a new WithdrawMultiplyService instance
  * @param {onchainWrite} env - The onchain environment
  * @param {string} [walletAddress] - The wallet address
- * @returns {DepositMultiplyService} A new DepositMultiplyService instance
+ * @returns {WithdrawMultiplyService} A new WithdrawMultiplyService instance
  * @throws {Error} If wallet address is not provided
  */
-export const createDepositMultiplyService = (
+export const createWithdrawMultiplyService = (
   env: onchainWrite,
   walletAddress?: string
-): DepositMultiplyService => {
+): WithdrawMultiplyService => {
   if (!walletAddress) {
     throw new Error('Wallet address not configured');
   }
 
-  return new DepositMultiplyService(env, walletAddress);
+  return new WithdrawMultiplyService(env, walletAddress);
 };
 
 /**
- * Utility function to execute a multiply deposit operation
+ * Utility function to execute a multiply withdraw operation
  * @param {onchainWrite} env - The onchain environment
- * @param {DepositMultiplyParams} params - The multiply deposit parameters
- * @returns {Promise<toolResult>} Result of the multiply deposit operation
+ * @param {WithdrawMultiplyParams} params - The multiply withdraw parameters
+ * @returns {Promise<toolResult>} Result of the multiply withdraw operation
  */
-export const depositMultiplyPosition = async (
+export const withdrawMultiplyPosition = async (
   env: onchainWrite,
-  params: DepositMultiplyParams
+  params: WithdrawMultiplyParams
 ): Promise<toolResult> => {
   const accountAddress = env.account?.address;
   try {
-    const depositMultiplyService = createDepositMultiplyService(
+    const withdrawMultiplyService = createWithdrawMultiplyService(
       env,
       accountAddress
     );
-    const result = await depositMultiplyService.depositMultiplyTransaction(
+    const result = await withdrawMultiplyService.withdrawMultiplyTransaction(
       params,
       env
     );
@@ -399,7 +423,6 @@ export const depositMultiplyPosition = async (
       return {
         status: 'success',
         data: {
-          amount: result.amount,
           collateralSymbol: result.collateralSymbol,
           debtSymbol: result.debtSymbol,
           recipient_address: result.recipient_address,

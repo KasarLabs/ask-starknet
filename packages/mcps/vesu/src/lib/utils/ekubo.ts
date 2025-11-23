@@ -1,3 +1,4 @@
+import { cairo } from 'starknet';
 import { DEFAULT_DECIMALS } from '../constants/index.js';
 import type { IBaseToken } from '../../interfaces/index.js';
 
@@ -58,9 +59,6 @@ export interface BigIntValue {
  * Calculate Ekubo weights from quote splits
  */
 export const calculateEkuboWeights = (ekuboQuote: EkuboQuote): bigint[] => {
-  if (ekuboQuote.totalCalculated === 0n) {
-    return ekuboQuote.splits.map(() => 0n);
-  }
   return ekuboQuote.splits.map(
     (split) =>
       (split.amountCalculated * 10n ** BigInt(DEFAULT_DECIMALS)) /
@@ -80,7 +78,7 @@ export const calculateEkuboLeverSwapData = (
   const ZERO_BI: BigIntValue = { value: 0n, decimals: DEFAULT_DECIMALS };
 
   return ekuboQuote.splits.map((split, index) => {
-    const weight = weights[index] ?? ZERO_BI.value;
+    const weight = weights[index] || ZERO_BI.value;
     const amount =
       (quotedAmount.value * weight) / 10n ** BigInt(DEFAULT_DECIMALS);
 
@@ -89,7 +87,7 @@ export const calculateEkuboLeverSwapData = (
         token: token0.address,
         amount: {
           mag: amount,
-          sign: ekuboQuote.type === 'exactOut',
+          sign: ekuboQuote.type === 'exactOut' ? true : false,
         },
       },
       route: split.route.map((route) => ({
@@ -116,21 +114,34 @@ export const applySlippageToEkuboLimitAmount = (
   slippage: BigIntValue
 ): bigint => {
   const ONE_BI: BigIntValue = {
-    value: 10n ** BigInt(DEFAULT_DECIMALS),
-    decimals: DEFAULT_DECIMALS,
+    value: 10n ** BigInt(DEFAULT_DECIMALS), // 1e18
+    decimals: DEFAULT_DECIMALS, // 18
   };
 
   const fixedSlippage =
-    (slippage.value * 10n ** BigInt(ONE_BI.decimals - slippage.decimals)) /
-    100n;
+    slippage.value * 10n ** BigInt(ONE_BI.decimals - slippage.decimals);
+
   const fixedSlippageMul =
     ekuboQuoteType === 'exactOut'
       ? ONE_BI.value + fixedSlippage
       : ONE_BI.value - fixedSlippage;
 
-  return (limitAmount * fixedSlippageMul) / 10n ** BigInt(ONE_BI.decimals);
+  let adjusted = (limitAmount * fixedSlippageMul) / ONE_BI.value;
+
+  if (adjusted < 0n) {
+    adjusted = -adjusted;
+  }
+
+  return adjusted;
 };
 
+export function safeStringify(obj: any) {
+  return JSON.stringify(
+    obj,
+    (_, value) => (typeof value === 'bigint' ? value.toString() : value),
+    2
+  );
+}
 /**
  * Adjust Ekubo weights for DecreaseLever operations
  * This function normalizes weights to ensure they sum exactly to 10^18

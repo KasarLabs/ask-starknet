@@ -22,7 +22,7 @@ import { VESU_API_URL } from '../../lib/constants/index.js';
 import { positionParser, IPosition } from '../../interfaces/index.js';
 import { singletonAbi } from '../../lib/abis/singletonAbi.js';
 import { z } from 'zod';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 
 /**
  * Service for managing borrow repay operations
@@ -469,12 +469,29 @@ export const createRepayBorrowService = (
 export const repayBorrowPosition = async (
   env: onchainWrite,
   params: RepayBorrowParams
-) => {
+): Promise<toolResult> => {
   const accountAddress = env.account?.address;
   try {
     const repayBorrowService = createRepayBorrowService(env, accountAddress);
     const result = await repayBorrowService.repayBorrowTransaction(params, env);
-    return result;
+
+    if (result.status === 'success') {
+      return {
+        status: 'success',
+        data: {
+          repayAmount: result.repayAmount,
+          collateralSymbol: result.collateralSymbol,
+          debtSymbol: result.debtSymbol,
+          recipient_address: result.recipient_address,
+          transaction_hash: result.transaction_hash,
+        },
+      };
+    } else {
+      return {
+        status: 'failure',
+        error: result.error || 'Unknown error',
+      };
+    }
   } catch (error) {
     return {
       status: 'failure',

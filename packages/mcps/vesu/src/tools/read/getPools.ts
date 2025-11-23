@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { onchainRead } from '@kasarlabs/ask-starknet-core';
+import { onchainRead, toolResult } from '@kasarlabs/ask-starknet-core';
 import { VESU_API_URL } from '../../lib/constants/index.js';
 import { poolParser, IPool } from '../../interfaces/index.js';
 import { GetSchemaType } from '../../schemas/index.js';
@@ -8,12 +8,12 @@ import { GetSchemaType } from '../../schemas/index.js';
  * Retrieves pools from the Vesu API
  * @param {onchainRead} env - The onchain environment (not used for API calls but required by interface)
  * @param {GetSchemaType} params - Function parameters
- * @returns {Promise<IPool[]>} Array of pools matching the criteria
+ * @returns {Promise<toolResult>} Array of pools matching the criteria
  */
 export const getPools = async (
   env: onchainRead,
   params: GetSchemaType
-): Promise<IPool[]> => {
+): Promise<toolResult> => {
   try {
     let pools: IPool[];
 
@@ -73,13 +73,18 @@ export const getPools = async (
       );
     }
 
-    return pools;
+    return {
+      status: 'success',
+      data: pools,
+    };
   } catch (error) {
     console.error('Error fetching pools:', error);
-    throw new Error(
-      error instanceof Error
-        ? `Failed to fetch pools: ${error.message}`
-        : 'Failed to fetch pools: Unknown error'
-    );
+    return {
+      status: 'failure',
+      error:
+        error instanceof Error
+          ? `Failed to fetch pools: ${error.message}`
+          : 'Failed to fetch pools: Unknown error',
+    };
   }
 };

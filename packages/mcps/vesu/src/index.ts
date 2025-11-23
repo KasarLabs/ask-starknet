@@ -24,6 +24,7 @@ import {
 import { depositEarnPosition } from './tools/write/deposit_earn.js';
 import { withdrawEarnPosition } from './tools/write/withdraw_earn.js';
 import { depositMultiplyPosition } from './tools/write/deposit_multiply.js';
+import { withdrawMultiplyPosition } from './tools/write/withdraw_multiply.js';
 import { depositBorrowPosition } from './tools/write/deposit_borrow.js';
 import { repayBorrowPosition } from './tools/write/repay_borrow.js';
 import { getPools } from './tools/read/getPools.js';
@@ -69,15 +70,16 @@ const registerTools = (VesuToolRegistry: mcpTool[]) => {
     },
   });
 
-  // VesuToolRegistry.push({
-  //   name: 'withdraw_multiply',
-  //  description: 'Withdraw collateral and repay debt to decrease or close a multiply position on Vesu protocol v2',
-  //  schema: withdrawMultiplySchema,
-  //  execute: async (params: any) => {
-  //    const onchainWrite = getOnchainWrite();
-  //    return await withdrawMultiplyPosition(onchainWrite, params);
-  //  },
-  //});
+  VesuToolRegistry.push({
+    name: 'withdraw_multiply',
+    description:
+      'Withdraw collateral and repay debt to decrease or close a multiply position on Vesu protocol v2',
+    schema: withdrawMultiplySchema,
+    execute: async (params: any) => {
+      const onchainWrite = getOnchainWrite();
+      return await withdrawMultiplyPosition(onchainWrite, params);
+    },
+  });
 
   VesuToolRegistry.push({
     name: 'deposit_borrow',

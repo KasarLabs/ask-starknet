@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { onchainRead } from '@kasarlabs/ask-starknet-core';
+import { onchainRead, toolResult } from '@kasarlabs/ask-starknet-core';
 import { VESU_API_URL } from '../../lib/constants/index.js';
 import { GetPositionsSchemaType } from '../../schemas/index.js';
 import { positionParser, IPosition } from '../../interfaces/index.js';
@@ -8,12 +8,12 @@ import { positionParser, IPosition } from '../../interfaces/index.js';
  * Retrieves positions from the Vesu API for a given wallet address
  * @param {onchainRead} env - The onchain environment (not used for API calls but required by interface)
  * @param {GetPositionsSchemaType} params - Function parameters
- * @returns {Promise<IPosition[]>} Array of positions matching the criteria
+ * @returns {Promise<toolResult>} Array of positions matching the criteria
  */
 export const getPositions = async (
   env: onchainRead,
   params: GetPositionsSchemaType
-): Promise<IPosition[]> => {
+): Promise<toolResult> => {
   try {
     const queryParams = new URLSearchParams();
     queryParams.append('walletAddress', params.walletAddress);
@@ -51,13 +51,18 @@ export const getPositions = async (
       .transform(({ data }) => data)
       .parse(data);
 
-    return parsedPositions;
+    return {
+      status: 'success',
+      data: parsedPositions,
+    };
   } catch (error) {
     console.error('Error fetching positions:', error);
-    throw new Error(
-      error instanceof Error
-        ? `Failed to fetch positions: ${error.message}`
-        : 'Failed to fetch positions: Unknown error'
-    );
+    return {
+      status: 'failure',
+      error:
+        error instanceof Error
+          ? `Failed to fetch positions: ${error.message}`
+          : 'Failed to fetch positions: Unknown error',
+    };
   }
 };
