@@ -9,7 +9,7 @@ export const createSwap = async (
   env?: onchainWrite
 ): Promise<toolResult> => {
   try {
-    const body: any = {
+    const body: CreateSwapSchemaType = {
       destination_address: params.destination_address,
       source_network: params.source_network,
       source_token: params.source_token,
@@ -41,16 +41,16 @@ export const createSwap = async (
       body.source_address = params.source_address;
     }
     if (params.slippage !== undefined && params.slippage !== null) {
-      body.slippage = params.slippage;
+      // Convert from percentage (10 = 10%) to decimal (0.1 = 10%) for API
+      body.slippage = (parseFloat(params.slippage) / 100).toString();
     }
 
-    const response: any = await apiClient.post<any>('/api/v2/swaps', body);
+    const response = await apiClient.post<any>('/api/v2/swaps', body);
     const swap = response.data;
-    console.error('Swap response:', JSON.stringify(swap, null, 2));
     // Execute deposit_actions[0].call_data on Starknet if available
     let transactionHash: string | undefined;
     if (env && swap.swap.id) {
-      let depositActions: any = null;
+      let depositActions: unknown = null;
 
       // First, check if deposit_actions are in the swap response
       if (
@@ -59,10 +59,8 @@ export const createSwap = async (
         swap.deposit_actions.length > 0
       ) {
         depositActions = swap.deposit_actions;
-        console.error('Found deposit_actions in swap response');
       } else {
         // If not, fetch them using getDepositActions
-        console.error('No deposit_actions in swap response, fetching...');
         const depositActionsResult = await getDepositActions(apiClient, {
           swap_id: swap.swap.id,
           source_address: params.source_address,
@@ -75,12 +73,7 @@ export const createSwap = async (
           // The response might be an object with deposit_actions array or the array itself
           depositActions = Array.isArray(depositActionsResult.data)
             ? depositActionsResult.data
-            : depositActionsResult.data.deposit_actions ||
-              depositActionsResult.data.data;
-          console.error(
-            'Fetched deposit_actions:',
-            depositActions ? 'found' : 'not found'
-          );
+            : depositActionsResult.data.deposit_actions;
         }
       }
 
@@ -99,47 +92,33 @@ export const createSwap = async (
           try {
             // call_data is a JSON string that needs to be parsed
             const callDataStr = depositAction.call_data;
-            console.error('Raw call_data string:', callDataStr);
 
             // Parse the JSON string
             const parsedCallData = JSON.parse(callDataStr);
-            console.error(
-              'Parsed call_data:',
-              JSON.stringify(parsedCallData, null, 2)
-            );
 
             // Ensure it's an array
             calls = Array.isArray(parsedCallData)
               ? parsedCallData
               : [parsedCallData];
 
-            console.error('Executing calls:', JSON.stringify(calls, null, 2));
-
-            // Execute the call_data on Starknet
             const result = await account.execute(calls);
             transactionHash = result.transaction_hash;
 
-            console.error('Transaction submitted:', transactionHash);
-
-            // Wait for transaction confirmation
             await env.provider.waitForTransaction(transactionHash);
-            console.error('Transaction confirmed:', transactionHash);
           } catch (parseError) {
-            console.error('Error parsing or executing call_data:', parseError);
             throw new Error(
               `Failed to parse or execute call_data: ${parseError instanceof Error ? parseError.message : 'Unknown error'}`
             );
           }
         } else {
+          // No call_data found - log warning but don't fail the swap creation
           console.error('No call_data found in deposit_actions[0]');
           console.error(
-            'Deposit action:',
-            JSON.stringify(depositAction, null, 2)
+            'Swap created successfully, but onchain execution skipped'
           );
         }
       } else {
         console.error('No deposit_actions found or empty array');
-        console.error('Swap response:', JSON.stringify(swap, null, 2));
       }
     } else {
       if (!env) {

@@ -25,10 +25,11 @@ export const getDetailedQuote = async (
       queryParams.append('source_address', params.source_address);
     }
     if (params.slippage) {
-      queryParams.append('slippage', params.slippage);
+      const slippageDecimal = (parseFloat(params.slippage) / 100).toString();
+      queryParams.append('slippage', slippageDecimal);
     }
     const endpoint = `/api/v2/detailed_quote?${queryParams.toString()}`;
-    const quote = await apiClient.get<any>(endpoint);
+    const quote: any = await apiClient.get<any>(endpoint);
     return {
       status: 'success',
       data: quote,

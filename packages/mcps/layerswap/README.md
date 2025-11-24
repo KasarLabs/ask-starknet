@@ -18,10 +18,10 @@ This MCP provides tools for:
 
 ## Environment Variables
 
-- `LAYERSWAP_API_KEY`: Your Layerswap API key (optional - for higher rate limits and analytics)
+- `LAYERSWAP_API_KEY`: Your Layerswap API key (optional - a public API key is used by default)
 - `LAYERSWAP_API_URL`: Layerswap API base URL (optional, defaults to https://api.layerswap.io)
 
-**Note:** No API key needed for basic usage. Get one at [layerswap.io/dashboard](https://layerswap.io/dashboard) for higher rate limits and analytics.
+**Note:** The package includes a public API key by default for basic usage. For production use with higher rate limits and analytics, set `LAYERSWAP_API_KEY` environment variable. Get your API key at [layerswap.io/dashboard](https://layerswap.io/dashboard).
 
 ## Installation
 

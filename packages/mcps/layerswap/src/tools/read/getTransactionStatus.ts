@@ -14,7 +14,7 @@ export const getTransactionStatus = async (
     const status: any = await apiClient.get<any>(endpoint);
     return {
       status: 'success',
-      data: status as any,
+      data: status,
     } as toolResult;
   } catch (error) {
     return {

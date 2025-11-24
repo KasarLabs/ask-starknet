@@ -1,4 +1,4 @@
-import z from 'zod';
+import { z } from 'zod';
 
 // Get Networks
 export const getNetworksSchema = z.object({
@@ -138,7 +138,7 @@ export const getQuoteSchema = z.object({
   slippage: z
     .string()
     .optional()
-    .describe('Slippage tolerance in percentage format (e.g., 0.1 = 10%)'),
+    .describe('Slippage tolerance in percentage format (e.g., 10 = 10%)'),
   use_deposit_address: z
     .boolean()
     .optional()
@@ -177,7 +177,7 @@ export const getDetailedQuoteSchema = z.object({
   slippage: z
     .string()
     .optional()
-    .describe('Slippage tolerance in percentage format (e.g., 0.1 = 10%)'),
+    .describe('Slippage tolerance in percentage format (e.g., 10 = 10%)'),
 });
 
 // Get Transaction Status
@@ -271,7 +271,7 @@ export const createSwapSchema = z.object({
   slippage: z
     .string()
     .optional()
-    .describe('Slippage tolerance in percentage format (e.g., 0.1 = 10%)'),
+    .describe('Slippage tolerance in percentage format (e.g., 10 = 10%)'),
   refund_address: z
     .string()
     .describe('Address to receive refunds if the swap fails'),

@@ -26,7 +26,7 @@ export const getSwapRouteLimits = async (
     const limits: any = await apiClient.get<any>(endpoint);
     return {
       status: 'success',
-      data: limits as any,
+      data: limits,
     } as toolResult;
   } catch (error) {
     return {

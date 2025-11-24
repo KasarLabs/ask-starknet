@@ -43,8 +43,11 @@ export class LayerswapApiClient {
       );
     }
 
-    const json: any = await response.json();
-    return json as T;
+    try {
+      return (await response.json()) as T;
+    } catch (error) {
+      throw new Error(`Failed to parse response as JSON: ${error}`);
+    }
   }
 
   async get<T = any>(endpoint: string): Promise<T> {

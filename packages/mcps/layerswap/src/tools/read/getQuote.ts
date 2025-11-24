@@ -17,7 +17,9 @@ export const getQuote = async (
       queryParams.append('source_address', params.source_address);
     }
     if (params.slippage) {
-      queryParams.append('slippage', params.slippage);
+      // Convert from percentage (10 = 10%) to decimal (0.1 = 10%) for API
+      const slippageDecimal = (parseFloat(params.slippage) / 100).toString();
+      queryParams.append('slippage', slippageDecimal);
     }
     if (params.use_deposit_address !== undefined) {
       queryParams.append(

@@ -18,7 +18,7 @@ export const getDepositActions = async (
     const depositActions: any = await apiClient.get<any>(endpoint);
     return {
       status: 'success',
-      data: depositActions as any,
+      data: depositActions,
     } as toolResult;
   } catch (error) {
     return {

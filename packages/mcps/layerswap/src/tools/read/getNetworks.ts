@@ -17,7 +17,7 @@ export const getNetworks = async (
     const result: any = await apiClient.get<any>(endpoint);
     return {
       status: 'success',
-      data: result as any,
+      data: result,
     } as toolResult;
   } catch (error) {
     return {

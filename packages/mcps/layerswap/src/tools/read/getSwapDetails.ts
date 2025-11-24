@@ -24,7 +24,7 @@ export const getSwapDetails = async (
     const swapDetails: any = await apiClient.get<any>(endpoint);
     return {
       status: 'success',
-      data: swapDetails as any,
+      data: swapDetails,
     } as toolResult;
   } catch (error) {
     return {

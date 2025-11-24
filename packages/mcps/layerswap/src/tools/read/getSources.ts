@@ -45,7 +45,7 @@ export const getSources = async (
     const sources: any = await apiClient.get<any>(endpoint);
     return {
       status: 'success',
-      data: sources as any,
+      data: sources,
     } as toolResult;
   } catch (error) {
     return {

@@ -34,6 +34,7 @@ import { getDepositActions } from './tools/read/getDepositActions.js';
 import { getAllSwaps } from './tools/read/getAllSwaps.js';
 import { createSwap } from './tools/write/createSwap.js';
 import { LayerswapApiClient } from './lib/utils/apiClient.js';
+import { getApiKey, getApiUrl } from './lib/config.js';
 
 dotenv.config();
 
@@ -43,10 +44,8 @@ const server = new McpServer({
 });
 
 const getApiClient = (): LayerswapApiClient => {
-  const apiKey =
-    process.env.LAYERSWAP_API_KEY ||
-    'bwDJw8c1mesRyWfO3WrOB7iE48xAkVEI5QWlgnNFHnwH/4W+zHOcRoM5D3Sne3eCXRqUzHTMXBt0hrd+lO4ASw';
-  const apiUrl = process.env.LAYERSWAP_API_URL || 'https://api.layerswap.io';
+  const apiKey = getApiKey();
+  const apiUrl = getApiUrl();
   return new LayerswapApiClient(apiKey, apiUrl);
 };
 

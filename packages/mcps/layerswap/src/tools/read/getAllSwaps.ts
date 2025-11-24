@@ -20,7 +20,7 @@ export const getAllSwaps = async (
     const swaps: any = await apiClient.get<any>(endpoint);
     return {
       status: 'success',
-      data: swaps as any,
+      data: swaps,
     } as toolResult;
   } catch (error) {
     return {

@@ -39,7 +39,7 @@ export const getDestinations = async (
     const destinations: any = await apiClient.get<any>(endpoint);
     return {
       status: 'success',
-      data: destinations as any,
+      data: destinations,
     } as toolResult;
   } catch (error) {
     return {
