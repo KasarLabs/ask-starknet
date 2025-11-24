@@ -151,11 +151,15 @@ export class DepositMultiplyService {
       // Get slippage from params or use default (50 = 0.5%)
       const slippageBps: bigint = BigInt(params.ekuboSlippage ?? 50);
 
+      const extraCollateralAmount =
+        (debtValueUSD * 10n ** BigInt(collateralAsset.decimals)) /
+        toBN(collateralPrice.value);
+
       try {
         // Call Ekubo quoter API: amount is negative for exactOut
         // Format: /{amount}/{tokenOut}/{tokenIn}
         // For deposit (open position): we want exact collateral amount out, so we use -collateralAmount
-        const ekuboQuoterUrl = `https://starknet-mainnet-quoter-api.ekubo.org/${-collateralAmount}/${collateralAsset.address}/${debtAsset.address}`;
+        const ekuboQuoterUrl = `https://starknet-mainnet-quoter-api.ekubo.org/${-extraCollateralAmount}/${collateralAsset.address}/${debtAsset.address}`;
 
         const ekuboResponse = await fetch(ekuboQuoterUrl);
 
@@ -286,17 +290,17 @@ export class DepositMultiplyService {
               );
 
               return {
-                amountSpecified: BigInt(splitData.amount_specified), // Negative for exactOut
-                amountCalculated: BigInt(splitData.amount_calculated), // Negative for exactOut
+                amountSpecified: BigInt(splitData.amount_specified),
+                amountCalculated: BigInt(splitData.amount_calculated),
                 route: routes,
               };
             }
           );
 
           ekuboQuote = {
-            type: 'exactOut', // We want exact collateral amount out
+            type: 'exactOut',
             splits,
-            totalCalculated: BigInt(ekuboData.total_calculated), // Negative for exactOut
+            totalCalculated: BigInt(ekuboData.total_calculated),
             priceImpact: ekuboData.price_impact || null,
           };
         }
@@ -312,6 +316,7 @@ export class DepositMultiplyService {
       const callsData = await buildMultiplyCalls(
         collateralAmount,
         collateralAsset,
+        extraCollateralAmount,
         debtAsset,
         poolContractAddress,
         account,

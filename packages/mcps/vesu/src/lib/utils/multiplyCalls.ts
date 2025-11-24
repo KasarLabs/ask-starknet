@@ -29,6 +29,7 @@ import { Hex } from './num.js';
 export const buildMultiplyCalls = async (
   collateralAmount: bigint,
   collateralAsset: IBaseToken,
+  debtAmount: bigint,
   debtAsset: IBaseToken,
   poolContractAddress: Hex,
   account: Account,
@@ -44,8 +45,9 @@ export const buildMultiplyCalls = async (
 
   if (ekuboQuote && ekuboQuote.splits.length > 0) {
     const weights = calculateEkuboWeights(ekuboQuote);
+
     const quotedAmount: BigIntValue = {
-      value: collateralAmount, // This should be the debt amount in practice
+      value: debtAmount,
       decimals: debtAsset.decimals,
     };
     leverSwap = calculateEkuboLeverSwapData(
@@ -57,7 +59,7 @@ export const buildMultiplyCalls = async (
 
     const slippage: BigIntValue = {
       value: slippageBps || 50n, // Default 0.5% slippage
-      decimals: DEFAULT_DECIMALS,
+      decimals: 4,
     };
     leverSwapLimitAmount = applySlippageToEkuboLimitAmount(
       ekuboQuote.totalCalculated,
