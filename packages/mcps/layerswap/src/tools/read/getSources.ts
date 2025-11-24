@@ -9,10 +9,10 @@ export const getSources = async (
   try {
     const queryParams = new URLSearchParams();
     if (params?.destination_network) {
-      queryParams.append('destination_network', params.destination_network);
+      queryParams.append('destination_network', params.destination_network.toUpperCase());
     }
     if (params?.destination_token) {
-      queryParams.append('destination_token', params.destination_token);
+      queryParams.append('destination_token', params.destination_token.toUpperCase());
     }
     if (params?.include_swaps !== undefined) {
       queryParams.append('include_swaps', params.include_swaps.toString());

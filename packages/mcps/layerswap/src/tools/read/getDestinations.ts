@@ -9,10 +9,10 @@ export const getDestinations = async (
   try {
     const queryParams = new URLSearchParams();
     if (params?.source_network) {
-      queryParams.append('source_network', params.source_network);
+      queryParams.append('source_network', params.source_network.toUpperCase());
     }
     if (params?.source_token) {
-      queryParams.append('source_token', params.source_token);
+      queryParams.append('source_token', params.source_token.toUpperCase());
     }
     if (params?.include_swaps !== undefined) {
       queryParams.append('include_swaps', params.include_swaps.toString());

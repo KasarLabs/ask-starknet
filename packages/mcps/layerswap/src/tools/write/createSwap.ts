@@ -11,10 +11,10 @@ export const createSwap = async (
   try {
     const body: CreateSwapSchemaType = {
       destination_address: params.destination_address,
-      source_network: params.source_network,
-      source_token: params.source_token,
-      destination_network: params.destination_network,
-      destination_token: params.destination_token,
+      source_network: params.source_network.toUpperCase(),
+      source_token: params.source_token.toUpperCase(),
+      destination_network: params.destination_network.toUpperCase(),
+      destination_token: params.destination_token.toUpperCase(),
       amount: params.amount,
       refund_address: params.refund_address,
     };

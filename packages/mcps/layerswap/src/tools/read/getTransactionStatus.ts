@@ -8,7 +8,7 @@ export const getTransactionStatus = async (
 ): Promise<toolResult> => {
   try {
     const queryParams = new URLSearchParams();
-    queryParams.append('network', params.network);
+    queryParams.append('network', params.network.toUpperCase());
     queryParams.append('transaction_id', params.transaction_id);
     const endpoint = `/api/v2/transaction_status?${queryParams.toString()}`;
     const status: any = await apiClient.get<any>(endpoint);
