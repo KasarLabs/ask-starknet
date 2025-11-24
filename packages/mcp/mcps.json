@@ -473,7 +473,10 @@
       "args": ["-y", "@kasarlabs/layerswap-mcp@latest"],
       "transport": "stdio",
       "env": {
-        "LAYERSWAP_API_URL": ""
+        "LAYERSWAP_API_URL": "",
+        "STARKNET_RPC_URL": "",
+        "STARKNET_ACCOUNT_ADDRESS": "",
+        "STARKNET_PRIVATE_KEY": ""
       }
     },
     "description": "Layerswap cross-chain bridge for transferring assets between different networks",
