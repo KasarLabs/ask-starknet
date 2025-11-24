@@ -10,8 +10,14 @@ export const getQuote = async (
     const queryParams = new URLSearchParams();
     queryParams.append('source_network', params.source_network.toUpperCase());
     queryParams.append('source_token', params.source_token.toUpperCase());
-    queryParams.append('destination_network', params.destination_network.toUpperCase());
-    queryParams.append('destination_token', params.destination_token.toUpperCase());
+    queryParams.append(
+      'destination_network',
+      params.destination_network.toUpperCase()
+    );
+    queryParams.append(
+      'destination_token',
+      params.destination_token.toUpperCase()
+    );
     queryParams.append('amount', params.amount.toString());
     if (params.source_address) {
       queryParams.append('source_address', params.source_address);

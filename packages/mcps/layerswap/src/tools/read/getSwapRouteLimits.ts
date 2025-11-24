@@ -10,8 +10,14 @@ export const getSwapRouteLimits = async (
     const queryParams = new URLSearchParams();
     queryParams.append('source_network', params.source_network.toUpperCase());
     queryParams.append('source_token', params.source_token.toUpperCase());
-    queryParams.append('destination_network', params.destination_network.toUpperCase());
-    queryParams.append('destination_token', params.destination_token.toUpperCase());
+    queryParams.append(
+      'destination_network',
+      params.destination_network.toUpperCase()
+    );
+    queryParams.append(
+      'destination_token',
+      params.destination_token.toUpperCase()
+    );
     if (params.use_deposit_address !== undefined) {
       queryParams.append(
         'use_deposit_address',
