@@ -347,3 +347,64 @@ export const buildCloseMultiplyCalls = async (
 
   return [modifyDelegationCall, modifyLeverCall, revokeDelegationCall];
 };
+
+export const buildWithdrawMultiplyCalls = async (
+  collateralAsset: IBaseToken,
+  debtAsset: IBaseToken,
+  poolContractAddress: Hex,
+  account: Account,
+  provider: any,
+  withdrawAmount: BigIntValue
+): Promise<Call[]> => {
+  const ZERO_BI: BigIntValue = { value: 0n, decimals: DEFAULT_DECIMALS };
+
+  // Get contract instances
+  const multiplyContract = getMultiplyContract(MULTIPLY_CONTRACT_ADDRESS);
+  const poolContract = getPoolContract(poolContractAddress);
+
+  const multiplyContractForTx = new Contract(
+    multiplyContract.abi,
+    MULTIPLY_CONTRACT_ADDRESS,
+    provider
+  );
+  const poolContractForTx = new Contract(
+    poolContract.abi,
+    poolContractAddress,
+    provider
+  );
+
+  const modifyDelegationCall =
+    await poolContractForTx.populateTransaction.modify_delegation(
+      MULTIPLY_CONTRACT_ADDRESS,
+      true
+    );
+
+  const revokeDelegationCall =
+    await poolContractForTx.populateTransaction.modify_delegation(
+      MULTIPLY_CONTRACT_ADDRESS,
+      false
+    );
+
+  const modifyLeverCall =
+    await multiplyContractForTx.populateTransaction.modify_lever({
+      action: new CairoCustomEnum({
+        DecreaseLever: {
+          pool: poolContractAddress,
+          collateral_asset: collateralAsset.address,
+          debt_asset: debtAsset.address,
+          user: account.address,
+          sub_margin: withdrawAmount.value,
+          recipient: account.address,
+          lever_swap: [],
+          lever_swap_limit_amount: ZERO_BI.value,
+          lever_swap_weights: [],
+          withdraw_swap: [],
+          withdraw_swap_limit_amount: ZERO_BI.value,
+          withdraw_swap_weights: [],
+          close_position: false,
+        },
+      }),
+    });
+
+  return [modifyDelegationCall, modifyLeverCall, revokeDelegationCall];
+};
