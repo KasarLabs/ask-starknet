@@ -23,7 +23,8 @@ describe('withdrawFromChamber - Integration Tests', () => {
     // Note: This test requires a valid claiming key and transaction that exists in the merkle tree
     // You should replace these values with actual test data from a previous deposit
     const claimingKey = process.env.TEST_CLAIMING_KEY;
-
+    // The original recipient should be the address used during deposit
+    // By default, use TEST_ORIGINAL_RECIPIENT if provided, otherwise use STARKNET_ACCOUNT_ADDRESS
     if (!claimingKey) {
       console.log(
         '⚠️  Skipping: TEST_CLAIMING_KEY must be set for withdrawal tests'
@@ -31,9 +32,12 @@ describe('withdrawFromChamber - Integration Tests', () => {
       return;
     }
 
+
+    console.log(`Using claiming key: ${claimingKey}`);
+
     const params: WithdrawFromChamberParams = {
       claimingKey,
-      recipientAddress: context.testAccount.address,
+      recipientAddress: context.testRecipientAddress,  // Must match the recipient from the original deposit!
       tokenAddress: context.testTokenAddress,
       amount: context.testAmount,
     };

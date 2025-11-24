@@ -15,6 +15,7 @@ export interface TestContext {
   testAccount: Account;
   testTokenAddress: string;
   testAmount: string;
+  testRecipientAddress: string;
 }
 
 export function setupTestContext(): TestContext | null {
@@ -25,10 +26,10 @@ export function setupTestContext(): TestContext | null {
     process.env.TEST_TOKEN_ADDRESS ||
     '0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7'; // ETH on Sepolia
   const testAmount = process.env.TEST_AMOUNT || '1000000000000000'; // Default: 0.001 tokens
-
-  if (!privateKey || !accountAddress || !rpcUrl) {
+  const testRecipientAddress = process.env.TEST_RECIPIENT_ADDRESS;
+  if (!privateKey || !accountAddress || !rpcUrl || !testRecipientAddress) {
     console.warn(
-      'Skipping integration tests: STARKNET_PRIVATE_KEY and STARKNET_ACCOUNT_ADDRESS and STARKNET_RPC_URL must be set'
+      'Skipping integration tests: STARKNET_PRIVATE_KEY and STARKNET_ACCOUNT_ADDRESS and STARKNET_RPC_URL and TEST_RECIPIENT_ADDRESS must be set'
     );
     return null;
   }
@@ -54,6 +55,7 @@ export function setupTestContext(): TestContext | null {
     testAccount,
     testTokenAddress,
     testAmount,
+    testRecipientAddress,
   };
 }
 

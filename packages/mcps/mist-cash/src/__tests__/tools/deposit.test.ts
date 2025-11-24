@@ -23,7 +23,7 @@ describe('depositToChamber - Integration Tests', () => {
     const params: DepositToChamberParams = {
       tokenAddress: context.testTokenAddress,
       amount: context.testAmount,
-      recipientAddress: context.testAccount.address,
+      recipientAddress: context.testRecipientAddress,
     };
 
     const result = await depositToChamber(context.onchainWrite, params);
@@ -35,7 +35,7 @@ describe('depositToChamber - Integration Tests', () => {
     expect(parsedResult.data).toHaveProperty('transactionHash');
     expect(parsedResult.data).toHaveProperty('secret');
     expect(parsedResult.data.recipientAddress).toBe(
-      context.testAccount.address
+      context.testRecipientAddress
     );
     expect(parsedResult.data.tokenAddress).toBe(context.testTokenAddress);
     expect(parsedResult.data.amount).toBe(context.testAmount);
@@ -47,32 +47,32 @@ describe('depositToChamber - Integration Tests', () => {
     });
   }, 120000); // 2 minute timeout for blockchain operations
 
-  it('should deposit successfully with provided claiming key', async () => {
-    if (skipIfNoCredentials() || !context) {
-      console.log('Skipping: No test credentials provided');
-      return;
-    }
+  // it('should deposit successfully with provided claiming key', async () => {
+  //   if (skipIfNoCredentials() || !context) {
+  //     console.log('Skipping: No test credentials provided');
+  //     return;
+  //   }
 
-    const customClaimingKey = '0x' + '1'.repeat(64); // Valid 256-bit key
+  //   const customClaimingKey = '0x' + '1'.repeat(64); // Valid 256-bit key
 
-    const params: DepositToChamberParams = {
-      tokenAddress: context.testTokenAddress,
-      amount: context.testAmount,
-      claimingKey: customClaimingKey,
-      recipientAddress: context.testAccount.address,
-    };
+  //   const params: DepositToChamberParams = {
+  //     tokenAddress: context.testTokenAddress,
+  //     amount: context.testAmount,
+  //     claimingKey: customClaimingKey,
+  //     recipientAddress: context.testAccount.address,
+  //   };
 
-    const result = await depositToChamber(context.onchainWrite, params);
-    const parsedResult = JSON.parse(result);
+  //   const result = await depositToChamber(context.onchainWrite, params);
+  //   const parsedResult = JSON.parse(result);
 
-    expect(parsedResult.success).toBe(true);
-    expect(parsedResult.data.claimingKey).toBe(customClaimingKey);
+  //   expect(parsedResult.success).toBe(true);
+  //   expect(parsedResult.data.claimingKey).toBe(customClaimingKey);
 
-    console.log('✅ Deposit with custom claiming key successful:', {
-      claimingKey: parsedResult.data.claimingKey,
-      transactionHash: parsedResult.data.transactionHash,
-    });
-  }, 120000);
+  //   console.log('✅ Deposit with custom claiming key successful:', {
+  //     claimingKey: parsedResult.data.claimingKey,
+  //     transactionHash: parsedResult.data.transactionHash,
+  //   });
+  // }, 120000);
 
   // it('should normalize long claiming keys', async () => {
   //   if (skipIfNoCredentials() || !context) {

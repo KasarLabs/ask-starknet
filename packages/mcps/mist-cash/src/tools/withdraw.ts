@@ -4,11 +4,12 @@ import {
   calculateMerkleRootAndProof,
   calculateMerkleRoot,
   txHash,
+  txSecret,
 } from '@mistcash/crypto';
 import { Contract, AccountInterface, ProviderInterface } from 'starknet';
-import { ERC20_ABI } from '@mistcash/config';
+import { ERC20_ABI, WitnessData } from '@mistcash/config';
 import { onchainWrite } from '@kasarlabs/ask-starknet-core';
-
+import { CHAMBER_ABI } from '@mistcash/config';
 export async function withdrawFromChamber(
   onchainWrite: onchainWrite,
   params: WithdrawFromChamberParams
@@ -16,10 +17,8 @@ export async function withdrawFromChamber(
   try {
     const { claimingKey, recipientAddress, tokenAddress, amount } = params;
     const { account } = onchainWrite;
-    // Cast to AccountInterface as the Account class implements the interface
     const chamberContract = getChamber(account);
 
-    // Initialize ERC20 token contract for info
     const tokenContract = new Contract({
       abi: ERC20_ABI,
       address: tokenAddress,
@@ -33,102 +32,70 @@ export async function withdrawFromChamber(
       console.error('Could not fetch decimals, defaulting to 18');
     }
 
-    // Fetch all transactions from the chamber
-    console.error('Fetching transaction tree...');
-    const allTransactions = await chamberContract.tx_array();
-
-    if (!allTransactions || allTransactions.length === 0) {
-      throw new Error('No transactions found in the chamber');
-    }
-
-    console.error(`Found ${allTransactions.length} transactions in the tree`);
-
-    // Find the index of the transaction in the tree
-    console.error('Searching for transaction in merkle tree...');
-
-    // Debug: Calculate what we're looking for
-    const expectedTxHash = await txHash(
+    console.error('Fetching transaction tree and merkle root...');
+    console.log(claimingKey);
+    console.log(recipientAddress);
+    console.log(tokenAddress);
+    console.log(amount);
+    const tx_hash = await txHash(
       claimingKey,
       recipientAddress,
       tokenAddress,
       amount
     );
-    console.error(`Looking for txHash: ${expectedTxHash.toString(16)}`);
-    console.error(
-      `First few transactions in tree: ${(allTransactions as bigint[]).slice(0, 3).map((tx) => tx.toString(16))}`
-    );
+    console.log('Transaction Hash:', tx_hash.toString());
 
+    const allTransactions = (await chamberContract.tx_array()) as bigint[];
     const txIndex = await getTxIndexInTree(
-      allTransactions as bigint[],
+      allTransactions,
       claimingKey,
       recipientAddress,
       tokenAddress,
       amount
     );
-
     if (txIndex === -1) {
-      throw new Error(
-        'Transaction not found in merkle tree. It may have already been withdrawn or does not exist.'
-      );
+      throw new Error('Transaction not found in merkle tree');
     }
+    console.log('Transaction Index in Tree:', txIndex);
+    console.log('Total transactions in chamber:', allTransactions.length);
 
-    console.error(`Transaction found at index ${txIndex}`);
-
-    // Calculate merkle proof
-    console.error('Calculating merkle proof...');
-    const merkleProof = calculateMerkleRootAndProof(
-      allTransactions as bigint[],
+    const merkleProofWRoot = calculateMerkleRootAndProof(
+      allTransactions,
       txIndex
     );
-
-    console.error(
-      `Merkle proof calculated with ${merkleProof.length} elements`
-    );
-    console.error(
-      `Merkle proof: ${JSON.stringify(merkleProof.map((p) => p.toString(16)))}`
-    );
-
-    // Verify merkle root matches on-chain
-    const calculatedRoot = calculateMerkleRoot(allTransactions as bigint[]);
-    const onchainRoot = await chamberContract.merkle_root();
-    console.error(`Calculated merkle root: ${calculatedRoot.toString(16)}`);
-    console.error(`On-chain merkle root: ${onchainRoot.toString(16)}`);
-
-    if (calculatedRoot !== onchainRoot) {
-      throw new Error(
-        `Merkle root mismatch! The transaction tree has changed since fetching. ` +
-          `Expected: ${onchainRoot.toString(16)}, Got: ${calculatedRoot.toString(16)}. ` +
-          `This usually means new transactions were added to the chamber. Please retry.`
-      );
+    const merkleProof = merkleProofWRoot
+      .slice(0, merkleProofWRoot.length - 1)
+      .map((bi) => {
+        if (bi) {
+          console.log(bi);
+          return bi.toString();
+        }
+        return '0';
+      });
+    const formattedMerkleProof = [
+      ...merkleProof,
+      ...new Array(20 - merkleProof.length).fill('0'),
+    ];
+    if (!formattedMerkleProof || formattedMerkleProof.length === 0) {
+      throw new Error('Merkle proof could not be generated');
     }
+    console.log('Merkle Proof:', formattedMerkleProof);
+    const formattedAmount = fmtAmount(BigInt(amount), Number(decimals));
 
-    // Perform the withdraw
-    console.error(`Withdrawing ${amount} tokens from chamber...`);
-    console.error(`Using claiming key: ${claimingKey}`);
-    console.error(`Claiming key as BigInt: ${BigInt(claimingKey).toString()}`);
-    console.error(`Recipient: ${recipientAddress}`);
-    console.error(`Token: ${tokenAddress}`);
-    console.error(`Amount: ${amount}`);
-
-    const withdrawCall = chamberContract.populate('withdraw_no_zk', [
+    const withdrawTx = await chamberContract.withdraw_no_zk(
       BigInt(claimingKey),
-      recipientAddress,
+      account.address,
       {
         amount: BigInt(amount),
         addr: tokenAddress,
       },
-      merkleProof,
-    ]);
-
-    const withdrawTx = await account.execute(withdrawCall);
+      formattedMerkleProof
+    );
 
     await account.waitForTransaction(withdrawTx.transaction_hash);
     console.error(
       `Withdraw transaction confirmed: ${withdrawTx.transaction_hash}`
     );
-
-    // Format amount for display
-    const formattedAmount = fmtAmount(BigInt(amount), decimals);
 
     return JSON.stringify(
       {

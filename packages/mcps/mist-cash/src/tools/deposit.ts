@@ -40,26 +40,21 @@ export async function depositToChamber(
 
     // Generate claiming key if not provided
     if (!claimingKey) {
-      // Use our UINT256-compliant generator instead of SDK's generateClaimingKey
       claimingKey = generateUint256ClaimingKey();
       console.error(`Generated UINT256-compliant claiming key: ${claimingKey}`);
     } else {
-      // Normalize user-provided claiming key
       claimingKey = normalizeClaimingKey(claimingKey);
     }
 
     const { account } = onchainWrite;
 
-    // Initialize chamber contract
     const chamberContract = getChamber(account);
 
-    // Initialize ERC20 token contract
     const tokenContract = new Contract({
       abi: ERC20_ABI,
       address: tokenAddress,
       providerOrAccount: account,
     });
-    // Get token decimals for better display
     let decimals = 18;
     try {
       decimals = await tokenContract.decimals();
