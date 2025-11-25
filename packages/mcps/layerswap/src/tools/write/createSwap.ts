@@ -9,6 +9,9 @@ export const createSwap = async (
   env?: onchainWrite
 ): Promise<toolResult> => {
   try {
+    const sourceAddress =
+      params.source_address ?? env?.account.address ?? undefined;
+
     const body: CreateSwapSchemaType = {
       destination_address: params.destination_address,
       source_network: params.source_network.toUpperCase(),
@@ -36,8 +39,8 @@ export const createSwap = async (
     if (params.use_new_deposit_address !== undefined) {
       body.use_new_deposit_address = params.use_new_deposit_address;
     }
-    if (params.source_address !== undefined && params.source_address !== null) {
-      body.source_address = params.source_address;
+    if (sourceAddress !== undefined && sourceAddress !== null) {
+      body.source_address = sourceAddress;
     }
     if (params.slippage !== undefined && params.slippage !== null) {
       // Convert from percentage (10 = 10%) to decimal (0.1 = 10%) for API
@@ -47,8 +50,15 @@ export const createSwap = async (
     const response = await apiClient.post<any>('/api/v2/swaps', body);
     const swap = response.data;
     // Execute deposit_actions[0].call_data on Starknet if available
+    // Only execute on-chain if source_address matches the environment account address
+    const shouldExecuteOnChain =
+      env &&
+      swap.swap.id &&
+      sourceAddress &&
+      env.account.address &&
+      sourceAddress.toLowerCase() === env.account.address.toLowerCase();
     let transactionHash: string | undefined;
-    if (env && swap.swap.id) {
+    if (shouldExecuteOnChain) {
       let depositActions: unknown = null;
 
       // First, check if deposit_actions are in the swap response
@@ -62,7 +72,7 @@ export const createSwap = async (
         // If not, fetch them using getDepositActions
         const depositActionsResult = await getDepositActions(apiClient, {
           swap_id: swap.swap.id,
-          source_address: params.source_address,
+          source_address: sourceAddress,
         });
 
         if (
@@ -122,9 +132,16 @@ export const createSwap = async (
     } else {
       if (!env) {
         console.error('No onchainWrite environment provided');
-      }
-      if (!swap.swap.id) {
+      } else if (!swap.swap.id) {
         console.error('No swap ID in response');
+      } else if (
+        sourceAddress &&
+        env.account.address &&
+        sourceAddress.toLowerCase() !== env.account.address.toLowerCase()
+      ) {
+        console.error(
+          `Source address (${sourceAddress}) differs from environment account address (${env.account.address}). On-chain execution skipped.`
+        );
       }
     }
 
