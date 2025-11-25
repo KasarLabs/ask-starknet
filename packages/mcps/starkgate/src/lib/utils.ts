@@ -42,7 +42,7 @@ export const getEthereumWrite = (): ethereumWrite => {
   if (keyWithoutPrefix.length !== 64) {
     throw new Error(
       `Invalid ETHEREUM_PRIVATE_KEY format: Expected 64 hex characters (32 bytes), got ${keyWithoutPrefix.length} characters. ` +
-      `Private key should be 64 hexadecimal characters with optional 0x prefix.`
+        `Private key should be 64 hexadecimal characters with optional 0x prefix.`
     );
   }
 
@@ -63,7 +63,7 @@ export const getEthereumWrite = (): ethereumWrite => {
   } catch (error) {
     throw new Error(
       `Failed to initialize Ethereum wallet: ${error instanceof Error ? error.message : 'Unknown error'}. ` +
-      `Please check your ETHEREUM_PRIVATE_KEY format.`
+        `Please check your ETHEREUM_PRIVATE_KEY format.`
     );
   }
 };
@@ -123,7 +123,7 @@ export const getSolanaWrite = (): solanaWrite => {
   } catch (error) {
     throw new Error(
       `Failed to initialize Solana keypair: ${error instanceof Error ? error.message : 'Unknown error'}. ` +
-      `Please check your SOLANA_PRIVATE_KEY format (JSON array of 64 numbers or base64 string).`
+        `Please check your SOLANA_PRIVATE_KEY format (JSON array of 64 numbers or base64 string).`
     );
   }
 };
@@ -152,7 +152,7 @@ export const getBitcoinWrite = (): bitcoinWrite => {
   if (keyWithoutPrefix.length !== 64) {
     throw new Error(
       `Invalid BITCOIN_PRIVATE_KEY format: Expected 64 hex characters (32 bytes), got ${keyWithoutPrefix.length} characters. ` +
-      `Private key should be 64 hexadecimal characters with optional 0x prefix.`
+        `Private key should be 64 hexadecimal characters with optional 0x prefix.`
     );
   }
 
@@ -199,7 +199,7 @@ export const getBitcoinWrite = (): bitcoinWrite => {
   } catch (error) {
     throw new Error(
       `Failed to initialize Bitcoin keypair: ${error instanceof Error ? error.message : 'Unknown error'}. ` +
-      `Please check your BITCOIN_PRIVATE_KEY format and BITCOIN_NETWORK setting.`
+        `Please check your BITCOIN_PRIVATE_KEY format and BITCOIN_NETWORK setting.`
     );
   }
 };

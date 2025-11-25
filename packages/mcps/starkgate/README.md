@@ -27,11 +27,13 @@ cp .env.example .env
 ### Required Environment Variables
 
 #### For Starknet L2 Operations:
+
 - `STARKNET_RPC_URL`: Your Starknet RPC endpoint
 - `STARKNET_PRIVATE_KEY`: Your Starknet account private key
 - `STARKNET_ACCOUNT_ADDRESS`: Your Starknet account address
 
 #### For Ethereum L1 Operations:
+
 - `ETHEREUM_RPC_URL`: Your Ethereum RPC endpoint
 - `ETHEREUM_PRIVATE_KEY`: Your Ethereum wallet private key
 
@@ -42,11 +44,13 @@ cp .env.example .env
 Bridge ETH from Ethereum L1 to Starknet L2.
 
 **Parameters:**
+
 - `l1chain` (string): The L1 chain to bridge from (e.g., "ethereum")
 - `toAddress` (string): The Starknet address to receive the funds
 - `amount` (string): The amount of ETH to bridge (in ETH units, e.g., "0.001")
 
 **Example:**
+
 ```json
 {
   "l1chain": "ethereum",
@@ -60,11 +64,13 @@ Bridge ETH from Ethereum L1 to Starknet L2.
 Bridge ETH from Starknet L2 to Ethereum L1.
 
 **Parameters:**
+
 - `l1chain` (string): The L1 chain to bridge to (e.g., "ethereum")
 - `toAddress` (string): The Ethereum address to receive the funds
 - `amount` (string): The amount of ETH to withdraw (in ETH units, e.g., "0.001")
 
 **Example:**
+
 ```json
 {
   "l1chain": "ethereum",

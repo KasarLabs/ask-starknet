@@ -3,7 +3,7 @@ import { Address } from '../../interfaces/index.js';
 import { vTokenAbi } from '../abis/vTokenAbi.js';
 import { singletonAbi } from '../abis/singletonAbi.js';
 import { extensionAbi } from '../abis/extensionAbi.js';
-import { erc20Abi } from '../abis/erc20Abi.js';
+import { erc20Abi } from '@kasarlabs/ask-starknet-core';
 
 export const getErc20Contract = (address: Address) => {
   const provider = new RpcProvider({ nodeUrl: process.env.STARKNET_RPC_URL });

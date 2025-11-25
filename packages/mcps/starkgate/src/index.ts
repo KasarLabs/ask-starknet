@@ -9,12 +9,12 @@ import {
 } from '@kasarlabs/ask-starknet-core';
 import dotenv from 'dotenv';
 
-import { bridgeL1toL2, bridgeL2toL1 } from './tools/bridgeTools.js';
-
 import { bridgeL1toL2Schema, bridgeL2toL1Schema } from './schemas/index.js';
 
 import { getEthereumWrite } from './lib/utils.js';
 import { z } from 'zod';
+import { bridgeL1toL2 } from './tools/bridgeL1toL2.js';
+import { bridgeL2toL1 } from './tools/bridgeL2toL1.js';
 
 dotenv.config();
 
