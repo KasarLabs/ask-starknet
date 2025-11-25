@@ -32,8 +32,7 @@ export const createSwap = async (
     if (params.refuel !== undefined) {
       body.refuel = params.refuel;
     }
-    // use_deposit_address has a default value of true, so always include it
-    body.use_deposit_address = params.use_deposit_address ?? true;
+    body.use_deposit_address = params.use_deposit_address ?? false;
     if (params.use_new_deposit_address !== undefined) {
       body.use_new_deposit_address = params.use_new_deposit_address;
     }

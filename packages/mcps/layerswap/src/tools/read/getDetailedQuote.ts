@@ -18,12 +18,10 @@ export const getDetailedQuote = async (
       'destination_token',
       params.destination_token.toUpperCase()
     );
-    if (params.use_deposit_address !== undefined) {
-      queryParams.append(
-        'use_deposit_address',
-        params.use_deposit_address.toString()
-      );
-    }
+    queryParams.append(
+      'use_deposit_address',
+      (params.use_deposit_address ?? false).toString()
+    );
     if (params.refuel !== undefined) {
       queryParams.append('refuel', params.refuel.toString());
     }
