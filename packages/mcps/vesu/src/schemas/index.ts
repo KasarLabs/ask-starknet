@@ -180,6 +180,54 @@ export const repayBorrowSchema = z.object({
     .describe('Optional pool ID. If not provided, GENESIS_POOLID will be used'),
 });
 
+export const updateMultiplySchema = z.object({
+  collateralTokenSymbol: z
+    .string()
+    .describe(
+      "Symbol of the collateral token in the position (e.g., 'ETH', 'USDC')"
+    ),
+  debtTokenSymbol: z
+    .string()
+    .describe("Symbol of the debt token in the position (e.g., 'ETH', 'USDC')"),
+  targetLTV: z
+    .string()
+    .describe(
+      'Target LTV (Loan-to-Value) ratio as a percentage (e.g., "75" for 75%). This is mandatory and will update the position to this LTV'
+    ),
+  poolId: z
+    .string()
+    .optional()
+    .describe('Optional pool ID. If not provided, GENESIS_POOLID will be used'),
+  ekuboFee: z
+    .number()
+    .optional()
+    .default(0.05)
+    .describe(
+      'Optional Ekubo pool fee tier as a percentage (e.g., 0.05 for 0.05%, 0.3 for 0.3%, 1 for 1%, defaults to 0.05)'
+    ),
+  ekuboTickSpacing: z
+    .number()
+    .optional()
+    .default(0.1)
+    .describe(
+      'Optional Ekubo pool tick spacing as a percentage (e.g., 0.01 for 0.01%, 0.1 for 0.1%, 1 for 1%, defaults to 0.1)'
+    ),
+  ekuboExtension: z
+    .string()
+    .optional()
+    .default('0x0')
+    .describe(
+      'Optional Ekubo pool extension contract address (default: "0x0")'
+    ),
+  ekuboSlippage: z
+    .number()
+    .optional()
+    .default(50)
+    .describe(
+      'Optional slippage tolerance in basis points (e.g., 50 for 0.5%, 100 for 1%, defaults to 50 for 0.5%)'
+    ),
+});
+
 export const getSchema = z.object({
   onlyVerified: z
     .boolean()

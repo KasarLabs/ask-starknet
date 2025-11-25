@@ -318,6 +318,50 @@ export interface WithdrawMultiplyResult {
 }
 
 /**
+ * Parameters for multiply update operations (update LTV without depositing/withdrawing)
+ * @interface UpdateMultiplyParams
+ * @property {string} collateralTokenSymbol - Symbol of collateral token in the position
+ * @property {string} debtTokenSymbol - Symbol of debt token in the position
+ * @property {string} targetLTV - Target LTV (Loan-to-Value) ratio as a percentage (mandatory)
+ * @property {string} [poolId] - Optional pool ID. If not provided, GENESIS_POOLID will be used
+ * @property {number} [ekuboFee] - Optional Ekubo pool fee tier as a percentage
+ * @property {number} [ekuboTickSpacing] - Optional Ekubo pool tick spacing as a percentage
+ * @property {string} [ekuboExtension] - Optional Ekubo pool extension contract address
+ * @property {number} [ekuboSlippage] - Optional slippage tolerance in basis points
+ */
+export interface UpdateMultiplyParams {
+  collateralTokenSymbol: string;
+  debtTokenSymbol: string;
+  targetLTV: string;
+  poolId?: string;
+  ekuboFee?: number;
+  ekuboTickSpacing?: number;
+  ekuboExtension?: string;
+  ekuboSlippage?: number;
+}
+
+/**
+ * Result of a multiply update operation
+ * @interface UpdateMultiplyResult
+ * @property {'success' | 'failure'} status - Operation status
+ * @property {string} [collateralSymbol] - Collateral token symbol
+ * @property {string} [debtSymbol] - Debt token symbol
+ * @property {string} [targetLTV] - Target LTV that was set
+ * @property {string} [recipient_address] - Recipient address
+ * @property {string} [transaction_hash] - Transaction hash
+ * @property {string} [error] - Error message if failed
+ */
+export interface UpdateMultiplyResult {
+  status: 'success' | 'failure';
+  collateralSymbol?: string;
+  debtSymbol?: string;
+  targetLTV?: string;
+  recipient_address?: string;
+  transaction_hash?: string;
+  error?: string;
+}
+
+/**
  * Parameters for borrow deposit operations
  * @interface DepositBorrowParams
  * @property {string} collateralTokenSymbol - Symbol of collateral token to deposit

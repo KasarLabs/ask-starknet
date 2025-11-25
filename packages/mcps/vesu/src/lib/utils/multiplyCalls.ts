@@ -408,3 +408,166 @@ export const buildWithdrawMultiplyCalls = async (
 
   return [modifyDelegationCall, modifyLeverCall, revokeDelegationCall];
 };
+
+/**
+ * Build decrease multiplier calls (for decreasing LTV by repaying debt)
+ * This function adapts the logic from fn.ts getDecreaseMultiplierCalls to work with the current project structure
+ */
+export const getDecreaseMultiplierCalls = async (
+  collateralAsset: IBaseToken,
+  debtAsset: IBaseToken,
+  poolContractAddress: Hex,
+  account: Account,
+  provider: any,
+  ekuboQuote: EkuboQuote,
+  quotedAmount: BigIntValue,
+  slippage: BigIntValue
+): Promise<Call[]> => {
+  console.error('=== getDecreaseMultiplierCalls START ===');
+  console.error('collateralAsset:', safeStringify(collateralAsset));
+  console.error('debtAsset:', safeStringify(debtAsset));
+  console.error('poolContractAddress:', poolContractAddress);
+  console.error('account.address:', account.address);
+  console.error('quotedAmount:', {
+    value: quotedAmount.value.toString(),
+    decimals: quotedAmount.decimals,
+  });
+  console.error('slippage:', {
+    value: slippage.value.toString(),
+    decimals: slippage.decimals,
+  });
+  console.error('ekuboQuote:', {
+    type: ekuboQuote.type,
+    totalCalculated: ekuboQuote.totalCalculated.toString(),
+    splitsCount: ekuboQuote.splits.length,
+    priceImpact: ekuboQuote.priceImpact,
+  });
+
+  const ZERO_BI: BigIntValue = { value: 0n, decimals: DEFAULT_DECIMALS };
+
+  const multiplyContract = getMultiplyContract(MULTIPLY_CONTRACT_ADDRESS);
+  const poolContract = getPoolContract(poolContractAddress);
+
+  const multiplyContractForTx = new Contract(
+    multiplyContract.abi,
+    MULTIPLY_CONTRACT_ADDRESS,
+    provider
+  );
+  const poolContractForTx = new Contract(
+    poolContract.abi,
+    poolContractAddress,
+    provider
+  );
+
+  const modifyDelegationCall =
+    await poolContractForTx.populateTransaction.modify_delegation(
+      MULTIPLY_CONTRACT_ADDRESS,
+      true
+    );
+
+  const weights = calculateEkuboWeights(ekuboQuote);
+  console.error(
+    'weights:',
+    weights.map((w) => w.toString())
+  );
+
+  const leverSwap = calculateEkuboLeverSwapData(
+    collateralAsset,
+    quotedAmount,
+    ekuboQuote,
+    weights
+  );
+  console.error('leverSwap (decrease):', safeStringify(leverSwap));
+
+  const adjustedWeights = adjustEkuboWeights(weights);
+  console.error(
+    'adjustedWeights:',
+    adjustedWeights.map((w) => w.toString())
+  );
+
+  const limitAmount = applySlippageToEkuboLimitAmount(
+    ekuboQuote.totalCalculated,
+    ekuboQuote.type,
+    slippage
+  );
+  console.error('limitAmount:', limitAmount.toString());
+
+  const decreaseLeverParams = {
+    pool: poolContractAddress,
+    collateral_asset: collateralAsset.address,
+    debt_asset: debtAsset.address,
+    user: account.address,
+    sub_margin: ZERO_BI.value,
+    recipient: account.address,
+    lever_swap: leverSwap,
+    lever_swap_limit_amount: limitAmount,
+    lever_swap_weights: adjustedWeights,
+    withdraw_swap: [],
+    withdraw_swap_limit_amount: ZERO_BI.value,
+    withdraw_swap_weights: [],
+    close_position: false,
+  };
+  console.error(
+    'DecreaseLever params:',
+    safeStringify({
+      ...decreaseLeverParams,
+      sub_margin: decreaseLeverParams.sub_margin.toString(),
+      lever_swap_limit_amount:
+        decreaseLeverParams.lever_swap_limit_amount.toString(),
+      lever_swap_weights: decreaseLeverParams.lever_swap_weights.map((w) =>
+        w.toString()
+      ),
+      withdraw_swap_limit_amount:
+        decreaseLeverParams.withdraw_swap_limit_amount.toString(),
+      lever_swap: decreaseLeverParams.lever_swap,
+    })
+  );
+  const modifyLeverCall =
+    await multiplyContractForTx.populateTransaction.modify_lever({
+      action: new CairoCustomEnum({
+        DecreaseLever: decreaseLeverParams,
+      }),
+    });
+
+  const revokeDelegationCallData =
+    await poolContractForTx.populateTransaction.modify_delegation(
+      MULTIPLY_CONTRACT_ADDRESS,
+      false
+    );
+
+  const calls = [
+    modifyDelegationCall,
+    modifyLeverCall,
+    revokeDelegationCallData,
+  ];
+  console.error('--- DEBUG DecreaseLever core values ---');
+  console.error(
+    'ekuboQuote.totalCalculated:',
+    ekuboQuote.totalCalculated.toString()
+  );
+  console.error('limitAmount:', limitAmount.toString());
+  console.error(
+    'first leverSwap.token_amount.amount.mag:',
+    leverSwap[0]?.token_amount?.amount?.mag?.toString()
+  );
+  console.error(
+    'first leverSwap.token_amount.amount.sign:',
+    leverSwap[0]?.token_amount?.amount?.sign
+  );
+  console.error(
+    'lever_swap_weights:',
+    adjustedWeights.map((w) => w.toString())
+  );
+  console.error('--------------------------------------');
+  console.error('=== getDecreaseMultiplierCalls END ===');
+  console.error(
+    'Returning calls:',
+    calls.map((c, idx) => ({
+      index: idx,
+      contractAddress: c.contractAddress,
+      entrypoint: c.entrypoint,
+      calldataLength: c.calldata?.length || 0,
+    }))
+  );
+  return calls;
+};

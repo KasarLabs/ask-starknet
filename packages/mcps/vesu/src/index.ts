@@ -20,11 +20,13 @@ import {
   withdrawMultiplySchema,
   depositBorrowSchema,
   repayBorrowSchema,
+  updateMultiplySchema,
 } from './schemas/index.js';
 import { depositEarnPosition } from './tools/write/deposit_earn.js';
 import { withdrawEarnPosition } from './tools/write/withdraw_earn.js';
 import { depositMultiplyPosition } from './tools/write/deposit_multiply.js';
 import { withdrawMultiplyPosition } from './tools/write/withdraw_multiply.js';
+import { updateMultiplyPosition } from './tools/write/update_multiply.js';
 import { depositBorrowPosition } from './tools/write/deposit_borrow.js';
 import { repayBorrowPosition } from './tools/write/repay_borrow.js';
 import { getPools } from './tools/read/getPools.js';
@@ -78,6 +80,17 @@ const registerTools = (VesuToolRegistry: mcpTool[]) => {
     execute: async (params: any) => {
       const onchainWrite = getOnchainWrite();
       return await withdrawMultiplyPosition(onchainWrite, params);
+    },
+  });
+
+  VesuToolRegistry.push({
+    name: 'update_multiply',
+    description:
+      'Update the LTV (Loan-to-Value) ratio of an existing multiply position on Vesu protocol v2 without depositing or withdrawing collateral. This will automatically increase or decrease the debt to reach the target LTV.',
+    schema: updateMultiplySchema,
+    execute: async (params: any) => {
+      const onchainWrite = getOnchainWrite();
+      return await updateMultiplyPosition(onchainWrite, params);
     },
   });
 
