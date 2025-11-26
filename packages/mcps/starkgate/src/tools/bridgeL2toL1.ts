@@ -1,52 +1,82 @@
 import * as ethers from 'ethers';
-import { BRIDGE_STRK_TO_ETH_ABI } from '@/abi/bridge-starknet.abi.js';
-import { BRIDGE_STARKNET_TO_ETH_ADDRESS } from '@/constants/contract-address.js';
-import { BridgeL2toL1Params } from '@/schemas/bridgeSchemas.js';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { STARKNET_BRIDGE_ADDRESS_MAP } from '../constants/contract-address.js';
+import { BridgeL2toL1Params } from '../schemas/bridgeSchemas.js';
+import { onchainWrite, ethTokenAddresses } from '@kasarlabs/ask-starknet-core';
 import { Contract } from 'starknet';
+import { L2_BRIDGE_ABI_MAP } from '../abi/l2bridge/bridge-map.js';
 
 /**
- * Withdraw STRK to Ethereum
+ * Withdraw funds from Starknet (L2) to Ethereum (L1)
  * @param starknetEnv - Starknet write environment from env
- * @param params - Bridge parameters
+ * @param params - Bridge parameters (toAddress, amount, symbol)
  * @returns Promise with withdrawal details
  */
-export async function withdrawSTRKtoEthereum(
+export async function withdrawToEthereum(
   starknetEnv: onchainWrite,
   params: BridgeL2toL1Params
 ) {
   try {
-    const { toAddress, amount, tokenAddress } = params;
+    const { toAddress, amount, symbol } = params;
     const { provider, account } = starknetEnv;
 
-    // Convert amount to wei using ethers, then to BigInt for Starknet
-    const weiWithdrawAmount = ethers.parseEther(amount);
-    const weiAmountBigInt = BigInt(weiWithdrawAmount.toString());
+    // Get the bridge address for the specified token
+    const bridgeAddress = STARKNET_BRIDGE_ADDRESS_MAP[symbol];
+    if (!bridgeAddress) {
+      throw new Error(`Unsupported token: ${symbol}`);
+    }
 
-    console.error(
-      `Withdrawing ${amount} ETH (${weiAmountBigInt.toString()} wei) from Starknet address ${account.address} to ethereum address ${toAddress}`
-    );
+    console.error(`Using ${symbol} bridge: ${bridgeAddress}`);
 
     const withdrawContract = new Contract({
-      abi: BRIDGE_STRK_TO_ETH_ABI,
-      address: BRIDGE_STARKNET_TO_ETH_ADDRESS,
+      address: bridgeAddress,
+      abi: L2_BRIDGE_ABI_MAP[symbol],
       providerOrAccount: account,
     });
 
-    // Format parameters according to Cairo ABI
-    // EthAddress: pass as a felt252 (the address string will be converted by starknet.js)
-    // u256: pass as a BigInt or number, starknet.js will handle the conversion to u256 struct
+    let withdrawAmount: bigint;
     let withdrawTx;
-    if (tokenAddress) {
-      withdrawTx = await withdrawContract.initiate_token_withdraw(
-        tokenAddress,
-        toAddress,
-        weiAmountBigInt
+
+    // Check if withdrawing ETH or ERC20 token
+    if (symbol === 'ETH') {
+      // For ETH: amount is in ether (18 decimals)
+      const weiWithdrawAmount = ethers.parseEther(amount);
+      withdrawAmount = BigInt(weiWithdrawAmount.toString());
+
+      console.error(
+        `Withdrawing ${amount} ETH (${withdrawAmount.toString()} wei) from Starknet address ${account.address} to Ethereum address ${toAddress}`
       );
-    } else {
+
+      // Use initiate_withdraw for native ETH: initiate_withdraw(l1_recipient, amount)
+      console.error('Using initiate_withdraw for native ETH');
       withdrawTx = await withdrawContract.initiate_withdraw(
         toAddress,
-        weiAmountBigInt
+        withdrawAmount
+      );
+    } else {
+      // For ERC20 tokens: parse amount based on token decimals
+      // USDC and USDT use 6 decimals, others use 18
+      const decimals = ['USDC', 'USDT'].includes(symbol) ? 6 : 18;
+      const tokenAmount = ethers.parseUnits(amount, decimals);
+      withdrawAmount = BigInt(tokenAmount.toString());
+
+      console.error(`Token amount (${symbol}):`, withdrawAmount.toString());
+      console.error(`Token decimals: ${decimals}`);
+      console.error(
+        `Withdrawing ${amount} ${symbol} from Starknet address ${account.address} to Ethereum address ${toAddress}`
+      );
+
+      // Get L1 token address
+      const l1TokenAddress = ethTokenAddresses[symbol];
+      if (!l1TokenAddress) {
+        throw new Error(`L1 token address not found for ${symbol}`);
+      }
+
+      // Use initiate_token_withdraw for ERC20: initiate_token_withdraw(l1_token, l1_recipient, amount)
+      console.error('Using initiate_token_withdraw for ERC20 token');
+      withdrawTx = await withdrawContract.initiate_token_withdraw(
+        l1TokenAddress,
+        toAddress,
+        withdrawAmount
       );
     }
 
@@ -62,6 +92,7 @@ export async function withdrawSTRKtoEthereum(
       status: 'success',
       transactionHash: withdrawTx.transaction_hash,
       amount,
+      symbol,
       from: account.address,
       to: toAddress,
     };
@@ -84,7 +115,7 @@ export async function bridgeL2toL1(
   params: BridgeL2toL1Params
 ) {
   console.error('Bridging from Starknet to Ethereum...');
-  const result = await withdrawSTRKtoEthereum(starknetEnv, params);
+  const result = await withdrawToEthereum(starknetEnv, params);
   console.error('Bridging completed.');
   return result;
 }

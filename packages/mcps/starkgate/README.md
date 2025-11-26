@@ -4,8 +4,10 @@ MCP server for StarkGate bridge operations between Ethereum L1 and Starknet L2.
 
 ## Features
 
-- Bridge ETH from Ethereum L1 to Starknet L2
-- Bridge ETH from Starknet L2 to Ethereum L1
+- Bridge ETH and ERC20 tokens (USDC, USDT, WBTC, STRK) from Ethereum L1 to Starknet L2
+- Bridge ETH and ERC20 tokens from Starknet L2 to Ethereum L1
+- Automatic ERC20 token approval handling
+- Token balance and allowance verification
 - Secure environment variable-based configuration
 - No private keys exposed in tool schemas
 
@@ -41,43 +43,91 @@ cp .env.example .env
 
 ### bridge_l1_to_l2
 
-Bridge ETH from Ethereum L1 to Starknet L2.
+Bridge ETH or ERC20 tokens from Ethereum L1 to Starknet L2.
 
 **Parameters:**
 
 - `l1chain` (string): The L1 chain to bridge from (e.g., "ethereum")
 - `toAddress` (string): The Starknet address to receive the funds
-- `amount` (string): The amount of ETH to bridge (in ETH units, e.g., "0.001")
+- `amount` (string): The amount to bridge (in token units, e.g., "0.001" for ETH or "1.0" for USDC)
+- `symbol` (string): Token symbol (ETH, USDC, USDT, WBTC, STRK)
 
-**Example:**
+**Supported Tokens:**
+- ETH (18 decimals)
+- USDC (6 decimals)
+- USDT (6 decimals)
+- WBTC (8 decimals)
+- STRK (18 decimals)
+
+**Example (ETH):**
 
 ```json
 {
   "l1chain": "ethereum",
   "toAddress": "0x01fbe320049F84A38FbcB21B4Ae1a4aab89e4aB3c825d38d35202Ee873439E7D",
-  "amount": "0.001"
+  "amount": "0.001",
+  "symbol": "ETH"
 }
 ```
 
+**Example (USDC):**
+
+```json
+{
+  "l1chain": "ethereum",
+  "toAddress": "0x01fbe320049F84A38FbcB21B4Ae1a4aab89e4aB3c825d38d35202Ee873439E7D",
+  "amount": "10.0",
+  "symbol": "USDC"
+}
+```
+
+**Note:** For ERC20 tokens, the bridge will automatically:
+1. Check your token balance
+2. Check current allowance for the bridge contract
+3. Approve the bridge to spend tokens if needed (requires 1 transaction)
+4. Execute the bridge deposit (requires 1 transaction)
+
 ### bridge_l2_to_l1
 
-Bridge ETH from Starknet L2 to Ethereum L1.
+Bridge ETH or ERC20 tokens from Starknet L2 to Ethereum L1.
 
 **Parameters:**
 
 - `l1chain` (string): The L1 chain to bridge to (e.g., "ethereum")
 - `toAddress` (string): The Ethereum address to receive the funds
-- `amount` (string): The amount of ETH to withdraw (in ETH units, e.g., "0.001")
+- `amount` (string): The amount to withdraw (in token units, e.g., "0.001" for ETH or "1.0" for USDC)
+- `symbol` (string): Token symbol (ETH, USDC, USDT, WBTC, STRK)
 
-**Example:**
+**Supported Tokens:**
+- ETH (18 decimals)
+- USDC (6 decimals)
+- USDT (6 decimals)
+- WBTC (8 decimals)
+- STRK (18 decimals)
+
+**Example (ETH):**
 
 ```json
 {
   "l1chain": "ethereum",
   "toAddress": "0x8283a06f328eff7d505f475b0930260058066388",
-  "amount": "0.001"
+  "amount": "0.001",
+  "symbol": "ETH"
 }
 ```
+
+**Example (USDC):**
+
+```json
+{
+  "l1chain": "ethereum",
+  "toAddress": "0x8283a06f328eff7d505f475b0930260058066388",
+  "amount": "10.0",
+  "symbol": "USDC"
+}
+```
+
+**Note:** L2 to L1 withdrawals typically take 4-12 hours to finalize on Ethereum due to Starknet's withdrawal mechanism.
 
 ## Security Notes
 

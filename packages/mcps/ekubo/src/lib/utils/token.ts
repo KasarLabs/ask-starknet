@@ -7,7 +7,7 @@ import {
   Uint256,
 } from 'starknet';
 import { NEW_ERC20_ABI, OLD_ERC20_ABI } from '../constants/abis/index.js';
-import { tokenAddresses } from '@core/build/index.js';
+import { starknetTokenAddresses } from '@core/build/index.js';
 
 /**
  * Token decimals configuration
@@ -122,7 +122,7 @@ export const formatBalance = (
  * @throws Error if validation fails
  */
 export const validateTokenAddress = (symbol: string): string => {
-  const tokenAddress = tokenAddresses[symbol];
+  const tokenAddress = starknetTokenAddresses[symbol];
   if (!tokenAddress) {
     throw new Error(
       `Token ${symbol} not supported. Available tokens: ${Object.keys(tokenAddress).join(', ')}`

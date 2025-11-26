@@ -1,12 +1,12 @@
-export const BRIDGE_STRK_TO_ETH_ABI = [
+export const BRIDGE_L2_WBTC_TO_ETHEREUM_ABI = [
   {
-    type: 'impl',
     name: 'TokenBridgeAdmin',
+    type: 'impl',
     interface_name: 'src::token_bridge_admin_interface::ITokenBridgeAdmin',
   },
   {
-    type: 'struct',
     name: 'core::starknet::eth_address::EthAddress',
+    type: 'struct',
     members: [
       {
         name: 'address',
@@ -15,12 +15,12 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
     ],
   },
   {
-    type: 'interface',
     name: 'src::token_bridge_admin_interface::ITokenBridgeAdmin',
+    type: 'interface',
     items: [
       {
-        type: 'function',
         name: 'get_erc20_class_hash',
+        type: 'function',
         inputs: [],
         outputs: [
           {
@@ -30,8 +30,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'view',
       },
       {
-        type: 'function',
         name: 'get_l2_token_governance',
+        type: 'function',
         inputs: [],
         outputs: [
           {
@@ -41,8 +41,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'view',
       },
       {
-        type: 'function',
         name: 'set_l1_bridge',
+        type: 'function',
         inputs: [
           {
             name: 'l1_bridge_address',
@@ -53,8 +53,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'external',
       },
       {
-        type: 'function',
         name: 'set_erc20_class_hash',
+        type: 'function',
         inputs: [
           {
             name: 'erc20_class_hash',
@@ -65,8 +65,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'external',
       },
       {
-        type: 'function',
         name: 'set_l2_token_governance',
+        type: 'function',
         inputs: [
           {
             name: 'l2_token_governance',
@@ -77,8 +77,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'external',
       },
       {
-        type: 'function',
         name: 'enable_withdrawal_limit',
+        type: 'function',
         inputs: [
           {
             name: 'l1_token',
@@ -89,8 +89,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'external',
       },
       {
-        type: 'function',
         name: 'disable_withdrawal_limit',
+        type: 'function',
         inputs: [
           {
             name: 'l1_token',
@@ -103,13 +103,13 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
     ],
   },
   {
-    type: 'impl',
     name: 'TokenBridge',
+    type: 'impl',
     interface_name: 'src::token_bridge_interface::ITokenBridge',
   },
   {
-    type: 'struct',
     name: 'core::integer::u256',
+    type: 'struct',
     members: [
       {
         name: 'low',
@@ -122,12 +122,12 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
     ],
   },
   {
-    type: 'interface',
     name: 'src::token_bridge_interface::ITokenBridge',
+    type: 'interface',
     items: [
       {
-        type: 'function',
         name: 'get_version',
+        type: 'function',
         inputs: [],
         outputs: [
           {
@@ -137,8 +137,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'view',
       },
       {
-        type: 'function',
         name: 'get_identity',
+        type: 'function',
         inputs: [],
         outputs: [
           {
@@ -148,8 +148,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'view',
       },
       {
-        type: 'function',
         name: 'get_l1_token',
+        type: 'function',
         inputs: [
           {
             name: 'l2_token',
@@ -164,8 +164,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'view',
       },
       {
-        type: 'function',
         name: 'get_l2_token',
+        type: 'function',
         inputs: [
           {
             name: 'l1_token',
@@ -180,8 +180,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'view',
       },
       {
-        type: 'function',
         name: 'get_remaining_withdrawal_quota',
+        type: 'function',
         inputs: [
           {
             name: 'l1_token',
@@ -196,8 +196,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'view',
       },
       {
-        type: 'function',
         name: 'initiate_withdraw',
+        type: 'function',
         inputs: [
           {
             name: 'l1_recipient',
@@ -212,8 +212,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'external',
       },
       {
-        type: 'function',
         name: 'initiate_token_withdraw',
+        type: 'function',
         inputs: [
           {
             name: 'l1_token',
@@ -234,13 +234,13 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
     ],
   },
   {
-    type: 'impl',
     name: 'Replaceable',
+    type: 'impl',
     interface_name: 'src::replaceability_interface::IReplaceable',
   },
   {
-    type: 'struct',
     name: 'core::array::Span::<core::felt252>',
+    type: 'struct',
     members: [
       {
         name: 'snapshot',
@@ -249,8 +249,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
     ],
   },
   {
-    type: 'struct',
     name: 'src::replaceability_interface::EICData',
+    type: 'struct',
     members: [
       {
         name: 'eic_hash',
@@ -263,8 +263,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
     ],
   },
   {
-    type: 'enum',
     name: 'core::option::Option::<src::replaceability_interface::EICData>',
+    type: 'enum',
     variants: [
       {
         name: 'Some',
@@ -277,8 +277,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
     ],
   },
   {
-    type: 'enum',
     name: 'core::bool',
+    type: 'enum',
     variants: [
       {
         name: 'False',
@@ -291,8 +291,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
     ],
   },
   {
-    type: 'struct',
     name: 'src::replaceability_interface::ImplementationData',
+    type: 'struct',
     members: [
       {
         name: 'impl_hash',
@@ -309,12 +309,12 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
     ],
   },
   {
-    type: 'interface',
     name: 'src::replaceability_interface::IReplaceable',
+    type: 'interface',
     items: [
       {
-        type: 'function',
         name: 'get_upgrade_delay',
+        type: 'function',
         inputs: [],
         outputs: [
           {
@@ -324,8 +324,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'view',
       },
       {
-        type: 'function',
         name: 'get_impl_activation_time',
+        type: 'function',
         inputs: [
           {
             name: 'implementation_data',
@@ -340,8 +340,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'view',
       },
       {
-        type: 'function',
         name: 'add_new_implementation',
+        type: 'function',
         inputs: [
           {
             name: 'implementation_data',
@@ -352,8 +352,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'external',
       },
       {
-        type: 'function',
         name: 'remove_implementation',
+        type: 'function',
         inputs: [
           {
             name: 'implementation_data',
@@ -364,8 +364,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'external',
       },
       {
-        type: 'function',
         name: 'replace_to',
+        type: 'function',
         inputs: [
           {
             name: 'implementation_data',
@@ -378,17 +378,17 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
     ],
   },
   {
-    type: 'impl',
     name: 'AccessControlImplExternal',
+    type: 'impl',
     interface_name: 'src::access_control_interface::IAccessControl',
   },
   {
-    type: 'interface',
     name: 'src::access_control_interface::IAccessControl',
+    type: 'interface',
     items: [
       {
-        type: 'function',
         name: 'has_role',
+        type: 'function',
         inputs: [
           {
             name: 'role',
@@ -407,8 +407,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'view',
       },
       {
-        type: 'function',
         name: 'get_role_admin',
+        type: 'function',
         inputs: [
           {
             name: 'role',
@@ -425,17 +425,17 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
     ],
   },
   {
-    type: 'impl',
     name: 'RolesImpl',
+    type: 'impl',
     interface_name: 'src::roles_interface::IRoles',
   },
   {
-    type: 'interface',
     name: 'src::roles_interface::IRoles',
+    type: 'interface',
     items: [
       {
-        type: 'function',
         name: 'is_app_governor',
+        type: 'function',
         inputs: [
           {
             name: 'account',
@@ -450,8 +450,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'view',
       },
       {
-        type: 'function',
         name: 'is_app_role_admin',
+        type: 'function',
         inputs: [
           {
             name: 'account',
@@ -466,8 +466,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'view',
       },
       {
-        type: 'function',
         name: 'is_governance_admin',
+        type: 'function',
         inputs: [
           {
             name: 'account',
@@ -482,8 +482,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'view',
       },
       {
-        type: 'function',
         name: 'is_operator',
+        type: 'function',
         inputs: [
           {
             name: 'account',
@@ -498,8 +498,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'view',
       },
       {
-        type: 'function',
         name: 'is_token_admin',
+        type: 'function',
         inputs: [
           {
             name: 'account',
@@ -514,8 +514,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'view',
       },
       {
-        type: 'function',
         name: 'is_upgrade_governor',
+        type: 'function',
         inputs: [
           {
             name: 'account',
@@ -530,8 +530,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'view',
       },
       {
-        type: 'function',
         name: 'is_security_admin',
+        type: 'function',
         inputs: [
           {
             name: 'account',
@@ -546,8 +546,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'view',
       },
       {
-        type: 'function',
         name: 'is_security_agent',
+        type: 'function',
         inputs: [
           {
             name: 'account',
@@ -562,8 +562,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'view',
       },
       {
-        type: 'function',
         name: 'register_app_governor',
+        type: 'function',
         inputs: [
           {
             name: 'account',
@@ -574,8 +574,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'external',
       },
       {
-        type: 'function',
         name: 'remove_app_governor',
+        type: 'function',
         inputs: [
           {
             name: 'account',
@@ -586,8 +586,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'external',
       },
       {
-        type: 'function',
         name: 'register_app_role_admin',
+        type: 'function',
         inputs: [
           {
             name: 'account',
@@ -598,8 +598,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'external',
       },
       {
-        type: 'function',
         name: 'remove_app_role_admin',
+        type: 'function',
         inputs: [
           {
             name: 'account',
@@ -610,8 +610,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'external',
       },
       {
-        type: 'function',
         name: 'register_governance_admin',
+        type: 'function',
         inputs: [
           {
             name: 'account',
@@ -622,8 +622,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'external',
       },
       {
-        type: 'function',
         name: 'remove_governance_admin',
+        type: 'function',
         inputs: [
           {
             name: 'account',
@@ -634,8 +634,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'external',
       },
       {
-        type: 'function',
         name: 'register_operator',
+        type: 'function',
         inputs: [
           {
             name: 'account',
@@ -646,8 +646,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'external',
       },
       {
-        type: 'function',
         name: 'remove_operator',
+        type: 'function',
         inputs: [
           {
             name: 'account',
@@ -658,8 +658,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'external',
       },
       {
-        type: 'function',
         name: 'register_token_admin',
+        type: 'function',
         inputs: [
           {
             name: 'account',
@@ -670,8 +670,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'external',
       },
       {
-        type: 'function',
         name: 'remove_token_admin',
+        type: 'function',
         inputs: [
           {
             name: 'account',
@@ -682,8 +682,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'external',
       },
       {
-        type: 'function',
         name: 'register_upgrade_governor',
+        type: 'function',
         inputs: [
           {
             name: 'account',
@@ -694,8 +694,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'external',
       },
       {
-        type: 'function',
         name: 'remove_upgrade_governor',
+        type: 'function',
         inputs: [
           {
             name: 'account',
@@ -706,8 +706,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'external',
       },
       {
-        type: 'function',
         name: 'renounce',
+        type: 'function',
         inputs: [
           {
             name: 'role',
@@ -718,8 +718,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'external',
       },
       {
-        type: 'function',
         name: 'register_security_admin',
+        type: 'function',
         inputs: [
           {
             name: 'account',
@@ -730,8 +730,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'external',
       },
       {
-        type: 'function',
         name: 'remove_security_admin',
+        type: 'function',
         inputs: [
           {
             name: 'account',
@@ -742,8 +742,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'external',
       },
       {
-        type: 'function',
         name: 'register_security_agent',
+        type: 'function',
         inputs: [
           {
             name: 'account',
@@ -754,8 +754,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
         state_mutability: 'external',
       },
       {
-        type: 'function',
         name: 'remove_security_agent',
+        type: 'function',
         inputs: [
           {
             name: 'account',
@@ -768,8 +768,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
     ],
   },
   {
-    type: 'constructor',
     name: 'constructor',
+    type: 'constructor',
     inputs: [
       {
         name: 'upgrade_delay',
@@ -778,8 +778,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
     ],
   },
   {
-    type: 'l1_handler',
     name: 'handle_deposit',
+    type: 'l1_handler',
     inputs: [
       {
         name: 'from_address',
@@ -798,8 +798,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
     state_mutability: 'external',
   },
   {
-    type: 'l1_handler',
     name: 'handle_token_deposit',
+    type: 'l1_handler',
     inputs: [
       {
         name: 'from_address',
@@ -826,8 +826,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
     state_mutability: 'external',
   },
   {
-    type: 'l1_handler',
     name: 'handle_deposit_with_message',
+    type: 'l1_handler',
     inputs: [
       {
         name: 'from_address',
@@ -858,8 +858,8 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
     state_mutability: 'external',
   },
   {
-    type: 'l1_handler',
     name: 'handle_token_deployment',
+    type: 'l1_handler',
     inputs: [
       {
         name: 'from_address',
@@ -886,792 +886,792 @@ export const BRIDGE_STRK_TO_ETH_ABI = [
     state_mutability: 'external',
   },
   {
-    type: 'event',
-    name: 'src::token_bridge::TokenBridge::L1BridgeSet',
     kind: 'struct',
+    name: 'src::token_bridge::TokenBridge::L1BridgeSet',
+    type: 'event',
     members: [
       {
+        kind: 'data',
         name: 'l1_bridge_address',
         type: 'core::starknet::eth_address::EthAddress',
-        kind: 'data',
       },
     ],
   },
   {
-    type: 'event',
-    name: 'src::token_bridge::TokenBridge::Erc20ClassHashStored',
     kind: 'struct',
+    name: 'src::token_bridge::TokenBridge::Erc20ClassHashStored',
+    type: 'event',
     members: [
       {
+        kind: 'data',
         name: 'previous_hash',
         type: 'core::starknet::class_hash::ClassHash',
-        kind: 'data',
       },
       {
+        kind: 'data',
         name: 'erc20_class_hash',
         type: 'core::starknet::class_hash::ClassHash',
-        kind: 'data',
       },
     ],
   },
   {
-    type: 'event',
-    name: 'src::token_bridge::TokenBridge::L2TokenGovernanceChanged',
     kind: 'struct',
+    name: 'src::token_bridge::TokenBridge::L2TokenGovernanceChanged',
+    type: 'event',
     members: [
       {
+        kind: 'data',
         name: 'previous_governance',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
       {
+        kind: 'data',
         name: 'new_governance',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
     ],
   },
   {
-    type: 'event',
-    name: 'src::token_bridge::TokenBridge::withdraw_initiated',
     kind: 'struct',
+    name: 'src::token_bridge::TokenBridge::withdraw_initiated',
+    type: 'event',
     members: [
       {
+        kind: 'data',
         name: 'l1_recipient',
         type: 'core::starknet::eth_address::EthAddress',
-        kind: 'data',
       },
       {
+        kind: 'data',
         name: 'amount',
         type: 'core::integer::u256',
-        kind: 'data',
       },
       {
+        kind: 'data',
         name: 'caller_address',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
     ],
   },
   {
-    type: 'event',
-    name: 'src::token_bridge::TokenBridge::WithdrawInitiated',
     kind: 'struct',
+    name: 'src::token_bridge::TokenBridge::WithdrawInitiated',
+    type: 'event',
     members: [
       {
+        kind: 'key',
         name: 'l1_token',
         type: 'core::starknet::eth_address::EthAddress',
-        kind: 'key',
       },
       {
+        kind: 'key',
         name: 'l1_recipient',
         type: 'core::starknet::eth_address::EthAddress',
-        kind: 'key',
       },
       {
+        kind: 'data',
         name: 'amount',
         type: 'core::integer::u256',
-        kind: 'data',
       },
       {
+        kind: 'key',
         name: 'caller_address',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'key',
       },
     ],
   },
   {
-    type: 'event',
-    name: 'src::token_bridge::TokenBridge::deposit_handled',
     kind: 'struct',
+    name: 'src::token_bridge::TokenBridge::deposit_handled',
+    type: 'event',
     members: [
       {
+        kind: 'data',
         name: 'account',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
       {
+        kind: 'data',
         name: 'amount',
         type: 'core::integer::u256',
-        kind: 'data',
       },
     ],
   },
   {
-    type: 'event',
-    name: 'src::token_bridge::TokenBridge::DepositHandled',
     kind: 'struct',
+    name: 'src::token_bridge::TokenBridge::DepositHandled',
+    type: 'event',
     members: [
       {
+        kind: 'key',
         name: 'l1_token',
         type: 'core::starknet::eth_address::EthAddress',
-        kind: 'key',
       },
       {
+        kind: 'key',
         name: 'l2_recipient',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'key',
       },
       {
+        kind: 'data',
         name: 'amount',
         type: 'core::integer::u256',
-        kind: 'data',
       },
     ],
   },
   {
-    type: 'event',
-    name: 'src::token_bridge::TokenBridge::DepositWithMessageHandled',
     kind: 'struct',
+    name: 'src::token_bridge::TokenBridge::DepositWithMessageHandled',
+    type: 'event',
     members: [
       {
+        kind: 'key',
         name: 'depositor',
         type: 'core::starknet::eth_address::EthAddress',
-        kind: 'key',
       },
       {
+        kind: 'key',
         name: 'l1_token',
         type: 'core::starknet::eth_address::EthAddress',
-        kind: 'key',
       },
       {
+        kind: 'key',
         name: 'l2_recipient',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'key',
       },
       {
+        kind: 'data',
         name: 'amount',
         type: 'core::integer::u256',
-        kind: 'data',
       },
       {
+        kind: 'data',
         name: 'message',
         type: 'core::array::Span::<core::felt252>',
-        kind: 'data',
       },
     ],
   },
   {
-    type: 'event',
-    name: 'src::token_bridge::TokenBridge::DeployHandled',
     kind: 'struct',
+    name: 'src::token_bridge::TokenBridge::DeployHandled',
+    type: 'event',
     members: [
       {
+        kind: 'data',
         name: 'l1_token',
         type: 'core::starknet::eth_address::EthAddress',
-        kind: 'data',
       },
       {
+        kind: 'data',
         name: 'name',
         type: 'core::felt252',
-        kind: 'data',
       },
       {
+        kind: 'data',
         name: 'symbol',
         type: 'core::felt252',
-        kind: 'data',
       },
       {
+        kind: 'data',
         name: 'decimals',
         type: 'core::integer::u8',
-        kind: 'data',
       },
     ],
   },
   {
-    type: 'event',
+    kind: 'struct',
     name: 'src::token_bridge::TokenBridge::WithdrawalLimitEnabled',
-    kind: 'struct',
+    type: 'event',
     members: [
       {
+        kind: 'key',
         name: 'sender',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'key',
       },
       {
+        kind: 'key',
         name: 'l1_token',
         type: 'core::starknet::eth_address::EthAddress',
-        kind: 'key',
       },
     ],
   },
   {
-    type: 'event',
+    kind: 'struct',
     name: 'src::token_bridge::TokenBridge::WithdrawalLimitDisabled',
-    kind: 'struct',
+    type: 'event',
     members: [
       {
+        kind: 'key',
         name: 'sender',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'key',
       },
       {
+        kind: 'key',
         name: 'l1_token',
         type: 'core::starknet::eth_address::EthAddress',
-        kind: 'key',
       },
     ],
   },
   {
-    type: 'event',
+    kind: 'struct',
     name: 'src::replaceability_interface::ImplementationAdded',
-    kind: 'struct',
+    type: 'event',
     members: [
       {
+        kind: 'data',
         name: 'implementation_data',
         type: 'src::replaceability_interface::ImplementationData',
-        kind: 'data',
       },
     ],
   },
   {
-    type: 'event',
+    kind: 'struct',
     name: 'src::replaceability_interface::ImplementationRemoved',
-    kind: 'struct',
+    type: 'event',
     members: [
       {
+        kind: 'data',
         name: 'implementation_data',
         type: 'src::replaceability_interface::ImplementationData',
-        kind: 'data',
       },
     ],
   },
   {
-    type: 'event',
+    kind: 'struct',
     name: 'src::replaceability_interface::ImplementationReplaced',
-    kind: 'struct',
+    type: 'event',
     members: [
       {
+        kind: 'data',
         name: 'implementation_data',
         type: 'src::replaceability_interface::ImplementationData',
-        kind: 'data',
       },
     ],
   },
   {
-    type: 'event',
-    name: 'src::replaceability_interface::ImplementationFinalized',
     kind: 'struct',
+    name: 'src::replaceability_interface::ImplementationFinalized',
+    type: 'event',
     members: [
       {
+        kind: 'data',
         name: 'impl_hash',
         type: 'core::starknet::class_hash::ClassHash',
-        kind: 'data',
       },
     ],
   },
   {
-    type: 'event',
+    kind: 'struct',
     name: 'src::access_control_interface::RoleGranted',
-    kind: 'struct',
+    type: 'event',
     members: [
       {
+        kind: 'data',
         name: 'role',
         type: 'core::felt252',
-        kind: 'data',
       },
       {
+        kind: 'data',
         name: 'account',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
       {
+        kind: 'data',
         name: 'sender',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
     ],
   },
   {
-    type: 'event',
+    kind: 'struct',
     name: 'src::access_control_interface::RoleRevoked',
-    kind: 'struct',
+    type: 'event',
     members: [
       {
+        kind: 'data',
         name: 'role',
         type: 'core::felt252',
-        kind: 'data',
       },
       {
+        kind: 'data',
         name: 'account',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
       {
+        kind: 'data',
         name: 'sender',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
     ],
   },
   {
-    type: 'event',
-    name: 'src::access_control_interface::RoleAdminChanged',
     kind: 'struct',
+    name: 'src::access_control_interface::RoleAdminChanged',
+    type: 'event',
     members: [
       {
+        kind: 'data',
         name: 'role',
         type: 'core::felt252',
-        kind: 'data',
       },
       {
+        kind: 'data',
         name: 'previous_admin_role',
         type: 'core::felt252',
-        kind: 'data',
       },
       {
+        kind: 'data',
         name: 'new_admin_role',
         type: 'core::felt252',
-        kind: 'data',
       },
     ],
   },
   {
-    type: 'event',
+    kind: 'struct',
     name: 'src::roles_interface::AppGovernorAdded',
-    kind: 'struct',
+    type: 'event',
     members: [
       {
+        kind: 'data',
         name: 'added_account',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
       {
+        kind: 'data',
         name: 'added_by',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
     ],
   },
   {
-    type: 'event',
+    kind: 'struct',
     name: 'src::roles_interface::AppGovernorRemoved',
-    kind: 'struct',
+    type: 'event',
     members: [
       {
+        kind: 'data',
         name: 'removed_account',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
       {
+        kind: 'data',
         name: 'removed_by',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
     ],
   },
   {
-    type: 'event',
+    kind: 'struct',
     name: 'src::roles_interface::AppRoleAdminAdded',
-    kind: 'struct',
+    type: 'event',
     members: [
       {
+        kind: 'data',
         name: 'added_account',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
       {
+        kind: 'data',
         name: 'added_by',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
     ],
   },
   {
-    type: 'event',
+    kind: 'struct',
     name: 'src::roles_interface::AppRoleAdminRemoved',
-    kind: 'struct',
+    type: 'event',
     members: [
       {
+        kind: 'data',
         name: 'removed_account',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
       {
+        kind: 'data',
         name: 'removed_by',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
     ],
   },
   {
-    type: 'event',
+    kind: 'struct',
     name: 'src::roles_interface::GovernanceAdminAdded',
-    kind: 'struct',
+    type: 'event',
     members: [
       {
+        kind: 'data',
         name: 'added_account',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
       {
+        kind: 'data',
         name: 'added_by',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
     ],
   },
   {
-    type: 'event',
+    kind: 'struct',
     name: 'src::roles_interface::GovernanceAdminRemoved',
-    kind: 'struct',
+    type: 'event',
     members: [
       {
+        kind: 'data',
         name: 'removed_account',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
       {
+        kind: 'data',
         name: 'removed_by',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
     ],
   },
   {
-    type: 'event',
+    kind: 'struct',
     name: 'src::roles_interface::OperatorAdded',
-    kind: 'struct',
+    type: 'event',
     members: [
       {
+        kind: 'data',
         name: 'added_account',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
       {
+        kind: 'data',
         name: 'added_by',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
     ],
   },
   {
-    type: 'event',
+    kind: 'struct',
     name: 'src::roles_interface::OperatorRemoved',
-    kind: 'struct',
+    type: 'event',
     members: [
       {
+        kind: 'data',
         name: 'removed_account',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
       {
+        kind: 'data',
         name: 'removed_by',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
     ],
   },
   {
-    type: 'event',
+    kind: 'struct',
     name: 'src::roles_interface::TokenAdminAdded',
-    kind: 'struct',
+    type: 'event',
     members: [
       {
+        kind: 'data',
         name: 'added_account',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
       {
+        kind: 'data',
         name: 'added_by',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
     ],
   },
   {
-    type: 'event',
+    kind: 'struct',
     name: 'src::roles_interface::TokenAdminRemoved',
-    kind: 'struct',
+    type: 'event',
     members: [
       {
+        kind: 'data',
         name: 'removed_account',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
       {
+        kind: 'data',
         name: 'removed_by',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
     ],
   },
   {
-    type: 'event',
+    kind: 'struct',
     name: 'src::roles_interface::UpgradeGovernorAdded',
-    kind: 'struct',
+    type: 'event',
     members: [
       {
+        kind: 'data',
         name: 'added_account',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
       {
+        kind: 'data',
         name: 'added_by',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
     ],
   },
   {
-    type: 'event',
+    kind: 'struct',
     name: 'src::roles_interface::UpgradeGovernorRemoved',
-    kind: 'struct',
+    type: 'event',
     members: [
       {
+        kind: 'data',
         name: 'removed_account',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
       {
+        kind: 'data',
         name: 'removed_by',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
     ],
   },
   {
-    type: 'event',
+    kind: 'struct',
     name: 'src::roles_interface::SecurityAdminAdded',
-    kind: 'struct',
+    type: 'event',
     members: [
       {
+        kind: 'data',
         name: 'added_account',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
       {
+        kind: 'data',
         name: 'added_by',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
     ],
   },
   {
-    type: 'event',
+    kind: 'struct',
     name: 'src::roles_interface::SecurityAdminRemoved',
-    kind: 'struct',
+    type: 'event',
     members: [
       {
+        kind: 'data',
         name: 'removed_account',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
       {
+        kind: 'data',
         name: 'removed_by',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
     ],
   },
   {
-    type: 'event',
-    name: 'src::roles_interface::SecurityAgentAdded',
     kind: 'struct',
+    name: 'src::roles_interface::SecurityAgentAdded',
+    type: 'event',
     members: [
       {
+        kind: 'data',
         name: 'added_account',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
       {
+        kind: 'data',
         name: 'added_by',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
     ],
   },
   {
-    type: 'event',
-    name: 'src::roles_interface::SecurityAgentRemoved',
     kind: 'struct',
+    name: 'src::roles_interface::SecurityAgentRemoved',
+    type: 'event',
     members: [
       {
+        kind: 'data',
         name: 'removed_account',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
       {
+        kind: 'data',
         name: 'removed_by',
         type: 'core::starknet::contract_address::ContractAddress',
-        kind: 'data',
       },
     ],
   },
   {
-    type: 'event',
-    name: 'src::token_bridge::TokenBridge::Event',
     kind: 'enum',
+    name: 'src::token_bridge::TokenBridge::Event',
+    type: 'event',
     variants: [
       {
+        kind: 'nested',
         name: 'L1BridgeSet',
         type: 'src::token_bridge::TokenBridge::L1BridgeSet',
-        kind: 'nested',
       },
       {
+        kind: 'nested',
         name: 'Erc20ClassHashStored',
         type: 'src::token_bridge::TokenBridge::Erc20ClassHashStored',
-        kind: 'nested',
       },
       {
+        kind: 'nested',
         name: 'L2TokenGovernanceChanged',
         type: 'src::token_bridge::TokenBridge::L2TokenGovernanceChanged',
-        kind: 'nested',
       },
       {
+        kind: 'nested',
         name: 'withdraw_initiated',
         type: 'src::token_bridge::TokenBridge::withdraw_initiated',
-        kind: 'nested',
       },
       {
+        kind: 'nested',
         name: 'WithdrawInitiated',
         type: 'src::token_bridge::TokenBridge::WithdrawInitiated',
-        kind: 'nested',
       },
       {
+        kind: 'nested',
         name: 'deposit_handled',
         type: 'src::token_bridge::TokenBridge::deposit_handled',
-        kind: 'nested',
       },
       {
+        kind: 'nested',
         name: 'DepositHandled',
         type: 'src::token_bridge::TokenBridge::DepositHandled',
-        kind: 'nested',
       },
       {
+        kind: 'nested',
         name: 'DepositWithMessageHandled',
         type: 'src::token_bridge::TokenBridge::DepositWithMessageHandled',
-        kind: 'nested',
       },
       {
+        kind: 'nested',
         name: 'DeployHandled',
         type: 'src::token_bridge::TokenBridge::DeployHandled',
-        kind: 'nested',
       },
       {
+        kind: 'nested',
         name: 'WithdrawalLimitEnabled',
         type: 'src::token_bridge::TokenBridge::WithdrawalLimitEnabled',
-        kind: 'nested',
       },
       {
+        kind: 'nested',
         name: 'WithdrawalLimitDisabled',
         type: 'src::token_bridge::TokenBridge::WithdrawalLimitDisabled',
-        kind: 'nested',
       },
       {
+        kind: 'nested',
         name: 'ImplementationAdded',
         type: 'src::replaceability_interface::ImplementationAdded',
-        kind: 'nested',
       },
       {
+        kind: 'nested',
         name: 'ImplementationRemoved',
         type: 'src::replaceability_interface::ImplementationRemoved',
-        kind: 'nested',
       },
       {
+        kind: 'nested',
         name: 'ImplementationReplaced',
         type: 'src::replaceability_interface::ImplementationReplaced',
-        kind: 'nested',
       },
       {
+        kind: 'nested',
         name: 'ImplementationFinalized',
         type: 'src::replaceability_interface::ImplementationFinalized',
-        kind: 'nested',
       },
       {
+        kind: 'nested',
         name: 'RoleGranted',
         type: 'src::access_control_interface::RoleGranted',
-        kind: 'nested',
       },
       {
+        kind: 'nested',
         name: 'RoleRevoked',
         type: 'src::access_control_interface::RoleRevoked',
-        kind: 'nested',
       },
       {
+        kind: 'nested',
         name: 'RoleAdminChanged',
         type: 'src::access_control_interface::RoleAdminChanged',
-        kind: 'nested',
       },
       {
+        kind: 'nested',
         name: 'AppGovernorAdded',
         type: 'src::roles_interface::AppGovernorAdded',
-        kind: 'nested',
       },
       {
+        kind: 'nested',
         name: 'AppGovernorRemoved',
         type: 'src::roles_interface::AppGovernorRemoved',
-        kind: 'nested',
       },
       {
+        kind: 'nested',
         name: 'AppRoleAdminAdded',
         type: 'src::roles_interface::AppRoleAdminAdded',
-        kind: 'nested',
       },
       {
+        kind: 'nested',
         name: 'AppRoleAdminRemoved',
         type: 'src::roles_interface::AppRoleAdminRemoved',
-        kind: 'nested',
       },
       {
+        kind: 'nested',
         name: 'GovernanceAdminAdded',
         type: 'src::roles_interface::GovernanceAdminAdded',
-        kind: 'nested',
       },
       {
+        kind: 'nested',
         name: 'GovernanceAdminRemoved',
         type: 'src::roles_interface::GovernanceAdminRemoved',
-        kind: 'nested',
       },
       {
+        kind: 'nested',
         name: 'OperatorAdded',
         type: 'src::roles_interface::OperatorAdded',
-        kind: 'nested',
       },
       {
+        kind: 'nested',
         name: 'OperatorRemoved',
         type: 'src::roles_interface::OperatorRemoved',
-        kind: 'nested',
       },
       {
+        kind: 'nested',
         name: 'TokenAdminAdded',
         type: 'src::roles_interface::TokenAdminAdded',
-        kind: 'nested',
       },
       {
+        kind: 'nested',
         name: 'TokenAdminRemoved',
         type: 'src::roles_interface::TokenAdminRemoved',
-        kind: 'nested',
       },
       {
+        kind: 'nested',
         name: 'UpgradeGovernorAdded',
         type: 'src::roles_interface::UpgradeGovernorAdded',
-        kind: 'nested',
       },
       {
+        kind: 'nested',
         name: 'UpgradeGovernorRemoved',
         type: 'src::roles_interface::UpgradeGovernorRemoved',
-        kind: 'nested',
       },
       {
+        kind: 'nested',
         name: 'SecurityAdminAdded',
         type: 'src::roles_interface::SecurityAdminAdded',
-        kind: 'nested',
       },
       {
+        kind: 'nested',
         name: 'SecurityAdminRemoved',
         type: 'src::roles_interface::SecurityAdminRemoved',
-        kind: 'nested',
       },
       {
+        kind: 'nested',
         name: 'SecurityAgentAdded',
         type: 'src::roles_interface::SecurityAgentAdded',
-        kind: 'nested',
       },
       {
+        kind: 'nested',
         name: 'SecurityAgentRemoved',
         type: 'src::roles_interface::SecurityAgentRemoved',
-        kind: 'nested',
       },
     ],
   },

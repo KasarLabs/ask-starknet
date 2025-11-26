@@ -1,5 +1,5 @@
 // Mainnet token addresses
-export const tokenAddresses: { [key: string]: string } = {
+export const starknetTokenAddresses: { [key: string]: string } = {
   AKU: '0x137dfca7d96cdd526d13a63176454f35c691f55837497448fad352643cfe4d4',
   ALF: '0x78d7dfcddb44667153513bd837ff534ef395484f4b6cf28faa25b2c46e063d9',
   BROTHER: '0x3b405a98c9e795d427fe82cdeeeed803f221b52471e3a757574a2b4180793ee',
@@ -31,4 +31,16 @@ export const tokenAddresses: { [key: string]: string } = {
   sSTRK: '0x356f304b154d29d2a8fe22f1cb9107a9b564a733cf6b4cc47fd121ac1af90c9',
   wstETH: '0x42b8f0484674ca266ac5d08e4ac6a3fe65bd3129795def2dca5c34ecc5f96d2',
   xSTRK: '0x28d709c875c0ceac3dce7065bec5328186dc89fe254527084d1689910954b0a',
+  SWSS: '0x042b8f0484674ca266ac5d08e4ac6a3fe65bd3129795def2dca5c34ecc5f96d2',
+};
+
+export const ethTokenAddresses: { [key: string]: string } = {
+  ETH: '0x0000000000000000000000000000000000000000',
+  STRK: '0xCa14007Eff0dB1f8135f4C25B34De49AB0d42766',
+  USDC: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
+  USDT: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+  DAI: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
+  WBTC: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
+  LORDS: '0x686f2404e77ab0d9070a46cdfb0b7fecdd2318b0',
+  SWSS: '0x7f39c581f595b53c5cb19bd0b3f8da6c935e2ca0',
 };

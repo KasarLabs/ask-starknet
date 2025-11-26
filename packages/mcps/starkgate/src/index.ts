@@ -26,7 +26,7 @@ const server = new McpServer({
 const registerTools = (BridgeToolRegistry: any[]) => {
   BridgeToolRegistry.push({
     name: 'bridge_l1_to_l2',
-    description: 'Bridge ETH from Ethereum L1 to Starknet L2',
+    description: 'Bridge ERC20 from Ethereum L1 to Starknet L2',
     schema: bridgeL1toL2Schema,
     execute: async (params: any) => {
       console.error('Executing bridge_l1_to_l2 with params:', params);
@@ -37,7 +37,7 @@ const registerTools = (BridgeToolRegistry: any[]) => {
 
   BridgeToolRegistry.push({
     name: 'bridge_l2_to_l1',
-    description: 'Bridge ETH from Starknet L2 to Ethereum L1',
+    description: 'Bridge ERC20 from Starknet L2 to Ethereum L1',
     schema: bridgeL2toL1Schema,
     execute: async (params: any) => {
       const starknetEnv = getOnchainWrite();
