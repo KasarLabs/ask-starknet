@@ -4,7 +4,7 @@ import {
   RepayBorrowResult,
 } from '../../interfaces/index.js';
 import { GENESIS_POOLID } from '../../lib/constants/index.js';
-import { Hex, toU256, toI257, toBN, toHex } from '../../lib/utils/num.js';
+import { toI257, toHex } from '../../lib/utils/num.js';
 import type { Address } from '../../interfaces/index.js';
 import { addressSchema } from '../../interfaces/index.js';
 import {
@@ -14,12 +14,10 @@ import {
 } from '../../lib/utils/pools.js';
 import { formatTokenAmount } from '../../lib/utils/tokens.js';
 import {
-  getExtensionContract,
   getPoolContract,
   getErc20Contract,
 } from '../../lib/utils/contracts.js';
 import { VESU_API_URL } from '../../lib/constants/index.js';
-import { positionParser, IPosition } from '../../interfaces/index.js';
 import { singletonAbi } from '../../lib/abis/singletonAbi.js';
 import { z } from 'zod';
 import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
@@ -335,10 +333,6 @@ export class RepayBorrowService {
             value: toI257(-debtAmount), // Negative for repayment
           },
         };
-        console.error(
-          'modifyPositionParams',
-          safeStringify(modifyPositionParams)
-        );
       } else {
         contractForTx = new Contract(
           singletonAbi,
@@ -442,7 +436,6 @@ export class RepayBorrowService {
 
       return result;
     } catch (error) {
-      console.error('Repay borrow error:', error);
       return {
         status: 'failure',
         error: error instanceof Error ? error.message : 'Unknown error',
