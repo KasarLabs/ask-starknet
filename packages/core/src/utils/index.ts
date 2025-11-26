@@ -96,7 +96,11 @@ export const getOnchainWrite = (): onchainWrite => {
   }
 
   const provider = new RpcProvider({ nodeUrl: rpcUrl });
-  const account = new Account(provider, accountAddress, privateKey);
+  const account = new Account({
+    provider: provider,
+    address: accountAddress,
+    signer: privateKey,
+  });
 
   return {
     provider,

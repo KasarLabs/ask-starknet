@@ -8,6 +8,7 @@ import {
 import { StakeSchema } from '../../schemas/index.js';
 import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 import { formatUnits } from '../../lib/utils/formatting.js';
+import { Contract } from 'starknet';
 
 export const stake = async (
   env: onchainWrite,
@@ -17,9 +18,11 @@ export const stake = async (
     const account = env.account;
     const liquidTokenContract = getLiquidTokenContract(
       env.provider,
-      params.token_type
+      params.token_type,
+      env.account
     );
     const underlyingTokenContract = getUnderlyingTokenContract(
+      env.account,
       env.provider,
       params.token_type
     );
@@ -32,14 +35,12 @@ export const stake = async (
     const expectedShares = await liquidTokenContract.preview_deposit(amount);
 
     // Step 1: Approve liquid token contract to spend underlying token
-    underlyingTokenContract.connect(account);
     const approveCalldata = underlyingTokenContract.populate('approve', [
       liquidTokenContract.address,
       amount,
     ]);
 
     // Step 2: Deposit underlying token to receive liquid token
-    liquidTokenContract.connect(account);
     const depositCalldata = liquidTokenContract.populate('deposit', [
       amount,
       account.address,
