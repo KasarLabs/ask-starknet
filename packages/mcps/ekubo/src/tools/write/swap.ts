@@ -26,8 +26,12 @@ export const swap = async (
 ): Promise<toolResult> => {
   try {
     const account = env.account;
-    const routerContract = await getContract(env.provider, 'routerV3');
-    const coreContract = await getContract(env.provider, 'core');
+    const routerContract = await getContract(
+      env.provider,
+      'routerV3',
+      env.account
+    );
+    const coreContract = await getContract(env.provider, 'core', env.account);
 
     const { poolKey, token0, token1, isTokenALower } =
       await preparePoolKeyFromParams(env.provider, {
@@ -98,14 +102,12 @@ export const swap = async (
       minimumOutput = createExactOutputMinimum(desiredOutput);
     }
 
-    const tokenInContract = getERC20Contract(tokenIn.address, env.provider);
-    tokenInContract.connect(account);
+    const tokenInContract = getERC20Contract(env.account, tokenIn.address);
     const transferCalldata = tokenInContract.populate('transfer', [
       routerContract.address,
       transferAmount,
     ]);
 
-    routerContract.connect(account);
     const swapCalldata = routerContract.populate('swap', [
       routeNode,
       tokenAmount,

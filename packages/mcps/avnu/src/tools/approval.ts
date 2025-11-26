@@ -75,7 +75,6 @@ export class ApprovalService {
       const requiredAmount = BigInt(amount);
 
       if (currentAllowance < requiredAmount) {
-        contract.connect(account);
         const approveCall = await contract.approve(
           spenderAddress,
           uint256.bnToUint256(amount)

@@ -28,11 +28,11 @@ export const getOwner = async (
     const contractAddress = validateAndParseAddress(params.contractAddress);
     const tokenId = validateAndFormatTokenId(params.tokenId);
 
-    const contract = new Contract(
-      INTERACT_ERC721_ABI,
-      contractAddress,
-      provider
-    );
+    const contract = new Contract({
+      abi: INTERACT_ERC721_ABI,
+      address: contractAddress,
+      providerOrAccount: provider,
+    });
 
     const ownerResponse = await contract.ownerOf(tokenId);
 

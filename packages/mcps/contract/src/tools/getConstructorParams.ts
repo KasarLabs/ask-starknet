@@ -24,7 +24,11 @@ export const getConstructorParams = async (
     const provider = new RpcProvider({
       nodeUrl: 'https://starknet-mainnet.public.blastapi.io',
     });
-    const dummyAccount = new Account(provider, '0x1', '0x1');
+    const dummyAccount = new Account({
+      provider,
+      address: '0x1',
+      signer: '0x1',
+    });
 
     const contractManager = new ContractManager(dummyAccount);
     await contractManager.loadContractCompilationFiles(
