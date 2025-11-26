@@ -8,7 +8,7 @@ import { positionParser, IPosition } from '../../interfaces/index.js';
  * Retrieves positions from the Vesu API for a given wallet address
  * @param {onchainRead} env - The onchain environment (not used for API calls but required by interface)
  * @param {GetPositionsSchemaType} params - Function parameters
- * @returns {Promise<toolResult>} Array of positions matching the criteria
+ * @returns {Promise<toolResult>} Result object containing positions array on success or error details on failure
  */
 export const getPositions = async (
   env: onchainRead,

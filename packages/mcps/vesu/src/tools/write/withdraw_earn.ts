@@ -162,7 +162,7 @@ export const withdrawService = (
  * Utility function to execute a withdrawal operation
  * @param {onchainWrite} env - The onchain environment
  * @param {WithdrawParams} params - The withdrawal parameters
- * @returns {Promise<string>} JSON string containing the withdrawal result
+ * @returns {Promise<toolResult>} Result of the withdrawal operation
  */
 export const withdrawEarnPosition = async (
   env: onchainWrite,
@@ -172,7 +172,22 @@ export const withdrawEarnPosition = async (
   try {
     const withdrawEarn = withdrawService(env, accountAddress);
     const result = await withdrawEarn.withdrawEarnTransaction(params, env);
-    return result;
+
+    if (result.status === 'success') {
+      return {
+        status: 'success',
+        data: {
+          symbol: result.symbol,
+          recipient_address: result.recipient_address,
+          transaction_hash: result.transaction_hash,
+        },
+      };
+    } else {
+      return {
+        status: 'failure',
+        error: result.error || 'Unknown error',
+      };
+    }
   } catch (error) {
     // console.error('Detailed withdraw error:', error);
     if (error instanceof Error) {

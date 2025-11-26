@@ -321,31 +321,13 @@ export class UpdateMultiplyService {
       let ekuboQuote: EkuboQuote | undefined = undefined;
 
       if (result_cd && result_cd.deltaDebtWad !== undefined) {
-        try {
-          if (isIncreasing) {
-            ekuboQuote = await getEkuboQuoteFromAPI(
-              provider,
-              collateralAsset,
-              debtAsset,
-              deltaDebtTokenAmount,
-              false
-            );
-          } else {
-            ekuboQuote = await getEkuboQuoteFromAPI(
-              provider,
-              collateralAsset,
-              debtAsset,
-              deltaDebtTokenAmount,
-              true
-            );
-          }
-        } catch (error) {
-          console.warn(
-            'Failed to get Ekubo quote from API, continuing without swap routing:',
-            error
-          );
-          ekuboQuote = undefined;
-        }
+        ekuboQuote = await getEkuboQuoteFromAPI(
+          provider,
+          collateralAsset,
+          debtAsset,
+          deltaDebtTokenAmount,
+          isIncreasing ? false : true
+        );
       }
 
       // Build calls based on whether we're increasing or decreasing
@@ -353,23 +335,17 @@ export class UpdateMultiplyService {
 
       if (isIncreasing) {
         // For increase: use getIncreaseMultiplierCalls helper
-        if (!ekuboQuote) {
-          throw new Error('Ekubo quote is required for increase');
-        }
         callsData = await getIncreaseMultiplierCalls(
           collateralAsset,
           debtAsset,
           poolContractAddress,
           account,
           provider,
-          ekuboQuote,
+          ekuboQuote!,
           deltaDebtTokenAmount,
           slippageBps
         );
       } else {
-        if (!ekuboQuote) {
-          throw new Error('Ekubo quote is required for decrease');
-        }
         // For decrease: use getDecreaseMultiplierCalls helper
         const quotedAmount: BigIntValue = {
           value: deltaDebtTokenAmount,
@@ -387,7 +363,7 @@ export class UpdateMultiplyService {
           poolContractAddress,
           account,
           provider,
-          ekuboQuote,
+          ekuboQuote!,
           quotedAmount,
           slippage
         );

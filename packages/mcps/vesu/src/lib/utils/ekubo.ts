@@ -59,6 +59,9 @@ export interface BigIntValue {
  * Calculate Ekubo weights from quote splits
  */
 export const calculateEkuboWeights = (ekuboQuote: EkuboQuote): bigint[] => {
+  if (ekuboQuote.totalCalculated === 0n) {
+    return ekuboQuote.splits.map(() => 0n);
+  }
   const weights = ekuboQuote.splits.map((split, index) => {
     const weight =
       (split.amountCalculated * 10n ** BigInt(DEFAULT_DECIMALS)) /

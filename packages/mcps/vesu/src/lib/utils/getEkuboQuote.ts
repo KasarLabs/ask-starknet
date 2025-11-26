@@ -168,7 +168,7 @@ export async function getEkuboQuoteFromAPI(
     type: isExactIn ? 'exactIn' : 'exactOut',
     splits,
     totalCalculated,
-    priceImpact: ekuboData.price_impact || null,
+    priceImpact: ekuboData.price_impact ?? null,
   };
   return quote;
 }

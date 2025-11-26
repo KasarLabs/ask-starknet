@@ -246,6 +246,8 @@ export class DepositMultiplyService {
                     if (low !== undefined && high !== undefined) {
                       sqrtRatioLimitValue =
                         BigInt(low) + BigInt(high) * 2n ** 128n;
+                    } else if (low !== undefined) {
+                      sqrtRatioLimitValue = BigInt(low);
                     } else {
                       sqrtRatioLimitValue = 2n ** 128n;
                     }
@@ -301,7 +303,7 @@ export class DepositMultiplyService {
             type: 'exactOut',
             splits,
             totalCalculated: BigInt(ekuboData.total_calculated),
-            priceImpact: ekuboData.price_impact || null,
+            priceImpact: ekuboData.price_impact ?? null,
           };
         }
       } catch (error) {

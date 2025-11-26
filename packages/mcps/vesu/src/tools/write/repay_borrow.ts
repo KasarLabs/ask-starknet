@@ -23,6 +23,7 @@ import { positionParser, IPosition } from '../../interfaces/index.js';
 import { singletonAbi } from '../../lib/abis/singletonAbi.js';
 import { z } from 'zod';
 import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
+import { safeStringify } from '../../lib/utils/ekubo.js';
 
 /**
  * Service for managing borrow repay operations
@@ -99,8 +100,6 @@ export class RepayBorrowService {
           `Failed to get singleton address: ${error instanceof Error ? error.message : 'Unknown error'}`
         );
       }
-
-      const extensionContract = getExtensionContract(extensionContractAddress);
 
       const collateralAsset = pool.assets.find(
         (a: any) =>
@@ -269,8 +268,6 @@ export class RepayBorrowService {
         debtAmount = BigInt(formattedAmount);
       }
 
-      debtAmount = ((debtAmount + 9n) / 10n) * 10n;
-
       if (debtAmount === 0n) {
         throw new Error('Repay amount must be greater than zero');
       }
@@ -337,6 +334,10 @@ export class RepayBorrowService {
             value: toI257(-debtAmount), // Negative for repayment
           },
         };
+        console.error(
+          'modifyPositionParams',
+          safeStringify(modifyPositionParams)
+        );
       } else {
         contractForTx = new Contract(
           singletonAbi,

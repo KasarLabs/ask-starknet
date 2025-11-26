@@ -27,13 +27,9 @@ import { z } from 'zod';
 export class WithdrawMultiplyService {
   /**
    * Creates an instance of WithdrawMultiplyService
-   * @param {onchainWrite} env - The onchain environment
    * @param {string} walletAddress - The wallet address executing the withdrawals
    */
-  constructor(
-    private env: onchainWrite,
-    private walletAddress: string
-  ) {}
+  constructor(private walletAddress: string) {}
 
   /**
    * Executes a multiply withdraw transaction
@@ -47,9 +43,9 @@ export class WithdrawMultiplyService {
   ): Promise<WithdrawMultiplyResult> {
     try {
       const account = new Account(
-        this.env.provider,
+        env.provider,
         this.walletAddress,
-        this.env.account.signer
+        env.account.signer
       );
       // For v2, poolId is the address of the pool contract
       const poolId = (params.poolId || GENESIS_POOLID) as Hex;
@@ -317,7 +313,7 @@ export class WithdrawMultiplyService {
               type: 'exactOut',
               splits,
               totalCalculated: BigInt(ekuboData.total_calculated),
-              priceImpact: ekuboData.price_impact || null,
+              priceImpact: ekuboData.price_impact ?? null,
             };
           }
         } catch (error) {
@@ -417,7 +413,7 @@ export const createWithdrawMultiplyService = (
     throw new Error('Wallet address not configured');
   }
 
-  return new WithdrawMultiplyService(env, walletAddress);
+  return new WithdrawMultiplyService(walletAddress);
 };
 
 /**
