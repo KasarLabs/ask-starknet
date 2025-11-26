@@ -366,3 +366,100 @@ export const getDecreaseMultiplierCalls = async (
 
   return calls;
 };
+
+export const getIncreaseMultiplierCalls = async (
+  collateralAsset: IBaseToken,
+  debtAsset: IBaseToken,
+  poolContractAddress: Hex,
+  account: Account,
+  provider: any,
+  ekuboQuote: EkuboQuote | undefined,
+  quotedAmount: bigint,
+  slippageBps: bigint
+): Promise<Call[]> => {
+  const ZERO_BI: BigIntValue = { value: 0n, decimals: DEFAULT_DECIMALS };
+
+  const multiplyContract = getMultiplyContract(MULTIPLY_CONTRACT_ADDRESS);
+  const poolContract = getPoolContract(poolContractAddress);
+
+  const multiplyContractForTx = new Contract(
+    multiplyContract.abi,
+    MULTIPLY_CONTRACT_ADDRESS,
+    provider
+  );
+  const poolContractForTx = new Contract(
+    poolContract.abi,
+    poolContractAddress,
+    provider
+  );
+
+  // Step 1: Modify delegation (set to true)
+  const modifyDelegationCall =
+    await poolContractForTx.populateTransaction.modify_delegation(
+      MULTIPLY_CONTRACT_ADDRESS,
+      true
+    );
+
+  // Prepare Ekubo swap data if quote is available
+  let leverSwap: any[] = [];
+  let leverSwapLimitAmount = 0n;
+
+  if (ekuboQuote && ekuboQuote.splits.length > 0) {
+    const weights = calculateEkuboWeights(ekuboQuote);
+
+    const slippage: BigIntValue = {
+      value: slippageBps,
+      decimals: 4,
+    };
+
+    // For increase: Quote is exactOut of collateral, totalCalculated is debt needed
+    // quotedAmount is the debt amount we're giving
+    const quotedAmountValue: BigIntValue = {
+      value: quotedAmount,
+      decimals: debtAsset.decimals,
+    };
+
+    leverSwap = calculateEkuboLeverSwapData(
+      collateralAsset,
+      quotedAmountValue,
+      ekuboQuote,
+      weights
+    );
+
+    leverSwapLimitAmount = applySlippageToEkuboLimitAmount(
+      ekuboQuote.totalCalculated,
+      ekuboQuote.type,
+      slippage
+    );
+  }
+
+  // Step 2: Modify lever
+  const increaseLeverParams = {
+    pool: poolContractAddress,
+    collateral_asset: collateralAsset.address,
+    debt_asset: debtAsset.address,
+    user: account.address,
+    add_margin: ZERO_BI.value,
+    margin_swap: [],
+    margin_swap_limit_amount: ZERO_BI.value,
+    lever_swap: leverSwap,
+    lever_swap_limit_amount: leverSwapLimitAmount,
+  };
+
+  const modifyLeverCall =
+    await multiplyContractForTx.populateTransaction.modify_lever({
+      action: new CairoCustomEnum({
+        IncreaseLever: increaseLeverParams,
+      }),
+    });
+
+  // Step 3: Revoke delegation (set to false)
+  const revokeDelegationCall =
+    await poolContractForTx.populateTransaction.modify_delegation(
+      MULTIPLY_CONTRACT_ADDRESS,
+      false
+    );
+
+  const calls = [modifyDelegationCall, modifyLeverCall, revokeDelegationCall];
+  return calls;
+};

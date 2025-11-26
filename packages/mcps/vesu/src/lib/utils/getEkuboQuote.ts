@@ -26,7 +26,7 @@ export async function getEkuboQuoteFromAPI(
   const baseUrl =
     ekuboQuoterUrl || 'https://starknet-mainnet-quoter-api.ekubo.org';
 
-  const apiAmount = amount;
+  const apiAmount = isExactIn ? amount : -amount;
   const url = `${baseUrl}/${apiAmount}/${tokenIn.address}/${tokenOut.address}`;
   const response = await fetch(url);
   if (!response.ok) {
@@ -162,12 +162,10 @@ export async function getEkuboQuoteFromAPI(
     };
   });
 
-  const totalCalculatedRaw = BigInt(ekuboData.total_calculated);
-  const totalCalculated =
-    totalCalculatedRaw < 0n ? -totalCalculatedRaw : totalCalculatedRaw;
+  const totalCalculated = BigInt(ekuboData.total_calculated);
 
   const quote: EkuboQuote = {
-    type: 'exactIn',
+    type: isExactIn ? 'exactIn' : 'exactOut',
     splits,
     totalCalculated,
     priceImpact: ekuboData.price_impact || null,
