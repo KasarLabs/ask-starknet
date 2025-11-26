@@ -48,9 +48,8 @@ export const depositMultiplySchema = z.object({
     ),
   targetLTV: z
     .string()
-    .optional()
     .describe(
-      'Optional target LTV (Loan-to-Value) ratio as a percentage (e.g., "75" for 75%). If not provided, will use maximum LTV'
+      'Target LTV (Loan-to-Value) ratio as a percentage (e.g., "75" for 75%). This is mandatory'
     ),
   poolId: z
     .string()
@@ -151,9 +150,8 @@ export const depositBorrowSchema = z.object({
     ),
   targetLTV: z
     .string()
-    .optional()
     .describe(
-      'Optional target LTV (Loan-to-Value) ratio as a percentage (e.g., "75" for 75%). If not provided, will use maximum LTV'
+      'Target LTV (Loan-to-Value) ratio as a percentage (e.g., "75" for 75%). This is mandatory'
     ),
   poolId: z
     .string()

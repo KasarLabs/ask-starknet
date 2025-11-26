@@ -161,22 +161,21 @@ export class DepositBorrowService {
         maxLTVValue = toBN(ltvConfig.max_ltv);
       }
 
-      let targetLTVValue: bigint;
-      if (params.targetLTV) {
-        const ltvPercent = BigInt(params.targetLTV);
-        if (ltvPercent >= 100n || ltvPercent < 0n) {
-          throw new Error('Target LTV must be between 0 and 99');
-        }
-        targetLTVValue = ltvPercent * 100n;
+      if (!params.targetLTV) {
+        throw new Error('Target LTV is required');
+      }
 
-        if (targetLTVValue > maxLTVValue) {
-          const maxLTVPercent = Number(maxLTVValue) / 100;
-          throw new Error(
-            `Target LTV (${params.targetLTV}%) exceeds maximum LTV (${maxLTVPercent}%)`
-          );
-        }
-      } else {
-        targetLTVValue = maxLTVValue;
+      const ltvPercent = BigInt(params.targetLTV);
+      if (ltvPercent >= 100n || ltvPercent < 0n) {
+        throw new Error('Target LTV must be between 0 and 99');
+      }
+      const targetLTVValue = ltvPercent * 100n;
+
+      if (targetLTVValue > maxLTVValue) {
+        const maxLTVPercent = Number(maxLTVValue) / 100;
+        throw new Error(
+          `Target LTV (${params.targetLTV}%) exceeds maximum LTV (${maxLTVPercent}%)`
+        );
       }
 
       let collateralPrice: any;

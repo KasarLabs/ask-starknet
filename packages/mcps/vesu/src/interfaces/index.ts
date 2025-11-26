@@ -184,7 +184,7 @@ export interface WithdrawParams {
  * @property {string} collateralTokenSymbol - Symbol of collateral token to deposit
  * @property {string} debtTokenSymbol - Symbol of debt token to borrow
  * @property {string} depositAmount - Amount of collateral to deposit in human decimal format
- * @property {string} [targetLTV] - Optional target LTV (Loan-to-Value) ratio. If not provided, will use maximum LTV
+ * @property {string} targetLTV - Target LTV (Loan-to-Value) ratio as a percentage (mandatory)
  * @property {string} [poolId] - Optional pool ID. If not provided, GENESIS_POOLID will be used
  * @property {number} [ekuboFee] - Optional Ekubo pool fee tier as a percentage (e.g., 0.05 for 0.05%, 0.3 for 0.3%, 1 for 1%, defaults to 0.05)
  * @property {number} [ekuboTickSpacing] - Optional Ekubo pool tick spacing as a percentage (e.g., 0.01 for 0.01%, 0.1 for 0.1%, 1 for 1%, defaults to 0.1)
@@ -195,7 +195,7 @@ export interface DepositMultiplyParams {
   collateralTokenSymbol: string;
   debtTokenSymbol: string;
   depositAmount: string;
-  targetLTV?: string;
+  targetLTV: string;
   poolId?: string;
   ekuboFee?: number;
   ekuboTickSpacing?: number;
@@ -367,14 +367,14 @@ export interface UpdateMultiplyResult {
  * @property {string} collateralTokenSymbol - Symbol of collateral token to deposit
  * @property {string} debtTokenSymbol - Symbol of debt token to borrow
  * @property {string} depositAmount - Amount of collateral to deposit in human decimal format
- * @property {string} [targetLTV] - Optional target LTV (Loan-to-Value) ratio. If not provided, will use maximum LTV
+ * @property {string} targetLTV - Target LTV (Loan-to-Value) ratio as a percentage (mandatory)
  * @property {string} [poolId] - Optional pool ID. If not provided, GENESIS_POOLID will be used
  */
 export interface DepositBorrowParams {
   collateralTokenSymbol: string;
   debtTokenSymbol: string;
   depositAmount: string;
-  targetLTV?: string;
+  targetLTV: string;
   poolId?: string;
 }
 

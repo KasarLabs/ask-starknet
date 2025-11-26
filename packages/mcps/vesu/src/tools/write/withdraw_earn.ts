@@ -126,12 +126,6 @@ export class WithdrawEarnService {
 
       return transferResult;
     } catch (error) {
-      console.error('Detailed withdraw error:', error);
-      if (error instanceof Error) {
-        // console.error('Error type:', error.constructor.name);
-        // console.error('Error message:', error.message);
-        // console.error('Error stack:', error.stack);
-      }
       return {
         status: 'failure',
         error: error instanceof Error ? error.message : 'Unknown error',
@@ -189,12 +183,6 @@ export const withdrawEarnPosition = async (
       };
     }
   } catch (error) {
-    // console.error('Detailed withdraw error:', error);
-    if (error instanceof Error) {
-      // console.error('Error type:', error.constructor.name);
-      // console.error('Error message:', error.message);
-      // console.error('Error stack:', error.stack);
-    }
     return {
       status: 'failure',
       error: error instanceof Error ? error.message : 'Unknown error',
