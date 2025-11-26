@@ -53,6 +53,7 @@ Bridge ETH or ERC20 tokens from Ethereum L1 to Starknet L2.
 - `symbol` (string): Token symbol (ETH, USDC, USDT, WBTC, STRK)
 
 **Supported Tokens:**
+
 - ETH (18 decimals)
 - USDC (6 decimals)
 - USDT (6 decimals)
@@ -82,6 +83,7 @@ Bridge ETH or ERC20 tokens from Ethereum L1 to Starknet L2.
 ```
 
 **Note:** For ERC20 tokens, the bridge will automatically:
+
 1. Check your token balance
 2. Check current allowance for the bridge contract
 3. Approve the bridge to spend tokens if needed (requires 1 transaction)
@@ -99,6 +101,7 @@ Bridge ETH or ERC20 tokens from Starknet L2 to Ethereum L1.
 - `symbol` (string): Token symbol (ETH, USDC, USDT, WBTC, STRK)
 
 **Supported Tokens:**
+
 - ETH (18 decimals)
 - USDC (6 decimals)
 - USDT (6 decimals)
