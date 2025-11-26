@@ -79,26 +79,23 @@ export const addLiquidity = async (
     const minLiquidity = 0;
 
     const token0Contract = getERC20Contract(
-      transferToken0.address,
-      env.provider
+      env.account,
+      transferToken0.address
     );
-    token0Contract.connect(account);
     const transfer0Calldata = token0Contract.populate('transfer', [
       positionsContract.address,
       amount0,
     ]);
 
     const token1Contract = getERC20Contract(
-      transferToken1.address,
-      env.provider
+      env.account,
+      transferToken1.address
     );
-    token1Contract.connect(account);
     const transfer1Calldata = token1Contract.populate('transfer', [
       positionsContract.address,
       amount1,
     ]);
 
-    positionsContract.connect(account);
     const depositCalldata = positionsContract.populate('deposit', [
       params.position_id,
       poolKey,

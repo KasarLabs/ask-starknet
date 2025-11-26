@@ -27,7 +27,6 @@ export const unstake = async (
     const shares = BigInt(params.amount);
 
     // Call redeem to create a withdraw request (NFT)
-    liquidTokenContract.connect(account);
     const redeemCalldata = liquidTokenContract.populate('redeem', [
       shares,
       account.address,
@@ -43,6 +42,7 @@ export const unstake = async (
 
     // Extract withdraw request ID from receipt events
     const withdrawQueueNftAddress = getWithdrawQueueNFTAddress(
+      account,
       env.provider,
       params.token_type
     );

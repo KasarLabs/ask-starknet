@@ -23,19 +23,19 @@ importers:
         version: 22.15.17
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.25.0
-        version: 8.32.1(@typescript-eslint/parser@8.32.1(eslint@9.26.0(jiti@1.21.7))(typescript@5.8.3))(eslint@9.26.0(jiti@1.21.7))(typescript@5.8.3)
+        version: 8.32.1(@typescript-eslint/parser@8.32.1(eslint@9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7))(typescript@5.8.3))(eslint@9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7))(typescript@5.8.3)
       '@typescript-eslint/parser':
         specifier: ^8.25.0
-        version: 8.32.1(eslint@9.26.0(jiti@1.21.7))(typescript@5.8.3)
+        version: 8.32.1(eslint@9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7))(typescript@5.8.3)
       eslint:
         specifier: ^9.22.0
-        version: 9.26.0(jiti@1.21.7)
+        version: 9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7)
       eslint-config-prettier:
         specifier: ^9.1.0
-        version: 9.1.0(eslint@9.26.0(jiti@1.21.7))
+        version: 9.1.0(eslint@9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7))
       eslint-plugin-prettier:
         specifier: ^5.2.3
-        version: 5.4.0(@types/eslint@9.6.1)(eslint-config-prettier@9.1.0(eslint@9.26.0(jiti@1.21.7)))(eslint@9.26.0(jiti@1.21.7))(prettier@3.6.1)
+        version: 5.4.0(@types/eslint@9.6.1)(eslint-config-prettier@9.1.0(eslint@9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7)))(eslint@9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7))(prettier@3.6.1)
       globals:
         specifier: ^15.15.0
         version: 15.15.0
@@ -53,13 +53,13 @@ importers:
         version: 5.8.3
       typescript-eslint:
         specifier: ^8.25.0
-        version: 8.32.1(eslint@9.26.0(jiti@1.21.7))(typescript@5.8.3)
+        version: 8.32.1(eslint@9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7))(typescript@5.8.3)
 
   packages/core:
     dependencies:
       starknet:
-        specifier: ^7.6.4
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -99,13 +99,13 @@ importers:
         version: 0.4.9(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))(zod-to-json-schema@3.24.5(zod@3.25.76))
       '@langchain/mcp-adapters':
         specifier: ^0.6.0
-        version: 0.6.0(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))
+        version: 0.6.0(@cfworker/json-schema@4.1.1)(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))
       '@langchain/openai':
         specifier: ^0.6.11
         version: 0.6.11(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))(ws@8.18.2)
       '@modelcontextprotocol/sdk':
-        specifier: ^1.7.0
-        version: 1.17.5
+        specifier: 1.22.0
+        version: 1.22.0(@cfworker/json-schema@4.1.1)
       dotenv:
         specifier: ^16.4.7
         version: 16.5.0
@@ -129,14 +129,14 @@ importers:
         specifier: ^0.3.75
         version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       '@modelcontextprotocol/sdk':
-        specifier: ^1.11.2
-        version: 1.17.5
+        specifier: 1.22.0
+        version: 1.22.0(@cfworker/json-schema@4.1.1)
       dotenv:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: ^7.6.4
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -160,8 +160,8 @@ importers:
         specifier: ^0.3.42
         version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       '@modelcontextprotocol/sdk':
-        specifier: ^1.11.2
-        version: 1.17.5
+        specifier: 1.22.0
+        version: 1.22.0(@cfworker/json-schema@4.1.1)
       '@nestjs/common':
         specifier: ^11.1.6
         version: 11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
@@ -169,8 +169,8 @@ importers:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: ^7.1.0
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -189,7 +189,7 @@ importers:
     dependencies:
       '@avnu/avnu-sdk':
         specifier: ^3.1.1
-        version: 3.1.1(ethers@6.15.0)(moment@2.30.1)(qs@6.14.0)(starknet@7.6.4)
+        version: 3.1.1(ethers@6.15.0)(moment@2.30.1)(qs@6.14.0)(starknet@8.6.0)
       '@kasarlabs/ask-starknet-core':
         specifier: workspace:*
         version: link:../../core
@@ -197,14 +197,14 @@ importers:
         specifier: ^0.3.75
         version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       '@modelcontextprotocol/sdk':
-        specifier: ^1.11.2
-        version: 1.17.5
+        specifier: 1.22.0
+        version: 1.22.0(@cfworker/json-schema@4.1.1)
       dotenv:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: ^7.6.4
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -228,14 +228,14 @@ importers:
         specifier: ^0.3.75
         version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       '@modelcontextprotocol/sdk':
-        specifier: ^1.11.2
-        version: 1.17.5
+        specifier: 1.22.0
+        version: 1.22.0(@cfworker/json-schema@4.1.1)
       dotenv:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: ^7.6.4
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -253,8 +253,8 @@ importers:
   packages/mcps/cairo-coder:
     dependencies:
       '@modelcontextprotocol/sdk':
-        specifier: ^1.11.2
-        version: 1.17.5
+        specifier: 1.22.0
+        version: 1.22.0(@cfworker/json-schema@4.1.1)
       dotenv:
         specifier: ^16.5.0
         version: 16.5.0
@@ -287,14 +287,14 @@ importers:
         specifier: workspace:*
         version: link:../../core
       '@modelcontextprotocol/sdk':
-        specifier: ^1.11.2
-        version: 1.17.5
+        specifier: 1.22.0
+        version: 1.22.0(@cfworker/json-schema@4.1.1)
       dotenv:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: ^7.6.4
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -318,14 +318,14 @@ importers:
         specifier: workspace:*
         version: link:../../core
       '@modelcontextprotocol/sdk':
-        specifier: ^1.11.2
-        version: 1.17.5
+        specifier: 1.22.0
+        version: 1.22.0(@cfworker/json-schema@4.1.1)
       dotenv:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: ^7.6.4
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       zod:
         specifier: ^3.24.2
         version: 3.25.76
@@ -343,14 +343,14 @@ importers:
         specifier: workspace:*
         version: link:../../core
       '@modelcontextprotocol/sdk':
-        specifier: ^1.11.2
-        version: 1.17.5
+        specifier: 1.22.0
+        version: 1.22.0(@cfworker/json-schema@4.1.1)
       dotenv:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: ^7.6.4
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       zod:
         specifier: ^3.24.2
         version: 3.25.76
@@ -371,14 +371,14 @@ importers:
         specifier: ^0.3.42
         version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       '@modelcontextprotocol/sdk':
-        specifier: ^1.11.2
-        version: 1.17.5
+        specifier: 1.22.0
+        version: 1.22.0(@cfworker/json-schema@4.1.1)
       dotenv:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: ^7.6.4
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -402,14 +402,14 @@ importers:
         specifier: ^0.3.42
         version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       '@modelcontextprotocol/sdk':
-        specifier: ^1.11.2
-        version: 1.17.5
+        specifier: 1.22.0
+        version: 1.22.0(@cfworker/json-schema@4.1.1)
       dotenv:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: ^7.6.4
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -430,8 +430,8 @@ importers:
         specifier: workspace:*
         version: link:../../core
       '@modelcontextprotocol/sdk':
-        specifier: ^1.11.2
-        version: 1.17.5
+        specifier: 1.22.0
+        version: 1.22.0(@cfworker/json-schema@4.1.1)
       '@x10xchange/stark-crypto-wrapper-wasm':
         specifier: ^0.1.6
         version: 0.1.6
@@ -454,8 +454,8 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       starknet:
-        specifier: ^7.6.4
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       zod:
         specifier: ^3.24.2
         version: 3.25.76
@@ -482,8 +482,8 @@ importers:
         specifier: ^0.3.42
         version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       '@modelcontextprotocol/sdk':
-        specifier: ^1.11.2
-        version: 1.17.5
+        specifier: 1.22.0
+        version: 1.22.0(@cfworker/json-schema@4.1.1)
       dotenv:
         specifier: ^16.4.7
         version: 16.5.0
@@ -491,8 +491,8 @@ importers:
         specifier: 0.4.3
         version: 0.4.3(encoding@0.1.13)
       starknet:
-        specifier: ^7.6.4
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -513,8 +513,8 @@ importers:
         specifier: workspace:*
         version: link:../../core
       '@modelcontextprotocol/sdk':
-        specifier: ^1.11.2
-        version: 1.17.5
+        specifier: 1.22.0
+        version: 1.22.0(@cfworker/json-schema@4.1.1)
       dotenv:
         specifier: ^16.4.7
         version: 16.5.0
@@ -541,14 +541,14 @@ importers:
         specifier: ^0.3.75
         version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       '@modelcontextprotocol/sdk':
-        specifier: ^1.11.2
-        version: 1.17.5
+        specifier: 1.22.0
+        version: 1.22.0(@cfworker/json-schema@4.1.1)
       dotenv:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: ^7.6.4
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -572,14 +572,14 @@ importers:
         specifier: ^0.3.42
         version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       '@modelcontextprotocol/sdk':
-        specifier: ^1.11.2
-        version: 1.17.5
+        specifier: 1.22.0
+        version: 1.22.0(@cfworker/json-schema@4.1.1)
       dotenv:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: ^7.6.4
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -603,8 +603,8 @@ importers:
         specifier: ^0.3.42
         version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       '@modelcontextprotocol/sdk':
-        specifier: ^1.11.2
-        version: 1.17.5
+        specifier: 1.22.0
+        version: 1.22.0(@cfworker/json-schema@4.1.1)
       dotenv:
         specifier: ^16.4.7
         version: 16.5.0
@@ -612,8 +612,8 @@ importers:
         specifier: ^6.15.0
         version: 6.15.0
       starknet:
-        specifier: ^7.6.4
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -634,8 +634,8 @@ importers:
         specifier: workspace:*
         version: link:../../core
       '@modelcontextprotocol/sdk':
-        specifier: ^1.11.2
-        version: 1.17.5
+        specifier: 1.22.0
+        version: 1.22.0(@cfworker/json-schema@4.1.1)
       dotenv:
         specifier: ^16.4.7
         version: 16.5.0
@@ -668,14 +668,14 @@ importers:
         specifier: ^0.3.42
         version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       '@modelcontextprotocol/sdk':
-        specifier: ^1.11.2
-        version: 1.17.5
+        specifier: 1.22.0
+        version: 1.22.0(@cfworker/json-schema@4.1.1)
       dotenv:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: ^7.6.4
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -699,14 +699,14 @@ importers:
         specifier: ^0.3.42
         version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       '@modelcontextprotocol/sdk':
-        specifier: ^1.11.2
-        version: 1.17.5
+        specifier: 1.22.0
+        version: 1.22.0(@cfworker/json-schema@4.1.1)
       dotenv:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: ^7.1.0
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -730,8 +730,8 @@ importers:
         specifier: ^0.3.75
         version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       '@modelcontextprotocol/sdk':
-        specifier: ^1.11.2
-        version: 1.17.5
+        specifier: 1.22.0
+        version: 1.22.0(@cfworker/json-schema@4.1.1)
       dotenv:
         specifier: ^16.4.7
         version: 16.5.0
@@ -758,14 +758,14 @@ importers:
         specifier: ^0.3.42
         version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       '@modelcontextprotocol/sdk':
-        specifier: ^1.11.2
-        version: 1.17.5
+        specifier: 1.22.0
+        version: 1.22.0(@cfworker/json-schema@4.1.1)
       dotenv:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: ^7.6.4
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -789,8 +789,8 @@ importers:
         specifier: ^0.3.42
         version: 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
       '@modelcontextprotocol/sdk':
-        specifier: ^1.11.2
-        version: 1.17.5
+        specifier: 1.22.0
+        version: 1.22.0(@cfworker/json-schema@4.1.1)
       dotenv:
         specifier: ^16.4.7
         version: 16.5.0
@@ -798,8 +798,8 @@ importers:
         specifier: ^6.13.5
         version: 6.15.0
       starknet:
-        specifier: ^7.6.4
-        version: 7.6.4
+        specifier: 8.6.0
+        version: 8.6.0
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -2019,9 +2019,14 @@ packages:
     resolution: {integrity: sha512-Z7C/xXCiGWsg0KuKsHTKJxbWhpI3Vs5GwLfOean7MGyVFGqdRgBbAjOCh6u4bbjPc/8MJ2pZmK/0DLdCbivLDA==}
     engines: {node: '>=8'}
 
-  '@modelcontextprotocol/sdk@1.17.5':
-    resolution: {integrity: sha512-QakrKIGniGuRVfWBdMsDea/dx1PNE739QJ7gCM41s9q+qaCYTHCdsIBXQVVXry3mfWAiaM9kT22Hyz53Uw8mfg==}
+  '@modelcontextprotocol/sdk@1.22.0':
+    resolution: {integrity: sha512-VUpl106XVTCpDmTBil2ehgJZjhyLY2QZikzF8NvTXtLRF1CvO5iEE2UNZdVIUer35vFOwMKYeUGbjJtvPWan3g==}
     engines: {node: '>=18'}
+    peerDependencies:
+      '@cfworker/json-schema': ^4.1.1
+    peerDependenciesMeta:
+      '@cfworker/json-schema':
+        optional: true
 
   '@napi-rs/wasm-runtime@0.2.4':
     resolution: {integrity: sha512-9zESzOO5aDByvhIAsOy9TbpZ0Ur2AJbUI7UT73kcUTS2mxAMHOBaa1st/jAymNoCtvrit99kkzT1FZuXVcgfIQ==}
@@ -2361,6 +2366,9 @@ packages:
   '@starknet-io/types-js@0.8.4':
     resolution: {integrity: sha512-0RZ3TZHcLsUTQaq1JhDSCM8chnzO4/XNsSCozwDET64JK5bjFDIf2ZUkta+tl5Nlbf4usoU7uZiDI/Q57kt2SQ==}
 
+  '@starknet-io/types-js@0.9.2':
+    resolution: {integrity: sha512-vWOc0FVSn+RmabozIEWcEny1I73nDGTvOrLYJsR1x7LGA3AZmqt4i/aW69o/3i2NN5CVP8Ok6G1ayRQJKye3Wg==}
+
   '@tokenizer/inflate@0.2.7':
     resolution: {integrity: sha512-MADQgmZT1eKjp06jpI2yozxaU9uVs4GzzgSL+uEq7bVcJ9V1ZXQkeGNql1fsSI0gMy1vhvNTNbUqrx+pZfJVmg==}
     engines: {node: '>=18'}
@@ -2664,8 +2672,19 @@ packages:
     resolution: {integrity: sha512-4I7Td01quW/RpocfNayFdFVk1qSuoh0E7JrbRJ16nH01HhKFQ88INq9Sd+nd72zqRySlr9BmDA8xlEJ6vJMrYA==}
     engines: {node: '>=8'}
 
+  ajv-formats@3.0.1:
+    resolution: {integrity: sha512-8iUql50EUR+uUcdRQ3HDqa6EVyo3docL8g5WJ3FNcWmu62IbkGUue/pEyLBW8VGKKucTPgqeks4fIU1DA4yowQ==}
+    peerDependencies:
+      ajv: ^8.0.0
+    peerDependenciesMeta:
+      ajv:
+        optional: true
+
   ajv@6.12.6:
     resolution: {integrity: sha512-j3fVLgvTo527anyYyJOGTYJbG+vnnQYvE0m5mmkc1TK+nxAppkCLMIL0aZ4dblVCNoGShhm+kzE4ZUykBoMg4g==}
+
+  ajv@8.17.1:
+    resolution: {integrity: sha512-B/gBuNg5SiMTrPkC+A2+cW0RszwxYmn6VYxB/inlBStS5nx6xHIt/ehKRhIMhqusl7a8LjQoZnjCs5vhwxOQ1g==}
 
   ansi-colors@4.1.3:
     resolution: {integrity: sha512-/6w/C21Pm1A7aZitlI5Ni/2J6FFQN8i1Cvz3kHABAAbw93v/NlvKdVOqz7CCWz/3iv/JplRSEEZ83XION15ovw==}
@@ -3462,6 +3481,9 @@ packages:
   fast-levenshtein@2.0.6:
     resolution: {integrity: sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==}
 
+  fast-uri@3.1.0:
+    resolution: {integrity: sha512-iPeeDKJSWf4IEOasVVrknXpaBV0IApz/gp7S2bb7Z4Lljbl2MGJRqInZiUrQwV16cpzw/D3S5j5Julj/gT52AA==}
+
   fast-xml-parser@4.5.3:
     resolution: {integrity: sha512-RKihhV+SHsIUGXObeVy9AXiBbFwkVk7Syp8XgwN5U3JV416+Gwp/GO9i0JYKmikykgz/UHRrrV4ROuZEo/T0ig==}
     hasBin: true
@@ -4215,6 +4237,9 @@ packages:
   json-schema-traverse@0.4.1:
     resolution: {integrity: sha512-xbbCH5dCYU5T8LcEhhuh7HJ88HXuW3qsI3Y0zOZFKfZEHcpWiHU/Jxzk629Brsab/mMiHQti9wMP+845RPe3Vg==}
 
+  json-schema-traverse@1.0.0:
+    resolution: {integrity: sha512-NM8/P9n3XjXhIZn1lLhkFaACTOURQXjWhV4BA/RnOv8xvgqtqpAX9IO4mRQxSx1Rlo4tqzeqb0sOlruaOy3dug==}
+
   json-stable-stringify-without-jsonify@1.0.1:
     resolution: {integrity: sha512-Bdboy+l7tA3OGW6FjyFHWkP5LuByj1Tk33Ljyq0axyzdk9//JSi2u3fP1QSmd1KNwq6VOKYGlAu87CisVir6Pw==}
 
@@ -4447,8 +4472,8 @@ packages:
   long@5.3.2:
     resolution: {integrity: sha512-mNAgZ1GmyNhD7AuqnTG3/VQ26o760+ZYBPKjPvugO8+nLbYfX6TVpJPseBvopbdY+qpZ/lKUnmEc1LeZYS3QAA==}
 
-  lossless-json@4.0.2:
-    resolution: {integrity: sha512-+z0EaLi2UcWi8MZRxA5iTb6m4Ys4E80uftGY+yG5KNFJb5EceQXOhdW/pWJZ8m97s26u7yZZAYMcKWNztSZssA==}
+  lossless-json@4.3.0:
+    resolution: {integrity: sha512-ToxOC+SsduRmdSuoLZLYAr5zy1Qu7l5XhmPWM3zefCZ5IcrzW/h108qbJUKfOlDlhvhjUK84+8PSVX0kxnit0g==}
 
   lru-cache@10.4.3:
     resolution: {integrity: sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==}
@@ -5187,6 +5212,10 @@ packages:
     resolution: {integrity: sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==}
     engines: {node: '>=0.10.0'}
 
+  require-from-string@2.0.2:
+    resolution: {integrity: sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==}
+    engines: {node: '>=0.10.0'}
+
   requires-port@1.0.0:
     resolution: {integrity: sha512-KigOCHcocU3XODJxsu8i/j8T9tzT4adHiecwORRQ0ZZFcp7ahwXuRU1m+yuO90C5ZUyGeGfocHDI14M3L3yDAQ==}
 
@@ -5418,8 +5447,8 @@ packages:
   starknet@6.24.1:
     resolution: {integrity: sha512-g7tiCt73berhcNi41otlN3T3kxZnIvZhMi8WdC21Y6GC6zoQgbI2z1t7JAZF9c4xZiomlanwVnurcpyfEdyMpg==}
 
-  starknet@7.6.4:
-    resolution: {integrity: sha512-FB20IaLCDbh/XomkB+19f5jmNxG+RzNdRO7QUhm7nfH81UPIt2C/MyWAlHCYkbv2wznSEb73wpxbp9tytokTgQ==}
+  starknet@8.6.0:
+    resolution: {integrity: sha512-5rDiJPnc3GpH7KA8B/TqCzKgdpZbxaA52clf/OEhDKhMbbJpWeRcDqKKC8u+kFD9Nd/Rt6y2hwmZ32u82Ycurg==}
     engines: {node: '>=22'}
 
   statuses@2.0.1:
@@ -6004,12 +6033,12 @@ snapshots:
 
   '@anthropic-ai/sdk@0.56.0': {}
 
-  '@avnu/avnu-sdk@3.1.1(ethers@6.15.0)(moment@2.30.1)(qs@6.14.0)(starknet@7.6.4)':
+  '@avnu/avnu-sdk@3.1.1(ethers@6.15.0)(moment@2.30.1)(qs@6.14.0)(starknet@8.6.0)':
     dependencies:
       ethers: 6.15.0
       moment: 2.30.1
       qs: 6.14.0
-      starknet: 7.6.4
+      starknet: 8.6.0
 
   '@babel/code-frame@7.27.1':
     dependencies:
@@ -6336,9 +6365,9 @@ snapshots:
       eslint: 8.57.1
       eslint-visitor-keys: 3.4.3
 
-  '@eslint-community/eslint-utils@4.7.0(eslint@9.26.0(jiti@1.21.7))':
+  '@eslint-community/eslint-utils@4.7.0(eslint@9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7))':
     dependencies:
-      eslint: 9.26.0(jiti@1.21.7)
+      eslint: 9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7)
       eslint-visitor-keys: 3.4.3
 
   '@eslint-community/regexpp@4.12.1': {}
@@ -6912,15 +6941,16 @@ snapshots:
       - react
       - react-dom
 
-  '@langchain/mcp-adapters@0.6.0(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))':
+  '@langchain/mcp-adapters@0.6.0(@cfworker/json-schema@4.1.1)(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))':
     dependencies:
       '@langchain/core': 0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76))
-      '@modelcontextprotocol/sdk': 1.17.5
+      '@modelcontextprotocol/sdk': 1.22.0(@cfworker/json-schema@4.1.1)
       debug: 4.4.1
       zod: 3.25.76
     optionalDependencies:
       extended-eventsource: 1.7.0
     transitivePeerDependencies:
+      - '@cfworker/json-schema'
       - supports-color
 
   '@langchain/openai@0.6.11(@langchain/core@0.3.75(openai@5.12.2(ws@8.18.2)(zod@3.25.76)))(ws@8.18.2)':
@@ -7025,9 +7055,10 @@ snapshots:
 
   '@lukeed/csprng@1.1.0': {}
 
-  '@modelcontextprotocol/sdk@1.17.5':
+  '@modelcontextprotocol/sdk@1.22.0(@cfworker/json-schema@4.1.1)':
     dependencies:
-      ajv: 6.12.6
+      ajv: 8.17.1
+      ajv-formats: 3.0.1(ajv@8.17.1)
       content-type: 1.0.5
       cors: 2.8.5
       cross-spawn: 7.0.6
@@ -7039,6 +7070,8 @@ snapshots:
       raw-body: 3.0.0
       zod: 3.25.76
       zod-to-json-schema: 3.24.5(zod@3.25.76)
+    optionalDependencies:
+      '@cfworker/json-schema': 4.1.1
     transitivePeerDependencies:
       - supports-color
 
@@ -7464,6 +7497,8 @@ snapshots:
 
   '@starknet-io/types-js@0.8.4': {}
 
+  '@starknet-io/types-js@0.9.2': {}
+
   '@tokenizer/inflate@0.2.7':
     dependencies:
       debug: 4.4.1
@@ -7632,15 +7667,15 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/eslint-plugin@8.32.1(@typescript-eslint/parser@8.32.1(eslint@9.26.0(jiti@1.21.7))(typescript@5.8.3))(eslint@9.26.0(jiti@1.21.7))(typescript@5.8.3)':
+  '@typescript-eslint/eslint-plugin@8.32.1(@typescript-eslint/parser@8.32.1(eslint@9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7))(typescript@5.8.3))(eslint@9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7))(typescript@5.8.3)':
     dependencies:
       '@eslint-community/regexpp': 4.12.1
-      '@typescript-eslint/parser': 8.32.1(eslint@9.26.0(jiti@1.21.7))(typescript@5.8.3)
+      '@typescript-eslint/parser': 8.32.1(eslint@9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7))(typescript@5.8.3)
       '@typescript-eslint/scope-manager': 8.32.1
-      '@typescript-eslint/type-utils': 8.32.1(eslint@9.26.0(jiti@1.21.7))(typescript@5.8.3)
-      '@typescript-eslint/utils': 8.32.1(eslint@9.26.0(jiti@1.21.7))(typescript@5.8.3)
+      '@typescript-eslint/type-utils': 8.32.1(eslint@9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7))(typescript@5.8.3)
+      '@typescript-eslint/utils': 8.32.1(eslint@9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7))(typescript@5.8.3)
       '@typescript-eslint/visitor-keys': 8.32.1
-      eslint: 9.26.0(jiti@1.21.7)
+      eslint: 9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7)
       graphemer: 1.4.0
       ignore: 7.0.4
       natural-compare: 1.4.0
@@ -7662,14 +7697,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/parser@8.32.1(eslint@9.26.0(jiti@1.21.7))(typescript@5.8.3)':
+  '@typescript-eslint/parser@8.32.1(eslint@9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7))(typescript@5.8.3)':
     dependencies:
       '@typescript-eslint/scope-manager': 8.32.1
       '@typescript-eslint/types': 8.32.1
       '@typescript-eslint/typescript-estree': 8.32.1(typescript@5.8.3)
       '@typescript-eslint/visitor-keys': 8.32.1
       debug: 4.4.1
-      eslint: 9.26.0(jiti@1.21.7)
+      eslint: 9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7)
       typescript: 5.8.3
     transitivePeerDependencies:
       - supports-color
@@ -7696,12 +7731,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/type-utils@8.32.1(eslint@9.26.0(jiti@1.21.7))(typescript@5.8.3)':
+  '@typescript-eslint/type-utils@8.32.1(eslint@9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7))(typescript@5.8.3)':
     dependencies:
       '@typescript-eslint/typescript-estree': 8.32.1(typescript@5.8.3)
-      '@typescript-eslint/utils': 8.32.1(eslint@9.26.0(jiti@1.21.7))(typescript@5.8.3)
+      '@typescript-eslint/utils': 8.32.1(eslint@9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7))(typescript@5.8.3)
       debug: 4.4.1
-      eslint: 9.26.0(jiti@1.21.7)
+      eslint: 9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7)
       ts-api-utils: 2.1.0(typescript@5.8.3)
       typescript: 5.8.3
     transitivePeerDependencies:
@@ -7754,13 +7789,13 @@ snapshots:
       - supports-color
       - typescript
 
-  '@typescript-eslint/utils@8.32.1(eslint@9.26.0(jiti@1.21.7))(typescript@5.8.3)':
+  '@typescript-eslint/utils@8.32.1(eslint@9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7))(typescript@5.8.3)':
     dependencies:
-      '@eslint-community/eslint-utils': 4.7.0(eslint@9.26.0(jiti@1.21.7))
+      '@eslint-community/eslint-utils': 4.7.0(eslint@9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7))
       '@typescript-eslint/scope-manager': 8.32.1
       '@typescript-eslint/types': 8.32.1
       '@typescript-eslint/typescript-estree': 8.32.1(typescript@5.8.3)
-      eslint: 9.26.0(jiti@1.21.7)
+      eslint: 9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7)
       typescript: 5.8.3
     transitivePeerDependencies:
       - supports-color
@@ -7836,12 +7871,23 @@ snapshots:
       clean-stack: 2.2.0
       indent-string: 4.0.0
 
+  ajv-formats@3.0.1(ajv@8.17.1):
+    optionalDependencies:
+      ajv: 8.17.1
+
   ajv@6.12.6:
     dependencies:
       fast-deep-equal: 3.1.3
       fast-json-stable-stringify: 2.1.0
       json-schema-traverse: 0.4.1
       uri-js: 4.4.1
+
+  ajv@8.17.1:
+    dependencies:
+      fast-deep-equal: 3.1.3
+      fast-uri: 3.1.0
+      json-schema-traverse: 1.0.0
+      require-from-string: 2.0.2
 
   ansi-colors@4.1.3: {}
 
@@ -8501,19 +8547,19 @@ snapshots:
 
   escape-string-regexp@4.0.0: {}
 
-  eslint-config-prettier@9.1.0(eslint@9.26.0(jiti@1.21.7)):
+  eslint-config-prettier@9.1.0(eslint@9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7)):
     dependencies:
-      eslint: 9.26.0(jiti@1.21.7)
+      eslint: 9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7)
 
-  eslint-plugin-prettier@5.4.0(@types/eslint@9.6.1)(eslint-config-prettier@9.1.0(eslint@9.26.0(jiti@1.21.7)))(eslint@9.26.0(jiti@1.21.7))(prettier@3.6.1):
+  eslint-plugin-prettier@5.4.0(@types/eslint@9.6.1)(eslint-config-prettier@9.1.0(eslint@9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7)))(eslint@9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7))(prettier@3.6.1):
     dependencies:
-      eslint: 9.26.0(jiti@1.21.7)
+      eslint: 9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7)
       prettier: 3.6.1
       prettier-linter-helpers: 1.0.0
       synckit: 0.11.4
     optionalDependencies:
       '@types/eslint': 9.6.1
-      eslint-config-prettier: 9.1.0(eslint@9.26.0(jiti@1.21.7))
+      eslint-config-prettier: 9.1.0(eslint@9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7))
 
   eslint-scope@7.2.2:
     dependencies:
@@ -8572,9 +8618,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint@9.26.0(jiti@1.21.7):
+  eslint@9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7):
     dependencies:
-      '@eslint-community/eslint-utils': 4.7.0(eslint@9.26.0(jiti@1.21.7))
+      '@eslint-community/eslint-utils': 4.7.0(eslint@9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7))
       '@eslint-community/regexpp': 4.12.1
       '@eslint/config-array': 0.20.0
       '@eslint/config-helpers': 0.2.2
@@ -8585,7 +8631,7 @@ snapshots:
       '@humanfs/node': 0.16.6
       '@humanwhocodes/module-importer': 1.0.1
       '@humanwhocodes/retry': 0.4.3
-      '@modelcontextprotocol/sdk': 1.17.5
+      '@modelcontextprotocol/sdk': 1.22.0(@cfworker/json-schema@4.1.1)
       '@types/estree': 1.0.7
       '@types/json-schema': 7.0.15
       ajv: 6.12.6
@@ -8614,6 +8660,7 @@ snapshots:
     optionalDependencies:
       jiti: 1.21.7
     transitivePeerDependencies:
+      - '@cfworker/json-schema'
       - supports-color
 
   espree@10.3.0:
@@ -8763,6 +8810,8 @@ snapshots:
   fast-json-stable-stringify@2.1.0: {}
 
   fast-levenshtein@2.0.6: {}
+
+  fast-uri@3.1.0: {}
 
   fast-xml-parser@4.5.3:
     dependencies:
@@ -9171,7 +9220,7 @@ snapshots:
       isstream: 0.1.2
       jsonwebtoken: 9.0.2
       mime-types: 2.1.35
-      retry-axios: 2.6.0(axios@1.12.2)
+      retry-axios: 2.6.0(axios@1.12.2(debug@4.4.1))
       tough-cookie: 4.1.4
     transitivePeerDependencies:
       - supports-color
@@ -9727,6 +9776,8 @@ snapshots:
 
   json-schema-traverse@0.4.1: {}
 
+  json-schema-traverse@1.0.0: {}
+
   json-stable-stringify-without-jsonify@1.0.1: {}
 
   json-stringify-nice@1.1.4: {}
@@ -10011,7 +10062,7 @@ snapshots:
 
   long@5.3.2: {}
 
-  lossless-json@4.0.2: {}
+  lossless-json@4.3.0: {}
 
   lru-cache@10.4.3: {}
 
@@ -10821,6 +10872,8 @@ snapshots:
 
   require-directory@2.1.1: {}
 
+  require-from-string@2.0.2: {}
+
   requires-port@1.0.0: {}
 
   resolve-cwd@3.0.0:
@@ -10846,7 +10899,7 @@ snapshots:
       onetime: 5.1.2
       signal-exit: 3.0.7
 
-  retry-axios@2.6.0(axios@1.12.2):
+  retry-axios@2.6.0(axios@1.12.2(debug@4.4.1)):
     dependencies:
       axios: 1.12.2(debug@4.4.1)
 
@@ -11070,23 +11123,23 @@ snapshots:
       abi-wan-kanabi: 2.2.4
       fetch-cookie: 3.0.1
       isomorphic-fetch: 3.0.0(encoding@0.1.13)
-      lossless-json: 4.0.2
+      lossless-json: 4.3.0
       pako: 2.1.0
       starknet-types-07: '@starknet-io/types-js@0.7.10'
       ts-mixer: 6.0.4
     transitivePeerDependencies:
       - encoding
 
-  starknet@7.6.4:
+  starknet@8.6.0:
     dependencies:
       '@noble/curves': 1.7.0
       '@noble/hashes': 1.6.0
       '@scure/base': 1.2.1
       '@scure/starknet': 1.1.0
-      '@starknet-io/starknet-types-07': '@starknet-io/types-js@0.7.10'
       '@starknet-io/starknet-types-08': '@starknet-io/types-js@0.8.4'
+      '@starknet-io/starknet-types-09': '@starknet-io/types-js@0.9.2'
       abi-wan-kanabi: 2.2.4
-      lossless-json: 4.0.2
+      lossless-json: 4.3.0
       pako: 2.1.0
       ts-mixer: 6.0.4
 
@@ -11350,12 +11403,12 @@ snapshots:
 
   typedarray@0.0.6: {}
 
-  typescript-eslint@8.32.1(eslint@9.26.0(jiti@1.21.7))(typescript@5.8.3):
+  typescript-eslint@8.32.1(eslint@9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7))(typescript@5.8.3):
     dependencies:
-      '@typescript-eslint/eslint-plugin': 8.32.1(@typescript-eslint/parser@8.32.1(eslint@9.26.0(jiti@1.21.7))(typescript@5.8.3))(eslint@9.26.0(jiti@1.21.7))(typescript@5.8.3)
-      '@typescript-eslint/parser': 8.32.1(eslint@9.26.0(jiti@1.21.7))(typescript@5.8.3)
-      '@typescript-eslint/utils': 8.32.1(eslint@9.26.0(jiti@1.21.7))(typescript@5.8.3)
-      eslint: 9.26.0(jiti@1.21.7)
+      '@typescript-eslint/eslint-plugin': 8.32.1(@typescript-eslint/parser@8.32.1(eslint@9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7))(typescript@5.8.3))(eslint@9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7))(typescript@5.8.3)
+      '@typescript-eslint/parser': 8.32.1(eslint@9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7))(typescript@5.8.3)
+      '@typescript-eslint/utils': 8.32.1(eslint@9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7))(typescript@5.8.3)
+      eslint: 9.26.0(@cfworker/json-schema@4.1.1)(jiti@1.21.7)
       typescript: 5.8.3
     transitivePeerDependencies:
       - supports-color

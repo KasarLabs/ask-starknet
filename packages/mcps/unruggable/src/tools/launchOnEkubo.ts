@@ -64,8 +64,11 @@ export const launchOnEkubo = async (
   try {
     const provider = env.provider;
 
-    const contract = new Contract(FACTORY_ABI, FACTORY_ADDRESS, provider);
-
+    const contract = new Contract({
+      abi: FACTORY_ABI,
+      address: FACTORY_ADDRESS,
+      providerOrAccount: provider,
+    });
     const launchParams = params.launchParams;
     const ekuboParams = params.ekuboParams;
 

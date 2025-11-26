@@ -9,9 +9,12 @@ export const transferPosition = async (
 ): Promise<toolResult> => {
   try {
     const account = env.account;
-    const NFTContract = await getContract(env.provider, 'positionsNFT');
+    const NFTContract = await getContract(
+      env.provider,
+      'positionsNFT',
+      account
+    );
 
-    NFTContract.connect(account);
     const transferCalldata = NFTContract.populate('transfer_from', [
       account.address,
       params.to_address,
