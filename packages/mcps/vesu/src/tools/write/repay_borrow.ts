@@ -40,11 +40,11 @@ export class RepayBorrowService {
     env: onchainWrite
   ): Promise<RepayBorrowResult> {
     try {
-      const account = new Account(
-        this.env.provider,
-        this.walletAddress,
-        this.env.account.signer
-      );
+      const account = new Account({
+        provider: this.env.provider,
+        address: this.walletAddress,
+        signer: this.env.account.signer,
+      });
       const poolId = String(params.poolId || GENESIS_POOLID);
 
       let pool: any;
@@ -308,11 +308,11 @@ export class RepayBorrowService {
         }
 
         const typedPoolContract = getPoolContract(extensionContractAddress);
-        const poolContract = new Contract(
-          typedPoolContract.abi,
-          extensionContractAddress,
-          env.provider
-        );
+        const poolContract = new Contract({
+          abi: typedPoolContract.abi,
+          address: extensionContractAddress,
+          providerOrAccount: env.provider,
+        });
 
         contractForTx = poolContract;
         const assetsEnum = new CairoCustomEnum({ Assets: {} });
@@ -334,11 +334,11 @@ export class RepayBorrowService {
           },
         };
       } else {
-        contractForTx = new Contract(
-          singletonAbi,
-          singletonAddress,
-          env.provider
-        );
+        contractForTx = new Contract({
+          abi: singletonAbi,
+          address: singletonAddress,
+          providerOrAccount: env.provider,
+        });
 
         const deltaEnum = new CairoCustomEnum({ Delta: {} });
         const targetEnum = new CairoCustomEnum({ Target: {} });

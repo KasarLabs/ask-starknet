@@ -41,11 +41,11 @@ export class DepositMultiplyService {
     env: onchainWrite
   ): Promise<DepositMultiplyResult> {
     try {
-      const account = new Account(
-        this.env.provider,
-        this.walletAddress,
-        this.env.account.signer
-      );
+      const account = new Account({
+        provider: this.env.provider,
+        address: this.walletAddress,
+        signer: this.env.account.signer,
+      });
       // For v2, poolId is the address of the pool contract
       const poolId = (params.poolId || GENESIS_POOLID) as Hex;
       const pool = await getPool(poolId);

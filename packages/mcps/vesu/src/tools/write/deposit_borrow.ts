@@ -38,11 +38,11 @@ export class DepositBorrowService {
     env: onchainWrite
   ): Promise<DepositBorrowResult> {
     try {
-      const account = new Account(
-        this.env.provider,
-        this.walletAddress,
-        this.env.account.signer
-      );
+      const account = new Account({
+        provider: this.env.provider,
+        address: this.walletAddress,
+        signer: this.env.account.signer,
+      });
       const poolId = String(params.poolId || GENESIS_POOLID);
 
       let pool: any;
@@ -283,11 +283,11 @@ export class DepositBorrowService {
 
       if (pool.protocolVersion === 'v2') {
         const typedPoolContract = getPoolContract(extensionContractAddress);
-        const poolContract = new Contract(
-          typedPoolContract.abi,
-          extensionContractAddress,
-          env.provider
-        );
+        const poolContract = new Contract({
+          abi: typedPoolContract.abi,
+          address: extensionContractAddress,
+          providerOrAccount: env.provider,
+        });
 
         contractForTx = poolContract;
         const assetsEnum = new CairoCustomEnum({ Assets: {} });
@@ -310,11 +310,11 @@ export class DepositBorrowService {
           singletonContract = getSingletonContract(singletonAddress);
         }
 
-        contractForTx = new Contract(
-          singletonContract.abi,
-          singletonAddress,
-          env.provider
-        );
+        contractForTx = new Contract({
+          abi: singletonContract.abi,
+          address: singletonAddress,
+          providerOrAccount: env.provider,
+        });
 
         const deltaEnum = new CairoCustomEnum({ Delta: {} });
         const assetsEnum = new CairoCustomEnum({ Assets: {} });

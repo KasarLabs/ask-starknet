@@ -41,11 +41,11 @@ export class WithdrawMultiplyService {
     env: onchainWrite
   ): Promise<WithdrawMultiplyResult> {
     try {
-      const account = new Account(
-        env.provider,
-        this.walletAddress,
-        env.account.signer
-      );
+      const account = new Account({
+        provider: env.provider,
+        address: this.walletAddress,
+        signer: env.account.signer,
+      });
       // For v2, poolId is the address of the pool contract
       const poolId = (params.poolId || GENESIS_POOLID) as Hex;
       const pool = await getPool(poolId);

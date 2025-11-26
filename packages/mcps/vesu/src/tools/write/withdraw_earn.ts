@@ -33,11 +33,11 @@ export class WithdrawEarnService {
     env: onchainWrite
   ): Promise<WithdrawResult> {
     try {
-      const account = new Account(
-        this.env.provider,
-        this.walletAddress,
-        this.env.account.signer
-      );
+      const account = new Account({
+        provider: this.env.provider,
+        address: this.walletAddress,
+        signer: this.env.account.signer,
+      });
       const poolId = params.poolId || GENESIS_POOLID;
       const pool = await getPool(poolId);
 
@@ -51,11 +51,11 @@ export class WithdrawEarnService {
       }
 
       // Use the environment provider to get the vToken contract
-      const vtokenContract = new Contract(
-        vTokenAbi,
-        collateralPoolAsset.vToken.address,
-        env.provider
-      ).typedv2(vTokenAbi);
+      const vtokenContract = new Contract({
+        abi: vTokenAbi,
+        address: collateralPoolAsset.vToken.address,
+        providerOrAccount: env.provider,
+      }).typedv2(vTokenAbi);
 
       // Get vToken balance using the contract directly with the environment provider
       const vTokenShares = await vtokenContract

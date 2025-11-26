@@ -69,16 +69,16 @@ export const buildMultiplyCalls = async (
   const multiplyContract = getMultiplyContract(MULTIPLY_CONTRACT_ADDRESS);
   const poolContract = getPoolContract(poolContractAddress);
 
-  const multiplyContractForTx = new Contract(
-    multiplyContract.abi,
-    MULTIPLY_CONTRACT_ADDRESS,
-    provider
-  );
-  const poolContractForTx = new Contract(
-    poolContract.abi,
-    poolContractAddress,
-    provider
-  );
+  const multiplyContractForTx = new Contract({
+    abi: multiplyContract.abi,
+    address: MULTIPLY_CONTRACT_ADDRESS,
+    providerOrAccount: provider,
+  });
+  const poolContractForTx = new Contract({
+    abi: poolContract.abi,
+    address: poolContractAddress,
+    providerOrAccount: provider,
+  });
 
   // Step 1: Approve token
   const approveCall = await tokenContract.populateTransaction.approve(
@@ -141,16 +141,16 @@ export const buildCloseMultiplyCalls = async (
   const multiplyContract = getMultiplyContract(MULTIPLY_CONTRACT_ADDRESS);
   const poolContract = getPoolContract(poolContractAddress);
 
-  const multiplyContractForTx = new Contract(
-    multiplyContract.abi,
-    MULTIPLY_CONTRACT_ADDRESS,
-    provider
-  );
-  const poolContractForTx = new Contract(
-    poolContract.abi,
-    poolContractAddress,
-    provider
-  );
+  const multiplyContractForTx = new Contract({
+    abi: multiplyContract.abi,
+    address: MULTIPLY_CONTRACT_ADDRESS,
+    providerOrAccount: provider,
+  });
+  const poolContractForTx = new Contract({
+    abi: poolContract.abi,
+    address: poolContractAddress,
+    providerOrAccount: provider,
+  });
 
   const modifyDelegationCall =
     await poolContractForTx.populateTransaction.modify_delegation(
@@ -233,16 +233,16 @@ export const buildWithdrawMultiplyCalls = async (
   const multiplyContract = getMultiplyContract(MULTIPLY_CONTRACT_ADDRESS);
   const poolContract = getPoolContract(poolContractAddress);
 
-  const multiplyContractForTx = new Contract(
-    multiplyContract.abi,
-    MULTIPLY_CONTRACT_ADDRESS,
-    provider
-  );
-  const poolContractForTx = new Contract(
-    poolContract.abi,
-    poolContractAddress,
-    provider
-  );
+  const multiplyContractForTx = new Contract({
+    abi: multiplyContract.abi,
+    address: MULTIPLY_CONTRACT_ADDRESS,
+    providerOrAccount: provider,
+  });
+  const poolContractForTx = new Contract({
+    abi: poolContract.abi,
+    address: poolContractAddress,
+    providerOrAccount: provider,
+  });
 
   const modifyDelegationCall =
     await poolContractForTx.populateTransaction.modify_delegation(
@@ -295,16 +295,16 @@ export const getDecreaseMultiplierCalls = async (
   const multiplyContract = getMultiplyContract(MULTIPLY_CONTRACT_ADDRESS);
   const poolContract = getPoolContract(poolContractAddress);
 
-  const multiplyContractForTx = new Contract(
-    multiplyContract.abi,
-    MULTIPLY_CONTRACT_ADDRESS,
-    provider
-  );
-  const poolContractForTx = new Contract(
-    poolContract.abi,
-    poolContractAddress,
-    provider
-  );
+  const multiplyContractForTx = new Contract({
+    abi: multiplyContract.abi,
+    address: MULTIPLY_CONTRACT_ADDRESS,
+    providerOrAccount: provider,
+  });
+  const poolContractForTx = new Contract({
+    abi: poolContract.abi,
+    address: poolContractAddress,
+    providerOrAccount: provider,
+  });
 
   const modifyDelegationCall =
     await poolContractForTx.populateTransaction.modify_delegation(
@@ -382,16 +382,16 @@ export const getIncreaseMultiplierCalls = async (
   const multiplyContract = getMultiplyContract(MULTIPLY_CONTRACT_ADDRESS);
   const poolContract = getPoolContract(poolContractAddress);
 
-  const multiplyContractForTx = new Contract(
-    multiplyContract.abi,
-    MULTIPLY_CONTRACT_ADDRESS,
-    provider
-  );
-  const poolContractForTx = new Contract(
-    poolContract.abi,
-    poolContractAddress,
-    provider
-  );
+  const multiplyContractForTx = new Contract({
+    abi: multiplyContract.abi,
+    address: MULTIPLY_CONTRACT_ADDRESS,
+    providerOrAccount: provider,
+  });
+  const poolContractForTx = new Contract({
+    abi: poolContract.abi,
+    address: poolContractAddress,
+    providerOrAccount: provider,
+  });
 
   // Step 1: Modify delegation (set to true)
   const modifyDelegationCall =

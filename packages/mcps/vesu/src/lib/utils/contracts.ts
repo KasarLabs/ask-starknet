@@ -42,9 +42,17 @@ export const getExtensionContract = (address: Address) => {
 };
 export const getMultiplyContract = (address: Address) => {
   const provider = new RpcProvider({ nodeUrl: process.env.STARKNET_RPC_URL });
-  return new Contract(multiplyAbi, address, provider).typedv2(multiplyAbi);
+  return new Contract({
+    abi: multiplyAbi,
+    address,
+    providerOrAccount: provider,
+  }).typedv2(multiplyAbi);
 };
 export const getPoolContract = (address: Address) => {
   const provider = new RpcProvider({ nodeUrl: process.env.STARKNET_RPC_URL });
-  return new Contract(poolAbi, address, provider).typedv2(poolAbi);
+  return new Contract({
+    abi: poolAbi,
+    address,
+    providerOrAccount: provider,
+  }).typedv2(poolAbi);
 };
