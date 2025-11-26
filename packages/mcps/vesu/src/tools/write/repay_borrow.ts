@@ -288,9 +288,10 @@ export class RepayBorrowService {
           throw new Error('Approve address not available');
         }
         const tokenContract = getErc20Contract(debtAsset.address);
+        const approveAmount = (debtAmount * 110n) / 100n;
         debtTokenApproveCall = tokenContract.populateTransaction.approve(
           approveToAddress,
-          debtAmount
+          approveAmount
         );
       } catch (error) {
         throw new Error(
