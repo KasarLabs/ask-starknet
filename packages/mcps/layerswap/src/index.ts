@@ -145,7 +145,8 @@ const registerTools = (LayerswapToolRegistry: mcpTool[]) => {
 
   LayerswapToolRegistry.push({
     name: 'create_swap',
-    description: 'Create a new swap for cross-chain transfer',
+    description:
+      'Create a new cross-chain swap via Layerswap and optionally execute the deposit transaction on-chain if the source address matches the environment account address.',
     schema: createSwapSchema,
     execute: async (params: any) => {
       const onchainWrite = getOnchainWrite();
