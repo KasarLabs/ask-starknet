@@ -211,14 +211,8 @@ Create a new cross-chain swap via Layerswap and optionally execute the deposit t
 ## Installation
 
 ```bash
-npm install
-npm run build
-```
-
-## Usage
-
-```bash
-npm start
+pnpm install
+pnpm run build
 ```
 
 ## Development
