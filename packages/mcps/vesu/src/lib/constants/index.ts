@@ -21,3 +21,5 @@ export const EKUBO_ROUTER_ADDRESSES = {
   sepolia: '0x0045f933adf0607292468ad1c1dedaa74d5ad166392590e72676a34d01d7b763',
   mainnet: '0x0199741822c2dc722f6f605204f35e56dbc23bceed54818168c4c49e4fb8737e',
 } as const;
+
+export const WAD = 1_000_000_000_000_000_000n;

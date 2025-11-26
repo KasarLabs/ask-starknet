@@ -30,6 +30,10 @@ import {
   DEFAULT_DECIMALS,
 } from '../../lib/constants/index.js';
 import { z } from 'zod';
+import {
+  computeCandD_from_T_and_N_wad,
+  ResultWad,
+} from '../../lib/utils/math.js';
 
 const ZERO_BI: BigIntValue = { value: 0n, decimals: DEFAULT_DECIMALS };
 
@@ -59,23 +63,14 @@ export class UpdateMultiplyService {
     env: onchainWrite
   ): Promise<UpdateMultiplyResult> {
     try {
-      console.error('=== updateMultiplyTransaction START ===');
-      console.error('params:', safeStringify(params));
-      console.error('walletAddress:', this.walletAddress);
-      console.error('env.provider:', env.provider);
-      console.error('env.account.address:', env.account?.address);
-
       const account = new Account(
         this.env.provider,
         this.walletAddress,
         this.env.account.signer
       );
-      console.error('account.address:', account.address);
       // For v2, poolId is the address of the pool contract
       const poolId = (params.poolId || GENESIS_POOLID) as Hex;
-      console.error('poolId:', poolId);
       const pool = await getPool(poolId);
-      console.error('pool:', safeStringify(pool));
 
       // Multiply operations are only supported on v2 pools
       if (pool.protocolVersion !== 'v2') {
@@ -100,22 +95,18 @@ export class UpdateMultiplyService {
       if (!collateralAsset) {
         throw new Error('Collateral asset not found in pool');
       }
-      console.error('collateralAsset:', safeStringify(collateralAsset));
 
       if (!debtAsset) {
         throw new Error('Debt asset not found in pool');
       }
-      console.error('debtAsset:', safeStringify(debtAsset));
 
       // Get pool contract for v2
       const poolContract = getPoolContract(poolContractAddress);
 
-      // Get LTV config from pool contract (v2 uses pair_config)
       const pairConfig = await poolContract.pair_config(
         collateralAsset.address as `0x${string}`,
         debtAsset.address as `0x${string}`
       );
-      console.error('pairConfig:', safeStringify(pairConfig));
 
       // Validate and convert target LTV
       const ltvPercent = BigInt(params.targetLTV);
@@ -128,8 +119,6 @@ export class UpdateMultiplyService {
       // API LTV format: 910000000000000000 = 91% (so 1% = 10^16)
       // targetLTV: 15 = 15%, so we need 15 * 10^16 = 150000000000000000
       const targetLTVWithDecimals = ltvPercent * 10n ** 16n;
-      console.error('targetLTVValue:', targetLTVValue.toString());
-      console.error('targetLTVWithDecimals:', targetLTVWithDecimals.toString());
 
       const maxLTVValue = toBN(pairConfig.max_ltv);
       if (targetLTVValue > maxLTVValue) {
@@ -143,6 +132,8 @@ export class UpdateMultiplyService {
       let currentLTV: bigint;
       let currentCollateral: bigint;
       let currentDebt: bigint;
+      let currentCollateralValueUSD: bigint;
+      let currentDebtValueUSD: bigint;
       try {
         const queryParams = new URLSearchParams();
         queryParams.append('walletAddress', account.address);
@@ -172,11 +163,25 @@ export class UpdateMultiplyService {
                     symbol: z.string(),
                     value: z.string(),
                     decimals: z.number(),
+                    usdPrice: z
+                      .object({
+                        value: z.string(),
+                        decimals: z.number(),
+                      })
+                      .optional(),
                   })
                   .optional(),
                 debt: z
                   .object({
                     symbol: z.string(),
+                    value: z.string(),
+                    decimals: z.number(),
+                    usdPrice: z
+                      .object({
+                        value: z.string(),
+                        decimals: z.number(),
+                      })
+                      .optional(),
                   })
                   .optional(),
                 ltv: z
@@ -222,7 +227,6 @@ export class UpdateMultiplyService {
           throw new Error('No current LTV found in position');
         }
         currentLTV = BigInt(matchingPosition.ltv.current.value);
-        console.error('currentLTV:', currentLTV.toString());
 
         // Get current debt (for v2, use nominalDebt)
         if (
@@ -232,7 +236,6 @@ export class UpdateMultiplyService {
           throw new Error('No nominalDebt found in position');
         }
         currentDebt = BigInt(matchingPosition.nominalDebt.value);
-        console.error('currentDebt:', currentDebt.toString());
 
         // Get current collateral
         if (
@@ -242,20 +245,44 @@ export class UpdateMultiplyService {
           throw new Error('No collateral found in position');
         }
         currentCollateral = BigInt(matchingPosition.collateral.value);
-        console.error('currentCollateral:', currentCollateral.toString());
+
+        if (
+          !matchingPosition.collateral?.usdPrice ||
+          !matchingPosition.collateral.usdPrice.value
+        ) {
+          throw new Error('No collateral usdPrice found in position');
+        }
+        if (
+          !matchingPosition.debt?.usdPrice ||
+          !matchingPosition.debt.usdPrice.value
+        ) {
+          throw new Error('No debt usdPrice found in position');
+        }
+
+        currentCollateralValueUSD = BigInt(
+          matchingPosition.collateral.usdPrice.value
+        );
+        currentDebtValueUSD = BigInt(matchingPosition.debt.usdPrice.value);
       } catch (error) {
         throw new Error(
           `Failed to get position data: ${error instanceof Error ? error.message : 'Unknown error'}`
         );
       }
-
-      // Check if LTV is already at target
-      // currentLTV has 18 decimals, targetLTVWithDecimals also has 18 decimals
       if (currentLTV === targetLTVWithDecimals) {
         throw new Error(
           `Position LTV is already at target (${params.targetLTV}%)`
         );
       }
+
+      const netValue = currentCollateralValueUSD! - currentDebtValueUSD!;
+
+      const isIncreasing = currentLTV < targetLTVWithDecimals;
+
+      const result_cd = computeCandD_from_T_and_N_wad(
+        netValue,
+        targetLTVWithDecimals,
+        currentDebtValueUSD
+      );
 
       // Get asset prices from pool contract (v2)
       const collateralPrice = await poolContract.price(
@@ -264,142 +291,43 @@ export class UpdateMultiplyService {
       const debtPrice = await poolContract.price(
         debtAsset.address as `0x${string}`
       );
-      console.error('collateralPrice:', safeStringify(collateralPrice));
-      console.error('debtPrice:', safeStringify(debtPrice));
 
       if (!collateralPrice.is_valid || !debtPrice.is_valid) {
         throw new Error('Invalid price data for assets');
       }
 
-      // Calculate current collateral value in USD
-      const currentCollateralValueUSD =
-        (currentCollateral * toBN(collateralPrice.value)) /
-        10n ** BigInt(collateralAsset.decimals);
-
-      const currentDebtValueUSD =
-        (currentDebt * toBN(debtPrice.value)) /
-        10n ** BigInt(debtAsset.decimals);
-
-      console.error(
-        'currentCollateralValueUSD:',
-        currentCollateralValueUSD.toString()
-      );
-      console.error('currentDebtValueUSD:', currentDebtValueUSD.toString());
-
-      // Determine if we need to increase or decrease LTV
-      // currentLTV has 18 decimals, targetLTVWithDecimals also has 18 decimals
-      const isIncreasing = currentLTV < targetLTVWithDecimals;
-      console.error('isIncreasing:', isIncreasing);
-
-      // LTV in basis points: targetLTVValue = ltvPercent * 100n (déjà calculé plus haut)
-      const ltvBps = targetLTVValue; // ex: 85% -> 8500
-      const oneBps = 10000n;
-
-      let targetDebtAmount: bigint;
-      let debtDelta: bigint;
-      let debtDeltaAbs: bigint;
-
-      if (isIncreasing) {
-        const numerator =
-          ltvBps * currentCollateralValueUSD - oneBps * currentDebtValueUSD;
-        const denominator = oneBps - ltvBps;
-
-        if (denominator <= 0n) {
-          throw new Error(
-            `Invalid target LTV (${params.targetLTV}%), cannot compute leverage increase`
-          );
-        }
-
-        if (numerator <= 0n) {
-          throw new Error(
-            `Target LTV (${params.targetLTV}%) is not higher than current LTV in USD terms`
-          );
-        }
-
-        const deltaDebtValueUSD = numerator / denominator;
-        console.error('deltaDebtValueUSD:', deltaDebtValueUSD.toString());
-
-        const deltaDebtAmount =
-          (deltaDebtValueUSD * 10n ** BigInt(debtAsset.decimals)) /
-          toBN(debtPrice.value);
-        console.error('deltaDebtAmount:', deltaDebtAmount.toString());
-
-        targetDebtAmount = currentDebt + deltaDebtAmount;
-        debtDelta = deltaDebtAmount;
-        debtDeltaAbs = deltaDebtAmount;
-      } else {
-        const numerator =
-          oneBps * currentDebtValueUSD - ltvBps * currentCollateralValueUSD;
-        const denominator = oneBps - ltvBps;
-
-        if (denominator <= 0n) {
-          throw new Error(
-            `Invalid target LTV (${params.targetLTV}%), cannot compute leverage decrease`
-          );
-        }
-
-        if (numerator <= 0n) {
-          throw new Error(
-            `Target LTV (${params.targetLTV}%) is not lower than current LTV in USD terms`
-          );
-        }
-
-        const deltaDebtValueUSD = numerator / denominator;
-        console.error(
-          'deltaDebtValueUSD (decrease):',
-          deltaDebtValueUSD.toString()
+      if (!result_cd || result_cd.deltaDebtWad === undefined) {
+        throw new Error(
+          'Cannot calculate deltaDebtTokenAmount: result_cd or deltaDebtWad is undefined'
         );
-
-        const deltaDebtAmount =
-          (deltaDebtValueUSD * 10n ** BigInt(debtAsset.decimals)) /
-          toBN(debtPrice.value);
-        console.error(
-          'deltaDebtAmount (decrease):',
-          deltaDebtAmount.toString()
-        );
-
-        targetDebtAmount = currentDebt - deltaDebtAmount;
-        debtDelta = -deltaDebtAmount;
-        debtDeltaAbs = deltaDebtAmount;
       }
 
-      console.error('debtDelta:', debtDelta.toString());
-      console.error('debtDeltaAbs:', debtDeltaAbs.toString());
+      const collateralPriceBN = toBN(collateralPrice.value);
+
+      if (collateralPriceBN === 0n) {
+        throw new Error(
+          'Collateral price is zero, cannot calculate deltaDebtTokenAmount'
+        );
+      }
+
+      const deltaDebtTokenAmountRaw =
+        (result_cd.deltaDebtWad * 10n ** BigInt(collateralAsset.decimals)) /
+        collateralPriceBN;
+      const deltaDebtTokenAmount =
+        deltaDebtTokenAmountRaw < 0n
+          ? -deltaDebtTokenAmountRaw
+          : deltaDebtTokenAmountRaw;
 
       const provider = env.provider;
       const wallet = env.account;
-
-      // Get slippage from params or use default (50 = 0.5%)
       const slippageBps: bigint = BigInt(params.ekuboSlippage ?? 50);
-      console.error('slippageBps:', slippageBps.toString());
 
-      // Get Ekubo quote if we have a debt delta
       let ekuboQuote: EkuboQuote | undefined = undefined;
 
-      if (debtDeltaAbs > 0n) {
-        console.error('Getting Ekubo quote, debtDeltaAbs > 0');
+      if (result_cd && result_cd.deltaDebtWad !== undefined) {
         try {
           if (isIncreasing) {
-            console.error('=== Getting Ekubo quote for INCREASE ===');
-            console.error('debtDeltaAbs:', debtDeltaAbs.toString());
-            console.error('collateralAsset.address:', collateralAsset.address);
-            console.error('debtAsset.address:', debtAsset.address);
-            // For increase: swap debt -> collateral (we borrow more debt to buy more collateral)
-            // Format: /{amount}/{tokenOut}/{tokenIn}
-            // We want exact collateral amount out, so we use negative collateral amount
-            // Calculate collateral amount needed from debt delta using current prices
-            const debtValueUSD =
-              (debtDeltaAbs * toBN(debtPrice.value)) /
-              10n ** BigInt(debtAsset.decimals);
-            const collateralAmountNeeded =
-              (debtValueUSD * 10n ** BigInt(collateralAsset.decimals)) /
-              toBN(collateralPrice.value);
-            const ekuboQuoterUrl = `https://starknet-mainnet-quoter-api.ekubo.org/${-collateralAmountNeeded}/${collateralAsset.address}/${debtAsset.address}`;
-            console.error('ekuboQuoterUrl:', ekuboQuoterUrl);
-            console.error(
-              'collateralAmountNeeded:',
-              collateralAmountNeeded.toString()
-            );
+            const ekuboQuoterUrl = `https://starknet-mainnet-quoter-api.ekubo.org/${-deltaDebtTokenAmount}/${collateralAsset.address}/${debtAsset.address}`;
 
             const ekuboResponse = await fetch(ekuboQuoterUrl);
 
@@ -410,7 +338,6 @@ export class UpdateMultiplyService {
             }
 
             const ekuboData = await ekuboResponse.json();
-            console.error('ekuboData (increase):', safeStringify(ekuboData));
 
             // Parse Ekubo response and extract pool parameters
             if (ekuboData.splits && ekuboData.splits.length > 0) {
@@ -546,42 +473,17 @@ export class UpdateMultiplyService {
                 totalCalculated: BigInt(ekuboData.total_calculated),
                 priceImpact: ekuboData.price_impact || null,
               };
-              console.error(
-                'ekuboQuote (increase) created:',
-                safeStringify({
-                  type: ekuboQuote.type,
-                  totalCalculated: ekuboQuote.totalCalculated.toString(),
-                  splitsCount: ekuboQuote.splits.length,
-                  priceImpact: ekuboQuote.priceImpact,
-                })
-              );
             }
           } else {
-            console.error('=== Getting Ekubo quote for DECREASE ===');
-            console.error('debtDeltaAbs:', debtDeltaAbs.toString());
-            console.error('collateralAsset:', safeStringify(collateralAsset));
-            console.error('debtAsset:', safeStringify(debtAsset));
-            // For decrease: swap collateral -> debt (we sell collateral to repay debt)
-            // We want exact debt amount out (to repay debtDeltaAbs)
             ekuboQuote = await getEkuboQuoteFromAPI(
               provider,
               collateralAsset,
               debtAsset,
-              debtDeltaAbs,
+              deltaDebtTokenAmount,
               false // isExactIn = false, we want exactOut
-            );
-            console.error(
-              'ekuboQuote (decrease) received:',
-              safeStringify({
-                type: ekuboQuote.type,
-                totalCalculated: ekuboQuote.totalCalculated.toString(),
-                splitsCount: ekuboQuote.splits.length,
-                priceImpact: ekuboQuote.priceImpact,
-              })
             );
           }
         } catch (error) {
-          console.error('ERROR while getting Ekubo quote:', error);
           console.warn(
             'Failed to get Ekubo quote from API, continuing without swap routing:',
             error
@@ -593,11 +495,10 @@ export class UpdateMultiplyService {
       // Build calls based on whether we're increasing or decreasing
       let callsData: any[];
 
-      if (!isIncreasing && debtDeltaAbs > 0n && ekuboQuote) {
-        console.error('=== Using getDecreaseMultiplierCalls ===');
+      if (!isIncreasing && deltaDebtTokenAmount > 0n && ekuboQuote) {
         // For decrease: use getDecreaseMultiplierCalls helper
         const quotedAmount: BigIntValue = {
-          value: debtDeltaAbs,
+          value: deltaDebtTokenAmount,
           decimals: debtAsset.decimals,
         };
 
@@ -605,26 +506,6 @@ export class UpdateMultiplyService {
           value: slippageBps,
           decimals: 4,
         };
-
-        console.error(
-          'getDecreaseMultiplierCalls params:',
-          safeStringify({
-            collateralAsset: safeStringify(collateralAsset),
-            debtAsset: safeStringify(debtAsset),
-            poolContractAddress,
-            accountAddress: account.address,
-            quotedAmount: {
-              value: quotedAmount.value.toString(),
-              decimals: quotedAmount.decimals,
-            },
-            slippage: {
-              value: slippage.value.toString(),
-              decimals: slippage.decimals,
-            },
-            ekuboQuoteType: ekuboQuote.type,
-            ekuboQuoteTotalCalculated: ekuboQuote.totalCalculated.toString(),
-          })
-        );
 
         callsData = await getDecreaseMultiplierCalls(
           collateralAsset,
@@ -636,38 +517,7 @@ export class UpdateMultiplyService {
           quotedAmount,
           slippage
         );
-        console.error(
-          'callsData from getDecreaseMultiplierCalls:',
-          safeStringify(
-            callsData.map((c) => ({
-              contractAddress: c.contractAddress,
-              entrypoint: c.entrypoint,
-              calldataLength: c.calldata?.length || 0,
-            }))
-          )
-        );
       } else {
-        console.error('=== Using buildUpdateMultiplyCalls ===');
-        console.error(
-          'buildUpdateMultiplyCalls params:',
-          safeStringify({
-            isIncreasing,
-            collateralAsset: safeStringify(collateralAsset),
-            debtAsset: safeStringify(debtAsset),
-            poolContractAddress,
-            accountAddress: account.address,
-            ekuboQuote: ekuboQuote
-              ? {
-                  type: ekuboQuote.type,
-                  totalCalculated: ekuboQuote.totalCalculated.toString(),
-                  splitsCount: ekuboQuote.splits.length,
-                }
-              : undefined,
-            debtDeltaAbs: debtDeltaAbs.toString(),
-            slippageBps: slippageBps.toString(),
-          })
-        );
-        // For increase or when no quote: use existing buildUpdateMultiplyCalls
         callsData = await this.buildUpdateMultiplyCalls(
           isIncreasing,
           collateralAsset,
@@ -676,20 +526,10 @@ export class UpdateMultiplyService {
           account,
           provider,
           ekuboQuote,
-          debtDeltaAbs,
+          deltaDebtTokenAmount,
           slippageBps,
           collateralPrice,
           debtPrice
-        );
-        console.error(
-          'callsData from buildUpdateMultiplyCalls:',
-          safeStringify(
-            callsData.map((c) => ({
-              contractAddress: c.contractAddress,
-              entrypoint: c.entrypoint,
-              calldataLength: c.calldata?.length || 0,
-            }))
-          )
         );
       }
 
@@ -700,18 +540,7 @@ export class UpdateMultiplyService {
         calldata: call.calldata,
       }));
 
-      console.error('=== Final calls before execute ===');
-      console.error('calls count:', calls.length);
-      calls.forEach((call, idx) => {
-        console.error(`call[${idx}]:`, {
-          contractAddress: call.contractAddress,
-          entrypoint: call.entrypoint,
-          calldata: call.calldata,
-        });
-      });
-
       const tx = await wallet.execute(calls);
-      console.error('Transaction hash:', tx.transaction_hash);
 
       await provider.waitForTransaction(tx.transaction_hash);
 
@@ -723,10 +552,8 @@ export class UpdateMultiplyService {
         recipient_address: account.address,
         transaction_hash: tx.transaction_hash,
       };
-
       return result;
     } catch (error) {
-      console.error('Detailed multiply update error:', error);
       if (error instanceof Error) {
         // console.error('Error type:', error.constructor.name);
         // console.error('Error message:', error.message);
@@ -755,27 +582,6 @@ export class UpdateMultiplyService {
     collateralPrice: any,
     debtPrice: any
   ): Promise<any[]> {
-    console.error('=== buildUpdateMultiplyCalls START ===');
-    console.error('isIncreasing:', isIncreasing);
-    console.error('collateralAsset:', safeStringify(collateralAsset));
-    console.error('debtAsset:', safeStringify(debtAsset));
-    console.error('poolContractAddress:', poolContractAddress);
-    console.error('account.address:', account.address);
-    console.error('quotedAmount:', quotedAmount.toString());
-    console.error('slippageBps:', slippageBps.toString());
-    console.error(
-      'ekuboQuote:',
-      ekuboQuote
-        ? {
-            type: ekuboQuote.type,
-            totalCalculated: ekuboQuote.totalCalculated.toString(),
-            splitsCount: ekuboQuote.splits.length,
-          }
-        : undefined
-    );
-    console.error('collateralPrice:', safeStringify(collateralPrice));
-    console.error('debtPrice:', safeStringify(debtPrice));
-
     const multiplyContract = getMultiplyContract(MULTIPLY_CONTRACT_ADDRESS);
     const poolContract = getPoolContract(poolContractAddress);
 
@@ -803,15 +609,7 @@ export class UpdateMultiplyService {
     let adjustedWeights: bigint[] = [];
 
     if (ekuboQuote && ekuboQuote.splits.length > 0) {
-      console.error(
-        'Processing ekuboQuote, splits.length:',
-        ekuboQuote.splits.length
-      );
       const weights = calculateEkuboWeights(ekuboQuote);
-      console.error(
-        'weights:',
-        weights.map((w) => w.toString())
-      );
 
       const slippage: BigIntValue = {
         value: slippageBps,
@@ -819,7 +617,6 @@ export class UpdateMultiplyService {
       };
 
       if (isIncreasing) {
-        console.error('Building leverSwap for INCREASE');
         // For increase: similar to deposit_multiply -> buildMultiplyCalls
         // Quote is exactOut of collateral, totalCalculated is debt needed
         // quotedAmount is the debt amount we're giving
@@ -827,58 +624,19 @@ export class UpdateMultiplyService {
           value: quotedAmount,
           decimals: debtAsset.decimals,
         };
-        console.error('quotedAmountValue:', {
-          value: quotedAmountValue.value.toString(),
-          decimals: quotedAmountValue.decimals,
-        });
+
         leverSwap = calculateEkuboLeverSwapData(
           collateralAsset,
           quotedAmountValue,
           ekuboQuote,
           weights
         );
-        console.error('leverSwap (increase):', safeStringify(leverSwap));
 
         leverSwapLimitAmount = applySlippageToEkuboLimitAmount(
           ekuboQuote.totalCalculated,
           ekuboQuote.type,
           slippage
         );
-        console.error(
-          'leverSwapLimitAmount (increase):',
-          leverSwapLimitAmount.toString()
-        );
-      } else {
-        console.error('Building leverSwap for DECREASE');
-        // For decrease: similar to fn.ts getCloseMultiplyPositionCalls
-        // Quote is exactOut of debt, totalCalculated is collateral needed
-        // Use debtAsset as token and ZERO_BI as quotedAmount (like in getCloseMultiplyPositionCalls)
-
-        const ZERO_BI: BigIntValue = { value: 0n, decimals: DEFAULT_DECIMALS };
-        leverSwap = calculateEkuboLeverSwapData(
-          debtAsset,
-          ZERO_BI,
-          ekuboQuote,
-          weights
-        );
-        console.error('leverSwap (decrease):', safeStringify(leverSwap));
-        adjustedWeights = adjustEkuboWeights(weights);
-        console.error(
-          'adjustedWeights:',
-          adjustedWeights.map((w) => w.toString())
-        );
-
-        leverSwapLimitAmount = applySlippageToEkuboLimitAmount(
-          ekuboQuote.totalCalculated,
-          ekuboQuote.type,
-          slippage
-        );
-        console.error(
-          'leverSwapLimitAmount (decrease):',
-          leverSwapLimitAmount.toString()
-        );
-        // In getCloseMultiplyPositionCalls, they don't take absolute value
-        // But in buildCloseMultiplyCalls they do, so let's try without abs first
       }
     }
 
@@ -896,68 +654,14 @@ export class UpdateMultiplyService {
         lever_swap: leverSwap,
         lever_swap_limit_amount: leverSwapLimitAmount,
       };
-      console.error(
-        'IncreaseLever params:',
-        safeStringify({
-          ...increaseLeverParams,
-          add_margin: increaseLeverParams.add_margin.toString(),
-          margin_swap_limit_amount:
-            increaseLeverParams.margin_swap_limit_amount.toString(),
-          lever_swap_limit_amount:
-            increaseLeverParams.lever_swap_limit_amount.toString(),
-          lever_swap: increaseLeverParams.lever_swap,
-        })
-      );
       modifyLeverCall =
         await multiplyContractForTx.populateTransaction.modify_lever({
           action: new CairoCustomEnum({
             IncreaseLever: increaseLeverParams,
           }),
         });
-    } else {
-      const decreaseLeverParams = {
-        pool: poolContractAddress,
-        collateral_asset: collateralAsset.address,
-        debt_asset: debtAsset.address,
-        user: account.address,
-        sub_margin: ZERO_BI.value,
-        recipient: account.address,
-        lever_swap: leverSwap,
-        lever_swap_limit_amount: leverSwapLimitAmount,
-        lever_swap_weights: adjustedWeights,
-        withdraw_swap: [],
-        withdraw_swap_limit_amount: ZERO_BI.value,
-        withdraw_swap_weights: [],
-        close_position: false,
-      };
-      console.error(
-        'DecreaseLever params:',
-        safeStringify({
-          ...decreaseLeverParams,
-          sub_margin: decreaseLeverParams.sub_margin.toString(),
-          lever_swap_limit_amount:
-            decreaseLeverParams.lever_swap_limit_amount.toString(),
-          lever_swap_weights: decreaseLeverParams.lever_swap_weights.map((w) =>
-            w.toString()
-          ),
-          withdraw_swap_limit_amount:
-            decreaseLeverParams.withdraw_swap_limit_amount.toString(),
-          lever_swap: decreaseLeverParams.lever_swap,
-        })
-      );
-      modifyLeverCall =
-        await multiplyContractForTx.populateTransaction.modify_lever({
-          action: new CairoCustomEnum({
-            DecreaseLever: decreaseLeverParams,
-          }),
-        });
     }
-    console.error(
-      'modifyLeverCall calldata length:',
-      modifyLeverCall.calldata?.length || 0
-    );
 
-    // Step 3: Revoke delegation (set to false)
     const revokeDelegationCall =
       await poolContractForTx.populateTransaction.modify_delegation(
         MULTIPLY_CONTRACT_ADDRESS,
@@ -965,16 +669,6 @@ export class UpdateMultiplyService {
       );
 
     const calls = [modifyDelegationCall, modifyLeverCall, revokeDelegationCall];
-    console.error('=== buildUpdateMultiplyCalls END ===');
-    console.error(
-      'Returning calls:',
-      calls.map((c, idx) => ({
-        index: idx,
-        contractAddress: c.contractAddress,
-        entrypoint: c.entrypoint,
-        calldataLength: c.calldata?.length || 0,
-      }))
-    );
     return calls;
   }
 }

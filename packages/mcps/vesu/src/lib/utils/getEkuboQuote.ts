@@ -22,27 +22,18 @@ export async function getEkuboQuoteFromAPI(
   isExactIn: boolean,
   ekuboQuoterUrl?: string
 ): Promise<EkuboQuote> {
-  console.error('=== getEkuboQuoteFromAPI START ===');
-  console.error('tokenIn:', safeStringify(tokenIn));
-  console.error('tokenOut:', safeStringify(tokenOut));
-  console.error('amount:', amount.toString());
-  console.error('isExactIn:', isExactIn);
-  console.error('ekuboQuoterUrl:', ekuboQuoterUrl);
-
   // Use API to get quote with pool parameters
   const baseUrl =
     ekuboQuoterUrl || 'https://starknet-mainnet-quoter-api.ekubo.org';
-  // API always expects negative amount
+
   const apiAmount = amount;
   const url = `${baseUrl}/${apiAmount}/${tokenIn.address}/${tokenOut.address}`;
-  console.error('Ekubo API URL:', url);
   const response = await fetch(url);
   if (!response.ok) {
     throw new Error(`Ekubo API request failed with status ${response.status}`);
   }
 
   const ekuboData = await response.json();
-  console.error('ekuboData raw:', safeStringify(ekuboData));
 
   if (!ekuboData.splits || ekuboData.splits.length === 0) {
     throw new Error('No splits found in Ekubo API response');
@@ -181,12 +172,5 @@ export async function getEkuboQuoteFromAPI(
     totalCalculated,
     priceImpact: ekuboData.price_impact || null,
   };
-  console.error('=== getEkuboQuoteFromAPI END ===');
-  console.error('Returning quote:', {
-    type: quote.type,
-    totalCalculated: quote.totalCalculated.toString(),
-    splitsCount: quote.splits.length,
-    priceImpact: quote.priceImpact,
-  });
   return quote;
 }
