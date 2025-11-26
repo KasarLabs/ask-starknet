@@ -7,7 +7,7 @@ import {
   Uint256,
 } from 'starknet';
 import { NEW_ERC20_ABI, OLD_ERC20_ABI } from '../constants/abis/index.js';
-import { starknetTokenAddresses } from '@core/build/index.js';
+import { starknetTokenAddresses } from '@kasarlabs/ask-starknet-core';
 
 /**
  * Token decimals configuration

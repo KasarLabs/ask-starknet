@@ -3,7 +3,7 @@ import { TOKEN_CONFIG } from '../constants/tokenConfig.js';
 import { WITHDRAW_QUEUE_ABI, XSTRK_ABI } from '../constants/abis/index.js';
 import { TokenType } from '../../schemas/index.js';
 import { TokenConfig } from '../../interfaces/index.js';
-import { NEW_ERC20_ABI_MAINNET } from '@core/build/index.js';
+import { NEW_ERC20_ABI_MAINNET } from '@kasarlabs/ask-starknet-core';
 
 // Determine network from RPC URL
 export const getNetwork = (provider: RpcProvider): 'mainnet' | 'sepolia' => {
