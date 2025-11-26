@@ -14,17 +14,24 @@ import {
   createExactOutputMinimum,
 } from '../../lib/utils/quote.js';
 import { formatTokenAmount } from '../../lib/utils/token.js';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 
 /**
  * Executes a token swap on Ekubo DEX with slippage protection.
  * Supports exact input (is_amount_in=true) and exact output (is_amount_in=false) modes.
  */
-export const swap = async (env: onchainWrite, params: SwapTokensSchema) => {
+export const swap = async (
+  env: onchainWrite,
+  params: SwapTokensSchema
+): Promise<toolResult> => {
   try {
     const account = env.account;
-    const routerContract = await getContract(env.provider, 'routerV3');
-    const coreContract = await getContract(env.provider, 'core');
+    const routerContract = await getContract(
+      env.provider,
+      'routerV3',
+      env.account
+    );
+    const coreContract = await getContract(env.provider, 'core', env.account);
 
     const { poolKey, token0, token1, isTokenALower } =
       await preparePoolKeyFromParams(env.provider, {
@@ -95,14 +102,12 @@ export const swap = async (env: onchainWrite, params: SwapTokensSchema) => {
       minimumOutput = createExactOutputMinimum(desiredOutput);
     }
 
-    const tokenInContract = getERC20Contract(tokenIn.address, env.provider);
-    tokenInContract.connect(account);
+    const tokenInContract = getERC20Contract(env.account, tokenIn.address);
     const transferCalldata = tokenInContract.populate('transfer', [
       routerContract.address,
       transferAmount,
     ]);
 
-    routerContract.connect(account);
     const swapCalldata = routerContract.populate('swap', [
       routeNode,
       tokenAmount,

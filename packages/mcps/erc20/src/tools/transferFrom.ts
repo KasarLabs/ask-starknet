@@ -4,7 +4,7 @@ import {
   validateAndParseAddress,
   constants,
 } from 'starknet';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 import {
   validateAndFormatParams,
   executeV3Transaction,
@@ -28,7 +28,7 @@ import { RpcProvider } from 'starknet';
 export const transferFrom = async (
   env: onchainWrite,
   params: z.infer<typeof transferFromSchema>
-) => {
+): Promise<toolResult> => {
   try {
     const account = env.account;
     const provider = env.provider;
@@ -51,10 +51,8 @@ export const transferFrom = async (
     const contract = new Contract({
       abi,
       address: token.address,
-      providerOrAccount: provider,
+      providerOrAccount: account,
     });
-
-    contract.connect(account);
 
     const calldata = contract.populate('transfer_from', [
       fromAddress,
@@ -69,7 +67,7 @@ export const transferFrom = async (
 
     return {
       status: 'success',
-      transactionHash: txH,
+      data: { transactionHash: txH },
     };
   } catch (error) {
     return {

@@ -1,7 +1,7 @@
 import { executeSwap, fetchQuotes, QuoteRequest, Quote } from '@avnu/avnu-sdk';
 
 import { ApprovalService } from './approval.js';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 import { SwapParams, SwapResult } from '../lib/types/index.js';
 import {
   DEFAULT_QUOTE_SIZE,
@@ -157,11 +157,17 @@ export const createSwapService = (env: onchainWrite): SwapService => {
   return new SwapService(env);
 };
 
-export const swapTokens = async (env: onchainWrite, params: SwapParams) => {
+export const swapTokens = async (
+  env: onchainWrite,
+  params: SwapParams
+): Promise<toolResult> => {
   try {
     const swapService = createSwapService(env);
     const result = await swapService.executeSwapTransaction(params);
-    return JSON.stringify(result);
+    return {
+      status: 'success',
+      data: result,
+    };
   } catch (error) {
     return {
       status: 'failure',

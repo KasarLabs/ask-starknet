@@ -19,7 +19,7 @@
     "@ethersproject/bignumber": "^5.7.0",
     "@kasarlabs/ask-starknet-core": "workspace:*",
     "@langchain/core": "^0.3.42",
-    "@modelcontextprotocol/sdk": "^1.11.2",
+    "@modelcontextprotocol/sdk": "1.22.0",
     "dotenv": "^16.4.7",
     "fibrous-router-sdk": "0.4.3",
     "starknet": "8.6.0",

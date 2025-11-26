@@ -2,7 +2,11 @@ import { OKX_CLASSHASH } from '../lib/constant/contract.js';
 import { AccountManager } from '../lib/utils/AccountManager.js';
 import { z } from 'zod';
 import { accountDetailsSchema } from '../schemas/schema.js';
-import { onchainRead, onchainWrite } from '@kasarlabs/ask-starknet-core';
+import {
+  onchainRead,
+  onchainWrite,
+  toolResult,
+} from '@kasarlabs/ask-starknet-core';
 
 /**
  * Deploys an OKX account using Starknet agent.
@@ -16,7 +20,7 @@ import { onchainRead, onchainWrite } from '@kasarlabs/ask-starknet-core';
 export const DeployOKXAccount = async (
   env: onchainRead,
   params: z.infer<typeof accountDetailsSchema>
-) => {
+): Promise<toolResult> => {
   try {
     const provider = env.provider;
 
@@ -25,9 +29,11 @@ export const DeployOKXAccount = async (
 
     return {
       status: 'success',
-      wallet: 'OKX',
-      transaction_hash: tx.transactionHash,
-      contract_address: tx.contractAddress,
+      data: {
+        wallet: 'OKX',
+        transaction_hash: tx.transactionHash,
+        contract_address: tx.contractAddress,
+      },
     };
   } catch (error) {
     return {

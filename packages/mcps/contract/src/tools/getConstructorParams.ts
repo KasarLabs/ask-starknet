@@ -6,6 +6,7 @@ import {
   ContractManager,
 } from '../lib/index.js';
 import { Account, RpcProvider } from 'starknet';
+import { toolResult } from '@kasarlabs/ask-starknet-core';
 
 /**
  * Get constructor parameters from a contract sierra file
@@ -14,7 +15,7 @@ import { Account, RpcProvider } from 'starknet';
  */
 export const getConstructorParams = async (
   params: z.infer<typeof getConstructorParamsSchema>
-) => {
+): Promise<toolResult> => {
   try {
     // Validate file paths exist
     await validateFilePaths(params.sierraFilePath, params.casmFilePath); // Only need sierra for constructor params
@@ -39,25 +40,23 @@ export const getConstructorParams = async (
 
     return {
       status: 'success',
-      classHash: params.classHash,
-      sierraFilePath: params.sierraFilePath,
-      message: 'Constructor parameters retrieved successfully',
-      parameterCount: constructorParams.length,
-      parameters: constructorParams.map((param: any, index: number) => ({
-        index,
-        name: param.name,
-        type: param.type,
-      })),
+      data: {
+        classHash: params.classHash,
+        sierraFilePath: params.sierraFilePath,
+        message: 'Constructor parameters retrieved successfully',
+        parameterCount: constructorParams.length,
+        parameters: constructorParams.map((param: any, index: number) => ({
+          index,
+          name: param.name,
+          type: param.type,
+        })),
+      },
     };
   } catch (error) {
     const errorMessage = formatContractError(error);
     return {
       status: 'failure',
       error: errorMessage,
-      step: 'getting constructor parameters',
-      classHash: params.classHash,
-      sierraFilePath: params.sierraFilePath,
-      providedArgs: params.constructorArgs || [],
     };
   }
 };

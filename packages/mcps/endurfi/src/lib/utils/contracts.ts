@@ -1,4 +1,4 @@
-import { Contract, RpcProvider } from 'starknet';
+import { Account, Contract, RpcProvider } from 'starknet';
 import { TOKEN_CONFIG } from '../constants/tokenConfig.js';
 import { WITHDRAW_QUEUE_ABI, XSTRK_ABI } from '../constants/abis/index.js';
 import { TokenType } from '../../schemas/index.js';
@@ -42,7 +42,8 @@ export function getUnderlyingTokenAddress(
  */
 export const getLiquidTokenContract = (
   provider: RpcProvider,
-  tokenType: TokenType
+  tokenType: TokenType,
+  account?: Account
 ): Contract => {
   const network = getNetwork(provider);
   const config = TOKEN_CONFIG[tokenType];
@@ -56,7 +57,7 @@ export const getLiquidTokenContract = (
   return new Contract({
     abi: XSTRK_ABI,
     address: address,
-    providerOrAccount: provider,
+    providerOrAccount: account ?? provider,
   });
 };
 
@@ -64,10 +65,11 @@ export const getLiquidTokenContract = (
  * Get the underlying token contract (STRK, WBTC, etc.) for a given token type
  */
 export const getUnderlyingTokenContract = (
+  account: Account,
   provider: RpcProvider,
   tokenType: TokenType
 ): Contract => {
-  const network = getNetwork(provider);
+  const network = getNetwork(account);
   const config = TOKEN_CONFIG[tokenType];
   const address = config.underlyingToken[network];
 
@@ -89,7 +91,8 @@ export const getUnderlyingTokenContract = (
  */
 export const getWithdrawQueueNFTContract = (
   provider: RpcProvider,
-  tokenType: TokenType
+  tokenType: TokenType,
+  account?: Account
 ): Contract => {
   const network = getNetwork(provider);
   const config = TOKEN_CONFIG[tokenType];
@@ -104,7 +107,7 @@ export const getWithdrawQueueNFTContract = (
   return new Contract({
     abi: WITHDRAW_QUEUE_ABI,
     address,
-    providerOrAccount: provider,
+    providerOrAccount: account ?? provider,
   });
 };
 
@@ -112,6 +115,7 @@ export const getWithdrawQueueNFTContract = (
  * Get the withdraw queue NFT contract address for a given token type
  */
 export const getWithdrawQueueNFTAddress = (
+  account: Account,
   provider: RpcProvider,
   tokenType: TokenType
 ): string => {

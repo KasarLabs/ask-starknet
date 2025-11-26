@@ -27,8 +27,7 @@ const registerTools = (OpenZeppelinToolRegistry: mcpTool[]) => {
     description:
       'Create a new Open Zeppelin account and return the privateKey/publicKey/contractAddress',
     execute: async () => {
-      const response = await CreateOZAccount();
-      response;
+      return await CreateOZAccount();
     },
   });
 

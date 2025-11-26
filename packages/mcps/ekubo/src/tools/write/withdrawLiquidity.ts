@@ -7,15 +7,19 @@ import {
   convertFeeU128ToPercent,
 } from '../../lib/utils/math.js';
 import { fetchPositionData } from '../../lib/utils/position.js';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 
 export const withdrawLiquidity = async (
   env: onchainWrite,
   params: WithdrawLiquiditySchema
-) => {
+): Promise<toolResult> => {
   try {
     const account = env.account;
-    const positionsContract = await getContract(env.provider, 'positions');
+    const positionsContract = await getContract(
+      env.provider,
+      'positions',
+      account
+    );
 
     // Fetch position data from API
     const positionData = await fetchPositionData(params.position_id);
@@ -62,7 +66,6 @@ export const withdrawLiquidity = async (
     const minToken1 = 0;
     const collectFees = params.collect_fees ?? true;
 
-    positionsContract.connect(account);
     const withdrawCalldata = positionsContract.populate('withdraw', [
       params.position_id,
       poolKey,
