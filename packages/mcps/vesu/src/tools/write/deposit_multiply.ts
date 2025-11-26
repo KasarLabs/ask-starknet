@@ -154,7 +154,6 @@ export class DepositMultiplyService {
         toBN(collateralPrice.value);
 
       try {
-
         ekuboQuote = await getEkuboQuoteFromAPI(
           provider,
           collateralAsset,
