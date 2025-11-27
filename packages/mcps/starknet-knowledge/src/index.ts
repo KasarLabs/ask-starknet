@@ -65,14 +65,14 @@ class CairoCoderMCPServer {
       this.apiUrl = `${localEndpoint}/v1/chat/completions`;
       this.apiKey = '';
       console.error(
-        `Cairo Coder MCP server configured for local mode: ${this.apiUrl}`
+        `Starknet-knowledge MCP server configured for local mode: ${this.apiUrl}`
       );
     } else {
       // Public API mode: use official endpoint, API key required
       this.isLocalMode = false;
       this.apiUrl = 'https://api.cairo-coder.com/v1/chat/completions';
       this.apiKey = process.env.CAIRO_CODER_API_KEY || '';
-      console.error('Cairo Coder MCP server configured for public API mode');
+      console.error('Starknet-knowledge MCP server configured for public API mode');
     }
 
     this.setupToolHandlers();
@@ -199,7 +199,7 @@ This tool has access to Starknet blog posts, conceptual documentation, and ecosy
    */
   async run(): Promise<void> {
     const transport = new StdioServerTransport();
-    console.error('Cairo Coder MCP server running on stdio');
+    console.error('Starknet-knowledge MCP server running on stdio');
     await this.server.connect(transport);
 
     // Handle graceful shutdown
