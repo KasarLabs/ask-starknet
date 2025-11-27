@@ -1,6 +1,6 @@
 import { END } from '@langchain/langgraph';
 import { z } from 'zod';
-import { AIMessage } from '@langchain/core/messages';
+import { AIMessage, HumanMessage } from '@langchain/core/messages';
 
 import { GraphAnnotation } from '../graph.js';
 import { getMCPsByCategory, getCategoryDescription } from '../mcps/categoryUtils.js';
@@ -10,8 +10,9 @@ import { createLLM } from '../../utils/llm.js';
 
 export const categoryAgent = async (state: typeof GraphAnnotation.State) => {
   const category = state.next;
-  const lastMessage = state.messages[state.messages.length - 1];
-  const userInput = lastMessage.content;
+  // Get the original user message (first HumanMessage in the conversation)
+  const userMessage = state.messages.find((msg) => msg instanceof HumanMessage);
+  const userInput = userMessage?.content || '';
 
   const categoryMcps = getMCPsByCategory(category);
   const categoryDescription = getCategoryDescription(category);
