@@ -429,10 +429,25 @@
         "CAIRO_CODER_API_KEY": ""
       }
     },
-    "description": "AI-powered Cairo code assistance and Starknet general knowledge via Cairo Coder API",
+    "description": "AI-powered Cairo code writing, generation, refactoring, debugging and implementation assistance. Use for: writing contracts, fixing compilation errors, implementing features, optimizing code, explaining Cairo syntax",
     "promptInfo": {
-      "expertise": "Cairo smart contract development, Starknet technical documentation, ecosystem knowledge, and recent Starknet news",
-      "tools": ["assist_with_cairo", "starknet_general_knowledge"]
+      "expertise": "Cairo smart contract code generation, refactoring, debugging, syntax, implementation patterns, and Cairo/Starknet programming best practices. NOT for general ecosystem questions",
+      "tools": ["assist_with_cairo"]
+    }
+  },
+  "starknet-knowledge": {
+    "client": {
+      "command": "node",
+      "args": ["../mcps/starknet-knowledge/build/index.js"],
+      "transport": "stdio",
+      "env": {
+        "CAIRO_CODER_API_KEY": ""
+      }
+    },
+    "description": "Starknet ecosystem general knowledge and documentation. Use for: learning about protocols (AVNU, Ekubo, etc.), understanding dApps, discovering ecosystem projects and community, getting protocol explanations, recent Starknet news. NOT for writing code",
+    "promptInfo": {
+      "expertise": "Starknet ecosystem protocols, community, dApps, services, technical concepts, architecture explanations, protocol comparisons, recent updates, and general non-coding knowledge. NOT for code generation",
+      "tools": ["starknet_general_knowledge"]
     }
   },
   "troves": {

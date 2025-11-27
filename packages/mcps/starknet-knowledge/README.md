@@ -1,22 +1,13 @@
-<div align="center">
-  <img src="./cairo-grey.png" alt="Cairo Coder MCP Logo" width="300"/>
-  
-  [![npm version](https://img.shields.io/npm/v/@kasarlabs/cairo-coder-mcp.svg)](https://www.npmjs.com/package/@kasarlabs/cairo-coder-mcp)
-  [![npm downloads](https://img.shields.io/npm/dm/@kasarlabs/cairo-coder-mcp.svg)](https://www.npmjs.com/package/@kasarlabs/cairo-coder-mcp)
-  [![GitHub stars](https://img.shields.io/github/stars/kasarlabs/cairo-coder-mcp.svg)](https://github.com/kasarlabs/cairo-coder-mcp/stargazers)
-  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-</div>
+# Starknet Knowledge MCP Server
 
-# Cairo Coder MCP Server
-
-A Model Context Protocol (MCP) server for Cairo and Starknet development assistance via the Cairo Coder API.
+A Model Context Protocol (MCP) server providing access to Starknet ecosystem knowledge and documentation via the Cairo Coder API.
 
 ## Quick Start
 
 Use this MCP server directly with npx:
 
 ```bash
-npx -y @kasarlabs/cairo-coder-mcp
+npx -y @kasarlabs/starknet-knowledge-mcp
 ```
 
 ## Configuration
@@ -36,9 +27,9 @@ Use the official Cairo Coder API with your API key.
 ```json
 {
   "mcpServers": {
-    "cairo-coder": {
+    "starknet-knowledge": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/cairo-coder-mcp"],
+      "args": ["-y", "@kasarlabs/starknet-knowledge-mcp"],
       "env": {
         "CAIRO_CODER_API_KEY": "your-api-key-here"
       }
@@ -60,9 +51,9 @@ Use a local or custom Cairo Coder API endpoint (no API key required).
 ```json
 {
   "mcpServers": {
-    "cairo-coder": {
+    "starknet-knowledge": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/cairo-coder-mcp"],
+      "args": ["-y", "@kasarlabs/starknet-knowledge-mcp"],
       "env": {
         "CAIRO_CODER_API_ENDPOINT": "http://localhost:8000"
       }
@@ -75,43 +66,44 @@ Use a local or custom Cairo Coder API endpoint (no API key required).
 
 ## Available Tools
 
-### assist_with_cairo
+### starknet_general_knowledge
 
-Get help with Cairo and Starknet development tasks.
+Get information about the Starknet ecosystem, protocols, and general knowledge.
 
 **Parameters:**
 
-- `query` (string, required): Your Cairo/Starknet development question
-- `context` (string, optional): Additional context or code snippets
+- `query` (string, required): Your question about Starknet ecosystem
+- `context` (string, optional): Additional context or specific topic area
 
 **Examples:**
 
 ```typescript
-// Simple request
+// General ecosystem question
 {
-  "query": "Write a simple Cairo contract that implements a counter"
+  "query": "What are the main DEXs on Starknet?"
 }
 
-// With context
+// Specific protocol information
 {
-  "query": "How can I optimize this contract?",
-  "context": "#[starknet::contract]\nmod Counter {\n    // existing code here\n}"
+  "query": "How does AVNU handle token routing?",
+  "context": "I'm building a swap aggregator"
 }
 ```
 
-## What You Can Do
+## What You Can Learn About
 
-- **Write Cairo code**: Generate smart contracts and Cairo code
-- **Refactor code**: Improve and optimize existing code
-- **Implement features**: Complete TODOs and implement specific functionality
-- **Learn Starknet**: Get contextual information about the Starknet ecosystem
-- **Best practices**: Receive advice based on Cairo/Starknet documentation
+- **Starknet Ecosystem**: Protocols, dApps, and services on Starknet
+- **DeFi Protocols**: Information about DEXs, lending platforms, and yield farming
+- **Technical Concepts**: Understanding of Starknet-specific features and technologies
+- **Recent Updates**: Latest news and developments in the Starknet ecosystem
+- **Best Practices**: Recommendations based on ecosystem standards
 
 ## Tips for Better Results
 
-- Use specific queries (e.g., "Using OpenZeppelin to build an ERC20" instead of just "ERC20")
-- Include relevant code snippets when working with existing code
-- Provide necessary context for more accurate responses
+- Be specific about what aspect of the ecosystem you're interested in
+- Mention specific protocols or concepts when relevant
+- Provide context about your use case for more targeted responses
+- Ask about recent developments or protocol comparisons
 
 ## Development
 
@@ -124,7 +116,7 @@ Get help with Cairo and Starknet development tasks.
 
 ```bash
 git clone <repository-url>
-cd cairo-coder-mcp
+cd ask-starknet/packages/mcps/starknet-knowledge
 npm install
 ```
 
@@ -144,7 +136,7 @@ MIT
 
 For issues and questions:
 
-- GitHub Issues: [Create an issue](https://github.com/kasarlabs/cairo-coder-mcp/issues)
+- GitHub Issues: [Create an issue](https://github.com/kasarlabs/ask-starknet/issues)
 - MCP Documentation: [Model Context Protocol](https://modelcontextprotocol.io/)
 
 ## Contributing

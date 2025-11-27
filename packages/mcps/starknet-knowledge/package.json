@@ -1,7 +1,7 @@
 {
   "name": "@kasarlabs/starknet-knowledge-mcp",
   "version": "0.1.0",
-  "description": "MCP server to interact with the Cairo Coder API",
+  "description": "MCP server for Starknet ecosystem knowledge and documentation",
   "type": "module",
   "main": "build/index.js",
   "exports": {
@@ -11,7 +11,7 @@
     }
   },
   "bin": {
-    "cairo-coder-mcp": "./build/index.js"
+    "starknet-knowledge-mcp": "./build/index.js"
   },
   "files": [
     "build",
@@ -30,10 +30,11 @@
   },
   "keywords": [
     "mcp",
-    "cairo",
     "starknet",
+    "knowledge",
+    "documentation",
+    "ecosystem",
     "blockchain",
-    "smart-contracts",
     "cli",
     "npx"
   ],
@@ -61,10 +62,10 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/kasarlabs/ask-starknet",
-    "directory": "packages/mcps/cairo-coder"
+    "directory": "packages/mcps/starknet-knowledge"
   },
   "bugs": {
     "url": "https://github.com/kasarlabs/ask-starknet/issues"
   },
-  "homepage": "https://github.com/kasarlabs/ask-starknet/tree/main/packages/mcps/cairo-coder#readme"
+  "homepage": "https://github.com/kasarlabs/ask-starknet/tree/main/packages/mcps/starknet-knowledge#readme"
 }
