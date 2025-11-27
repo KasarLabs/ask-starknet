@@ -91,34 +91,84 @@ const testCases = [
   {
     name: 'Contract Declaration',
     query: 'Declare a smart contract on Starknet',
-    expectedCategory: 'development',
+    expectedCategory: 'infrastructure',
     expectedMCP: 'contract',
   },
   {
     name: 'Contract Deployment',
     query: 'Deploy my compiled contract',
-    expectedCategory: 'development',
+    expectedCategory: 'infrastructure',
     expectedMCP: 'contract',
   },
   {
     name: 'Cairo Compilation',
     query: 'Build my Scarb project',
-    expectedCategory: 'development',
+    expectedCategory: 'devtools',
     expectedMCP: 'scarb',
+  },
+  {
+    name: 'Cairo Code Help',
+    query: 'Help me write a Cairo smart contract',
+    expectedCategory: 'devtools',
+    expectedMCP: 'cairo-coder',
   },
 
   // Blockchain Data Tests
   {
     name: 'Block Information',
     query: 'Get the latest block number',
-    expectedCategory: 'data',
+    expectedCategory: 'infrastructure',
     expectedMCP: 'starknet-rpc',
   },
   {
-    name: 'Launch Token on Ekubo',
+    name: 'Transaction Operations',
+    query: 'Send a transaction on Starknet',
+    expectedCategory: 'infrastructure',
+    expectedMCP: 'transaction',
+  },
+
+  // Degen Tests
+  {
+    name: 'Launch Memecoin',
     query: 'Launch my memecoin on Ekubo DEX',
-    expectedCategory: 'defi',
+    expectedCategory: 'degen',
     expectedMCP: 'unruggable',
+  },
+  {
+    name: 'Create Unruggable Token',
+    query: 'Create an unruggable token',
+    expectedCategory: 'degen',
+    expectedMCP: 'unruggable',
+  },
+
+  // Gaming Tests
+  {
+    name: 'Art Peace Game',
+    query: 'Play Art Peace on Starknet',
+    expectedCategory: 'gaming',
+    expectedMCP: 'artpeace',
+  },
+
+  // Bridge Tests
+  {
+    name: 'Cross-chain Bridge',
+    query: 'Bridge tokens from Ethereum to Starknet',
+    expectedCategory: 'bridge',
+    expectedMCP: 'layerswap',
+  },
+
+  // Knowledge Tests
+  {
+    name: 'Starknet Documentation',
+    query: 'What is Starknet and how does it work?',
+    expectedCategory: 'knowledge',
+    expectedMCP: 'starknet-knowledge',
+  },
+  {
+    name: 'MCP Documentation',
+    query: 'How do I use the MCP servers?',
+    expectedCategory: 'knowledge',
+    expectedMCP: 'mcp-doc',
   },
 
   // Edge Cases & Invalid Queries
@@ -139,12 +189,6 @@ const testCases = [
     query: 'Hey there, how are you?',
     expectedCategory: '__end__',
     expectedMCP: null,
-  },
-  {
-    name: 'Starknet Person Question',
-    query: 'Who is Vitalik Buterin?',
-    expectedCategory: 'knowledge',
-    expectedMCP: 'starknet-docs',
   },
 ];
 

@@ -9,17 +9,7 @@
     "description": "Decentralized finance protocols including DEXs, lending, borrowing, liquidity management, yield farming, and perpetual derivatives trading on Starknet",
     "mcps": ["avnu", "fibrous", "ekubo", "opus", "vesu", "troves", "endurfi", "extended"]
   },
-  "tokens": {
-    "name": "tokens",
-    "description": "Token standards implementation and operations including ERC20, ERC721 NFTs, and memecoin creation",
-    "mcps": ["erc20", "erc721", "unruggable"]
-  },
-  "infrastructure": {
-    "name": "infrastructure",
-    "description": "Core blockchain infrastructure including smart contract deployment, transaction operations, RPC access, and Cairo development tools",
-    "mcps": ["contract", "transaction", "starknet-rpc", "scarb"]
-  },
-  "game": {
+  "gaming": {
     "name": "gaming",
     "description": "Gaming and interactive applications on Starknet blockchain",
     "mcps": ["artpeace"]
@@ -29,9 +19,29 @@
     "description": "Cross-chain asset transfers and bridging operations between different blockchain networks",
     "mcps": ["layerswap"]
   },
+  "devtools": {
+    "name": "devtools",
+    "description": "Developer tools for Cairo development including code assistance, compilation, and build tooling",
+    "mcps": ["cairo-coder", "scarb"]
+  },
   "knowledge": {
     "name": "knowledge",
-    "description": "AI-powered assistance, documentation, help guides, and educational resources for Starknet development and ecosystem",
-    "mcps": ["cairo-coder", "mcp-doc"]
+    "description": "AI-powered assistance, documentation, help guides, and educational resources for Starknet ecosystem and MCP servers",
+    "mcps": ["starknet-knowledge", "mcp-doc"]
+  },
+  "tokens": {
+    "name": "tokens",
+    "description": "Token standards implementation and operations including ERC20 fungible tokens and ERC721 NFTs",
+    "mcps": ["erc20", "erc721"]
+  },
+  "degen": {
+    "name": "degen",
+    "description": "Memecoin creation and launch tools for degenerates on Starknet",
+    "mcps": ["unruggable"]
+  },
+  "infrastructure": {
+    "name": "infrastructure",
+    "description": "Core blockchain infrastructure including smart contract deployment, transaction operations, and RPC access",
+    "mcps": ["contract", "transaction", "starknet-rpc"]
   }
 }
