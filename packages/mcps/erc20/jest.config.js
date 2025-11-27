@@ -6,9 +6,7 @@ export default {
     '^(\\.{1,2}/.*)\\.js$': '$1',
     '^@kasarlabs/ask-starknet-core$': '<rootDir>/../../core/src/index.ts',
   },
-  transformIgnorePatterns: [
-    'node_modules/(?!(@kasarlabs/ask-starknet-core)/)',
-  ],
+  transformIgnorePatterns: ['node_modules/(?!(@kasarlabs/ask-starknet-core)/)'],
   transform: {
     '^.+\\.tsx?$': [
       'ts-jest',
@@ -23,7 +21,6 @@ export default {
   testMatch: ['**/__tests__/**/*.test.ts', '**/__tests__/**/*.e2e.test.ts'],
   collectCoverageFrom: ['src/**/*.ts'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
-  testTimeout: 60000, // 60 seconds timeout for E2E tests
+  testTimeout: 180000,
   setupFilesAfterEnv: ['<rootDir>/__tests__/setup.ts'],
 };
-

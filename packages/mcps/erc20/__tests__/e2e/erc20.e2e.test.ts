@@ -1,6 +1,10 @@
 import { describe, beforeAll, it, expect } from '@jest/globals';
-import { RpcProvider } from 'starknet';
-import { getOnchainRead, getOnchainWrite } from '@kasarlabs/ask-starknet-core';
+import { RpcProvider, Account } from 'starknet';
+import {
+  getOnchainRead,
+  getOnchainWrite,
+  onchainWrite,
+} from '@kasarlabs/ask-starknet-core';
 import { deployERC20Contract } from '../../src/tools/deployERC20.js';
 import { getSymbol } from '../../src/tools/getSymbol.js';
 import { getTotalSupply } from '../../src/tools/getTotalSupply.js';
@@ -14,8 +18,6 @@ import { validateToken } from '../../src/lib/utils/utils.js';
 // Test context variables
 let tokenAddress: string;
 let owner: string;
-let user_address: string;
-let user_private_key: string;
 let spender_address: string;
 let spender_private_key: string;
 let tokenDecimals: number;
@@ -39,23 +41,46 @@ async function getTokenDecimals(
   return token.decimals;
 }
 
-function isRecord(data: Record<string, any> | Array<any>): data is Record<string, any> {
+function isRecord(
+  data: Record<string, any> | Array<any>
+): data is Record<string, any> {
   return !Array.isArray(data) && typeof data === 'object' && data !== null;
 }
 
-function getDataAsRecord(data: Record<string, any> | Array<any> | undefined): Record<string, any> {
+function getDataAsRecord(
+  data: Record<string, any> | Array<any> | undefined
+): Record<string, any> {
   if (!data || !isRecord(data)) {
     throw new Error('Expected data to be a Record object');
   }
   return data;
 }
 
+function createOnchainWriteWithAccount(
+  address: string,
+  privateKey: string
+): onchainWrite {
+  const rpcUrl = process.env.STARKNET_RPC_URL;
+  if (!rpcUrl) {
+    throw new Error('Missing required environment variable: STARKNET_RPC_URL');
+  }
+
+  const provider = new RpcProvider({ nodeUrl: rpcUrl });
+  const account = new Account({
+    provider: provider,
+    address: address,
+    signer: privateKey,
+  });
+
+  return {
+    provider,
+    account,
+  };
+}
+
 describe('ERC20 E2E Tests', () => {
   beforeAll(async () => {
-
     owner = process.env.STARKNET_ACCOUNT_ADDRESS || '0x0';
-    user_address = process.env.TEST_USER_ADDRESS || '0x1';
-    user_private_key = process.env.TEST_USER_PRIVATE_KEY || '0x1';
     spender_address = process.env.TEST_SPENDER_ADDRESS || '0x2';
     spender_private_key = process.env.TEST_SPENDER_PRIVATE_KEY || '0x2';
 
@@ -63,22 +88,17 @@ describe('ERC20 E2E Tests', () => {
       throw new Error(
         'STARKNET_ACCOUNT_ADDRESS must be set in environment variables'
       );
-    } else if (user_address === '0x1' || user_private_key === '0x1') {
-      throw new Error(
-        'TEST_USER_ADDRESS and TEST_USER_PRIVATE_KEY must be set in environment variables'
-      );
     } else if (spender_address === '0x2' || spender_private_key === '0x2') {
       throw new Error(
         'TEST_SPENDER_ADDRESS and TEST_SPENDER_PRIVATE_KEY must be set in environment variables'
       );
     }
 
-    // Deploy the ERC20 token
     const onchainWrite = getOnchainWrite();
     const deployResult = await deployERC20Contract(onchainWrite, {
       name: 'TestToken',
       symbol: 'TEST',
-      totalSupply: '1000000', // 1,000,000 tokens with 18 decimals (default)
+      totalSupply: '1000000',
     });
 
     if (deployResult.status !== 'success' || !deployResult.data) {
@@ -213,8 +233,8 @@ describe('ERC20 E2E Tests', () => {
         },
       });
 
-      const userBalanceBefore = await getBalance(onchainRead, {
-        accountAddress: user_address,
+      const spenderBalanceBefore = await getBalance(onchainRead, {
+        accountAddress: spender_address,
         asset: {
           assetAddress: tokenAddress,
         },
@@ -229,17 +249,14 @@ describe('ERC20 E2E Tests', () => {
       });
 
       expect(ownerBalanceBefore.status).toBe('success');
-      expect(userBalanceBefore.status).toBe('success');
+      expect(spenderBalanceBefore.status).toBe('success');
       expect(allowanceBefore.status).toBe('success');
 
       let ownerBalanceBeforeBigInt = BigInt(0);
-      let userBalanceBeforeBigInt = BigInt(0);
+      let spenderBalanceBeforeBigInt = BigInt(0);
       let allowanceBeforeBigInt = BigInt(0);
 
-      if (
-        ownerBalanceBefore.status === 'success' &&
-        ownerBalanceBefore.data
-      ) {
+      if (ownerBalanceBefore.status === 'success' && ownerBalanceBefore.data) {
         const data = getDataAsRecord(ownerBalanceBefore.data);
         ownerBalanceBeforeBigInt = parseFormattedBalance(
           data.balance as string,
@@ -247,9 +264,12 @@ describe('ERC20 E2E Tests', () => {
         );
       }
 
-      if (userBalanceBefore.status === 'success' && userBalanceBefore.data) {
-        const data = getDataAsRecord(userBalanceBefore.data);
-        userBalanceBeforeBigInt = parseFormattedBalance(
+      if (
+        spenderBalanceBefore.status === 'success' &&
+        spenderBalanceBefore.data
+      ) {
+        const data = getDataAsRecord(spenderBalanceBefore.data);
+        spenderBalanceBeforeBigInt = parseFormattedBalance(
           data.balance as string,
           tokenDecimals
         );
@@ -263,16 +283,18 @@ describe('ERC20 E2E Tests', () => {
         );
       }
 
-      const onchainWrite = getOnchainWrite();
-      const transferFromResult = await transferFrom(onchainWrite, {
+      const onchainWriteSpender = createOnchainWriteWithAccount(
+        spender_address,
+        spender_private_key
+      );
+      const transferFromResult = await transferFrom(onchainWriteSpender, {
         fromAddress: owner,
-        toAddress: user_address,
+        toAddress: spender_address,
         amount: transferAmount,
         asset: {
           assetAddress: tokenAddress,
         },
       });
-
       expect(transferFromResult.status).toBe('success');
       if (transferFromResult.status === 'success' && transferFromResult.data) {
         const data = getDataAsRecord(transferFromResult.data);
@@ -288,20 +310,17 @@ describe('ERC20 E2E Tests', () => {
         },
       });
 
-      const userBalanceAfter = await getBalance(onchainRead, {
-        accountAddress: user_address,
+      const spenderBalanceAfter = await getBalance(onchainRead, {
+        accountAddress: spender_address,
         asset: {
           assetAddress: tokenAddress,
         },
       });
 
       expect(ownerBalanceAfter.status).toBe('success');
-      expect(userBalanceAfter.status).toBe('success');
+      expect(spenderBalanceAfter.status).toBe('success');
 
-      if (
-        ownerBalanceAfter.status === 'success' &&
-        ownerBalanceAfter.data
-      ) {
+      if (ownerBalanceAfter.status === 'success' && ownerBalanceAfter.data) {
         const data = getDataAsRecord(ownerBalanceAfter.data);
         const ownerBalanceAfterBigInt = parseFormattedBalance(
           data.balance as string,
@@ -314,16 +333,19 @@ describe('ERC20 E2E Tests', () => {
         );
       }
 
-      if (userBalanceAfter.status === 'success' && userBalanceAfter.data) {
-        const data = getDataAsRecord(userBalanceAfter.data);
-        const userBalanceAfterBigInt = parseFormattedBalance(
+      if (
+        spenderBalanceAfter.status === 'success' &&
+        spenderBalanceAfter.data
+      ) {
+        const data = getDataAsRecord(spenderBalanceAfter.data);
+        const spenderBalanceAfterBigInt = parseFormattedBalance(
           data.balance as string,
           tokenDecimals
         );
         const transferAmountBigInt =
           BigInt(transferAmount) * BigInt(10) ** BigInt(tokenDecimals);
-        expect(userBalanceAfterBigInt).toBe(
-          userBalanceBeforeBigInt + transferAmountBigInt
+        expect(spenderBalanceAfterBigInt).toBe(
+          spenderBalanceBeforeBigInt + transferAmountBigInt
         );
       }
 
@@ -363,23 +385,20 @@ describe('ERC20 E2E Tests', () => {
         },
       });
 
-      const userBalanceBefore = await getBalance(onchainRead, {
-        accountAddress: user_address,
+      const spenderBalanceBefore = await getBalance(onchainRead, {
+        accountAddress: spender_address,
         asset: {
           assetAddress: tokenAddress,
         },
       });
 
       expect(ownerBalanceBefore.status).toBe('success');
-      expect(userBalanceBefore.status).toBe('success');
+      expect(spenderBalanceBefore.status).toBe('success');
 
       let ownerBalanceBeforeBigInt = BigInt(0);
-      let userBalanceBeforeBigInt = BigInt(0);
+      let spenderBalanceBeforeBigInt = BigInt(0);
 
-      if (
-        ownerBalanceBefore.status === 'success' &&
-        ownerBalanceBefore.data
-      ) {
+      if (ownerBalanceBefore.status === 'success' && ownerBalanceBefore.data) {
         const data = getDataAsRecord(ownerBalanceBefore.data);
         ownerBalanceBeforeBigInt = parseFormattedBalance(
           data.balance as string,
@@ -387,9 +406,12 @@ describe('ERC20 E2E Tests', () => {
         );
       }
 
-      if (userBalanceBefore.status === 'success' && userBalanceBefore.data) {
-        const data = getDataAsRecord(userBalanceBefore.data);
-        userBalanceBeforeBigInt = parseFormattedBalance(
+      if (
+        spenderBalanceBefore.status === 'success' &&
+        spenderBalanceBefore.data
+      ) {
+        const data = getDataAsRecord(spenderBalanceBefore.data);
+        spenderBalanceBeforeBigInt = parseFormattedBalance(
           data.balance as string,
           tokenDecimals
         );
@@ -397,7 +419,7 @@ describe('ERC20 E2E Tests', () => {
 
       const onchainWrite = getOnchainWrite();
       const transferResult = await transfer(onchainWrite, {
-        recipientAddress: user_address,
+        recipientAddress: spender_address,
         amount: transferAmount,
         asset: {
           assetAddress: tokenAddress,
@@ -419,20 +441,17 @@ describe('ERC20 E2E Tests', () => {
         },
       });
 
-      const userBalanceAfter = await getBalance(onchainRead, {
-        accountAddress: user_address,
+      const spenderBalanceAfter = await getBalance(onchainRead, {
+        accountAddress: spender_address,
         asset: {
           assetAddress: tokenAddress,
         },
       });
 
       expect(ownerBalanceAfter.status).toBe('success');
-      expect(userBalanceAfter.status).toBe('success');
+      expect(spenderBalanceAfter.status).toBe('success');
 
-      if (
-        ownerBalanceAfter.status === 'success' &&
-        ownerBalanceAfter.data
-      ) {
+      if (ownerBalanceAfter.status === 'success' && ownerBalanceAfter.data) {
         const data = getDataAsRecord(ownerBalanceAfter.data);
         const ownerBalanceAfterBigInt = parseFormattedBalance(
           data.balance as string,
@@ -440,21 +459,26 @@ describe('ERC20 E2E Tests', () => {
         );
         const transferAmountBigInt =
           BigInt(transferAmount) * BigInt(10) ** BigInt(tokenDecimals);
+        // Owner sends tokens to spender
         expect(ownerBalanceAfterBigInt).toBe(
           ownerBalanceBeforeBigInt - transferAmountBigInt
         );
       }
 
-      if (userBalanceAfter.status === 'success' && userBalanceAfter.data) {
-        const data = getDataAsRecord(userBalanceAfter.data);
-        const userBalanceAfterBigInt = parseFormattedBalance(
+      if (
+        spenderBalanceAfter.status === 'success' &&
+        spenderBalanceAfter.data
+      ) {
+        const data = getDataAsRecord(spenderBalanceAfter.data);
+        const spenderBalanceAfterBigInt = parseFormattedBalance(
           data.balance as string,
           tokenDecimals
         );
         const transferAmountBigInt =
           BigInt(transferAmount) * BigInt(10) ** BigInt(tokenDecimals);
-        expect(userBalanceAfterBigInt).toBe(
-          userBalanceBeforeBigInt + transferAmountBigInt
+        // Spender receives tokens from owner
+        expect(spenderBalanceAfterBigInt).toBe(
+          spenderBalanceBeforeBigInt + transferAmountBigInt
         );
       }
     });
