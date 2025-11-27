@@ -33,8 +33,7 @@ export interface BorrowActionResult {
  * Interface for operations that modify trove debt
  */
 export interface DebtActionResult {
-  /** Amount of debt modified */
-  amount?: string;
+  /** Amount of debt modified */ amount?: string;
   /** Debt before operation */
   before_debt?: string;
   /** Debt after operation */
