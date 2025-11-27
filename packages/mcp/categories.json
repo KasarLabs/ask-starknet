@@ -1,12 +1,12 @@
 {
   "wallet": {
     "name": "wallet",
-    "description": "Wallet account creation, deployment, and management operations across different wallet providers on Starknet",
+    "description": "Creating, deploying, and setting up new wallet accounts on Starknet using different providers",
     "mcps": ["argent", "braavos", "okx", "openzeppelin"]
   },
   "defi": {
     "name": "defi",
-    "description": "Decentralized finance protocols including DEXs, lending, borrowing, liquidity management, yield farming, and perpetual derivatives trading on Starknet",
+    "description": "Interacting with DeFi protocols: swapping tokens on DEXs (AVNU, Fibrous, Ekubo), lending and borrowing (Opus, Vesu), yield strategies (Troves), perpetual trading (Extended)",
     "mcps": ["avnu", "fibrous", "ekubo", "opus", "vesu", "troves", "endurfi", "extended"]
   },
   "gaming": {
@@ -31,7 +31,7 @@
   },
   "tokens": {
     "name": "tokens",
-    "description": "Token standards implementation and operations including ERC20 fungible tokens and ERC721 NFTs",
+    "description": "Standard token operations: ERC20 token transfers, approvals, and balance checks (ETH, USDC, STRK, etc.), ERC721 NFT transfers and ownership queries",
     "mcps": ["erc20", "erc721"]
   },
   "degen": {

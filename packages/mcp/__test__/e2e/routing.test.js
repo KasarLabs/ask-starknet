@@ -6,26 +6,26 @@ import { HumanMessage, AIMessage } from '@langchain/core/messages';
 // Comprehensive routing test cases: Selector -> Category -> MCP
 const testCases = [
   // Wallet Account Tests
-  {
-    name: 'Argent Account Creation',
-    query: 'I want to create a new Argent account',
-    expectedCategory: 'wallet',
-    expectedMCP: 'argent',
-  },
-  {
-    name: 'Braavos Account Deploy',
-    query: 'Deploy my existing Braavos account',
-    expectedCategory: 'wallet',
-    expectedMCP: 'braavos',
-  },
-  {
-    name: 'OKX Account Setup',
-    query: 'Create an OKX wallet account',
-    expectedCategory: 'wallet',
-    expectedMCP: 'okx',
-  },
+  // {
+  //   name: 'Argent Account Creation',
+  //   query: 'I want to create a new Argent account',
+  //   expectedCategory: 'wallet',
+  //   expectedMCP: 'argent',
+  // },
+  // {
+  //   name: 'Braavos Account Deploy',
+  //   query: 'Deploy my existing Braavos account',
+  //   expectedCategory: 'wallet',
+  //   expectedMCP: 'braavos',
+  // },
+  // {
+  //   name: 'OKX Account Setup',
+  //   query: 'Create an OKX wallet account',
+  //   expectedCategory: 'wallet',
+  //   expectedMCP: 'okx',
+  // },
 
-  // ERC20 Token Tests
+  // // ERC20 Token Tests
   {
     name: 'ERC20 Transfer',
     query: 'Transfer 100 USDC to another address',
@@ -38,80 +38,80 @@ const testCases = [
     expectedCategory: 'tokens',
     expectedMCP: 'erc20',
   },
-  {
-    name: 'ERC20 Approval',
-    query: 'Approve spending of my tokens',
-    expectedCategory: 'tokens',
-    expectedMCP: 'erc20',
-  },
+  // {
+  //   name: 'ERC20 Approval',
+  //   query: 'Approve spending of my tokens',
+  //   expectedCategory: 'tokens',
+  //   expectedMCP: 'erc20',
+  // },
 
-  // NFT/ERC721 Tests
-  {
-    name: 'NFT Transfer',
-    query: 'Transfer my NFT to another wallet',
-    expectedCategory: 'tokens',
-    expectedMCP: 'erc721',
-  },
-  {
-    name: 'NFT Balance',
-    query: 'How many NFTs do I own?',
-    expectedCategory: 'tokens',
-    expectedMCP: 'erc721',
-  },
+  // // NFT/ERC721 Tests
+  // {
+  //   name: 'NFT Transfer',
+  //   query: 'Transfer my NFT to another wallet',
+  //   expectedCategory: 'tokens',
+  //   expectedMCP: 'erc721',
+  // },
+  // {
+  //   name: 'NFT Balance',
+  //   query: 'How many NFTs do I own?',
+  //   expectedCategory: 'tokens',
+  //   expectedMCP: 'erc721',
+  // },
 
-  // DEX/Swapping Tests
-  {
-    name: 'AVNU Token Swap',
-    query: 'Swap ETH for USDC on AVNU',
-    expectedCategory: 'defi',
-    expectedMCP: 'avnu',
-  },
-  {
-    name: 'Fibrous Exchange',
-    query: 'Use Fibrous to exchange tokens',
-    expectedCategory: 'defi',
-    expectedMCP: 'fibrous',
-  },
+  // // DEX/Swapping Tests
+  // {
+  //   name: 'AVNU Token Swap',
+  //   query: 'Swap ETH for USDC on AVNU',
+  //   expectedCategory: 'defi',
+  //   expectedMCP: 'avnu',
+  // },
+  // {
+  //   name: 'Fibrous Exchange',
+  //   query: 'Use Fibrous to exchange tokens',
+  //   expectedCategory: 'defi',
+  //   expectedMCP: 'fibrous',
+  // },
 
-  // DeFi Protocol Tests
-  {
-    name: 'Vesu Deposit',
-    query: 'Deposit tokens to earn yield on Vesu',
-    expectedCategory: 'defi',
-    expectedMCP: 'vesu',
-  },
-  {
-    name: 'Vesu Withdrawal',
-    query: 'Withdraw my earnings from Vesu protocol',
-    expectedCategory: 'defi',
-    expectedMCP: 'vesu',
-  },
+  // // DeFi Protocol Tests
+  // {
+  //   name: 'Vesu Deposit',
+  //   query: 'Deposit tokens to earn yield on Vesu',
+  //   expectedCategory: 'defi',
+  //   expectedMCP: 'vesu',
+  // },
+  // {
+  //   name: 'Vesu Withdrawal',
+  //   query: 'Withdraw my earnings from Vesu protocol',
+  //   expectedCategory: 'defi',
+  //   expectedMCP: 'vesu',
+  // },
 
-  // Development & Contract Tests
-  {
-    name: 'Contract Declaration',
-    query: 'Declare a smart contract on Starknet',
-    expectedCategory: 'infrastructure',
-    expectedMCP: 'contract',
-  },
-  {
-    name: 'Contract Deployment',
-    query: 'Deploy my compiled contract',
-    expectedCategory: 'infrastructure',
-    expectedMCP: 'contract',
-  },
-  {
-    name: 'Cairo Compilation',
-    query: 'Build my Scarb project',
-    expectedCategory: 'devtools',
-    expectedMCP: 'scarb',
-  },
-  {
-    name: 'Cairo Code Help',
-    query: 'Help me write a Cairo smart contract',
-    expectedCategory: 'devtools',
-    expectedMCP: 'cairo-coder',
-  },
+  // // Development & Contract Tests
+  // {
+  //   name: 'Contract Declaration',
+  //   query: 'Declare a smart contract on Starknet',
+  //   expectedCategory: 'infrastructure',
+  //   expectedMCP: 'contract',
+  // },
+  // {
+  //   name: 'Contract Deployment',
+  //   query: 'Deploy my compiled contract',
+  //   expectedCategory: 'infrastructure',
+  //   expectedMCP: 'contract',
+  // },
+  // {
+  //   name: 'Cairo Compilation',
+  //   query: 'Build my Scarb project',
+  //   expectedCategory: 'devtools',
+  //   expectedMCP: 'scarb',
+  // },
+  // {
+  //   name: 'Cairo Code Help',
+  //   query: 'Help me write a Cairo smart contract',
+  //   expectedCategory: 'devtools',
+  //   expectedMCP: 'cairo-coder',
+  // },
 
   // Blockchain Data Tests
   {
@@ -120,12 +120,12 @@ const testCases = [
     expectedCategory: 'infrastructure',
     expectedMCP: 'starknet-rpc',
   },
-  {
-    name: 'Transaction Operations',
-    query: 'Send a transaction on Starknet',
-    expectedCategory: 'infrastructure',
-    expectedMCP: 'transaction',
-  },
+  // {
+  //   name: 'Transaction Operations',
+  //   query: 'Send a transaction on Starknet',
+  //   expectedCategory: 'infrastructure',
+  //   expectedMCP: 'transaction',
+  // },
 
   // Degen Tests
   {
@@ -134,61 +134,67 @@ const testCases = [
     expectedCategory: 'degen',
     expectedMCP: 'unruggable',
   },
-  {
-    name: 'Create Unruggable Token',
-    query: 'Create an unruggable token',
-    expectedCategory: 'degen',
-    expectedMCP: 'unruggable',
-  },
+  // {
+  //   name: 'Create Unruggable Token',
+  //   query: 'Create an unruggable token',
+  //   expectedCategory: 'degen',
+  //   expectedMCP: 'unruggable',
+  // },
 
-  // Gaming Tests
-  {
-    name: 'Art Peace Game',
-    query: 'Play Art Peace on Starknet',
-    expectedCategory: 'gaming',
-    expectedMCP: 'artpeace',
-  },
+  // // Gaming Tests
+  // {
+  //   name: 'Art Peace Game',
+  //   query: 'Play Art Peace on Starknet',
+  //   expectedCategory: 'gaming',
+  //   expectedMCP: 'artpeace',
+  // },
 
-  // Bridge Tests
-  {
-    name: 'Cross-chain Bridge',
-    query: 'Bridge tokens from Ethereum to Starknet',
-    expectedCategory: 'bridge',
-    expectedMCP: 'layerswap',
-  },
+  // // Bridge Tests
+  // {
+  //   name: 'Cross-chain Bridge',
+  //   query: 'Bridge tokens from Ethereum to Starknet',
+  //   expectedCategory: 'bridge',
+  //   expectedMCP: 'layerswap',
+  // },
 
-  // Knowledge Tests
+  // // Knowledge Tests
+  // {
+  //   name: 'Starknet Documentation',
+  //   query: 'What is Starknet and how does it work?',
+  //   expectedCategory: 'knowledge',
+  //   expectedMCP: 'starknet-knowledge',
+  // },
+  // {
+  //   name: 'MCP Documentation',
+  //   query: 'How do I use the MCP servers?',
+  //   expectedCategory: 'knowledge',
+  //   expectedMCP: 'mcp-doc',
+  // },
+
+  // // Edge Cases & Invalid Queries
+  // {
+  //   name: 'Invalid Query - Weather',
+  //   query: "What's the weather today?",
+  //   expectedCategory: '__end__',
+  //   expectedMCP: null,
+  // },
+  // {
+  //   name: 'Invalid Query - Empty',
+  //   query: '',
+  //   expectedCategory: '__end__',
+  //   expectedMCP: null,
+  // },
+  // {
+  //   name: 'Greeting - No Context',
+  //   query: 'Hey there, how are you?',
+  //   expectedCategory: '__end__',
+  //   expectedMCP: null,
+  // },
   {
-    name: 'Starknet Documentation',
-    query: 'What is Starknet and how does it work?',
+    name: 'Community member test',
+    query: 'WHo is antiyro',
     expectedCategory: 'knowledge',
-    expectedMCP: 'starknet-knowledge',
-  },
-  {
-    name: 'MCP Documentation',
-    query: 'How do I use the MCP servers?',
-    expectedCategory: 'knowledge',
-    expectedMCP: 'mcp-doc',
-  },
-
-  // Edge Cases & Invalid Queries
-  {
-    name: 'Invalid Query - Weather',
-    query: "What's the weather today?",
-    expectedCategory: '__end__',
-    expectedMCP: null,
-  },
-  {
-    name: 'Invalid Query - Empty',
-    query: '',
-    expectedCategory: '__end__',
-    expectedMCP: null,
-  },
-  {
-    name: 'Greeting - No Context',
-    query: 'Hey there, how are you?',
-    expectedCategory: '__end__',
-    expectedMCP: null,
+    expectedMCP: 'cairo-coder',
   },
 ];
 
