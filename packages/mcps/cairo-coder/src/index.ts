@@ -4,10 +4,7 @@ import 'dotenv/config';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import packageJson from '../package.json' with { type: 'json' };
-import {
-  assistWithCairoSchema,
-  type AssistWithCairoInput
-} from './schemas.js';
+import { assistWithCairoSchema, type AssistWithCairoInput } from './schemas.js';
 
 /**
  * Represents a message in the Cairo Coder conversation
@@ -102,7 +99,6 @@ This tool has access to Cairo documentation, code examples, corelib references, 
         return await this.handleCairoAssistance(args);
       }
     );
-
   }
 
   /**
