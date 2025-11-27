@@ -72,7 +72,9 @@ class CairoCoderMCPServer {
       this.isLocalMode = false;
       this.apiUrl = 'https://api.cairo-coder.com/v1/chat/completions';
       this.apiKey = process.env.CAIRO_CODER_API_KEY || '';
-      console.error('Starknet-knowledge MCP server configured for public API mode');
+      console.error(
+        'Starknet-knowledge MCP server configured for public API mode'
+      );
     }
 
     this.setupToolHandlers();
