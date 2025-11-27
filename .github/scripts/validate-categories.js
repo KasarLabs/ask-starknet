@@ -18,7 +18,10 @@ try {
 // Load categories.json
 let categoriesConfig;
 try {
-  const categoriesPath = path.join(process.cwd(), 'packages/mcp/categories.json');
+  const categoriesPath = path.join(
+    process.cwd(),
+    'packages/mcp/categories.json'
+  );
   categoriesConfig = JSON.parse(fs.readFileSync(categoriesPath, 'utf8'));
   console.log('✅ categories.json loaded successfully');
 } catch (error) {
