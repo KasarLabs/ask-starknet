@@ -52,7 +52,7 @@ class CairoCoderMCPServer {
    */
   constructor() {
     this.server = new McpServer({
-      name: 'cairo-coder-mcp',
+      name: 'starknet-knowledge-mcp',
       version: packageJson.version,
     });
 
@@ -100,7 +100,7 @@ This tool has access to Starknet blog posts, conceptual documentation, and ecosy
       }
     );
   }
-  
+
   /**
    * Handles general Starknet knowledge requests by calling the Cairo Coder API
    * @param args - The arguments containing query and optional conversation history
