@@ -27,7 +27,7 @@ export const categoryAgent = async (state: typeof GraphAnnotation.State) => {
     .map((mcp) => `- ${mcp}: ${getMCPDescription(mcp)}`)
     .join('\n');
 
-  const systemPrompt = `You are a specialized router for the "${category}" category.
+  const systemPrompt = `You are a specialized MCP router for the "${category}" category on Starknet.
 
 Category: ${category}
 Description: ${categoryDescription}
@@ -36,24 +36,15 @@ Available MCPs in this category:
 ${mcpDescriptions}
 
 Instructions:
-- Analyze the user's request
-- If no MCP can handle the request in this category, choose "__end__"
+- Carefully analyze the user's request and its specific requirements
+- Read each MCP's description and understand its capabilities
+- Select the MOST APPROPRIATE MCP that best matches the user's intent
+- If the request mentions a specific protocol/service name, prioritize that MCP
+- If no MCP in this category can handle the request, choose "__end__"
 
-IMPORTANT: Look at the conversation history.
+Be precise and choose the single best MCP for this request.
 
 Respond with the exact name of the chosen MCP or "__end__".`;
-
-  // Build conversation history for context
-  const conversationHistory = state.messages
-    .map((msg, idx) => {
-      const role = msg.name || (idx === 0 ? 'user' : 'assistant');
-      const content =
-        typeof msg.content === 'string'
-          ? msg.content.substring(0, 500)
-          : JSON.stringify(msg.content).substring(0, 500);
-      return `[${role}]: ${content}`;
-    })
-    .join('\n\n');
 
   const model = createLLM(state.mcpEnvironment);
   const structuredModel = model.withStructuredOutput(categoryOutputSchema);
@@ -61,7 +52,7 @@ Respond with the exact name of the chosen MCP or "__end__".`;
     { role: 'system', content: systemPrompt },
     {
       role: 'user',
-      content: `Conversation history:\n${conversationHistory}\n\nOriginal user request: "${state.messages[0].content}"\n\nCurrent message: "${userInput}"\n\nHas the original request been completed? If yes, choose "__end__".`,
+      content: `User request: "${userInput}"\n\nWhich MCP should handle this request?`,
     },
   ]);
 
