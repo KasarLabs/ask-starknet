@@ -5,8 +5,7 @@ import { fileURLToPath } from 'url';
 import { suggestProjectsSchema } from '../schemas/index.js';
 import { toolResult } from '@kasarlabs/ask-starknet-core';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const currentDir = __dirname;
 
 /**
  * Suggest project ideas that can be built with Ask Starknet
@@ -16,7 +15,7 @@ export const suggestProjects = async (
 ): Promise<toolResult> => {
   try {
     const content = readFileSync(
-      join(__dirname, '../resources/projects.md'),
+      join(currentDir, '../resources/projects.md'),
       'utf-8'
     );
 

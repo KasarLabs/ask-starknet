@@ -5,8 +5,7 @@ import { fileURLToPath } from 'url';
 import { listCapabilitiesSchema } from '../schemas/index.js';
 import { toolResult } from '@kasarlabs/ask-starknet-core';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const currentDir = __dirname;
 
 /**
  * List Ask Starknet capabilities organized by domains
@@ -17,7 +16,7 @@ export const listCapabilities = async (
   try {
     // Read the capabilities markdown file
     const content = readFileSync(
-      join(__dirname, '../resources/capabilities.md'),
+      join(currentDir, '../resources/capabilities.md'),
       'utf-8'
     );
 
