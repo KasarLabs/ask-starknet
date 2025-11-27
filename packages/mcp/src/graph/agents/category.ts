@@ -59,32 +59,6 @@ Respond with the exact name of the chosen MCP or "__end__".`;
     reasoning: response.reasoning,
   });
 
-//   const isNoMcpFound = response.selectedMcp === END;
-
-//   if (isNoMcpFound) {
-//     return {
-//       next: END,
-//       messages: [
-//         new AIMessage({
-//           content: `I couldn't find an appropriate MCP in the "${category}" category to handle this request: "${userInput}"\n\nPlease try rephrasing your request.`,
-//           name: 'category-error',
-//         }),
-//       ],
-//       routingInfo: {
-//         reasoning: response.reasoning,
-//         timestamp: new Date().toISOString(),
-//       },
-//     };
-//   }
-
-//   return {
-//     next: response.selectedMcp,
-//     routingInfo: {
-//       reasoning: response.reasoning,
-//       timestamp: new Date().toISOString(),
-//     },
-//   };
-
   return {
     next: response.selectedMcp,
     ...(response.selectedMcp === END && {
