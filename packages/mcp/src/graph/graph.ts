@@ -9,7 +9,7 @@ import {
 import type { BaseMessage } from '@langchain/core/messages';
 
 import { selectorAgent } from './agents/selector.js';
-import { AgentName } from './mcps/utilities.js';
+import { AgentName } from './mcps/mcpUtils.js';
 import { MCPEnvironment } from './mcps/interfaces.js';
 import { specializedNode } from './agents/specialized.js';
 import { logger } from '../utils/logger.js';

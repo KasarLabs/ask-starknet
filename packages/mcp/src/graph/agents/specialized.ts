@@ -6,7 +6,7 @@ import {
 } from '@langchain/core/messages';
 import { ToolNode } from '@langchain/langgraph/prebuilt';
 
-import { getMCPClientConfig, getMCPPromptInfo } from '../mcps/utilities.js';
+import { getMCPClientConfig, getMCPPromptInfo } from '../mcps/mcpUtils.js';
 import { GraphAnnotation } from '../graph.js';
 import { logger } from '../../utils/logger.js';
 import { MCPEnvironment } from '../mcps/interfaces.js';

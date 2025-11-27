@@ -14,7 +14,7 @@ import {
   HumanMessage,
   ToolMessage,
 } from '@langchain/core/messages';
-import { getAllMcpInfo } from './graph/mcps/utilities.js';
+import { getAllMcpInfo } from './graph/mcps/mcpUtils.js';
 import { MCPServerInfo } from './graph/mcps/interfaces.js';
 
 /**

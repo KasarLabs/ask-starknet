@@ -7,7 +7,7 @@
   "defi": {
     "name": "defi",
     "description": "Decentralized finance protocols including DEXs, lending, borrowing, liquidity management, yield farming, and perpetual derivatives trading on Starknet",
-    "mcps": [ "fibrous", "ekubo", "opus", "vesu", "troves", "endurfi", "extended"]
+    "mcps": ["avnu", "fibrous", "ekubo", "opus", "vesu", "troves", "endurfi", "extended"]
   },
   "tokens": {
     "name": "tokens",

@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { AIMessage } from '@langchain/core/messages';
 
 import { GraphAnnotation } from '../graph.js';
-import { AvailableAgents, getMCPDescription } from '../mcps/utilities.js';
+import { AvailableAgents, getMCPDescription } from '../mcps/mcpUtils.js';
 import { logger } from '../../utils/logger.js';
 import { createLLM } from '../../utils/llm.js';
 
