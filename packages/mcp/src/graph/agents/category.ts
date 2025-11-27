@@ -16,13 +16,11 @@ export const categoryAgent = async (state: typeof GraphAnnotation.State) => {
   const categoryMcps = getMCPsByCategory(category);
   const categoryDescription = getCategoryDescription(category);
 
-  // Create schema with category MCPs + END
   const categoryOutputSchema = z.object({
     selectedMcp: z.enum([END, ...categoryMcps] as [string, ...string[]]),
     reasoning: z.string().describe('Why this MCP was chosen'),
   });
 
-  // Build MCP descriptions for this category
   const mcpDescriptions = categoryMcps
     .map((mcp) => `- ${mcp}: ${getMCPDescription(mcp)}`)
     .join('\n');
@@ -61,11 +59,9 @@ Respond with the exact name of the chosen MCP or "__end__".`;
     reasoning: response.reasoning,
   });
 
-  // If END chosen for initial request, add error message
-  const isInitialRequest = state.messages.length === 1;
   const isNoMcpFound = response.selectedMcp === END;
 
-  if (isInitialRequest && isNoMcpFound) {
+  if (isNoMcpFound) {
     return {
       next: END,
       messages: [
