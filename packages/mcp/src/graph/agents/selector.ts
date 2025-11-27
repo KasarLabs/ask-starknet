@@ -30,8 +30,12 @@ ${categoryDescriptions}
 Instructions:
 - Carefully analyze the user's request
 - Read each category's description and understand its scope
+- **Context assumption**: All user requests should be interpreted within the Starknet ecosystem context by default
+- Questions that could relate to Starknet (people, projects, protocols, concepts) should be routed to the appropriate category
 - Select the MOST APPROPRIATE category that best matches the user's intent
-- If no category can handle the request, choose "__end__"
+- Choose "__end__" in two cases:
+  1. Requests clearly unrelated to Starknet (general conversation, greetings with no context, completely off-topic questions)
+  2. Starknet-related requests that none of the available categories can handle
 
 Be precise and choose the single best category for this request.
 
