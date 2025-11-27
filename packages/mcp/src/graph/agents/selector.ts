@@ -3,14 +3,20 @@ import { z } from 'zod';
 import { AIMessage } from '@langchain/core/messages';
 
 import { GraphAnnotation } from '../graph.js';
-import { getCategories, getCategoryDescription } from '../mcps/categoryUtils.js';
+import {
+  getCategories,
+  getCategoryDescription,
+} from '../mcps/categoryUtils.js';
 import { logger } from '../../utils/logger.js';
 import { createLLM } from '../../utils/llm.js';
 
 const availableCategories = getCategories();
 
 const selectorOutputSchema = z.object({
-  selectedCategory: z.enum([END, ...availableCategories] as [string, ...string[]]),
+  selectedCategory: z.enum([END, ...availableCategories] as [
+    string,
+    ...string[],
+  ]),
   reasoning: z.string().describe('Why this category was chosen'),
 });
 

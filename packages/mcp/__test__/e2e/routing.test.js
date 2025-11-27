@@ -207,7 +207,7 @@ async function testRouting() {
   // Mock environment with required MODEL_NAME
   const mockEnv = {
     MODEL_NAME: process.env.MODEL_NAME || 'claude-sonnet-4-20250514',
-    ANTHROPIC_API_KEY: process.env.ANTHROPIC_API_KEY
+    ANTHROPIC_API_KEY: process.env.ANTHROPIC_API_KEY,
   };
 
   for (const testCase of testCases) {

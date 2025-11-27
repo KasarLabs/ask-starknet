@@ -3,7 +3,10 @@ import { z } from 'zod';
 import { AIMessage, HumanMessage } from '@langchain/core/messages';
 
 import { GraphAnnotation } from '../graph.js';
-import { getMCPsByCategory, getCategoryDescription } from '../mcps/categoryUtils.js';
+import {
+  getMCPsByCategory,
+  getCategoryDescription,
+} from '../mcps/categoryUtils.js';
 import { getMCPDescription } from '../mcps/mcpUtils.js';
 import { logger } from '../../utils/logger.js';
 import { createLLM } from '../../utils/llm.js';
@@ -63,16 +66,16 @@ Respond with the exact name of the chosen MCP or "__end__".`;
   return {
     next: response.selectedMcp,
     ...(response.selectedMcp === END && {
-        messages: [
+      messages: [
         new AIMessage({
-            content: `No MCP found in "${category}" category for: "${userInput}"`,
-            name: 'category-error',
+          content: `No MCP found in "${category}" category for: "${userInput}"`,
+          name: 'category-error',
         }),
-        ],
+      ],
     }),
     routingInfo: {
-        reasoning: response.reasoning,
-        timestamp: new Date().toISOString(),
+      reasoning: response.reasoning,
+      timestamp: new Date().toISOString(),
     },
   };
 };

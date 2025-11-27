@@ -7,7 +7,16 @@
   "defi": {
     "name": "defi",
     "description": "Interacting with DeFi protocols: swapping tokens on DEXs (AVNU, Fibrous, Ekubo), lending and borrowing (Opus, Vesu), yield strategies (Troves), perpetual trading (Extended)",
-    "mcps": ["avnu", "fibrous", "ekubo", "opus", "vesu", "troves", "endurfi", "extended"]
+    "mcps": [
+      "avnu",
+      "fibrous",
+      "ekubo",
+      "opus",
+      "vesu",
+      "troves",
+      "endurfi",
+      "extended"
+    ]
   },
   "gaming": {
     "name": "gaming",
