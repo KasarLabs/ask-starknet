@@ -47,6 +47,9 @@ jobs:
     - name: Validate MCP Configuration
       run: node .github/scripts/validate-config.js
 
+    - name: Validate Categories Configuration
+      run: node .github/scripts/validate-categories.js
+
     - name: Build All MCPs
       run: pnpm run build:mcps
         
