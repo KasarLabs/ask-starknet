@@ -7,6 +7,12 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["./src/**/*", "./__tests__/**/*"],
-  "exclude": ["node_modules", "build"]
+  "include": ["./src/**/*"],
+  "exclude": [
+    "node_modules",
+    "build",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "__tests__"
+  ]
 }
