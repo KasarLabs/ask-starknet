@@ -1,27 +1,13 @@
-import { Account, Call } from 'starknet';
-import { z } from 'zod';
-import { parseUnits } from 'ethers';
+import { Account } from 'starknet';
+import { DepositParams, DepositResult } from '../../interfaces/index.js';
+import { GENESIS_POOLID } from '../../lib/constants/index.js';
+import { toU256 } from '../../lib/utils/num.js';
+import { getVTokenContract } from '../../lib/utils/contracts.js';
+import { getPool } from '../../lib/utils/pools.js';
 import {
-  Address,
-  DepositParams,
-  DepositResult,
-  IBaseToken,
-  IPool,
-  IPoolAsset,
-  ITokenValue,
-  poolParser,
-} from '../interfaces/index.js';
-import {
-  DEFAULT_DECIMALS,
-  GENESIS_POOLID,
-  VESU_API_URL,
-} from '../lib/constants/index.js';
-import { Hex, toBN, toU256 } from '../lib/utils/num.js';
-import {
-  getErc20Contract,
-  getExtensionContract,
-  getVTokenContract,
-} from '../lib/utils/contracts.js';
+  approveVTokenCalls,
+  formatTokenAmount,
+} from '../../lib/utils/tokens.js';
 import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 
 /**
@@ -40,105 +26,6 @@ export class DepositEarnService {
   ) {}
 
   /**
-   * Retrieves token price from the pool extension contract
-   * @param {IBaseToken} token - The token to get price for
-   * @param {string} poolId - The pool identifier
-   * @param {Hex} poolExtension - The pool extension contract address
-   * @returns {Promise<ITokenValue | undefined>} Token price information if available
-   */
-  public async getTokenPrice(
-    token: IBaseToken,
-    poolId: string,
-    poolExtension: Hex
-  ): Promise<ITokenValue | undefined> {
-    const contract = getExtensionContract(poolExtension);
-
-    try {
-      const res = await contract.price(poolId, token.address);
-      return res.is_valid && res.value
-        ? { value: toBN(res.value), decimals: DEFAULT_DECIMALS }
-        : undefined;
-    } catch (err) {
-      // logger.error('error', err);
-      return undefined;
-    }
-  }
-
-  /**
-   * Retrieves and updates pool assets with prices and risk metrics
-   * @private
-   * @param {IPool['id']} poolId - Pool identifier
-   * @param {IPool['extensionContractAddress']} poolExtensionContractAddress - Extension contract address
-   * @param {IPoolAsset[]} poolAssets - Array of pool assets
-   * @returns {Promise<IPoolAsset[]>} Updated pool assets with prices and risk metrics
-   */
-  private async getPoolAssetsPriceAndRiskMdx(
-    poolId: IPool['id'],
-    poolExtensionContractAddress: IPool['extensionContractAddress'],
-    poolAssets: IPoolAsset[]
-  ): Promise<IPoolAsset[]> {
-    return await Promise.all(
-      poolAssets.map(async (asset) => {
-        const usdPrice = await this.getTokenPrice(
-          asset,
-          poolId,
-          poolExtensionContractAddress
-        );
-
-        return {
-          ...asset,
-          risk: null,
-          usdPrice,
-        };
-      })
-    );
-  }
-
-  /**
-   * Retrieves pool information and updates assets with prices
-   * @param {string} poolId - Pool identifier
-   * @returns {Promise<IPool>} Updated pool information
-   */
-  public async getPool(poolId: string): Promise<IPool> {
-    const data = await fetch(`${VESU_API_URL}/pools/${poolId}`).then((res) =>
-      res.json()
-    );
-    const pool = z
-      .object({ data: poolParser })
-      .transform(({ data }) => data)
-      .parse(data);
-    const assets = await this.getPoolAssetsPriceAndRiskMdx(
-      pool.id,
-      pool.extensionContractAddress,
-      pool.assets
-    );
-
-    return { ...pool, assets };
-  }
-
-  /**
-   * Generates approval call for vToken operations
-   * @param {Address} assetAddress - Address of the asset to approve
-   * @param {Address} vTokenAddress - Address of the vToken
-   * @param {bigint} amount - Amount to approve
-   * @returns {Promise<Call>} Approval transaction call
-   */
-  async approveVTokenCalls(
-    assetAddress: Address,
-    vTokenAddress: Address,
-    amount: bigint
-  ): Promise<Call> {
-    const tokenContract = getErc20Contract(assetAddress);
-
-    const approveCall = tokenContract.populateTransaction.approve(
-      vTokenAddress,
-      amount
-    );
-
-    return approveCall;
-  }
-
-  /**
    * Executes a deposit transaction
    * @param {DepositParams} params - Deposit parameters
    * @param {onchainWrite | onchainRead} env - The onchain environment
@@ -154,29 +41,30 @@ export class DepositEarnService {
         address: this.walletAddress,
         signer: this.env.account.signer,
       });
-      const pool = await this.getPool(GENESIS_POOLID);
+      const poolId = params.poolId || GENESIS_POOLID;
+      const pool = await getPool(poolId);
 
       const collateralPoolAsset = pool.assets.find(
         (a) =>
-          a.symbol.toLocaleUpperCase() ===
-          params.depositTokenSymbol.toLocaleUpperCase()
+          a.symbol.toUpperCase() === params.depositTokenSymbol.toUpperCase()
       );
 
       if (!collateralPoolAsset) {
         throw new Error('Collateral asset not found in pool');
       }
 
-      const collateralAmount = parseUnits(
+      // Convert human decimal amount to token decimals format
+      const formattedAmount = formatTokenAmount(
         params.depositAmount,
-        // 0
         collateralPoolAsset.decimals
       );
+      const collateralAmount = BigInt(formattedAmount);
 
       const vtokenContract = getVTokenContract(
         collateralPoolAsset.vToken.address
       );
 
-      const vTokenApproveCall = await this.approveVTokenCalls(
+      const vTokenApproveCall = await approveVTokenCalls(
         collateralPoolAsset.address,
         collateralPoolAsset.vToken.address,
         collateralAmount
