@@ -57,7 +57,7 @@ Respond with the exact name of the chosen category or "__end__".`;
     },
   ]);
 
-  logger.error(`Selector routing decision`, {
+  logger.info(`Selector routing decision`, {
     selectedCategory: response.selectedCategory,
     reasoning: response.reasoning,
   });

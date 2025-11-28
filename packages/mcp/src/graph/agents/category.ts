@@ -58,7 +58,7 @@ Respond with the exact name of the chosen MCP or "__end__".`;
     },
   ]);
 
-  logger.error(`Category routing decision for "${category}"`, {
+  logger.info(`Category routing decision for "${category}"`, {
     selectedMcp: response.selectedMcp,
     reasoning: response.reasoning,
   });
