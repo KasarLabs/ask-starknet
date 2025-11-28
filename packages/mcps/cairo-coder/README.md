@@ -77,7 +77,7 @@ Use a local or custom Cairo Coder API endpoint (no API key required).
 
 ### assist_with_cairo
 
-Get help with Cairo and Starknet development tasks.
+Get AI-powered assistance with Cairo and Starknet development tasks.
 
 **Parameters:**
 
@@ -104,8 +104,10 @@ Get help with Cairo and Starknet development tasks.
 - **Write Cairo code**: Generate smart contracts and Cairo code
 - **Refactor code**: Improve and optimize existing code
 - **Implement features**: Complete TODOs and implement specific functionality
-- **Learn Starknet**: Get contextual information about the Starknet ecosystem
+- **Debug issues**: Get help troubleshooting Cairo compilation and runtime errors
 - **Best practices**: Receive advice based on Cairo/Starknet documentation
+
+> **Note**: For general Starknet ecosystem knowledge and protocol information, use the [@kasarlabs/starknet-knowledge-mcp](https://www.npmjs.com/package/@kasarlabs/starknet-knowledge-mcp) server instead.
 
 ## Tips for Better Results
 
