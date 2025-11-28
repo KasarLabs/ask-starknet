@@ -68,7 +68,7 @@ Respond with the exact name of the chosen MCP or "__end__".`;
     ...(response.selectedMcp === END && {
       messages: [
         new AIMessage({
-          content: `No MCP found in "${category}" category for: "${userInput}"`,
+          content: `I couldn't find an appropriate MCP in this category : "${category}" to handle this request: "${userInput}"\n\nPlease try rephrasing your request or ask "help" to see what I can do.`,
           name: 'category-error',
         }),
       ],
