@@ -194,7 +194,7 @@ const testCases = [
     name: 'Community member test',
     query: 'WHo is antiyro',
     expectedCategory: 'knowledge',
-    expectedMCP: 'cairo-coder',
+    expectedMCP: 'starknet-knowledge',
   },
 ];
 

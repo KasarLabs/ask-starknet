@@ -36,7 +36,7 @@
   "knowledge": {
     "name": "knowledge",
     "description": "AI-powered assistance, documentation, help guides, and educational resources for Starknet ecosystem and MCP servers",
-    "mcps": ["mcp-doc"]
+    "mcps": ["mcp-doc", "starknet-knowledge"]
   },
   "tokens": {
     "name": "tokens",
