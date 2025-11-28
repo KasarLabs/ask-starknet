@@ -508,5 +508,20 @@
         "create_swap"
       ]
     }
+  },
+  "assist-with-dojo": {
+    "client": {
+      "command": "node",
+      "args": ["../mcps/assist-with-dojo/build/index.js"],
+      "transport": "stdio",
+      "env": {
+        "CAIRO_CODER_API_KEY": ""
+      }
+    },
+    "description": "AI-powered assistance for Dojo game engine development on Starknet. Use for: learning about Dojo, understanding Dojo concepts, building games with Dojo, getting Dojo best practices",
+    "promptInfo": {
+      "expertise": "Dojo game engine, ECS architecture, onchain gaming on Starknet, Dojo toolchain, and Dojo development patterns",
+      "tools": ["assist-with-dojo"]
+    }
   }
 }

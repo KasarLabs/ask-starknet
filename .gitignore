@@ -3,7 +3,7 @@
 **/node_modules
 **/.turbo
 .env
-
+**/.vscode
 **/log_iterations.json
 **/log_autonomous.txt
 
