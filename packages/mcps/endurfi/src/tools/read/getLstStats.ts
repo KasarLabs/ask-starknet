@@ -1,5 +1,5 @@
 import { GetLstStatsSchema } from '../../schemas/index.js';
-import { onchainRead } from '@kasarlabs/ask-starknet-core';
+import { onchainRead, toolResult } from '@kasarlabs/ask-starknet-core';
 
 interface LstStatsResponse {
   asset: string;
@@ -16,7 +16,7 @@ interface LstStatsResponse {
 export const getLstStats = async (
   env: onchainRead | null,
   params: GetLstStatsSchema
-) => {
+): Promise<toolResult> => {
   // This tool doesn't require onchain access, it only uses HTTP API
   try {
     const apiUrl = 'https://app.endur.fi/api/lst/stats';

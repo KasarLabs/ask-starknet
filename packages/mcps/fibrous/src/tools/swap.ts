@@ -1,5 +1,5 @@
 import { Account, Call, constants } from 'starknet';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 import { ApprovalService } from './approval.js';
 
 import { SLIPPAGE_PERCENTAGE } from '../lib/constants/index.js';
@@ -149,7 +149,7 @@ export const createSwapService = (
 export const swapTokensFibrous = async (
   env: onchainWrite,
   params: SwapParams
-) => {
+): Promise<toolResult> => {
   return {
     status: 'failure',
     error: 'This tool is currently under maintenance. ',

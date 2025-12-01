@@ -1,7 +1,7 @@
 import { CreateMemecoinParams } from '../schemas/index.js';
 import { stark, uint256 } from 'starknet';
 import { execute, decimalsScale } from '../lib/utils/helper.js';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 
 /**
  * Creates a new memecoin using the Unruggable Factory.
@@ -58,7 +58,7 @@ import { onchainWrite } from '@kasarlabs/ask-starknet-core';
 export const createMemecoin = async (
   env: onchainWrite,
   params: CreateMemecoinParams
-) => {
+): Promise<toolResult> => {
   try {
     const provider = env.provider;
     const salt = stark.randomAddress();
@@ -76,7 +76,7 @@ export const createMemecoin = async (
 
     return {
       status: 'success',
-      transactionHash: transaction_hash,
+      data: { transactionHash: transaction_hash },
     };
   } catch (error) {
     console.error('Error creating memecoin:', error);

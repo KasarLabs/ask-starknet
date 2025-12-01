@@ -4,12 +4,7 @@ import 'dotenv/config';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import packageJson from '../package.json' with { type: 'json' };
-import {
-  assistWithCairoSchema,
-  type AssistWithCairoInput,
-  starknetGeneralKnowledgeSchema,
-  type StarknetGeneralKnowledgeInput,
-} from './schemas.js';
+import { assistWithCairoSchema, type AssistWithCairoInput } from './schemas.js';
 
 /**
  * Represents a message in the Cairo Coder conversation
@@ -98,32 +93,10 @@ Call this tool when the user needs to:
 - **Understand Cairo syntax** and best practices
 - **Complete TODO sections** in Cairo smart contracts
 
-This tool has access to Cairo documentation, code examples, corelib references, and technical guides.
-
-**Do NOT use this tool for general Starknet ecosystem questions or news.** Use starknet_general_knowledge instead.`,
+This tool has access to Cairo documentation, code examples, corelib references, and technical guides.`,
       assistWithCairoSchema.shape,
       async (args: AssistWithCairoInput) => {
         return await this.handleCairoAssistance(args);
-      }
-    );
-
-    // Tool 2: Starknet general knowledge
-    this.server.tool(
-      'starknet_general_knowledge',
-      `Provides general knowledge about the Starknet ecosystem, protocol concepts, recent updates, and news.
-
-Call this tool when the user needs to:
-- **Understand Starknet concepts** (account abstraction, sequencers, STARK proofs, etc.)
-- **Discover ecosystem projects** and integrations
-- **Get information from the Starknet blog**
-- **Understand high-level architecture** and design decisions
-
-This tool has access to Starknet blog posts, conceptual documentation, and ecosystem information.
-
-**Do NOT use this tool for writing Cairo code.** Use assist_with_cairo instead.`,
-      starknetGeneralKnowledgeSchema.shape,
-      async (args: StarknetGeneralKnowledgeInput) => {
-        return await this.handleGeneralKnowledge(args);
       }
     );
   }
@@ -154,98 +127,6 @@ This tool has access to Starknet blog posts, conceptual documentation, and ecosy
       if (codeSnippets && codeSnippets.length > 0) {
         contextualMessage += `\n\nCode snippets for context:\n${codeSnippets.join('\n\n')}`;
       }
-
-      if (history && history.length > 0) {
-        contextualMessage = `Previous conversation context:\n${history.join('\n')}\n\nCurrent query: ${contextualMessage}`;
-      }
-
-      const requestBody: CairoCoderRequest = {
-        messages: [
-          {
-            role: 'user',
-            content: contextualMessage,
-          },
-        ],
-      };
-
-      // Prepare headers based on mode
-      const headers: Record<string, string> = {
-        'Content-Type': 'application/json',
-        mcp: 'true',
-      };
-
-      // Only add API key header in public API mode
-      if (!this.isLocalMode && this.apiKey) {
-        headers['x-api-key'] = this.apiKey;
-      }
-
-      const response = await fetch(this.apiUrl, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify(requestBody),
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(
-          `API request failed: ${response.status} ${response.statusText} - ${errorText}`
-        );
-      }
-
-      const data = (await response.json()) as CairoCoderResponse;
-
-      if (!data.choices || data.choices.length === 0) {
-        throw new Error('No response received from Cairo Coder API');
-      }
-
-      const assistantResponse = data.choices[0].message.content;
-
-      return {
-        content: [
-          {
-            type: 'text' as const,
-            text: assistantResponse,
-          },
-        ],
-      };
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : 'Unknown error occurred';
-
-      return {
-        content: [
-          {
-            type: 'text' as const,
-            text: `Error: ${errorMessage}`,
-          },
-        ],
-        isError: true,
-      };
-    }
-  }
-
-  /**
-   * Handles general Starknet knowledge requests by calling the Cairo Coder API
-   * @param args - The arguments containing query and optional conversation history
-   * @returns The response from the Cairo Coder API or an error message
-   */
-  private async handleGeneralKnowledge(args: StarknetGeneralKnowledgeInput) {
-    try {
-      const { query, history } = args;
-
-      if (!query) {
-        throw new Error('Query parameter is required');
-      }
-
-      // Validate API key is available in public API mode
-      if (!this.isLocalMode && !this.apiKey) {
-        throw new Error(
-          'CAIRO_CODER_API_KEY environment variable is required when using public API'
-        );
-      }
-
-      // Add context to guide the backend towards general knowledge responses
-      let contextualMessage = `As a Starknet ecosystem expert, answer the following question about Starknet concepts, or general knowledge:\n\n${query}`;
 
       if (history && history.length > 0) {
         contextualMessage = `Previous conversation context:\n${history.join('\n')}\n\nCurrent query: ${contextualMessage}`;

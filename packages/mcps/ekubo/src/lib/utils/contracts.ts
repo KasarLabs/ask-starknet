@@ -1,4 +1,4 @@
-import { RpcProvider, shortString, Contract } from 'starknet';
+import { RpcProvider, shortString, Contract, Account } from 'starknet';
 import { ekuboAddress } from '../constants/addresses.js';
 import {
   CORE_ABI,
@@ -42,34 +42,36 @@ export function getEkuboAddress(
 
 /**
  * Get a contract instance for a specific Ekubo contract type
+ * @param account - Account instance for signing transactions
  * @param provider - RPC provider
  * @param contractType - Type of contract to instantiate
  * @returns Contract instance
  */
 export async function getContract(
   provider: RpcProvider,
-  contractType: EkuboContract
+  contractType: EkuboContract,
+  account?: Account
 ): Promise<Contract> {
   const chain = await getChain(provider);
   const address = getEkuboAddress(contractType, chain);
   const abi = CONTRACT_ABIS[contractType];
 
-  return new Contract({ abi, address, providerOrAccount: provider });
+  return new Contract({ abi, address, providerOrAccount: account ?? provider });
 }
 
 /**
  * Get an ERC20 contract instance
+ * @param account - Account instance for signing transactions
  * @param tokenAddress - Token contract address
- * @param provider - RPC provider
  * @returns ERC20 Contract instance
  */
 export function getERC20Contract(
-  tokenAddress: string,
-  provider: RpcProvider
+  account: Account,
+  tokenAddress: string
 ): Contract {
   return new Contract({
     abi: NEW_ERC20_ABI,
     address: tokenAddress,
-    providerOrAccount: provider,
+    providerOrAccount: account,
   });
 }

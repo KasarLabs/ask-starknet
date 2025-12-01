@@ -13,15 +13,19 @@ import {
 import { extractPositionIdFromReceipt } from '../../lib/utils/events.js';
 import { formatTokenAmount } from '../../lib/utils/token.js';
 import { CreatePositionSchema } from '../../schemas/index.js';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 
 export const createPosition = async (
   env: onchainWrite,
   params: CreatePositionSchema
-) => {
+): Promise<toolResult> => {
   try {
     const account = env.account;
-    const positionsContract = await getContract(env.provider, 'positions');
+    const positionsContract = await getContract(
+      env.provider,
+      'positions',
+      env.account
+    );
 
     const { poolKey, token0, token1, isTokenALower } =
       await preparePoolKeyFromParams(env.provider, {
@@ -101,26 +105,23 @@ export const createPosition = async (
     const minLiquidity = 0;
 
     const token0Contract = getERC20Contract(
-      transferToken0.address,
-      env.provider
+      env.account,
+      transferToken0.address
     );
-    token0Contract.connect(account);
     const transfer0Calldata = token0Contract.populate('transfer', [
       positionsContract.address,
       amount0,
     ]);
 
     const token1Contract = getERC20Contract(
-      transferToken1.address,
-      env.provider
+      env.account,
+      transferToken1.address
     );
-    token1Contract.connect(account);
     const transfer1Calldata = token1Contract.populate('transfer', [
       positionsContract.address,
       amount1,
     ]);
 
-    positionsContract.connect(account);
     const mintCalldata = positionsContract.populate(
       'mint_and_deposit_and_clear_both',
       [poolKey, bounds, minLiquidity]
