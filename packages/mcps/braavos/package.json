@@ -10,7 +10,9 @@
     "build": "tsc && chmod 755 build/index.js",
     "clean": "rm -rf build",
     "clean:all": "rm -rf build node_modules",
-    "start": "node build/index.js"
+    "start": "node build/index.js",
+    "test": "jest",
+    "test:e2e": "jest __tests__/e2e"
   },
   "files": [
     "build"
@@ -25,7 +27,11 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@jest/globals": "^29.7.0",
+    "@types/jest": "^29.5.12",
     "@types/node": "^22.13.10",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
     "typescript": "^5.8.2"
   },
   "keywords": [
