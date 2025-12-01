@@ -43,7 +43,7 @@ export async function withdrawFromChamber(
       tokenAddress,
       amount
     );
-    console.log('Transaction Hash:', tx_hash.toString());
+    console.error('Transaction Hash:', tx_hash.toString());
 
     const allTransactions = (await chamberContract.tx_array()) as bigint[];
     const txIndex = await getTxIndexInTree(
@@ -56,13 +56,14 @@ export async function withdrawFromChamber(
     if (txIndex === -1) {
       throw new Error('Transaction not found in merkle tree');
     }
-    console.log('Transaction Index in Tree:', txIndex);
-    console.log('Total transactions in chamber:', allTransactions.length);
+    console.error('Transaction Index in Tree:', txIndex);
+    console.error('Total transactions in chamber:', allTransactions.length);
 
     const merkleProofWRoot = calculateMerkleRootAndProof(
       allTransactions,
       txIndex
     );
+    console.error('Calculating Merkle Proof...');
     const merkleProof = merkleProofWRoot
       .slice(0, merkleProofWRoot.length - 1)
       .map((bi) => {
@@ -79,7 +80,7 @@ export async function withdrawFromChamber(
     if (!formattedMerkleProof || formattedMerkleProof.length === 0) {
       throw new Error('Merkle proof could not be generated');
     }
-    console.log('Merkle Proof:', formattedMerkleProof);
+    console.error('Merkle Proof:', formattedMerkleProof);
     const formattedAmount = fmtAmount(BigInt(amount), Number(decimals));
 
     const withdrawTx = await chamberContract.withdraw_no_zk(
@@ -104,9 +105,9 @@ export async function withdrawFromChamber(
         data: {
           recipientAddress,
           tokenAddress,
-          amount,
+          amount: amount.toString(),
           formattedAmount,
-          decimals,
+          decimals: Number(decimals),
           transactionHash: withdrawTx.transaction_hash,
           merkleProofLength: merkleProof.length,
         },
