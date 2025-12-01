@@ -9,7 +9,7 @@ import { getV3DetailsPayload } from '../lib/utils/utils.js';
 import { TransactionMonitor } from '../lib/utils/transactionMonitor.js';
 import { BatchSwapParams } from '../lib/types/index.js';
 import { SLIPPAGE_PERCENTAGE } from '../lib/constants/index.js';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 
 export class BatchSwapService {
   private tokenService: TokenService;
@@ -61,13 +61,11 @@ export class BatchSwapService {
       await this.initialize();
 
       const provider = this.env.provider;
-      const account = new Account(
+      const account = new Account({
         provider,
-        this.walletAddress,
-        this.env.account.signer,
-        undefined,
-        constants.TRANSACTION_VERSION.V3
-      );
+        address: this.walletAddress,
+        signer: this.env.account.signer,
+      });
 
       const swapParams = this.extractBatchSwapParams(params);
 
@@ -170,7 +168,7 @@ export const createSwapService = (
 export const batchSwapTokens = async (
   env: onchainWrite,
   params: BatchSwapParams
-) => {
+): Promise<toolResult> => {
   return {
     status: 'failure',
     error: 'This tool is currently under maintenance. ',
@@ -181,7 +179,10 @@ export const batchSwapTokens = async (
   try {
     const swapService = createSwapService(env, accountAddress);
     const result = await swapService.executeSwapTransaction(params);
-    return result;
+    return {
+      status: 'success',
+      data: result,
+    };
   } catch (error) {
     return {
       status: 'failure',

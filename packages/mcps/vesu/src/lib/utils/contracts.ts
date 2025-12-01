@@ -4,21 +4,55 @@ import { vTokenAbi } from '../abis/vTokenAbi.js';
 import { singletonAbi } from '../abis/singletonAbi.js';
 import { extensionAbi } from '../abis/extensionAbi.js';
 import { erc20Abi } from '../abis/erc20Abi.js';
+import { multiplyAbi } from '../abis/multiplyAbi.js';
+import { poolAbi } from '../abis/poolAbi.js';
 
 export const getErc20Contract = (address: Address) => {
   const provider = new RpcProvider({ nodeUrl: process.env.STARKNET_RPC_URL });
-  return new Contract(erc20Abi, address, provider).typedv2(erc20Abi);
+  return new Contract({
+    abi: erc20Abi,
+    address,
+    providerOrAccount: provider,
+  }).typedv2(erc20Abi);
 };
 export const getVTokenContract = (address: Address) => {
   const provider = new RpcProvider({ nodeUrl: process.env.STARKNET_RPC_URL });
-  return new Contract(vTokenAbi, address, provider).typedv2(vTokenAbi);
+  return new Contract({
+    abi: vTokenAbi,
+    address,
+    providerOrAccount: provider,
+  }).typedv2(vTokenAbi);
 };
 
 export const getSingletonContract = (address: Address) => {
   const provider = new RpcProvider({ nodeUrl: process.env.STARKNET_RPC_URL });
-  return new Contract(singletonAbi, address, provider).typedv2(singletonAbi);
+  return new Contract({
+    abi: singletonAbi,
+    address,
+    providerOrAccount: provider,
+  }).typedv2(singletonAbi);
 };
 export const getExtensionContract = (address: Address) => {
   const provider = new RpcProvider({ nodeUrl: process.env.STARKNET_RPC_URL });
-  return new Contract(extensionAbi, address, provider).typedv2(extensionAbi);
+  return new Contract({
+    abi: extensionAbi,
+    address,
+    providerOrAccount: provider,
+  }).typedv2(extensionAbi);
+};
+export const getMultiplyContract = (address: Address) => {
+  const provider = new RpcProvider({ nodeUrl: process.env.STARKNET_RPC_URL });
+  return new Contract({
+    abi: multiplyAbi,
+    address,
+    providerOrAccount: provider,
+  }).typedv2(multiplyAbi);
+};
+export const getPoolContract = (address: Address) => {
+  const provider = new RpcProvider({ nodeUrl: process.env.STARKNET_RPC_URL });
+  return new Contract({
+    abi: poolAbi,
+    address,
+    providerOrAccount: provider,
+  }).typedv2(poolAbi);
 };

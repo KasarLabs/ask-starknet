@@ -1,14 +1,10 @@
 import {
   validateAndParseAddress,
-  num,
-  RPC,
   Contract,
   Provider,
   shortString,
   cairo,
   Uint256,
-  Call,
-  Account,
 } from 'starknet';
 import { erc20Addresses } from '../constants/addresses.js';
 import { NEW_ERC20_ABI, OLD_ERC20_ABI } from '../constants/abis/index.js';
@@ -45,16 +41,6 @@ export interface ParamsValidationResult {
 }
 
 /**
- * V3 transaction execution arguments
- * @property {Call} call
- * @property {Account} account
- */
-export interface ExecuteV3Args {
-  call: Call;
-  account: Account;
-}
-
-/**
  * Detects the ABI type of a token contract
  * @param {string} address - The ERC20 token contract address
  * @param {Provider} provider - The Starknet provider
@@ -62,7 +48,11 @@ export interface ExecuteV3Args {
  */
 export async function detectAbiType(address: string, provider: Provider) {
   try {
-    const contract = new Contract(OLD_ERC20_ABI, address, provider);
+    const contract = new Contract({
+      abi: OLD_ERC20_ABI,
+      address,
+      providerOrAccount: provider,
+    });
     const symbol = await contract.symbol();
     if (symbol == 0n) {
       return NEW_ERC20_ABI;
@@ -218,7 +208,11 @@ export async function validateToken(
     address = validateAndParseAddress(assetAddress);
     try {
       const abi = await detectAbiType(address, provider);
-      const contract = new Contract(abi, address, provider);
+      const contract = new Contract({
+        abi,
+        address,
+        providerOrAccount: provider,
+      });
 
       try {
         const rawSymbol = await contract.symbol();
@@ -252,26 +246,4 @@ export async function validateToken(
     symbol,
     decimals,
   };
-}
-
-/**
- * Extracts asset information from the new asset schema
- * @param {Object} asset - The asset object with assetType and assetValue
- * @returns {Object} Object with assetSymbol and assetAddress
- */
-export function extractAssetInfo(asset: {
-  assetType: 'SYMBOL' | 'ADDRESS';
-  assetValue: string;
-}) {
-  if (asset.assetType === 'SYMBOL') {
-    return {
-      assetSymbol: asset.assetValue,
-      assetAddress: undefined,
-    };
-  } else {
-    return {
-      assetSymbol: undefined,
-      assetAddress: asset.assetValue,
-    };
-  }
 }

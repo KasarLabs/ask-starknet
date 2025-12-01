@@ -8,6 +8,9 @@ import {
   BigNumberish,
   Calldata,
   num,
+  EDAMode,
+  ETransactionVersion,
+  ResourceBoundsBN,
 } from 'starknet';
 
 import {
@@ -68,35 +71,24 @@ export class AccountManager implements BaseUtilityClass {
    * @async
    * @method estimateAccountDeployFee
    * @param {AccountDetails} accountDetails - The account details for deployment
-   * @returns {Promise<bigint>} The estimated maximum fee
+   * @returns {Promise<{resourceBounds: ResourceBoundsBN, maxFee: bigint}>} The estimated resource bounds and max fee
    * @throws {Error} If fee estimation fails
    */
   async estimateAccountDeployFee(
     accountDetails: AccountDetails
-  ): Promise<bigint> {
+  ): Promise<{ resourceBounds: ResourceBoundsBN; maxFee: bigint }> {
     try {
-      const version = constants.TRANSACTION_VERSION.V1;
+      const version = ETransactionVersion.V3;
       const nonce = constants.ZERO;
       const chainId = await this.provider.getChainId();
 
       const initializer = this.calcInit(accountDetails.publicKey);
       const constructorCalldata = this.getProxyConstructor(initializer);
 
-      const signature = this.getBraavosSignature(
-        accountDetails.contractAddress,
-        constructorCalldata,
-        accountDetails.publicKey,
-        constants.ZERO,
-        chainId,
-        BigInt(nonce),
-        accountDetails.privateKey
-      );
-
       const deployAccountPayload = {
         classHash: this.proxyClassHash,
         constructorCalldata,
         addressSalt: accountDetails.publicKey,
-        signature,
       };
 
       const response = await this.provider.getDeployAccountEstimateFee(
@@ -104,7 +96,10 @@ export class AccountManager implements BaseUtilityClass {
         { version, nonce }
       );
 
-      return stark.estimatedFeeToMaxFee(response.overall_fee);
+      return {
+        resourceBounds: response.resourceBounds,
+        maxFee: response.overall_fee,
+      };
     } catch (error) {
       throw new Error(`Failed to estimate deploy fee: ${error.message}`);
     }
@@ -115,29 +110,34 @@ export class AccountManager implements BaseUtilityClass {
    * @async
    * @method deployAccount
    * @param {AccountDetails} accountDetails - The account details for deployment
+   * @param {ResourceBoundsBN} [resourceBounds] - Optional resource bounds for deployment
    * @param {BigNumberish} [maxFee] - Optional maximum fee for deployment
    * @returns {Promise<TransactionResult>} The deployment transaction result
    * @throws {Error} If deployment fails
    */
   async deployAccount(
     accountDetails: AccountDetails,
+    resourceBounds?: ResourceBoundsBN,
     maxFee?: BigNumberish
   ): Promise<TransactionResult> {
     try {
-      const version = constants.TRANSACTION_VERSION.V1;
+      const version = ETransactionVersion.V3;
       const nonce = constants.ZERO;
       const chainId = await this.provider.getChainId();
 
       const initializer = this.calcInit(accountDetails.publicKey);
       const constructorCalldata = this.getProxyConstructor(initializer);
 
-      maxFee = maxFee ?? (await this.estimateAccountDeployFee(accountDetails));
-
+      if (!resourceBounds || !maxFee) {
+        const estimated = await this.estimateAccountDeployFee(accountDetails);
+        resourceBounds = resourceBounds ?? estimated.resourceBounds;
+        maxFee = maxFee ?? estimated.maxFee;
+      }
       const signature = this.getBraavosSignature(
         accountDetails.contractAddress,
         constructorCalldata,
         accountDetails.publicKey,
-        maxFee,
+        resourceBounds,
         chainId,
         BigInt(nonce),
         accountDetails.privateKey
@@ -184,9 +184,9 @@ export class AccountManager implements BaseUtilityClass {
 
   private getBraavosSignature(
     contractAddress: BigNumberish,
-    constructorCalldata: Calldata,
+    compiledConstructorCalldata: Calldata,
     publicKey: BigNumberish,
-    maxFee: BigNumberish,
+    resourceBounds: ResourceBoundsBN,
     chainId: constants.StarknetChainId,
     nonce: bigint,
     privateKey: BigNumberish
@@ -194,12 +194,16 @@ export class AccountManager implements BaseUtilityClass {
     const txHash = hash.calculateDeployAccountTransactionHash({
       contractAddress,
       classHash: this.proxyClassHash,
-      constructorCalldata,
+      compiledConstructorCalldata,
       salt: publicKey,
-      version: constants.TRANSACTION_VERSION.V1,
-      maxFee,
+      version: ETransactionVersion.V3,
       chainId,
       nonce,
+      nonceDataAvailabilityMode: EDAMode.L2,
+      feeDataAvailabilityMode: EDAMode.L2,
+      resourceBounds,
+      paymasterData: [],
+      tip: 0,
     });
 
     const parsedOtherSigner = [0, 0, 0, 0, 0, 0, 0];

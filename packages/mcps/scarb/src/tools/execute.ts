@@ -5,6 +5,7 @@ import {
 } from '../lib/utils/index.js';
 import { executeProject } from '../lib/utils/workspace.js';
 import { executeProgramSchema } from '../schemas/index.js';
+import { toolResult } from '@kasarlabs/ask-starknet-core';
 
 /**
  * Execute a Cairo program
@@ -13,7 +14,7 @@ import { executeProgramSchema } from '../schemas/index.js';
  */
 export const executeProgram = async (
   params: z.infer<typeof executeProgramSchema>
-) => {
+): Promise<toolResult> => {
   try {
     await checkScarbInstalled();
 
@@ -42,14 +43,15 @@ export const executeProgram = async (
 
     return {
       status: 'success',
-      message: 'Program executed successfully',
-      result,
-      projectPath: params.path,
+      data: {
+        message: 'Program executed successfully',
+        result,
+        projectPath: params.path,
+      },
     };
   } catch (error) {
     return {
       status: 'failure',
-      message: `Execution failed: ${error.message}`,
       error: error.message,
     };
   }

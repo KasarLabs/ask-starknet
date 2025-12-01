@@ -1,5 +1,5 @@
 import { Contract, RpcProvider } from 'starknet';
-import { onchainRead } from '@kasarlabs/ask-starknet-core';
+import { onchainRead, toolResult } from '@kasarlabs/ask-starknet-core';
 import { detectAbiType } from '../lib/utils/utils.js';
 import { validateAndParseAddress } from 'starknet';
 import { OLD_ERC20_ABI } from '../lib/abis/old.js';
@@ -112,7 +112,7 @@ async function callSymbolRaw(
 export const getSymbol = async (
   env: onchainRead,
   params: z.infer<typeof getSymbolSchema>
-) => {
+): Promise<toolResult> => {
   try {
     if (!params?.assetAddress) {
       throw new Error('Asset address is required');
@@ -122,7 +122,11 @@ export const getSymbol = async (
     const address = validateAndParseAddress(params.assetAddress);
 
     const abi = await detectAbiType(address, provider);
-    const contract = new Contract(abi, address, provider);
+    const contract = new Contract({
+      abi,
+      address,
+      providerOrAccount: provider,
+    });
 
     let out: string[] = [];
     try {
@@ -191,7 +195,7 @@ export const getSymbol = async (
       symbol = 'UNKNOWN';
     }
 
-    return { status: 'success', symbol };
+    return { status: 'success', data: { symbol } };
   } catch (error) {
     return {
       status: 'failure',

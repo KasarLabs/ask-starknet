@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { ownerOfSchema } from '../../schemas/index.js';
 import { bigintToHex } from '../../lib/utils/utils.js';
 import { validateAndParseAddress } from 'starknet';
-import { onchainRead } from '@kasarlabs/ask-starknet-core';
+import { onchainRead, toolResult } from '@kasarlabs/ask-starknet-core';
 
 /**
  * Get the owner of the token.
@@ -17,7 +17,7 @@ import { onchainRead } from '@kasarlabs/ask-starknet-core';
 export const getOwner = async (
   env: onchainRead,
   params: z.infer<typeof ownerOfSchema>
-) => {
+): Promise<toolResult> => {
   try {
     if (!params?.tokenId || !params?.contractAddress) {
       throw new Error('Both token ID and contract address are required');
@@ -28,17 +28,17 @@ export const getOwner = async (
     const contractAddress = validateAndParseAddress(params.contractAddress);
     const tokenId = validateAndFormatTokenId(params.tokenId);
 
-    const contract = new Contract(
-      INTERACT_ERC721_ABI,
-      contractAddress,
-      provider
-    );
+    const contract = new Contract({
+      abi: INTERACT_ERC721_ABI,
+      address: contractAddress,
+      providerOrAccount: provider,
+    });
 
     const ownerResponse = await contract.ownerOf(tokenId);
 
     return {
       status: 'success',
-      owner: bigintToHex(BigInt(ownerResponse)),
+      data: { owner: bigintToHex(BigInt(ownerResponse)) },
     };
   } catch (error) {
     return {

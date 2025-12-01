@@ -2,7 +2,7 @@ import { ContractAddressParams } from '../schemas/index.js';
 import { Contract } from 'starknet';
 import { FACTORY_ABI } from '../lib/abis/unruggableFactory.js';
 import { FACTORY_ADDRESS } from '../lib/constants/index.js';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 
 type LiquidityType =
   | { type: 'JediERC20'; address: string }
@@ -76,10 +76,14 @@ interface LockedLiquidityInfo {
 export const getLockedLiquidity = async (
   env: onchainWrite,
   params: ContractAddressParams
-) => {
+): Promise<toolResult> => {
   try {
     const provider = env.provider;
-    const contract = new Contract(FACTORY_ABI, FACTORY_ADDRESS, provider);
+    const contract = new Contract({
+      abi: FACTORY_ABI,
+      address: FACTORY_ADDRESS,
+      providerOrAccount: provider,
+    });
 
     const result = await contract.locked_liquidity(params.contractAddress);
     const liquidityInfo: LockedLiquidityInfo = {
@@ -116,7 +120,7 @@ export const getLockedLiquidity = async (
   } catch (error) {
     console.error('Error getting locked liquidity:', error);
     return {
-      status: 'failed',
+      status: 'failure',
       error: error.message,
     };
   }

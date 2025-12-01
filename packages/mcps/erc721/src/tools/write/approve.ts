@@ -4,7 +4,7 @@ import {
   constants,
   validateAndParseAddress,
 } from 'starknet';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 import { INTERACT_ERC721_ABI } from '../../lib/abis/interact.js';
 import {
   validateAndFormatTokenId,
@@ -23,7 +23,7 @@ import { TransactionResult } from '../../lib/types/types.js';
 export const approve = async (
   env: onchainWrite,
   params: z.infer<typeof approveSchema>
-) => {
+): Promise<toolResult> => {
   try {
     if (
       !params?.approvedAddress ||
@@ -41,13 +41,11 @@ export const approve = async (
     const contractAddress = validateAndParseAddress(params.contractAddress);
     const tokenId = validateAndFormatTokenId(params.tokenId);
 
-    const contract = new Contract(
-      INTERACT_ERC721_ABI,
-      contractAddress,
-      provider
-    );
-    contract.connect(account);
-
+    const contract = new Contract({
+      abi: INTERACT_ERC721_ABI,
+      address: contractAddress,
+      providerOrAccount: account,
+    });
     const calldata = contract.populate('approve', [approvedAddress, tokenId]);
 
     const txH = await executeV3Transaction({
@@ -55,20 +53,18 @@ export const approve = async (
       account: account,
     });
 
-    const result: TransactionResult = {
+    return {
       status: 'success',
-      tokenId: params.tokenId,
-      approved: true,
-      transactionHash: txH,
+      data: {
+        tokenId: params.tokenId,
+        approved: true,
+        transactionHash: txH,
+      },
     };
-
-    return result;
   } catch (error) {
-    const result: TransactionResult = {
+    return {
       status: 'failure',
       error: error instanceof Error ? error.message : 'Unknown error',
-      step: 'approve execution',
     };
-    return result;
   }
 };

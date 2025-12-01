@@ -1,6 +1,6 @@
 {
   "name": "@kasarlabs/braavos-mcp",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "main": "index.js",
   "type": "module",
   "bin": {
@@ -18,9 +18,9 @@
   "dependencies": {
     "@kasarlabs/ask-starknet-core": "workspace:*",
     "@langchain/core": "^0.3.75",
-    "@modelcontextprotocol/sdk": "^1.11.2",
+    "@modelcontextprotocol/sdk": "1.22.0",
     "dotenv": "^16.4.7",
-    "starknet": "^7.6.4",
+    "starknet": "8.6.0",
     "winston": "^3.17.0",
     "zod": "^3.24.2"
   },

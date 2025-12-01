@@ -9,7 +9,7 @@ import { validateAndParseAddress } from 'starknet';
 import { z } from 'zod';
 import { transferFromSchema, transferSchema } from '../../schemas/index.js';
 import { TransactionResult } from '../../lib/types/types.js';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 
 /**
  * Transfers a token from one address to another.
@@ -20,7 +20,7 @@ import { onchainWrite } from '@kasarlabs/ask-starknet-core';
 export const transferFrom = async (
   env: onchainWrite,
   params: z.infer<typeof transferFromSchema>
-) => {
+): Promise<toolResult> => {
   try {
     if (
       !params?.fromAddress ||
@@ -41,12 +41,11 @@ export const transferFrom = async (
     const tokenId = validateAndFormatTokenId(params.tokenId);
     const contractAddress = validateAndParseAddress(params.contractAddress);
 
-    const contract = new Contract(
-      INTERACT_ERC721_ABI,
-      contractAddress,
-      provider
-    );
-    contract.connect(account);
+    const contract = new Contract({
+      abi: INTERACT_ERC721_ABI,
+      address: contractAddress,
+      providerOrAccount: account,
+    });
 
     const calldata = contract.populate('transfer_from', [
       fromAddress,
@@ -59,22 +58,20 @@ export const transferFrom = async (
       account: account,
     });
 
-    const result: TransactionResult = {
+    return {
       status: 'success',
-      tokenId: params.tokenId,
-      from: fromAddress,
-      to: toAddress,
-      transactionHash: txH,
+      data: {
+        tokenId: params.tokenId,
+        from: fromAddress,
+        to: toAddress,
+        transactionHash: txH,
+      },
     };
-
-    return JSON.stringify(result);
   } catch (error) {
-    const result: TransactionResult = {
+    return {
       status: 'failure',
       error: error instanceof Error ? error.message : 'Unknown error',
-      step: 'transfer execution',
     };
-    return JSON.stringify(result);
   }
 };
 
@@ -87,7 +84,7 @@ export const transferFrom = async (
 export const transfer = async (
   env: onchainWrite,
   params: z.infer<typeof transferSchema>
-): Promise<string> => {
+): Promise<toolResult> => {
   try {
     if (!params?.toAddress || !params?.tokenId || !params?.contractAddress) {
       throw new Error('To address, token ID and contract address are required');
@@ -100,21 +97,17 @@ export const transfer = async (
     const tokenId = validateAndFormatTokenId(params.tokenId);
     const contractAddress = validateAndParseAddress(params.contractAddress);
 
-    const account = new Account(
+    const account = new Account({
       provider,
-      accountCredentials.address,
-      accountCredentials.signer,
-      undefined,
-      constants.TRANSACTION_VERSION.V3
-    );
+      address: accountCredentials.address,
+      signer: accountCredentials.signer,
+    });
 
-    const contract = new Contract(
-      INTERACT_ERC721_ABI,
-      contractAddress,
-      provider
-    );
-    contract.connect(account);
-
+    const contract = new Contract({
+      abi: INTERACT_ERC721_ABI,
+      address: contractAddress,
+      providerOrAccount: account,
+    });
     const calldata = contract.populate('transfer_from', [
       accountCredentials.address,
       toAddress,
@@ -126,21 +119,19 @@ export const transfer = async (
       account: account,
     });
 
-    const result: TransactionResult = {
+    return {
       status: 'success',
-      tokenId: params.tokenId,
-      from: accountCredentials.address,
-      to: toAddress,
-      transactionHash: txH,
+      data: {
+        tokenId: params.tokenId,
+        from: accountCredentials.address,
+        to: toAddress,
+        transactionHash: txH,
+      },
     };
-
-    return JSON.stringify(result);
   } catch (error) {
-    const result: TransactionResult = {
+    return {
       status: 'failure',
       error: error instanceof Error ? error.message : 'Unknown error',
-      step: 'transfer execution',
     };
-    return JSON.stringify(result);
   }
 };

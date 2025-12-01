@@ -4,7 +4,7 @@ import { INTERACT_ERC721_ABI } from '../../lib/abis/interact.js';
 import { validateAndParseAddress } from 'starknet';
 import { z } from 'zod';
 import { isApprovedForAllSchema } from '../../schemas/index.js';
-import { onchainRead } from '@kasarlabs/ask-starknet-core';
+import { onchainRead, toolResult } from '@kasarlabs/ask-starknet-core';
 
 /**
  * Checks if an operator is approved to manage all tokens of an owner.
@@ -15,7 +15,7 @@ import { onchainRead } from '@kasarlabs/ask-starknet-core';
 export const isApprovedForAll = async (
   env: onchainRead,
   params: z.infer<typeof isApprovedForAllSchema>
-) => {
+): Promise<toolResult> => {
   try {
     if (
       !params?.ownerAddress ||
@@ -33,11 +33,11 @@ export const isApprovedForAll = async (
     const operatorAddress = validateAndParseAddress(params.operatorAddress);
     const contractAddress = validateAndParseAddress(params.contractAddress);
 
-    const contract = new Contract(
-      INTERACT_ERC721_ABI,
-      contractAddress,
-      provider
-    );
+    const contract = new Contract({
+      abi: INTERACT_ERC721_ABI,
+      address: contractAddress,
+      providerOrAccount: provider,
+    });
 
     const approvedResponse = await contract.isApprovedForAll(
       ownerAddress,
@@ -46,7 +46,7 @@ export const isApprovedForAll = async (
 
     return {
       status: 'success',
-      isApproved: approvedResponse === true,
+      data: { isApproved: approvedResponse === true },
     };
   } catch (error) {
     return {

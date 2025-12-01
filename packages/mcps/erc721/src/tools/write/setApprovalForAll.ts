@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { setApprovalForAllSchema } from '../../schemas/index.js';
 import { TransactionResult } from '../../lib/types/types.js';
 import { validateAndParseAddress } from 'starknet';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 
 /**
  * Set the approval for all tokens of the contract.
@@ -17,7 +17,7 @@ import { onchainWrite } from '@kasarlabs/ask-starknet-core';
 export const setApprovalForAll = async (
   env: onchainWrite,
   params: z.infer<typeof setApprovalForAllSchema>
-) => {
+): Promise<toolResult> => {
   try {
     if (
       !params?.operatorAddress ||
@@ -34,13 +34,11 @@ export const setApprovalForAll = async (
     const operatorAddress = validateAndParseAddress(params.operatorAddress);
     const contractAddress = validateAndParseAddress(params.contractAddress);
 
-    const contract = new Contract(
-      INTERACT_ERC721_ABI,
-      contractAddress,
-      provider
-    );
-    contract.connect(account);
-
+    const contract = new Contract({
+      abi: INTERACT_ERC721_ABI,
+      address: contractAddress,
+      providerOrAccount: account,
+    });
     const calldata = contract.populate('set_approval_for_all', [
       operatorAddress,
       params.approved ? true : false,
@@ -51,20 +49,18 @@ export const setApprovalForAll = async (
       account: account,
     });
 
-    const result: TransactionResult = {
+    return {
       status: 'success',
-      operator: operatorAddress,
-      approved: params.approved,
-      transactionHash: txH,
+      data: {
+        operator: operatorAddress,
+        approved: params.approved,
+        transactionHash: txH,
+      },
     };
-
-    return JSON.stringify(result);
   } catch (error) {
-    const result: TransactionResult = {
+    return {
       status: 'failure',
       error: error instanceof Error ? error.message : 'Unknown error',
-      step: 'setApprovalForAll execution',
     };
-    return JSON.stringify(result);
   }
 };

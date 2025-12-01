@@ -1,6 +1,6 @@
 {
   "name": "@kasarlabs/cairo-coder-mcp",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "MCP server to interact with the Cairo Coder API",
   "type": "module",
   "main": "build/index.js",
@@ -43,7 +43,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.11.2",
+    "@modelcontextprotocol/sdk": "1.22.0",
     "dotenv": "^16.5.0",
     "zod": "^3.24.2"
   },

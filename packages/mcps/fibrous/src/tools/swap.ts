@@ -1,5 +1,5 @@
 import { Account, Call, constants } from 'starknet';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 import { ApprovalService } from './approval.js';
 
 import { SLIPPAGE_PERCENTAGE } from '../lib/constants/index.js';
@@ -35,13 +35,11 @@ export class SwapService {
 
       const provider = this.env.provider;
       const contractInteractor = new ContractInteractor(provider);
-      const account = new Account(
+      const account = new Account({
         provider,
-        this.walletAddress,
-        this.env.account.signer,
-        undefined,
-        constants.TRANSACTION_VERSION.V3
-      );
+        address: this.walletAddress,
+        signer: this.env.account.signer,
+      });
 
       const { sellToken, buyToken } = this.tokenService.validateTokenPair(
         params.sellTokenSymbol,
@@ -151,7 +149,7 @@ export const createSwapService = (
 export const swapTokensFibrous = async (
   env: onchainWrite,
   params: SwapParams
-) => {
+): Promise<toolResult> => {
   return {
     status: 'failure',
     error: 'This tool is currently under maintenance. ',

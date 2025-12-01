@@ -1,17 +1,20 @@
 import { cairo } from 'starknet';
 import { getContract } from '../../lib/utils/contracts.js';
 import { TransferPositionSchema } from '../../schemas/index.js';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 
 export const transferPosition = async (
   env: onchainWrite,
   params: TransferPositionSchema
-) => {
+): Promise<toolResult> => {
   try {
     const account = env.account;
-    const NFTContract = await getContract(env.provider, 'positionsNFT');
+    const NFTContract = await getContract(
+      env.provider,
+      'positionsNFT',
+      account
+    );
 
-    NFTContract.connect(account);
     const transferCalldata = NFTContract.populate('transfer_from', [
       account.address,
       params.to_address,
@@ -34,10 +37,14 @@ export const transferPosition = async (
         to: params.to_address,
       },
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const errorMessage =
+      error instanceof Error
+        ? error.message
+        : 'Unknown error while transferring position';
     return {
       status: 'failure',
-      error: error.message || 'Unknown error while transferring position',
+      error: errorMessage,
     };
   }
 };

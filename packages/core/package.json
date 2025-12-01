@@ -1,6 +1,6 @@
 {
   "name": "@kasarlabs/ask-starknet-core",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Core utilities and shared functionality for the Ask Starknet MCP ecosystem",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -27,7 +27,7 @@
     "access": "public"
   },
   "dependencies": {
-    "starknet": "^7.6.4",
+    "starknet": "8.6.0",
     "winston": "^3.17.0",
     "zod": "^3.24.2"
   },

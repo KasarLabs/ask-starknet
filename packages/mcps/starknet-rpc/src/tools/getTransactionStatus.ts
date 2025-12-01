@@ -1,11 +1,12 @@
 import { RpcProvider } from 'starknet';
 import { transactionHashSchema } from '../schemas/index.js';
 import { z } from 'zod';
+import { toolResult } from '@kasarlabs/ask-starknet-core';
 
 export const getTransactionStatus = async (
   provider: RpcProvider,
   params: z.infer<typeof transactionHashSchema>
-) => {
+): Promise<toolResult> => {
   try {
     const transactionStatus = await provider.getTransactionStatus(
       params.transactionHash
@@ -13,7 +14,7 @@ export const getTransactionStatus = async (
 
     return {
       status: 'success',
-      transactionStatus: transactionStatus as any,
+      data: { transactionStatus: transactionStatus as any },
     };
   } catch (error) {
     return {

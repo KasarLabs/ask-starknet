@@ -6,11 +6,14 @@ import {
   getUnderlyingTokenName,
 } from '../../lib/utils/contracts.js';
 import { UnstakeSchema } from '../../schemas/index.js';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 import { formatUnits } from '../../lib/utils/formatting.js';
 import { extractWithdrawRequestIdFromReceipt } from '../../lib/utils/events.js';
 
-export const unstake = async (env: onchainWrite, params: UnstakeSchema) => {
+export const unstake = async (
+  env: onchainWrite,
+  params: UnstakeSchema
+): Promise<toolResult> => {
   try {
     const account = env.account;
     const liquidTokenContract = getLiquidTokenContract(
@@ -24,7 +27,6 @@ export const unstake = async (env: onchainWrite, params: UnstakeSchema) => {
     const shares = BigInt(params.amount);
 
     // Call redeem to create a withdraw request (NFT)
-    liquidTokenContract.connect(account);
     const redeemCalldata = liquidTokenContract.populate('redeem', [
       shares,
       account.address,
@@ -40,6 +42,7 @@ export const unstake = async (env: onchainWrite, params: UnstakeSchema) => {
 
     // Extract withdraw request ID from receipt events
     const withdrawQueueNftAddress = getWithdrawQueueNFTAddress(
+      account,
       env.provider,
       params.token_type
     );

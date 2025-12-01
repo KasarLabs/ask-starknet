@@ -5,6 +5,7 @@ import {
   BRAAVOS_ACCOUNT_CLASSHASH,
 } from '../lib/constants/contract.js';
 import { AccountManager } from '../lib/utils/AccountManager.js';
+import { toolResult } from '@kasarlabs/ask-starknet-core';
 
 /**
  * Creates a new Braavos account with generated keys and address.
@@ -13,7 +14,7 @@ import { AccountManager } from '../lib/utils/AccountManager.js';
  * @returns {Promise<string>} JSON string with account details and creation status
  * @throws {Error} If account creation fails
  */
-export const CreateBraavosAccount = async () => {
+export const CreateBraavosAccount = async (): Promise<toolResult> => {
   try {
     const provider = new RpcProvider({ nodeUrl: process.env.STARKNET_RPC_URL });
     const accountManager = new AccountManager(
@@ -27,10 +28,12 @@ export const CreateBraavosAccount = async () => {
 
     return {
       status: 'success',
-      wallet: 'Braavos',
-      publicKey: accountDetails.publicKey,
-      privateKey: accountDetails.privateKey,
-      contractAddress: accountDetails.contractAddress,
+      data: {
+        wallet: 'Braavos',
+        publicKey: accountDetails.publicKey,
+        privateKey: accountDetails.privateKey,
+        contractAddress: accountDetails.contractAddress,
+      },
     };
   } catch (error) {
     return {
@@ -62,16 +65,18 @@ export const CreateBraavosAccountSignature = async () => {
 
     const suggestedMaxFee =
       await accountManager.estimateAccountDeployFee(accountDetails);
-    const maxFee = suggestedMaxFee * 2n;
+    const maxFee = suggestedMaxFee.maxFee;
 
     return {
       status: 'success',
-      transaction_type: 'CREATE_ACCOUNT',
-      wallet: 'Braavos',
-      publicKey: accountDetails.publicKey,
-      privateKey: accountDetails.privateKey,
-      contractAddress: accountDetails.contractAddress,
-      deployFee: maxFee.toString(),
+      data: {
+        transaction_type: 'CREATE_ACCOUNT',
+        wallet: 'Braavos',
+        publicKey: accountDetails.publicKey,
+        privateKey: accountDetails.privateKey,
+        contractAddress: accountDetails.contractAddress,
+        deployFee: maxFee.toString(),
+      },
     };
   } catch (error) {
     return {

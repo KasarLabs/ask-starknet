@@ -1,6 +1,6 @@
 {
   "name": "@kasarlabs/extended-mcp",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "main": "index.js",
   "type": "module",
   "bin": {
@@ -20,7 +20,7 @@
   ],
   "dependencies": {
     "@kasarlabs/ask-starknet-core": "workspace:*",
-    "@modelcontextprotocol/sdk": "^1.11.2",
+    "@modelcontextprotocol/sdk": "1.22.0",
     "@x10xchange/stark-crypto-wrapper-wasm": "^0.1.6",
     "axios": "^1.7.9",
     "bignumber.js": "^9.3.1",
@@ -28,7 +28,7 @@
     "dotenv": "^16.4.7",
     "json-custom-numbers": "^3.1.1",
     "lodash-es": "^4.17.21",
-    "starknet": "^7.6.4",
+    "starknet": "8.6.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {
