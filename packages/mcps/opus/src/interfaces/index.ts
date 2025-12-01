@@ -116,7 +116,6 @@ export interface GetTroveHealthResult extends Status {
   /** LTV threshold for liquidation */
   threshold?: string;
 }
-
 /**
  * Result interface for retrieving current borrow fee
  */
