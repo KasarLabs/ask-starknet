@@ -32,12 +32,11 @@ describe('withdrawFromChamber - Integration Tests', () => {
       return;
     }
 
-
     console.log(`Using claiming key: ${claimingKey}`);
 
     const params: WithdrawFromChamberParams = {
       claimingKey,
-      recipientAddress: context.testRecipientAddress,  // Must match the recipient from the original deposit!
+      recipientAddress: context.testRecipientAddress, // Must match the recipient from the original deposit!
       tokenAddress: context.testTokenAddress,
       amount: context.testAmount,
     };

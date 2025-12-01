@@ -522,5 +522,26 @@
         "create_swap"
       ]
     }
+  },
+  "mist-cash": {
+    "client": {
+      "command": "npx",
+      "args": ["-y", "@kasarlabs/mist-cash-mcp@latest"],
+      "transport": "stdio",
+      "env": {
+        "STARKNET_RPC_URL": "",
+        "STARKNET_ACCOUNT_ADDRESS": "",
+        "STARKNET_PRIVATE_KEY": ""
+      }
+    },
+    "description": "Mist Cash privacy protocol for confidential transactions on Starknet",
+    "promptInfo": {
+      "expertise": "Privacy-preserving transactions and deposits/withdrawals on Mist Cash",
+      "tools": [
+        "deposit_to_chamber",
+        "withdraw_from_chamber",
+        "get_chamber_info"
+      ]
+    }
   }
 }

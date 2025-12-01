@@ -63,7 +63,8 @@ export interface CollateralActionResult {
  * Result interface for opening a new trove
  */
 export interface OpenTroveResult
-  extends TroveActionResult, BorrowActionResult {}
+  extends TroveActionResult,
+    BorrowActionResult {}
 
 /**
  * Result interface for repaying trove debt
@@ -74,19 +75,23 @@ export interface RepayTroveResult extends TroveActionResult, DebtActionResult {}
  * Result interface for borrowing from a trove
  */
 export interface BorrowTroveResult
-  extends TroveActionResult, DebtActionResult, BorrowActionResult {}
+  extends TroveActionResult,
+    DebtActionResult,
+    BorrowActionResult {}
 
 /**
  * Result interface for depositing collateral to a trove
  */
 export interface DepositTroveResult
-  extends TroveActionResult, CollateralActionResult {}
+  extends TroveActionResult,
+    CollateralActionResult {}
 
 /**
  * Result interface for withdrawing collateral from a trove
  */
 export interface WithdrawTroveResult
-  extends TroveActionResult, CollateralActionResult {}
+  extends TroveActionResult,
+    CollateralActionResult {}
 
 /**
  * Result interface for retrieving user's troves
