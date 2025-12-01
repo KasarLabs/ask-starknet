@@ -1,4 +1,4 @@
-export const BRIDGE_L1_USDC_TO_STARKNET_ABII = [
+export const BRIDGE_L1_USDC_TO_STARKNET_ABI = [
   {
     anonymous: false,
     inputs: [

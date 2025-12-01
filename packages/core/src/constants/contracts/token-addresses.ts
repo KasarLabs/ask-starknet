@@ -29,7 +29,6 @@ export const starknetTokenAddresses: { [key: string]: string } = {
   kSTRK: '0x45cd05ee2caaac3459b87e5e2480099d201be2f62243f839f00e10dde7f500c',
   rETH: '0x319111a5037cbec2b3e638cc34a3474e2d2608299f3e62866e9cc683208c610',
   sSTRK: '0x356f304b154d29d2a8fe22f1cb9107a9b564a733cf6b4cc47fd121ac1af90c9',
-  wstETH: '0x42b8f0484674ca266ac5d08e4ac6a3fe65bd3129795def2dca5c34ecc5f96d2',
   xSTRK: '0x28d709c875c0ceac3dce7065bec5328186dc89fe254527084d1689910954b0a',
   SWSS: '0x042b8f0484674ca266ac5d08e4ac6a3fe65bd3129795def2dca5c34ecc5f96d2',
 };

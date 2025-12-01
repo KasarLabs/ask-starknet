@@ -50,7 +50,6 @@ export async function depositFromEthToStarknet(
 
       // For ETH, value = amount + fees
       totalValue = tokenAmount + estimateDepositFeeWei;
-      totalValue = estimateDepositFeeWei;
 
       console.error('Total transaction value (wei):', totalValue.toString());
       console.error(

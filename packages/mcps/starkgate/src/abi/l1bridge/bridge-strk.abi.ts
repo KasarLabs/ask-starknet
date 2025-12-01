@@ -1,4 +1,4 @@
-export const BRIDGE_L1_STRK_TO_ETHEREUM_ABI = [
+export const BRIDGE_L1_STRK_TO_STARKNET_ABI = [
   {
     anonymous: false,
     inputs: [
