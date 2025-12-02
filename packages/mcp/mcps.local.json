@@ -535,9 +535,9 @@
     "promptInfo": {
       "expertise": "Privacy-preserving transactions and deposits/withdrawals on Mist Cash",
       "tools": [
-        "deposit_to_chamber",
-        "withdraw_from_chamber",
-        "get_chamber_info"
+        "mist_cash_deposit",
+        "mist_cash_withdraw",
+        "mist_cash_get_chamber_info"
       ]
     }
   }

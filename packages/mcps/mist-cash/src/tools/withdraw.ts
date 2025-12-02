@@ -8,12 +8,12 @@ import {
 } from '@mistcash/crypto';
 import { Contract, AccountInterface, ProviderInterface } from 'starknet';
 import { ERC20_ABI, WitnessData } from '@mistcash/config';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 import { CHAMBER_ABI } from '@mistcash/config';
 export async function withdrawFromChamber(
   onchainWrite: onchainWrite,
   params: WithdrawFromChamberParams
-): Promise<string> {
+): Promise<toolResult> {
   try {
     const { claimingKey, recipientAddress, tokenAddress, amount } = params;
     const { account } = onchainWrite;
@@ -98,23 +98,28 @@ export async function withdrawFromChamber(
       `Withdraw transaction confirmed: ${withdrawTx.transaction_hash}`
     );
 
-    return JSON.stringify(
-      {
-        success: true,
-        message: 'Successfully withdrawn from chamber',
-        data: {
-          recipientAddress,
-          tokenAddress,
-          amount: amount.toString(),
-          formattedAmount,
-          decimals: Number(decimals),
-          transactionHash: withdrawTx.transaction_hash,
-          merkleProofLength: merkleProof.length,
-        },
-      },
-      null,
-      2
-    );
+    return {
+      status: 'success',
+      data: [
+        JSON.stringify(
+          {
+            success: true,
+            message: 'Successfully withdrawn from chamber',
+            data: {
+              recipientAddress,
+              tokenAddress,
+              amount: amount.toString(),
+              formattedAmount,
+              decimals: Number(decimals),
+              transactionHash: withdrawTx.transaction_hash,
+              merkleProofLength: merkleProof.length,
+            },
+          },
+          null,
+          2
+        ),
+      ],
+    };
   } catch (error: any) {
     console.error('Error in withdrawFromChamber:', error);
     throw new Error(`Withdraw from chamber failed: ${error.message}`);

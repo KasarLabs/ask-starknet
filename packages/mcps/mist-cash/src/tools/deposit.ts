@@ -3,7 +3,7 @@ import { getChamber } from '@mistcash/sdk';
 import { txSecret } from '@mistcash/crypto';
 import { Contract } from 'starknet';
 import { ERC20_ABI } from '@mistcash/config';
-import { onchainWrite } from '@kasarlabs/ask-starknet-core';
+import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 import { randomBytes } from 'crypto';
 
 /**
@@ -33,7 +33,7 @@ function normalizeClaimingKey(key: string): string {
 export async function depositToChamber(
   onchainWrite: onchainWrite,
   params: DepositToChamberParams
-): Promise<string> {
+): Promise<toolResult> {
   try {
     const { tokenAddress, amount, recipientAddress } = params;
     let { claimingKey } = params;
@@ -86,23 +86,28 @@ export async function depositToChamber(
       `Deposit transaction confirmed: ${depositTx.transaction_hash}`
     );
 
-    return JSON.stringify(
-      {
-        success: true,
-        message: 'Successfully deposited into chamber',
-        data: {
-          claimingKey,
-          recipientAddress,
-          tokenAddress,
-          amount: amount.toString(),
-          decimals: Number(decimals),
-          transactionHash: depositTx.transaction_hash,
-          secret: secret.toString(),
-        },
-      },
-      null,
-      2
-    );
+    return {
+      status: 'success',
+      data: [
+        JSON.stringify(
+          {
+            success: true,
+            message: 'Successfully deposited into chamber',
+            data: {
+              claimingKey,
+              recipientAddress,
+              tokenAddress,
+              amount: amount.toString(),
+              decimals: Number(decimals),
+              transactionHash: depositTx.transaction_hash,
+              secret: secret.toString(),
+            },
+          },
+          null,
+          2
+        ),
+      ],
+    };
   } catch (error: any) {
     console.error('Error in depositToChamber:', error);
     throw new Error(`Deposit to chamber failed: ${error.message}`);

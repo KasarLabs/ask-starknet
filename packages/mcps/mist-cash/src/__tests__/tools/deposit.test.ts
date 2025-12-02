@@ -27,7 +27,14 @@ describe('depositToChamber - Integration Tests', () => {
     };
 
     const result = await depositToChamber(context.onchainWrite, params);
-    const parsedResult = JSON.parse(result);
+    if (
+      result.status !== 'success' ||
+      !result.data ||
+      result.data.length === 0
+    ) {
+      throw new Error(`Deposit failed: ${result.error}`);
+    }
+    const parsedResult = JSON.parse((result.data as string[])[0]);
 
     expect(parsedResult.success).toBe(true);
     expect(parsedResult.message).toBe('Successfully deposited into chamber');
