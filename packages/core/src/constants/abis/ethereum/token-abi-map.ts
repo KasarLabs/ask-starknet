@@ -6,7 +6,10 @@ import { SWSS_TOKEN_ETHEREUM_ABI } from './swss-token-ethereum-abi.js';
 
 export type EthereumTokenSymbol = 'STRK' | 'USDC' | 'USDT' | 'WBTC' | 'SWSS';
 
-export const ETHEREUM_TOKEN_ABI_MAP: Record<EthereumTokenSymbol, readonly any[]> = {
+export const ETHEREUM_TOKEN_ABI_MAP: Record<
+  EthereumTokenSymbol,
+  readonly any[]
+> = {
   STRK: STRK_TOKEN_ETHEREUM_ABI,
   USDC: USDC_TOKEN_ETHEREUM_ABI,
   USDT: USDT_TOKEN_ETHEREUM_ABI,
@@ -20,7 +23,9 @@ export const ETHEREUM_TOKEN_ABI_MAP: Record<EthereumTokenSymbol, readonly any[]>
  * @returns Token ABI array
  * @throws Error if token symbol is not found
  */
-export function getEthereumTokenAbi(symbol: EthereumTokenSymbol): readonly any[] {
+export function getEthereumTokenAbi(
+  symbol: EthereumTokenSymbol
+): readonly any[] {
   const abi = ETHEREUM_TOKEN_ABI_MAP[symbol];
   if (!abi) {
     throw new Error(`Ethereum token ABI not found for symbol: ${symbol}`);
