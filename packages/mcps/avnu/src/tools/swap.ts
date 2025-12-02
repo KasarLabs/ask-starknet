@@ -164,6 +164,14 @@ export const swapTokens = async (
   try {
     const swapService = createSwapService(env);
     const result = await swapService.executeSwapTransaction(params);
+
+    if (result.status === 'failure') {
+      return {
+        status: 'failure',
+        error: result.error || 'Swap transaction failed',
+      };
+    }
+
     return {
       status: 'success',
       data: result,
