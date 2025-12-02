@@ -37,7 +37,7 @@
     "@langchain/core": "^0.3.72",
     "@langchain/google-genai": "^0.2.18",
     "@langchain/langgraph": "^0.4.9",
-    "@langchain/mcp-adapters": "^0.6.0",
+    "@langchain/mcp-adapters": "0.6.0",
     "@langchain/openai": "^0.6.11",
     "@modelcontextprotocol/sdk": "1.22.0",
     "dotenv": "^16.4.7",
