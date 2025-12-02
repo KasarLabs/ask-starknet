@@ -7,7 +7,7 @@ import {
 } from '../../lib/utils/contracts.js';
 import { UnstakeSchema } from '../../schemas/index.js';
 import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
-import { formatUnits } from '../../lib/utils/formatting.js';
+import { formatUnits, parseUnits } from '../../lib/utils/formatting.js';
 import { extractWithdrawRequestIdFromReceipt } from '../../lib/utils/events.js';
 
 export const unstake = async (
@@ -24,7 +24,7 @@ export const unstake = async (
     const liquidTokenName = getLiquidTokenName(params.token_type);
     const underlyingTokenName = getUnderlyingTokenName(params.token_type);
 
-    const shares = BigInt(params.amount);
+    const shares = parseUnits(params.amount, decimals);
 
     // Call redeem to create a withdraw request (NFT)
     const redeemCalldata = liquidTokenContract.populate('redeem', [
@@ -57,8 +57,8 @@ export const unstake = async (
         token_type: params.token_type,
         transaction_hash: transaction_hash,
         liquid_token: liquidTokenName,
-        unstaked_amount: params.amount,
-        unstaked_amount_formatted: formatUnits(shares, decimals),
+        unstaked_amount: shares.toString(),
+        unstaked_amount_formatted: params.amount,
         withdraw_request_id: withdrawRequestId || 'Not found in events',
         underlying_token: underlyingTokenName,
         message: `Unstake request created. Wait 1-2 days before claiming ${underlyingTokenName}.`,
