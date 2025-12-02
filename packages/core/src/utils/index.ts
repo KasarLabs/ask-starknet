@@ -37,9 +37,7 @@ const formatToolResult = (result: any) => {
     content: [
       {
         type: 'text',
-        text: JSON.stringify(
-          result.status === 'failure' ? result.error : result.data
-        ),
+        text: JSON.stringify(result),
       },
     ],
   };
