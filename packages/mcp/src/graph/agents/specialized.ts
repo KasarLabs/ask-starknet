@@ -6,7 +6,7 @@ import {
 } from '@langchain/core/messages';
 import { ToolNode } from '@langchain/langgraph/prebuilt';
 
-import { getMCPClientConfig, getMCPPromptInfo } from '../mcps/utilities.js';
+import { getMCPClientConfig, getMCPPromptInfo } from '../mcps/mcpUtils.js';
 import { GraphAnnotation } from '../graph.js';
 import { logger } from '../../utils/logger.js';
 import { MCPEnvironment } from '../mcps/interfaces.js';
@@ -36,7 +36,7 @@ async function specializedAgent(mcpServerName: string, env: MCPEnvironment) {
   });
 
   const tools = await client.getTools();
-  logger.error(
+  logger.info(
     `Loaded ${tools.length} MCP tools: ${tools
       .map((tool) => tool.name)
       .join(', ')}`,
@@ -91,7 +91,7 @@ export const specializedNode = async (state: typeof GraphAnnotation.State) => {
       ...toolResults.messages,
     ]);
 
-    logger.error('Agent response with tools completed', {
+    logger.info('Agent response with tools completed', {
       agent: state.next,
       toolCalls: currentResponse.tool_calls,
       toolResults: toolResults,

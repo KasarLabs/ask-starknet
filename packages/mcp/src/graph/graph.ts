@@ -9,10 +9,11 @@ import {
 import type { BaseMessage } from '@langchain/core/messages';
 
 import { selectorAgent } from './agents/selector.js';
-import { AgentName } from './mcps/utilities.js';
+import { AgentName } from './mcps/mcpUtils.js';
 import { MCPEnvironment } from './mcps/interfaces.js';
 import { specializedNode } from './agents/specialized.js';
 import { logger } from '../utils/logger.js';
+import { categoryAgent } from './agents/category.js';
 
 export const GraphAnnotation = Annotation.Root({
   messages: Annotation<BaseMessage[]>({
@@ -39,14 +40,20 @@ export const GraphAnnotation = Annotation.Root({
   }),
 });
 
-export const routingFunction = async (state: typeof GraphAnnotation.State) => {
+export const routingSelector = async (state: typeof GraphAnnotation.State) => {
+  return state.next != END ? 'category' : END;
+};
+
+export const routingCategory = async (state: typeof GraphAnnotation.State) => {
   return state.next != END ? 'specialized' : END;
 };
 
 export const graph = new StateGraph(GraphAnnotation)
   .addNode('selector', selectorAgent)
+  .addNode('category', categoryAgent)
   .addNode('specialized', specializedNode)
   .addEdge(START, 'selector')
-  .addConditionalEdges('selector', routingFunction)
+  .addConditionalEdges('selector', routingSelector)
+  .addConditionalEdges('category', routingCategory)
   .addEdge('specialized', END)
   .compile({ checkpointer: new MemorySaver() });
