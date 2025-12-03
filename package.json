@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "dotenv": "^16.4.7",
+    "ethers": "^6.15.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {

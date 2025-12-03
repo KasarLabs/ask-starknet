@@ -6,8 +6,8 @@ import {
   cairo,
   Uint256,
 } from 'starknet';
-import { erc20Addresses } from '../constants/addresses.js';
 import { NEW_ERC20_ABI, OLD_ERC20_ABI } from '../constants/abis/index.js';
+import { starknetTokenAddresses } from '@kasarlabs/ask-starknet-core';
 
 /**
  * Token decimals configuration
@@ -122,10 +122,10 @@ export const formatBalance = (
  * @throws Error if validation fails
  */
 export const validateTokenAddress = (symbol: string): string => {
-  const tokenAddress = erc20Addresses[symbol];
+  const tokenAddress = starknetTokenAddresses[symbol];
   if (!tokenAddress) {
     throw new Error(
-      `Token ${symbol} not supported. Available tokens: ${Object.keys(erc20Addresses).join(', ')}`
+      `Token ${symbol} not supported. Available tokens: ${Object.keys(tokenAddress).join(', ')}`
     );
   }
   return tokenAddress;

@@ -39,7 +39,7 @@ axiosClient.interceptors.response.use(
 
 axiosClient.defaults.transformResponse = [safeParseResponse];
 
-export const setHost = (baseUrl: string) => {
+export const SWSSost = (baseUrl: string) => {
   axiosClient.defaults.baseURL = `https://${baseUrl}`;
 };
 
