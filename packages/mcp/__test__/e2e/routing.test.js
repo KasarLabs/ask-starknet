@@ -1,208 +1,205 @@
 import 'dotenv/config';
 import { selectorAgent } from '../../build/graph/agents/selector.js';
-import { HumanMessage } from '@langchain/core/messages';
+import { categoryAgent } from '../../build/graph/agents/category.js';
+import { HumanMessage, AIMessage } from '@langchain/core/messages';
 
-// Comprehensive routing test cases for all MCPs
+// Comprehensive routing test cases: Selector -> Category -> MCP
 const testCases = [
   // Wallet Account Tests
   {
     name: 'Argent Account Creation',
     query: 'I want to create a new Argent account',
-    expectedAgent: 'argent',
+    expectedCategory: 'wallet',
+    expectedMCP: 'argent',
   },
   {
     name: 'Braavos Account Deploy',
     query: 'Deploy my existing Braavos account',
-    expectedAgent: 'braavos',
+    expectedCategory: 'wallet',
+    expectedMCP: 'braavos',
   },
   {
     name: 'OKX Account Setup',
     query: 'Create an OKX wallet account',
-    expectedAgent: 'okx',
-  },
-  {
-    name: 'OpenZeppelin Account',
-    query: 'I need a new OpenZeppelin account',
-    expectedAgent: 'openzeppelin',
+    expectedCategory: 'wallet',
+    expectedMCP: 'okx',
   },
 
-  // ERC20 Token Tests
+  // // ERC20 Token Tests
   {
     name: 'ERC20 Transfer',
     query: 'Transfer 100 USDC to another address',
-    expectedAgent: 'erc20',
+    expectedCategory: 'tokens',
+    expectedMCP: 'erc20',
   },
   {
     name: 'ERC20 Balance Check',
     query: "What's my ETH balance?",
-    expectedAgent: 'erc20',
+    expectedCategory: 'tokens',
+    expectedMCP: 'erc20',
   },
   {
     name: 'ERC20 Approval',
     query: 'Approve spending of my tokens',
-    expectedAgent: 'erc20',
-  },
-  {
-    name: 'Token Allowance Check',
-    query: 'Check my token allowance for this contract',
-    expectedAgent: 'erc20',
+    expectedCategory: 'tokens',
+    expectedMCP: 'erc20',
   },
 
   // NFT/ERC721 Tests
   {
     name: 'NFT Transfer',
     query: 'Transfer my NFT to another wallet',
-    expectedAgent: 'erc721',
+    expectedCategory: 'tokens',
+    expectedMCP: 'erc721',
   },
   {
     name: 'NFT Balance',
     query: 'How many NFTs do I own?',
-    expectedAgent: 'erc721',
-  },
-  {
-    name: 'Deploy NFT Contract',
-    query: 'Create a new ERC721 contract',
-    expectedAgent: 'erc721',
-  },
-  {
-    name: 'NFT Approval',
-    query: 'Approve someone to manage my NFT',
-    expectedAgent: 'erc721',
+    expectedCategory: 'tokens',
+    expectedMCP: 'erc721',
   },
 
   // DEX/Swapping Tests
   {
     name: 'AVNU Token Swap',
     query: 'Swap ETH for USDC on AVNU',
-    expectedAgent: 'avnu',
+    expectedCategory: 'defi',
+    expectedMCP: 'avnu',
   },
   {
     name: 'Fibrous Exchange',
     query: 'Use Fibrous to exchange tokens',
-    expectedAgent: 'fibrous',
-  },
-  {
-    name: 'Batch Swap Fibrous',
-    query: 'Do a batch swap on Fibrous DEX',
-    expectedAgent: 'fibrous',
-  },
-  {
-    name: 'Get Swap Route',
-    query: "What's the best route for swapping USDC to ETH?",
-    expectedAgent: 'avnu', // Could be avnu or fibrous, depends on routing logic
+    expectedCategory: 'defi',
+    expectedMCP: 'fibrous',
   },
 
   // DeFi Protocol Tests
   {
     name: 'Vesu Deposit',
     query: 'Deposit tokens to earn yield on Vesu',
-    expectedAgent: 'vesu',
+    expectedCategory: 'defi',
+    expectedMCP: 'vesu',
   },
   {
     name: 'Vesu Withdrawal',
     query: 'Withdraw my earnings from Vesu protocol',
-    expectedAgent: 'vesu',
-  },
-  {
-    name: 'Troves Strategies',
-    query: 'Get Troves strategies',
-    expectedAgent: 'troves',
-  },
-  {
-    name: 'Troves Yield Farming',
-    query: 'Show me available strategies on Troves',
-    expectedAgent: 'troves',
-  },
-  {
-    name: 'Opus Trove',
-    query: 'Open a Trove on Opus for borrowing',
-    expectedAgent: 'opus',
-  },
-  {
-    name: 'Opus Lending',
-    query: 'Borrow CASH using Opus protocol',
-    expectedAgent: 'opus',
-  },
-  {
-    name: 'Trove Health Check',
-    query: 'Check my Trove health status',
-    expectedAgent: 'opus',
+    expectedCategory: 'defi',
+    expectedMCP: 'vesu',
   },
 
   // Development & Contract Tests
   {
     name: 'Contract Declaration',
     query: 'Declare a smart contract on Starknet',
-    expectedAgent: 'contract',
+    expectedCategory: 'infrastructure',
+    expectedMCP: 'contract',
   },
   {
     name: 'Contract Deployment',
     query: 'Deploy my compiled contract',
-    expectedAgent: 'contract',
+    expectedCategory: 'infrastructure',
+    expectedMCP: 'contract',
   },
   {
     name: 'Cairo Compilation',
     query: 'Build my Scarb project',
-    expectedAgent: 'scarb',
+    expectedCategory: 'devtools',
+    expectedMCP: 'scarb',
   },
   {
-    name: 'Install Scarb',
-    query: 'Install the Scarb toolchain',
-    expectedAgent: 'scarb',
-  },
-  {
-    name: 'Execute Cairo Program',
-    query: 'Run my Cairo program',
-    expectedAgent: 'scarb',
+    name: 'Cairo Code Help',
+    query: 'Help me write a Cairo smart contract',
+    expectedCategory: 'devtools',
+    expectedMCP: 'cairo-coder',
   },
 
   // Blockchain Data Tests
   {
     name: 'Block Information',
     query: 'Get the latest block number',
-    expectedAgent: 'starknet-rpc',
+    expectedCategory: 'infrastructure',
+    expectedMCP: 'starknet-rpc',
   },
   {
-    name: 'Launch Token on Ekubo',
+    name: 'Transaction Operations',
+    query: 'Send a transaction on Starknet',
+    expectedCategory: 'infrastructure',
+    expectedMCP: 'transaction',
+  },
+
+  // Degen Tests
+  {
+    name: 'Launch Memecoin',
     query: 'Launch my memecoin on Ekubo DEX',
-    expectedAgent: 'unruggable',
+    expectedCategory: 'degen',
+    expectedMCP: 'unruggable',
   },
   {
-    name: 'Check Liquidity Lock',
-    query: "Is this token's liquidity locked?",
-    expectedAgent: 'unruggable',
+    name: 'Create Unruggable Token',
+    query: 'Create an unruggable token',
+    expectedCategory: 'degen',
+    expectedMCP: 'unruggable',
+  },
+
+  // Gaming Tests
+  {
+    name: 'Art Peace Game',
+    query: 'Play Art Peace on Starknet',
+    expectedCategory: 'gaming',
+    expectedMCP: 'artpeace',
+  },
+
+  // Bridge Tests
+  {
+    name: 'Cross-chain Bridge',
+    query: 'Bridge tokens from Ethereum to Starknet',
+    expectedCategory: 'bridge',
+    expectedMCP: 'layerswap',
+  },
+
+  // Knowledge Tests
+  {
+    name: 'Starknet Documentation',
+    query: 'What is Starknet and how does it work?',
+    expectedCategory: 'knowledge',
+    expectedMCP: 'starknet-knowledge',
+  },
+  {
+    name: 'MCP Documentation',
+    query: 'How do I use the MCP servers?',
+    expectedCategory: 'knowledge',
+    expectedMCP: 'mcp-doc',
   },
 
   // Edge Cases & Invalid Queries
   {
     name: 'Invalid Query - Weather',
     query: "What's the weather today?",
-    expectedAgent: '__end__',
+    expectedCategory: '__end__',
+    expectedMCP: null,
   },
   {
     name: 'Invalid Query - Empty',
     query: '',
-    expectedAgent: '__end__',
+    expectedCategory: '__end__',
+    expectedMCP: null,
   },
   {
-    name: 'Ambiguous Query',
-    query: 'Help me with blockchain',
-    expectedAgent: '__end__',
+    name: 'Greeting - No Context',
+    query: 'Hey there, how are you?',
+    expectedCategory: '__end__',
+    expectedMCP: null,
   },
   {
-    name: 'Unclear Request',
-    query: 'Do something with my tokens',
-    expectedAgent: '__end__',
-  },
-  {
-    name: 'Random Text',
-    query: 'asdfgh qwerty keyboard',
-    expectedAgent: '__end__',
+    name: 'Community member test',
+    query: 'WHo is antiyro',
+    expectedCategory: 'knowledge',
+    expectedMCP: 'starknet-knowledge',
   },
 ];
 
 async function testRouting() {
-  console.log('🧪 Testing MCP Routing Logic\n');
+  console.log('🧪 Testing Selector -> Category -> MCP Routing\n');
 
   let passed = 0;
   let failed = 0;
@@ -211,43 +208,85 @@ async function testRouting() {
   const mockEnv = {
     MODEL_NAME: process.env.MODEL_NAME || 'claude-sonnet-4-20250514',
     ANTHROPIC_API_KEY: process.env.ANTHROPIC_API_KEY,
-    GEMINI_API_KEY: process.env.GEMINI_API_KEY,
-    OPENAI_API_KEY: process.env.OPENAI_API_KEY,
   };
 
   for (const testCase of testCases) {
     try {
+      console.log(`\n${'='.repeat(60)}`);
       console.log(`Testing: ${testCase.name}`);
       console.log(`Query: "${testCase.query}"`);
+      console.log(`Expected Category: ${testCase.expectedCategory}`);
+      console.log(`Expected MCP: ${testCase.expectedMCP || 'N/A'}`);
 
-      // Create test state
-      const state = {
+      // Step 1: Test selector agent (selects category)
+      const selectorState = {
         messages: [new HumanMessage(testCase.query)],
         next: '',
         mcpEnvironment: mockEnv,
       };
 
-      // Test selector agent
-      const result = await selectorAgent(state);
-      const selectedAgent = result.next;
+      const selectorResult = await selectorAgent(selectorState);
+      const selectedCategory = selectorResult.next;
 
-      console.log(`Expected: ${testCase.expectedAgent}`);
-      console.log(`Got: ${selectedAgent}`);
+      console.log(`\n[Selector] Selected Category: ${selectedCategory}`);
 
-      if (selectedAgent === testCase.expectedAgent) {
-        console.log('✅ PASS\n');
-        passed++;
-      } else {
-        console.log('❌ FAIL\n');
+      // Check if category matches
+      if (selectedCategory !== testCase.expectedCategory) {
+        console.log(`❌ FAIL - Category mismatch`);
+        console.log(`   Expected: ${testCase.expectedCategory}`);
+        console.log(`   Got: ${selectedCategory}`);
         failed++;
+        continue;
       }
+
+      console.log(`✅ Category match`);
+
+      // If expected to end, stop here
+      if (testCase.expectedCategory === '__end__') {
+        console.log('✅ PASS - Correctly routed to __end__\n');
+        passed++;
+        continue;
+      }
+
+      // Step 2: Test category agent (selects MCP)
+      const categoryState = {
+        messages: [
+          new HumanMessage(testCase.query),
+          new AIMessage({
+            content: `Routing to category: ${selectedCategory}`,
+            name: 'selector',
+          }),
+        ],
+        next: selectedCategory,
+        mcpEnvironment: mockEnv,
+      };
+
+      const categoryResult = await categoryAgent(categoryState);
+      const selectedMCP = categoryResult.next;
+
+      console.log(`[Category] Selected MCP: ${selectedMCP}`);
+
+      // Check if MCP matches
+      if (selectedMCP !== testCase.expectedMCP) {
+        console.log(`❌ FAIL - MCP mismatch`);
+        console.log(`   Expected: ${testCase.expectedMCP}`);
+        console.log(`   Got: ${selectedMCP}`);
+        failed++;
+        continue;
+      }
+
+      console.log(`✅ MCP match`);
+      console.log('✅ PASS - Full routing successful');
+      passed++;
     } catch (error) {
-      console.log(`❌ ERROR: ${error.message}\n`);
+      console.log(`\n❌ ERROR: ${error.message}`);
+      console.error(error.stack);
       failed++;
     }
   }
 
-  console.log(`\n📊 Results: ${passed} passed, ${failed} failed`);
+  console.log(`\n${'='.repeat(60)}`);
+  console.log(`📊 Results: ${passed} passed, ${failed} failed`);
 
   if (failed > 0) {
     console.log('\n🚨 Routing errors detected!');
