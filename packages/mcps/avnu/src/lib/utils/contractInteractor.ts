@@ -141,7 +141,12 @@ export class ContractInteractor implements BaseUtilityClass {
     }
 
     try {
-      return await contract.estimate(method, args);
+      const estimate = await contract.estimate(method, args);
+      // Handle both possible return types from starknet 8.9.0+
+      if ('overall_fee' in estimate) {
+        return estimate as EstimateFeeResponseOverhead;
+      }
+      throw new Error('Unexpected estimate response format');
     } catch (error) {
       throw new Error(`Failed to estimate contract write: ${error.message}`);
     }
