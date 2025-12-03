@@ -52,5 +52,10 @@
     "name": "infrastructure",
     "description": "Core blockchain infrastructure including smart contract deployment, transaction operations, and RPC access",
     "mcps": ["contract", "transaction", "starknet-rpc"]
+  },
+  "privacy": {
+    "name": "privacy",
+    "description": "Privacy-focused tools and protocols for anonymous transactions and data protection on Starknet",
+    "mcps": ["mist-cash"]
   }
 }
