@@ -36,7 +36,10 @@ describe('Deposit and Withdraw - End-to-End Integration Tests', () => {
       context.onchainWrite,
       depositParams
     );
-    const depositParsed = JSON.parse(depositResult);
+    expect(depositResult.status).toBe('success');
+    expect(depositResult.data).toBeDefined();
+    expect(Array.isArray(depositResult.data)).toBe(true);
+    const depositParsed = JSON.parse((depositResult.data as any[])[0]);
 
     expect(depositParsed.success).toBe(true);
     expect(depositParsed.data).toHaveProperty('claimingKey');
@@ -65,7 +68,10 @@ describe('Deposit and Withdraw - End-to-End Integration Tests', () => {
       context.onchainWrite,
       withdrawParams
     );
-    const withdrawParsed = JSON.parse(withdrawResult);
+    expect(withdrawResult.status).toBe('success');
+    expect(withdrawResult.data).toBeDefined();
+    expect(Array.isArray(withdrawResult.data)).toBe(true);
+    const withdrawParsed = JSON.parse((withdrawResult.data as any[])[0]);
 
     expect(withdrawParsed.success).toBe(true);
     expect(withdrawParsed.message).toBe('Successfully withdrawn from chamber');
@@ -84,65 +90,5 @@ describe('Deposit and Withdraw - End-to-End Integration Tests', () => {
     });
 
     console.log('\n🎉 End-to-end test completed successfully!');
-  }, 240000); // 4 minute timeout for both operations
-
-  // it('should fail when trying to withdraw the same transaction twice', async () => {
-  //   if (skipIfNoCredentials() || !context) {
-  //     console.log('⚠️  Skipping: No test credentials provided');
-  //     return;
-  //   }
-
-  //   const amount = '1000000000000000'; // 0.001 STRK
-
-  //   // Step 1: Deposit
-  //   console.log('📥 Depositing tokens...');
-  //   const depositParams: DepositToChamberParams = {
-  //     tokenAddress: context.testTokenAddress,
-  //     amount,
-  //     recipientAddress: context.testAccount.address,
-  //   };
-
-  //   const depositResult = await depositToChamber(
-  //     context.onchainWrite,
-  //     depositParams
-  //   );
-  //   const depositParsed = JSON.parse(depositResult);
-
-  //   expect(depositParsed.success).toBe(true);
-  //   const claimingKey = depositParsed.data.claimingKey;
-
-  //   console.log('✅ Deposit successful, claiming key:', claimingKey);
-
-  //   // Step 2: Wait for transaction to be processed
-  //   await new Promise((resolve) => setTimeout(resolve, 5000));
-
-  //   // Step 3: First withdrawal (should succeed)
-  //   console.log('📤 Attempting first withdrawal...');
-  //   const withdrawParams: WithdrawFromChamberParams = {
-  //     claimingKey,
-  //     recipientAddress: context.testAccount.address,
-  //     tokenAddress: context.testTokenAddress,
-  //     amount,
-  //   };
-
-  //   const firstWithdrawResult = await withdrawFromChamber(
-  //     context.onchainWrite,
-  //     withdrawParams
-  //   );
-  //   const firstWithdrawParsed = JSON.parse(firstWithdrawResult);
-
-  //   expect(firstWithdrawParsed.success).toBe(true);
-  //   console.log('✅ First withdrawal successful');
-
-  //   // Step 4: Wait for withdrawal to be processed
-  //   await new Promise((resolve) => setTimeout(resolve, 5000));
-
-  //   // Step 5: Second withdrawal (should fail)
-  //   console.log('📤 Attempting second withdrawal (should fail)...');
-  //   await expect(
-  //     withdrawFromChamber(context.onchainWrite, withdrawParams)
-  //   ).rejects.toThrow('Transaction not found in merkle tree');
-
-  //   console.log('✅ Correctly rejected double withdrawal attempt');
-  // }, 360000); // 6 minute timeout for complete flow
+  }, 240000);
 });
