@@ -11,8 +11,8 @@
     "clean": "rm -rf build",
     "clean:all": "rm -rf build node_modules",
     "start": "node build/index.js",
-    "test": "jest",
-    "test:e2e": "jest __tests__/e2e"
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "test:e2e": "NODE_OPTIONS=--experimental-vm-modules jest __tests__/e2e"
   },
   "files": [
     "build"

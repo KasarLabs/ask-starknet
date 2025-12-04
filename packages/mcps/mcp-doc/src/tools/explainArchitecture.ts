@@ -5,7 +5,8 @@ import { fileURLToPath } from 'url';
 import { explainArchitectureSchema } from '../schemas/index.js';
 import { toolResult } from '@kasarlabs/ask-starknet-core';
 
-const currentDir = __dirname;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 /**
  * Explain Ask Starknet architecture and how it works
@@ -16,7 +17,7 @@ export const explainArchitecture = async (
   try {
     // Read the architecture markdown file
     const content = readFileSync(
-      join(currentDir, '../resources/architecture.md'),
+      join(__dirname, '../resources/architecture.md'),
       'utf-8'
     );
 
