@@ -63,7 +63,7 @@ class CairoCoderMCPServer {
     if (localEndpoint) {
       // Local mode: use custom endpoint, no API key required
       this.isLocalMode = true;
-      this.apiUrl = `${localEndpoint}/v1/agents/dojo-agent/chat/completions`;
+      this.apiUrl = `${localEndpoint}/v1/chat/completions`;
       this.apiKey = '';
       console.error(
         `assist-with-dojo MCP server configured for local mode: ${this.apiUrl}`

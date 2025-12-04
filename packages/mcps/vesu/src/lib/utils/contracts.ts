@@ -3,7 +3,9 @@ import { Address } from '../../interfaces/index.js';
 import { vTokenAbi } from '../abis/vTokenAbi.js';
 import { singletonAbi } from '../abis/singletonAbi.js';
 import { extensionAbi } from '../abis/extensionAbi.js';
-import { erc20Abi } from '../abis/erc20Abi.js';
+import { erc20Abi } from '@kasarlabs/ask-starknet-core';
+import { multiplyAbi } from '../abis/multiplyAbi.js';
+import { poolAbi } from '../abis/poolAbi.js';
 
 export const getErc20Contract = (address: Address) => {
   const provider = new RpcProvider({ nodeUrl: process.env.STARKNET_RPC_URL });
@@ -37,4 +39,20 @@ export const getExtensionContract = (address: Address) => {
     address,
     providerOrAccount: provider,
   }).typedv2(extensionAbi);
+};
+export const getMultiplyContract = (address: Address) => {
+  const provider = new RpcProvider({ nodeUrl: process.env.STARKNET_RPC_URL });
+  return new Contract({
+    abi: multiplyAbi,
+    address,
+    providerOrAccount: provider,
+  }).typedv2(multiplyAbi);
+};
+export const getPoolContract = (address: Address) => {
+  const provider = new RpcProvider({ nodeUrl: process.env.STARKNET_RPC_URL });
+  return new Contract({
+    abi: poolAbi,
+    address,
+    providerOrAccount: provider,
+  }).typedv2(poolAbi);
 };

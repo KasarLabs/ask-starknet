@@ -332,7 +332,18 @@
     "description": "Vesu protocol for deposit and withdrawal operations for earning positions",
     "promptInfo": {
       "expertise": "Vesu protocol yield farming",
-      "tools": ["vesu_deposit_earn", "vesu_withdraw_earn"]
+      "tools": [
+        "deposit_earn",
+        "withdraw_earn",
+        "deposit_multiply",
+        "withdraw_multiply",
+        "update_multiply",
+        "deposit_borrow",
+        "repay_borrow",
+        "get_pools",
+        "get_positions",
+        "get_tokens"
+      ]
     }
   },
   "ekubo": {
@@ -480,6 +491,25 @@
         "mcp_doc_list_capabilities",
         "mcp_doc_suggest_projects"
       ]
+    }
+  },
+  "starkgate": {
+    "client": {
+      "command": "npx",
+      "args": ["-y", "@kasarlabs/starkgate-mcp@latest"],
+      "transport": "stdio",
+      "env": {
+        "STARKNET_RPC_URL": "",
+        "STARKNET_ACCOUNT_ADDRESS": "",
+        "STARKNET_PRIVATE_KEY": "",
+        "ETHEREUM_RPC_URL": "",
+        "ETHEREUM_PRIVATE_KEY": ""
+      }
+    },
+    "description": "StarkGate bridge for transferring ETH and ERC20 tokens (USDC, USDT, WBTC, STRK) between Ethereum L1 and Starknet L2",
+    "promptInfo": {
+      "expertise": "Cross-layer bridging between Ethereum and Starknet",
+      "tools": ["bridge_l1_to_l2", "bridge_l2_to_l1"]
     }
   },
   "layerswap": {
