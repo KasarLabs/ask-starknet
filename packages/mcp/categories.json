@@ -1,0 +1,56 @@
+{
+  "wallet": {
+    "name": "wallet",
+    "description": "Creating, deploying, and setting up new wallet accounts on Starknet using different providers",
+    "mcps": ["argent", "braavos", "okx", "openzeppelin"]
+  },
+  "defi": {
+    "name": "defi",
+    "description": "Interacting with DeFi protocols: swapping tokens on DEXs (AVNU, Fibrous, Ekubo), lending and borrowing (Opus, Vesu), yield strategies (Troves), perpetual trading (Extended)",
+    "mcps": [
+      "avnu",
+      "fibrous",
+      "ekubo",
+      "opus",
+      "vesu",
+      "troves",
+      "endurfi",
+      "extended"
+    ]
+  },
+  "gaming": {
+    "name": "gaming",
+    "description": "Gaming and interactive applications on Starknet blockchain",
+    "mcps": ["artpeace"]
+  },
+  "bridge": {
+    "name": "bridge",
+    "description": "Cross-chain asset transfers and bridging operations between different blockchain networks",
+    "mcps": ["layerswap", "starkgate"]
+  },
+  "devtools": {
+    "name": "devtools",
+    "description": "Developer tools for Cairo development including code assistance, compilation, and build tooling",
+    "mcps": ["cairo-coder", "scarb"]
+  },
+  "knowledge": {
+    "name": "knowledge",
+    "description": "AI-powered assistance, documentation, help guides, and educational resources for Starknet ecosystem and MCP servers",
+    "mcps": ["mcp-doc", "starknet-knowledge"]
+  },
+  "tokens": {
+    "name": "tokens",
+    "description": "Standard token operations: ERC20 token transfers, approvals, and balance checks (ETH, USDC, STRK, etc.), ERC721 NFT transfers and ownership queries",
+    "mcps": ["erc20", "erc721"]
+  },
+  "degen": {
+    "name": "degen",
+    "description": "Memecoin creation and launch tools for degenerates on Starknet",
+    "mcps": ["unruggable"]
+  },
+  "infrastructure": {
+    "name": "infrastructure",
+    "description": "Core blockchain infrastructure including smart contract deployment, transaction operations, and RPC access",
+    "mcps": ["contract", "transaction", "starknet-rpc"]
+  }
+}

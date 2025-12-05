@@ -1,6 +1,6 @@
 {
   "name": "@kasarlabs/starknet-rpc-mcp",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "main": "index.js",
   "type": "module",
   "bin": {
