@@ -28,10 +28,8 @@ describe('Starknet RPC - Transaction Operations E2E Tests', () => {
   let testBlockNumber: string;
 
   beforeAll(async () => {
-    // Get a recent block with transactions to use in tests
     const onchainRead = getOnchainRead();
 
-    // Get current block number
     const blockNumberResult = await getBlockNumber(onchainRead.provider);
     if (blockNumberResult.status !== 'success' || !blockNumberResult.data) {
       throw new Error('Failed to get block number for testing');
@@ -39,7 +37,6 @@ describe('Starknet RPC - Transaction Operations E2E Tests', () => {
     const currentBlockNumber = getDataAsRecord(blockNumberResult.data)
       .blockNumber as number;
 
-    // Try to find a block with transactions, going back up to 100 blocks
     for (let i = 0; i < 100; i++) {
       const blockNum = (currentBlockNumber - i).toString();
       const blockResult = await getBlockWithTxHashes(onchainRead.provider, {
@@ -76,11 +73,10 @@ describe('Starknet RPC - Transaction Operations E2E Tests', () => {
       });
 
       expect(result.status).toBe('success');
-      if (result.status === 'success' && result.data) {
-        const data = getDataAsRecord(result.data);
-        expect(data.transaction).toBeDefined();
-        expect(typeof data.transaction).toBe('object');
-      }
+      expect(result.data).toBeDefined();
+      const data = getDataAsRecord(result.data);
+      expect(data.transaction).toBeDefined();
+      expect(typeof data.transaction).toBe('object');
     });
   });
 

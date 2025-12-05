@@ -24,4 +24,3 @@ export default {
   testTimeout: 180000,
   setupFilesAfterEnv: ['<rootDir>/__tests__/setup.ts'],
 };
-

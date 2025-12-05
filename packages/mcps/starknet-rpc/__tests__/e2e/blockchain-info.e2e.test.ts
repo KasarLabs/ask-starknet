@@ -27,7 +27,8 @@ describe('Starknet RPC - Blockchain Info E2E Tests', () => {
       const result = await getChainId(onchainRead.provider);
 
       expect(result.status).toBe('success');
-      if (result.status === 'success' && result.data) {
+      if (result.status === 'success') {
+        expect(result.data).toBeDefined();
         const data = getDataAsRecord(result.data);
         expect(data.chainId).toBeDefined();
         expect(
@@ -43,7 +44,8 @@ describe('Starknet RPC - Blockchain Info E2E Tests', () => {
       const result = await getBlockNumber(onchainRead.provider);
 
       expect(result.status).toBe('success');
-      if (result.status === 'success' && result.data) {
+      if (result.status === 'success') {
+        expect(result.data).toBeDefined();
         const data = getDataAsRecord(result.data);
         expect(data.blockNumber).toBeDefined();
         expect(typeof data.blockNumber).toBe('number');
@@ -58,7 +60,8 @@ describe('Starknet RPC - Blockchain Info E2E Tests', () => {
       const result = await getSpecVersion(onchainRead.provider);
 
       expect(result.status).toBe('success');
-      if (result.status === 'success' && result.data) {
+      if (result.status === 'success') {
+        expect(result.data).toBeDefined();
         const data = getDataAsRecord(result.data);
         expect(data.specVersion).toBeDefined();
         expect(typeof data.specVersion).toBe('string');
@@ -72,10 +75,10 @@ describe('Starknet RPC - Blockchain Info E2E Tests', () => {
       const result = await getSyncingStats(onchainRead.provider);
 
       expect(result.status).toBe('success');
-      if (result.status === 'success' && result.data) {
+      if (result.status === 'success') {
+        expect(result.data).toBeDefined();
         const data = getDataAsRecord(result.data);
         expect(data.syncingStats).toBeDefined();
-        // syncingStats can be false (boolean) if not syncing or an object if syncing
         expect(['boolean', 'object'].includes(typeof data.syncingStats)).toBe(
           true
         );

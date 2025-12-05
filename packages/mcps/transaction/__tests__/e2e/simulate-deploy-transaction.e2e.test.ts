@@ -20,7 +20,6 @@ function getDataAsRecord(
 }
 
 describe('Transaction MCP - Simulate Deploy Transaction E2E Tests', () => {
-  // Using a well-known ERC20 class hash from Starknet
   const ERC20_CLASS_HASH =
     '0x07c08cf5990a781c3fe4729e19f0e9e4e77e0579fa23a84b12b2ae3ae04b33bf';
 
@@ -91,11 +90,7 @@ describe('Transaction MCP - Simulate Deploy Transaction E2E Tests', () => {
             classHash: ERC20_CLASS_HASH,
             salt: salt,
             unique: false,
-            constructorCalldata: [
-              accountAddress, // recipient
-              '1000000', // amount low
-              '0', // amount high
-            ],
+            constructorCalldata: [accountAddress, '1000000', '0'],
           },
         ],
       };
@@ -135,7 +130,7 @@ describe('Transaction MCP - Simulate Deploy Transaction E2E Tests', () => {
           {
             classHash: ERC20_CLASS_HASH,
             salt: salt,
-            unique: true, // Unique deployment
+            unique: true,
             constructorCalldata: [],
           },
         ],
@@ -196,7 +191,6 @@ describe('Transaction MCP - Simulate Deploy Transaction E2E Tests', () => {
         const txOutput = data.transaction_output as Array<any>;
         expect(txOutput.length).toBeGreaterThan(0);
 
-        // Verify each transaction has proper structure
         txOutput.forEach((tx, index) => {
           expect(tx.transaction_number).toBe(index + 1);
           expect(tx.fee_estimation).toBeDefined();

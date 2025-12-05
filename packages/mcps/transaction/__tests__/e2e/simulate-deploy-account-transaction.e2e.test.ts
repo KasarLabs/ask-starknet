@@ -20,7 +20,6 @@ function getDataAsRecord(
 }
 
 describe('Transaction MCP - Simulate Deploy Account Transaction E2E Tests', () => {
-  // Using OpenZeppelin account class hash (commonly available on testnet/mainnet)
   const ACCOUNT_CLASS_HASH =
     '0x061dac032f228abef9c6626f995015233097ae253a7f72d68552db02f2971b8f';
 
@@ -35,7 +34,6 @@ describe('Transaction MCP - Simulate Deploy Account Transaction E2E Tests', () =
         );
       }
 
-      // Generate a new keypair for the test account
       const privateKey = ec.starkCurve.utils.randomPrivateKey();
       const publicKey = ec.starkCurve.getStarkKey(privateKey);
 
@@ -107,8 +105,6 @@ describe('Transaction MCP - Simulate Deploy Account Transaction E2E Tests', () =
         params
       );
 
-      // This might succeed or fail depending on whether constructor params are required
-      // We just check that we get a valid response
       expect(['success', 'failure'].includes(result.status)).toBe(true);
       if (result.status === 'success' && result.data) {
         const data = getDataAsRecord(result.data);
@@ -135,7 +131,7 @@ describe('Transaction MCP - Simulate Deploy Account Transaction E2E Tests', () =
         accountAddress,
         payloads: [
           {
-            classHash: '0x0', // Invalid class hash
+            classHash: '0x0',
             constructorCalldata: [publicKey],
             addressSalt: publicKey,
           },
@@ -161,7 +157,6 @@ describe('Transaction MCP - Simulate Deploy Account Transaction E2E Tests', () =
         );
       }
 
-      // Generate two different keypairs
       const privateKey1 = ec.starkCurve.utils.randomPrivateKey();
       const publicKey1 = ec.starkCurve.getStarkKey(privateKey1);
 
@@ -198,7 +193,6 @@ describe('Transaction MCP - Simulate Deploy Account Transaction E2E Tests', () =
         const txOutput = data.transaction_output as Array<any>;
         expect(txOutput.length).toBeGreaterThan(0);
 
-        // Verify each transaction has proper structure
         txOutput.forEach((tx, index) => {
           expect(tx.transaction_number).toBe(index + 1);
           expect(tx.fee_estimation).toBeDefined();
@@ -220,7 +214,6 @@ describe('Transaction MCP - Simulate Deploy Account Transaction E2E Tests', () =
       const privateKey1 = ec.starkCurve.utils.randomPrivateKey();
       const publicKey1 = ec.starkCurve.getStarkKey(privateKey1);
 
-      // Simulate with minimal calldata
       const params1: SimulateDeployTransactionAccountParams = {
         accountAddress,
         payloads: [

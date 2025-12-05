@@ -22,7 +22,6 @@ function getDataAsRecord(
 }
 
 describe('Starknet RPC - Contract Operations E2E Tests', () => {
-  // Using the ETH token contract address as a known contract on Starknet
   const ETH_TOKEN_ADDRESS =
     '0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7';
   let testAccountAddress: string;
@@ -78,7 +77,6 @@ describe('Starknet RPC - Contract Operations E2E Tests', () => {
     it('should return the class definition by class hash', async () => {
       const onchainRead = getOnchainRead();
 
-      // First get the class hash
       const classHashResult = await getClassHashAt(onchainRead.provider, {
         contractAddress: ETH_TOKEN_ADDRESS,
         blockId: 'latest',
@@ -91,7 +89,6 @@ describe('Starknet RPC - Contract Operations E2E Tests', () => {
       const classHash = getDataAsRecord(classHashResult.data)
         .classHash as string;
 
-      // Now get the class definition
       const result = await getClass(onchainRead.provider, {
         classHash: classHash,
         blockId: 'latest',
@@ -109,7 +106,6 @@ describe('Starknet RPC - Contract Operations E2E Tests', () => {
   describe('getStorageAt', () => {
     it('should return storage value at a specific key', async () => {
       const onchainRead = getOnchainRead();
-      // Using key 0 which is commonly used in contracts
       const result = await getStorageAt(onchainRead.provider, {
         contractAddress: ETH_TOKEN_ADDRESS,
         key: '0x0',

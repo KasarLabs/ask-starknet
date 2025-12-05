@@ -122,18 +122,13 @@ describe('Transaction MCP - Simulate Invoke Transaction E2E Tests', () => {
         );
       }
 
-      // Simulate a transfer of 1 wei (very small amount to ensure we have funds)
       const params: SimulateInvokeTransactionParams = {
         accountAddress,
         payloads: [
           {
             contractAddress: ETH_TOKEN_ADDRESS,
             entrypoint: 'transfer',
-            calldata: [
-              recipientAddress,
-              '1', // amount low
-              '0', // amount high
-            ],
+            calldata: [recipientAddress, '1', '0'],
           },
         ],
       };

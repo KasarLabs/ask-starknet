@@ -133,7 +133,6 @@ async function transferERC20(
     providerOrAccount: account,
   });
 
-  // Format amount with decimals
   const [whole, fraction = ''] = amount.split('.');
   const paddedFraction = fraction
     .padEnd(STRK_DECIMALS, '0')
@@ -165,7 +164,6 @@ describe('OKX E2E Tests', () => {
       );
     }
 
-    // Create OKX account
     const createAccountResult = await CreateOKXAccount();
 
     if (createAccountResult.status !== 'success' || !createAccountResult.data) {
@@ -196,14 +194,12 @@ describe('OKX E2E Tests', () => {
       const onchainWrite = getOnchainWrite();
       const transferAmount = '0.005';
 
-      // Get initial balance of the created account
       const balanceBefore = await getERC20Balance(
         onchainRead.provider,
         STRK_ADDRESS,
         contractAddress
       );
 
-      // Transfer STRK to the created account
       const transactionHash = await transferERC20(
         onchainWrite.account,
         STRK_ADDRESS,
@@ -214,10 +210,8 @@ describe('OKX E2E Tests', () => {
       expect(transactionHash).toBeDefined();
       expect(transactionHash.startsWith('0x')).toBe(true);
 
-      // Wait for transaction to be confirmed
       await new Promise((resolve) => setTimeout(resolve, 5000));
 
-      // Verify the balance after transfer
       const balanceAfter = await getERC20Balance(
         onchainRead.provider,
         STRK_ADDRESS,
@@ -230,7 +224,6 @@ describe('OKX E2E Tests', () => {
       );
       expect(balanceAfter).toBe(balanceBefore + transferAmountBigInt);
 
-      // Deploy the account after transfer
       const deployResult = await DeployOKXAccount(onchainRead, {
         contractAddress: contractAddress,
         publicKey: publicKey,
@@ -245,7 +238,6 @@ describe('OKX E2E Tests', () => {
         expect(deployData.wallet).toBe('OKX');
       }
 
-      // Wait for deployment transaction to be confirmed
       await new Promise((resolve) => setTimeout(resolve, 5000));
     });
   });

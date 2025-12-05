@@ -18,6 +18,27 @@ function getDataAsRecord(
   return data;
 }
 
+const MINIMAL_CAIRO_0_CONTRACT = JSON.stringify({
+  abi: [],
+  program: {
+    attributes: [],
+    builtins: [],
+    data: ['0x480680017fff8000', '0x1', '0x208b7fff7fff7ffe'],
+    hints: {},
+    identifiers: {},
+    main_scope: '__main__',
+    prime: '0x800000000000011000000000000000000000000000000000000000000000001',
+    reference_manager: {
+      references: [],
+    },
+  },
+  entry_points_by_type: {
+    CONSTRUCTOR: [],
+    EXTERNAL: [],
+    L1_HANDLER: [],
+  },
+});
+
 describe('Transaction MCP - Simulate Declare Transaction E2E Tests', () => {
   describe('simulateDeclareTransaction', () => {
     it('should handle simulation with minimal contract data', async () => {
@@ -30,28 +51,7 @@ describe('Transaction MCP - Simulate Declare Transaction E2E Tests', () => {
         );
       }
 
-      // Create a minimal valid Cairo 0 contract
-      const minimalContract = JSON.stringify({
-        abi: [],
-        program: {
-          attributes: [],
-          builtins: [],
-          data: ['0x480680017fff8000', '0x1', '0x208b7fff7fff7ffe'],
-          hints: {},
-          identifiers: {},
-          main_scope: '__main__',
-          prime:
-            '0x800000000000011000000000000000000000000000000000000000000000001',
-          reference_manager: {
-            references: [],
-          },
-        },
-        entry_points_by_type: {
-          CONSTRUCTOR: [],
-          EXTERNAL: [],
-          L1_HANDLER: [],
-        },
-      });
+      const minimalContract = MINIMAL_CAIRO_0_CONTRACT;
 
       const params: SimulateDeclareTransactionAccountParams = {
         accountAddress,
@@ -60,8 +60,6 @@ describe('Transaction MCP - Simulate Declare Transaction E2E Tests', () => {
 
       const result = await simulateDeclareTransaction(onchainWrite, params);
 
-      // Declare transactions are complex and might fail for various reasons
-      // We just verify we get a proper response structure
       expect(['success', 'failure'].includes(result.status)).toBe(true);
 
       if (result.status === 'success' && result.data) {
@@ -92,16 +90,13 @@ describe('Transaction MCP - Simulate Declare Transaction E2E Tests', () => {
         );
       }
 
-      // Try to declare a Cairo 1 contract without compiledClassHash
       const params: SimulateDeclareTransactionAccountParams = {
         accountAddress,
         contract: '{}',
-        // Missing compiledClassHash which is required
       };
 
       const result = await simulateDeclareTransaction(onchainWrite, params);
 
-      // Should fail because compiledClassHash is required
       expect(result.status).toBe('failure');
       expect(result.error).toBeDefined();
       expect(result.error).toContain('compiledClassHash');
@@ -163,27 +158,7 @@ describe('Transaction MCP - Simulate Declare Transaction E2E Tests', () => {
         );
       }
 
-      const minimalContract = JSON.stringify({
-        abi: [],
-        program: {
-          attributes: [],
-          builtins: [],
-          data: ['0x480680017fff8000', '0x1', '0x208b7fff7fff7ffe'],
-          hints: {},
-          identifiers: {},
-          main_scope: '__main__',
-          prime:
-            '0x800000000000011000000000000000000000000000000000000000000000001',
-          reference_manager: {
-            references: [],
-          },
-        },
-        entry_points_by_type: {
-          CONSTRUCTOR: [],
-          EXTERNAL: [],
-          L1_HANDLER: [],
-        },
-      });
+      const minimalContract = MINIMAL_CAIRO_0_CONTRACT;
 
       const params: SimulateDeclareTransactionAccountParams = {
         accountAddress,
@@ -194,7 +169,6 @@ describe('Transaction MCP - Simulate Declare Transaction E2E Tests', () => {
 
       const result = await simulateDeclareTransaction(onchainWrite, params);
 
-      // Verify we get a proper response
       expect(['success', 'failure'].includes(result.status)).toBe(true);
 
       if (result.status === 'failure') {
@@ -212,27 +186,7 @@ describe('Transaction MCP - Simulate Declare Transaction E2E Tests', () => {
         );
       }
 
-      const minimalContract = JSON.stringify({
-        abi: [],
-        program: {
-          attributes: [],
-          builtins: [],
-          data: ['0x480680017fff8000', '0x1', '0x208b7fff7fff7ffe'],
-          hints: {},
-          identifiers: {},
-          main_scope: '__main__',
-          prime:
-            '0x800000000000011000000000000000000000000000000000000000000000001',
-          reference_manager: {
-            references: [],
-          },
-        },
-        entry_points_by_type: {
-          CONSTRUCTOR: [],
-          EXTERNAL: [],
-          L1_HANDLER: [],
-        },
-      });
+      const minimalContract = MINIMAL_CAIRO_0_CONTRACT;
 
       const params: SimulateDeclareTransactionAccountParams = {
         accountAddress,
@@ -257,7 +211,6 @@ describe('Transaction MCP - Simulate Declare Transaction E2E Tests', () => {
 
       const result = await simulateDeclareTransaction(onchainWrite, params);
 
-      // Verify we get a response (success or failure is OK, as long as it's handled)
       expect(['success', 'failure'].includes(result.status)).toBe(true);
 
       if (result.status === 'success' && result.data) {

@@ -9,8 +9,6 @@ import { addLiquidity } from '../../src/tools/write/addLiquidity.js';
 import { withdrawLiquidity } from '../../src/tools/write/withdrawLiquidity.js';
 import { getPosition } from '../../src/tools/read/getPosition.js';
 
-let accountAddress: string;
-
 const STRK_ADDRESS =
   '0x4718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d';
 const USDC_ADDRESS =
@@ -31,9 +29,6 @@ function getDataAsRecord(
   return data;
 }
 
-/**
- * Reads ERC20 token balance for an account
- */
 async function getERC20Balance(
   provider: RpcProvider,
   tokenAddress: string,
@@ -83,9 +78,6 @@ async function getERC20Balance(
   );
 }
 
-/**
- * Formats balance from bigint to human-readable string with decimals
- */
 function formatBalance(balance: bigint, decimals: number): string {
   const divisor = BigInt(10 ** decimals);
   const whole = balance / divisor;
@@ -100,23 +92,6 @@ function formatBalance(balance: bigint, decimals: number): string {
   return trimmedFraction ? `${whole}.${trimmedFraction}` : whole.toString();
 }
 
-/**
- * Gets the token balance and returns it as a formatted string
- */
-async function getTokenBalanceFormatted(
-  provider: RpcProvider,
-  tokenAddress: string,
-  accountAddress: string,
-  decimals: number
-): Promise<string> {
-  const balance = await getERC20Balance(provider, tokenAddress, accountAddress);
-  return formatBalance(balance, decimals);
-}
-
-/**
- * Helper function to calculate the amount received from a swap
- * by comparing balance before and after the swap
- */
 async function calculateSwapAmountReceived(
   provider: RpcProvider,
   tokenAddress: string,
@@ -145,9 +120,7 @@ async function calculateSwapAmountReceived(
 
 describe('Ekubo E2E Tests', () => {
   beforeAll(async () => {
-    accountAddress = process.env.STARKNET_ACCOUNT_ADDRESS || '0x0';
-
-    if (accountAddress === '0x0') {
+    if (!process.env.STARKNET_ACCOUNT_ADDRESS) {
       throw new Error(
         'STARKNET_ACCOUNT_ADDRESS must be set in environment variables'
       );

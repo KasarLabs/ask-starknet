@@ -57,24 +57,20 @@ describe('Transaction MCP - Output Formatting E2E Tests', () => {
 
         const tx = txOutput[0];
 
-        // Check transaction_number field
         expect(tx).toHaveProperty('transaction_number');
         expect(typeof tx.transaction_number).toBe('number');
         expect(tx.transaction_number).toBe(1);
 
-        // Check fee_estimation structure
         expect(tx).toHaveProperty('fee_estimation');
         expect(tx.fee_estimation).toHaveProperty('title');
         expect(tx.fee_estimation.title).toBe('Fee Estimation Breakdown');
         expect(tx.fee_estimation).toHaveProperty('details');
         expect(tx.fee_estimation.details).toHaveProperty('overall_fee');
 
-        // Check resource_bounds structure
         expect(tx).toHaveProperty('resource_bounds');
         expect(tx.resource_bounds).toHaveProperty('l1_gas');
         expect(tx.resource_bounds).toHaveProperty('l2_gas');
 
-        // Check l1_gas fields
         expect(tx.resource_bounds.l1_gas).toHaveProperty('max_amount');
         expect(tx.resource_bounds.l1_gas).toHaveProperty('max_price_per_unit');
         expect(typeof tx.resource_bounds.l1_gas.max_amount).toBe('string');
@@ -82,7 +78,6 @@ describe('Transaction MCP - Output Formatting E2E Tests', () => {
           'string'
         );
 
-        // Check l2_gas fields
         expect(tx.resource_bounds.l2_gas).toHaveProperty('max_amount');
         expect(tx.resource_bounds.l2_gas).toHaveProperty('max_price_per_unit');
         expect(typeof tx.resource_bounds.l2_gas.max_amount).toBe('string');
@@ -133,7 +128,6 @@ describe('Transaction MCP - Output Formatting E2E Tests', () => {
         expect(Array.isArray(txOutput)).toBe(true);
         expect(txOutput.length).toBeGreaterThan(0);
 
-        // Verify transaction numbers are sequential
         txOutput.forEach((tx, index) => {
           expect(tx.transaction_number).toBe(index + 1);
         });
@@ -170,7 +164,6 @@ describe('Transaction MCP - Output Formatting E2E Tests', () => {
         const txOutput = data.transaction_output as Array<any>;
         const tx = txOutput[0];
 
-        // Verify all numeric values are converted to strings
         expect(typeof tx.resource_bounds.l1_gas.max_amount).toBe('string');
         expect(typeof tx.resource_bounds.l1_gas.max_price_per_unit).toBe(
           'string'
@@ -180,7 +173,6 @@ describe('Transaction MCP - Output Formatting E2E Tests', () => {
           'string'
         );
 
-        // Verify strings can be parsed to valid numbers
         expect(() =>
           BigInt(tx.resource_bounds.l1_gas.max_amount)
         ).not.toThrow();
@@ -225,7 +217,6 @@ describe('Transaction MCP - Output Formatting E2E Tests', () => {
         expect(tx.fee_estimation.details.overall_fee).toBeDefined();
 
         const overallFee = tx.fee_estimation.details.overall_fee;
-        // overall_fee can be number, bigint, or string depending on the implementation
         expect(
           typeof overallFee === 'number' ||
             typeof overallFee === 'bigint' ||

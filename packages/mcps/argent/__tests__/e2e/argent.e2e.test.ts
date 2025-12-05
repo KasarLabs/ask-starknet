@@ -17,7 +17,6 @@ const STRK_ADDRESS =
   '0x4718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d';
 const STRK_DECIMALS = 18;
 
-// Test context variables
 let contractAddress: string;
 let owner: string;
 let publicKey: string;
@@ -133,7 +132,6 @@ async function transferERC20(
     providerOrAccount: account,
   });
 
-  // Format amount with decimals
   const [whole, fraction = ''] = amount.split('.');
   const paddedFraction = fraction
     .padEnd(STRK_DECIMALS, '0')
@@ -165,7 +163,6 @@ describe('Argent E2E Tests', () => {
       );
     }
 
-    // Create Argent account
     const onchainRead = getOnchainRead();
     const createAccountResult = await CreateArgentAccount(onchainRead);
 
@@ -192,19 +189,17 @@ describe('Argent E2E Tests', () => {
       expect(contractAddress.startsWith('0x')).toBe(true);
     });
 
-    it('should transfer 0.005 STRK to the created account and verify balance', async () => {
+    it('should transfer 0.05 STRK to the created account and verify balance', async () => {
       const onchainRead = getOnchainRead();
       const onchainWrite = getOnchainWrite();
       const transferAmount = '0.05';
 
-      // Get initial balance of the created account
       const balanceBefore = await getERC20Balance(
         onchainRead.provider,
         STRK_ADDRESS,
         contractAddress
       );
 
-      // Transfer STRK to the created account
       const transactionHash = await transferERC20(
         onchainWrite.account,
         STRK_ADDRESS,
@@ -215,10 +210,8 @@ describe('Argent E2E Tests', () => {
       expect(transactionHash).toBeDefined();
       expect(transactionHash.startsWith('0x')).toBe(true);
 
-      // Wait for transaction to be confirmed
       await new Promise((resolve) => setTimeout(resolve, 5000));
 
-      // Verify the balance after transfer
       const balanceAfter = await getERC20Balance(
         onchainRead.provider,
         STRK_ADDRESS,
@@ -231,7 +224,6 @@ describe('Argent E2E Tests', () => {
       );
       expect(balanceAfter).toBe(balanceBefore + transferAmountBigInt);
 
-      // Deploy the account after transfer
       const deployResult = await DeployArgentAccount(onchainRead, {
         contractAddress: contractAddress,
         publicKey: publicKey,

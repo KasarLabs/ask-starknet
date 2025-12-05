@@ -26,14 +26,15 @@ describe('Starknet RPC - Block Operations E2E Tests', () => {
   let testBlockNumber: string;
 
   beforeAll(async () => {
-    // Get the latest block number to use in tests
     const onchainRead = getOnchainRead();
     const result = await getBlockNumber(onchainRead.provider);
 
     if (result.status === 'success' && result.data) {
       const data = getDataAsRecord(result.data);
-      // Use a block that is a few blocks behind to ensure it's finalized
-      testBlockNumber = ((data.blockNumber as number) - 10).toString();
+      if (typeof data.blockNumber !== 'number') {
+        throw new Error('Expected blockNumber to be a number');
+      }
+      testBlockNumber = (data.blockNumber - 10).toString();
     } else {
       throw new Error('Failed to get block number for testing');
     }

@@ -279,7 +279,6 @@ describe('Endurfi E2E Tests', () => {
         );
       }
 
-      // Execute the stake
       const stakeResult = await stake(onchainWrite, {
         token_type: 'STRK',
         amount: previewAmount,
