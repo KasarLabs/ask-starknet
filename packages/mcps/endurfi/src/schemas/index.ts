@@ -12,7 +12,7 @@ export const stakeSchema = z.object({
   amount: z
     .string()
     .describe(
-      'Amount to stake in token decimals (e.g., "1000000000000000000" for 1 STRK with 18 decimals, "100000000" for 1 WBTC with 8 decimals)'
+      'Amount to stake in human-readable format (e.g., "1.5" for 1.5 STRK, "0.1" for 0.1 WBTC)'
     ),
 });
 
@@ -25,7 +25,9 @@ export const unstakeSchema = z.object({
   ),
   amount: z
     .string()
-    .describe('Amount of liquid staking token to unstake (in token decimals)'),
+    .describe(
+      'Amount of liquid staking token to unstake in human-readable format (e.g., "1.5" for 1.5 xSTRK)'
+    ),
 });
 
 export type UnstakeSchema = z.infer<typeof unstakeSchema>;
@@ -45,7 +47,11 @@ export type ClaimSchema = z.infer<typeof claimSchema>;
 // Preview stake - how much liquid token for X underlying token
 export const previewStakeSchema = z.object({
   token_type: tokenTypeEnum.describe('Token type to preview staking for'),
-  amount: z.string().describe('Amount to preview staking (in token decimals)'),
+  amount: z
+    .string()
+    .describe(
+      'Amount to preview staking in human-readable format (e.g., "1.5" for 1.5 tokens)'
+    ),
 });
 
 export type PreviewStakeSchema = z.infer<typeof previewStakeSchema>;
@@ -56,7 +62,7 @@ export const previewUnstakeSchema = z.object({
   amount: z
     .string()
     .describe(
-      'Amount of liquid token to preview unstaking (in token decimals)'
+      'Amount of liquid token to preview unstaking in human-readable format (e.g., "1.5" for 1.5 tokens)'
     ),
 });
 

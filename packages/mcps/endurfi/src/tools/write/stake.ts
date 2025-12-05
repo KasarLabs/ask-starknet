@@ -7,7 +7,7 @@ import {
 } from '../../lib/utils/contracts.js';
 import { StakeSchema } from '../../schemas/index.js';
 import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
-import { formatUnits } from '../../lib/utils/formatting.js';
+import { formatUnits, parseUnits } from '../../lib/utils/formatting.js';
 import { Contract } from 'starknet';
 
 export const stake = async (
@@ -30,7 +30,7 @@ export const stake = async (
     const liquidTokenName = getLiquidTokenName(params.token_type);
     const underlyingTokenName = getUnderlyingTokenName(params.token_type);
 
-    const amount = BigInt(params.amount);
+    const amount = parseUnits(params.amount, decimals);
 
     const expectedShares = await liquidTokenContract.preview_deposit(amount);
 
@@ -62,8 +62,8 @@ export const stake = async (
         token_type: params.token_type,
         transaction_hash: transaction_hash,
         underlying_token: underlyingTokenName,
-        staked_amount: params.amount,
-        staked_amount_formatted: formatUnits(amount, decimals),
+        staked_amount: amount.toString(),
+        staked_amount_formatted: params.amount,
         liquid_token: liquidTokenName,
         received_amount: expectedShares.toString(),
         received_amount_formatted: formatUnits(expectedShares, decimals),

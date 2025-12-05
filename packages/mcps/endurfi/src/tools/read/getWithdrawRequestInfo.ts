@@ -31,6 +31,36 @@ export const getWithdrawRequestInfo = async (
     const timestamp = BigInt(requestInfo.timestamp);
     const claimTime = BigInt(requestInfo.claimTime);
 
+    // Helper function to convert u256 to BigInt (handles both object {low, high} and direct values)
+    const toBigInt = (value: any): bigint => {
+      if (typeof value === 'bigint') return value;
+      if (typeof value === 'string') return BigInt(value);
+      if (typeof value === 'number') return BigInt(value);
+      // Handle u256 struct with low and high
+      if (
+        value &&
+        typeof value === 'object' &&
+        'low' in value &&
+        'high' in value
+      ) {
+        const low = BigInt(value.low);
+        const high = BigInt(value.high);
+        return (high << 128n) + low;
+      }
+      // Fallback to string conversion
+      return BigInt(value.toString());
+    };
+
+    const assetsBigInt = toBigInt(assets);
+    const sharesBigInt = toBigInt(shares);
+
+    if (assetsBigInt === 0n && sharesBigInt === 0n && timestamp === 0n) {
+      return {
+        status: 'failure',
+        error: `Withdraw request ${params.withdraw_request_id} does not exist`,
+      };
+    }
+
     // Calculate if claimable (current time > claimTime)
     const currentTime = BigInt(Math.floor(Date.now() / 1000));
     const isClaimable = !isClaimed && currentTime >= claimTime;
@@ -42,10 +72,10 @@ export const getWithdrawRequestInfo = async (
         underlying_token: underlyingTokenName,
         liquid_token: liquidTokenName,
         withdraw_request_id: params.withdraw_request_id,
-        assets_amount: assets.toString(),
-        assets_amount_formatted: formatUnits(assets, decimals),
-        shares_amount: shares.toString(),
-        shares_amount_formatted: formatUnits(shares, decimals),
+        assets_amount: assetsBigInt.toString(),
+        assets_amount_formatted: formatUnits(assetsBigInt, decimals),
+        shares_amount: sharesBigInt.toString(),
+        shares_amount_formatted: formatUnits(sharesBigInt, decimals),
         is_claimed: isClaimed,
         timestamp: timestamp.toString(),
         claim_time: claimTime.toString(),

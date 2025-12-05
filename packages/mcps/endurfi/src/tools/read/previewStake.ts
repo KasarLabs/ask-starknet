@@ -6,7 +6,7 @@ import {
 } from '../../lib/utils/contracts.js';
 import { PreviewStakeSchema } from '../../schemas/index.js';
 import { onchainRead, toolResult } from '@kasarlabs/ask-starknet-core';
-import { formatUnits } from '../../lib/utils/formatting.js';
+import { formatUnits, parseUnits } from '../../lib/utils/formatting.js';
 
 export const previewStake = async (
   env: onchainRead,
@@ -21,10 +21,10 @@ export const previewStake = async (
     const liquidTokenName = getLiquidTokenName(params.token_type);
     const underlyingTokenName = getUnderlyingTokenName(params.token_type);
 
+    const amountBigInt = parseUnits(params.amount, decimals);
+
     // Preview how much liquid token will be received for the given underlying token amount
-    const shares = await liquidTokenContract.preview_deposit(
-      BigInt(params.amount)
-    );
+    const shares = await liquidTokenContract.preview_deposit(amountBigInt);
 
     return {
       status: 'success',
@@ -32,8 +32,8 @@ export const previewStake = async (
         token_type: params.token_type,
         underlying_token: underlyingTokenName,
         liquid_token: liquidTokenName,
-        amount: params.amount,
-        amount_formatted: formatUnits(BigInt(params.amount), decimals),
+        amount: amountBigInt.toString(),
+        amount_formatted: params.amount,
         estimated_shares: shares.toString(),
         estimated_shares_formatted: formatUnits(shares, decimals),
       },

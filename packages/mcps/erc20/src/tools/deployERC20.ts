@@ -11,6 +11,7 @@ import {
   NEW_ERC20_ABI_MAINNET,
 } from '../lib/abis/new.js';
 import { z } from 'zod';
+import { formatTokenAmount } from '../lib/utils/utils.js';
 
 /**
  * Deploys a new ERC20 token contract on StarkNet
@@ -35,13 +36,18 @@ export const deployERC20Contract = async (
     const abi =
       chainId === 'SN_MAIN' ? NEW_ERC20_ABI_MAINNET : NEW_ERC20_ABI_SEPOLIA;
 
+    const formattedAmount = formatTokenAmount(
+      params.totalSupply.toString(),
+      18
+    );
+
     const response = await contractManager.deployContract(
       classhash as string,
       abi,
       [
         params.name,
         params.symbol,
-        cairo.uint256(params.totalSupply.toString()),
+        cairo.uint256(formattedAmount),
         account.address,
       ]
     );

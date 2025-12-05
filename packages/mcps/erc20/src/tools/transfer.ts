@@ -7,10 +7,8 @@ import {
   detectAbiType,
 } from '../lib/utils/utils.js';
 import { z } from 'zod';
-import { transferSchema, transferSignatureSchema } from '../schemas/index.js';
-import { TransferResult } from '../lib/types/types.js';
+import { transferSchema } from '../schemas/index.js';
 import { validToken } from '../lib/types/types.js';
-import { RpcProvider } from 'starknet';
 
 /**
  * Transfers ERC20 tokens on Starknet
@@ -44,7 +42,11 @@ export const transfer = async (
     // Check if account exists, if not throw a clearer error
     try {
       const nonce = await account.getNonce();
-      console.error(`Account nonce: ${nonce}`);
+      if (nonce === undefined) {
+        throw new Error(
+          `Nonce is undefined. Please verify your account address and network. Account: ${account.address}`
+        );
+      }
     } catch (error) {
       throw new Error(
         `Account not found on this network. Please verify your account address and network. Account: ${account.address}. Error: ${error.message}`
