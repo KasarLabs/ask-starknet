@@ -49,10 +49,18 @@ export const getTokens = async (
 
     // Filter by address if provided
     if (params.address) {
-      const normalizedAddress = params.address.toLowerCase();
-      tokens = tokens.filter(
-        (token) => token.address.toLowerCase() === normalizedAddress
-      );
+      // Normalize address: remove 0x, pad to 64 chars, add 0x back, lowercase
+      const normalizeAddress = (addr: string): string => {
+        const withoutPrefix = addr.startsWith('0x') ? addr.slice(2) : addr;
+        const padded = withoutPrefix.padStart(64, '0');
+        return `0x${padded}`.toLowerCase();
+      };
+      
+      const normalizedInputAddress = normalizeAddress(params.address);
+      tokens = tokens.filter((token) => {
+        const normalizedTokenAddress = normalizeAddress(token.address);
+        return normalizedTokenAddress === normalizedInputAddress;
+      });
     }
 
     // Filter by symbol if provided

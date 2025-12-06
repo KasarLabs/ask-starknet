@@ -53,9 +53,6 @@ export async function getSingletonAddress(
       // For v2, if singleton() fails, the extension contract (pool.id) might be the singleton itself
       // But this usually means pool.id is not a valid contract address
       // Return extension address as fallback, but log a warning
-      console.warn(
-        `Failed to call singleton() on extension contract for v2 pool. Using extension address as fallback: ${extensionContractAddress}`
-      );
       return extensionContractAddress;
     } else {
       // For v1, singleton() should work, so throw the error

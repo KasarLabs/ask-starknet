@@ -35,6 +35,7 @@ export const getConstructorParams = async (
       params.sierraFilePath,
       params.casmFilePath
     );
+    await contractManager.loadAbiFile();
 
     const constructorParams = contractManager.extractConstructorParams();
 

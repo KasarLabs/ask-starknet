@@ -1,107 +1,125 @@
 import { LaunchOnEkuboParams } from '../schemas/index.js';
-import { FACTORY_ABI } from '../lib/abis/unruggableFactory.js';
-import { FACTORY_ADDRESS } from '../lib/constants/index.js';
-import { Contract } from 'starknet';
+import {
+  EKUBO_BOUND,
+  EKUBO_FEES_MULTIPLICATOR,
+  EKUBO_TICK_SPACING,
+  FACTORY_ADDRESS,
+  QUOTE_TOKEN_INFO,
+} from '../lib/constants/index.js';
+import { CallData, uint256 } from 'starknet';
 import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
+import { Fraction, Percent } from '@uniswap/sdk-core';
+import {
+  decimalsScale,
+  getMemecoinTotalSupply,
+  getStartingTick,
+} from '../lib/utils/helper.js';
+import { getPairPrice } from '../lib/utils/price.js';
 
-/**
- * Launches a memecoin on the Ekubo DEX with concentrated liquidity.
- *
- * This function initializes a new trading pool on Ekubo for the memecoin,
- * sets up the initial liquidity, and configures trading parameters.
- *
- * @param {LaunchOnEkuboParams} params - Combined launch and pool parameters
- * @returns {Promise<string>} JSON string containing either success or error response
- *
- * @example
- * ```typescript
- * const result = await launchOnEkubo({
- *   launchParams: {
- *     memecoinAddress: "0x123...",
- *     transferRestrictionDelay: 86400, // 24 hours
- *     maxPercentageBuyLaunch: 5, // 5% max buy
- *     quoteAddress: "0x456...", // ETH address
- *     initialHolders: ["0x789..."],
- *     initialHoldersAmounts: ["1000000000000000000"] // 1 token
- *   },
- *   ekuboParams: {
- *     fee: "3000", // 0.3% fee
- *     tickSpacing: "60",
- *     startingPrice: {
- *       mag: "1000000000000000000", // 1.0 price
- *       sign: true
- *     },
- *     bound: "500000"
- *   }
- * });
- *
- * const response = JSON.parse(result);
- * if (response.status === 'success') {
- *   console.log('Token ID:', response.response.token_id);
- *   console.log('LP Info:', response.response.lp_info);
- * } else {
- *   console.error('Launch failed:', response.error);
- * }
- * ```
- *
- * @throws Will throw an error if:
- * - Invalid addresses are provided
- * - Initial holders and amounts arrays don't match in length
- * - Fee is outside valid range (1-10000 basis points)
- * - Price bounds are invalid
- * - Contract interaction fails
- *
- * @note
- * - Transfer restriction delay helps prevent pump and dumps
- * - Max percentage buy prevents whale manipulation at launch
- * - Tick spacing affects price granularity and gas costs
- * - Bound parameter sets the concentrated liquidity range
- */
 export const launchOnEkubo = async (
   env: onchainWrite,
   params: LaunchOnEkuboParams
 ): Promise<toolResult> => {
   try {
-    const provider = env.provider;
+    const { account, provider } = env;
+    const token_info = QUOTE_TOKEN_INFO[params.quoteToken];
 
-    const contract = new Contract({
-      abi: FACTORY_ABI,
-      address: FACTORY_ADDRESS,
-      providerOrAccount: provider,
-    });
-    const launchParams = params.launchParams;
-    const ekuboParams = params.ekuboParams;
+    const teamAllocations = params.initialHolders.map((address, index) => ({
+      address,
+      amount: params.initialHoldersAmounts[index],
+    }));
 
-    const paramsToSend = {
-      memecoin_address: launchParams.memecoinAddress,
-      transfer_restriction_delay: launchParams.transferRestrictionDelay,
-      max_percentage_buy_launch: launchParams.maxPercentageBuyLaunch,
-      quote_address: launchParams.quoteAddress,
-      initial_holders: launchParams.initialHolders,
-      initial_holders_amounts: launchParams.initialHoldersAmounts,
-    };
+    const quoteTokenPrice = await getPairPrice(provider);
+    const feeBigInt = Math.round(parseFloat(params.fee) * 100);
+    const fees_percent = new Percent(feeBigInt, 10000);
+    const fees = fees_percent
+      .multiply(EKUBO_FEES_MULTIPLICATOR)
+      .quotient.toString();
 
-    const ekuboPoolParams = {
-      fee: ekuboParams.fee,
-      tick_spacing: ekuboParams.tickSpacing,
-      starting_price: {
-        mag: ekuboParams.startingPrice.mag,
-        sign: ekuboParams.startingPrice.sign,
-      },
-      bound: ekuboParams.bound,
-    };
-
-    const response = await contract.launch_on_ekubo(
-      paramsToSend,
-      ekuboPoolParams
+    const max_buyPercent = new Percent(params.maxPercentageBuyLaunch, 100);
+    const totalSupply = await getMemecoinTotalSupply(
+      provider,
+      params.memecoinAddress
     );
+    const initialPrice = +new Fraction(params.startingMarketCap)
+      .divide(quoteTokenPrice)
+      .multiply(decimalsScale(18))
+      .divide(new Fraction(totalSupply.toString()))
+      .toFixed(18);
+
+    const startingTickMag = getStartingTick(initialPrice);
+    const i129StartingTick = {
+      mag: Math.abs(startingTickMag),
+      sign: startingTickMag < 0,
+    };
+
+    const initialHolders = teamAllocations.map(({ address }) => address);
+    const initialHoldersAmounts = teamAllocations.map(({ amount }) =>
+      uint256.bnToUint256(BigInt(amount) * BigInt(decimalsScale(18)))
+    );
+
+    const launchCalldata = CallData.compile([
+      params.memecoinAddress,
+      params.transferRestrictionDelay,
+      +max_buyPercent.toFixed(1) * 100,
+      token_info.address,
+      initialHolders,
+      initialHoldersAmounts,
+      fees,
+      EKUBO_TICK_SPACING,
+      i129StartingTick,
+      EKUBO_BOUND,
+    ]);
+
+    const teamAllocationFraction = teamAllocations.reduce(
+      (acc, { amount }) => acc.add(amount),
+      new Fraction(0)
+    );
+    const teamAllocationPercentage = new Percent(
+      teamAllocationFraction.quotient.toString(),
+      new Fraction(
+        totalSupply.toString(),
+        decimalsScale(18)
+      ).quotient.toString()
+    );
+
+    const teamAllocationQuoteAmount = new Fraction(params.startingMarketCap)
+      .divide(quoteTokenPrice)
+      .multiply(teamAllocationPercentage.multiply(fees_percent.add(1)));
+    const uin256TeamAllocationQuoteAmount = uint256.bnToUint256(
+      BigInt(
+        teamAllocationQuoteAmount
+          .multiply(decimalsScale(token_info.decimals))
+          .quotient.toString()
+      )
+    );
+
+    const transferCalldata = CallData.compile([
+      FACTORY_ADDRESS,
+      uin256TeamAllocationQuoteAmount,
+    ]);
+
+    const calls = [
+      {
+        contractAddress: token_info.address,
+        entrypoint: 'transfer',
+        calldata: transferCalldata,
+      },
+      {
+        contractAddress: FACTORY_ADDRESS,
+        entrypoint: 'launch_on_ekubo',
+        calldata: launchCalldata,
+      },
+    ];
+
+    const tx = await account.execute(calls);
+    await provider.waitForTransaction(tx.transaction_hash);
 
     return {
       status: 'success',
-      data: { response },
+      data: { transactionHash: tx.transaction_hash },
     };
   } catch (error) {
-    console.error('Error launching on Ekubo:', error);
     return {
       status: 'failure',
       error: error.message,
