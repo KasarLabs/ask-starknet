@@ -7,10 +7,9 @@ import {
   Account,
   Call,
 } from 'starknet';
-import { getOnchainRead, getOnchainWrite } from '@kasarlabs/ask-starknet-core';
+import { getOnchainRead, getOnchainWrite, ERC20_ABI } from '@kasarlabs/ask-starknet-core';
 import { CreateArgentAccount } from '../../src/tools/createAccount.js';
 import { DeployArgentAccount } from '../../src/tools/deployAccount.js';
-import { ERC20_ABI } from '../../src/lib/abis/erc20Abi.js';
 
 // STRK token address on Starknet mainnet
 const STRK_ADDRESS =
