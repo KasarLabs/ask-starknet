@@ -1,10 +1,22 @@
 import { z } from 'zod';
 
+// Supported token symbols for Mist Cash (using Starknet token addresses)
+export const mistCashSupportedSymbols = z.enum([
+  'ETH',
+  'STRK',
+  'USDC',
+  'USDT',
+  'WBTC',
+  'SWSS',
+]);
+
+export type MistCashTokenSymbol = z.infer<typeof mistCashSupportedSymbols>;
+
 // Schema for depositing into a chamber
 export const depositToChamberSchema = z.object({
-  tokenAddress: z
-    .string()
-    .describe('The address of the ERC20 token to deposit'),
+  symbol: mistCashSupportedSymbols.describe(
+    'The token symbol to deposit (e.g., ETH, USDC, STRK)'
+  ),
   amount: z
     .string()
     .describe(
@@ -39,7 +51,9 @@ export const withdrawFromChamberSchema = z.object({
   recipientAddress: z
     .string()
     .describe('The recipient address that will receive the funds'),
-  tokenAddress: z.string().describe('The address of the token to withdraw'),
+  symbol: mistCashSupportedSymbols.describe(
+    'The token symbol to withdraw (e.g., ETH, USDC, STRK)'
+  ),
   amount: z
     .string()
     .describe(

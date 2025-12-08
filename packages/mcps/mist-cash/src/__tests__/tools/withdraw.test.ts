@@ -37,7 +37,7 @@ describe('withdrawFromChamber - Integration Tests', () => {
     const params: WithdrawFromChamberParams = {
       claimingKey,
       recipientAddress: context.testRecipientAddress, // Must match the recipient from the original deposit!
-      tokenAddress: context.testTokenAddress,
+      symbol: context.testTokenSymbol,
       amount: context.testAmount,
     };
 
@@ -53,7 +53,7 @@ describe('withdrawFromChamber - Integration Tests', () => {
     expect(parsedResult.data.recipientAddress).toBe(
       context.testAccount.address
     );
-    expect(parsedResult.data.tokenAddress).toBe(context.testTokenAddress);
+    expect(parsedResult.data.symbol).toBe(context.testTokenSymbol);
     expect(parsedResult.data.amount).toBe(context.testAmount);
 
     console.log('✅ Withdrawal successful:', {

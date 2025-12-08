@@ -27,7 +27,7 @@ describe('Deposit and Withdraw - End-to-End Integration Tests', () => {
     // Step 1: Deposit
     console.log('Step 1: Depositing tokens into chamber...');
     const depositParams: DepositToChamberParams = {
-      tokenAddress: context.testTokenAddress,
+      symbol: context.testTokenSymbol,
       amount: context.testAmount,
       recipientAddress: context.testAccount.address,
     };
@@ -64,7 +64,7 @@ describe('Deposit and Withdraw - End-to-End Integration Tests', () => {
     const withdrawParams: WithdrawFromChamberParams = {
       claimingKey: depositParsed.data.claimingKey,
       recipientAddress: context.testAccount.address,
-      tokenAddress: context.testTokenAddress,
+      symbol: context.testTokenSymbol,
       amount: context.testAmount,
     };
 
@@ -86,7 +86,7 @@ describe('Deposit and Withdraw - End-to-End Integration Tests', () => {
     expect(withdrawParsed.data.recipientAddress).toBe(
       context.testAccount.address
     );
-    expect(withdrawParsed.data.tokenAddress).toBe(context.testTokenAddress);
+    expect(withdrawParsed.data.symbol).toBe(context.testTokenSymbol);
     expect(withdrawParsed.data.amount).toBe(context.testAmount);
 
     console.log('✅ Withdrawal successful:', {

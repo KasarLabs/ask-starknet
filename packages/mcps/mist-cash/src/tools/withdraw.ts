@@ -8,14 +8,26 @@ import {
 } from '@mistcash/crypto';
 import { Contract, AccountInterface, ProviderInterface } from 'starknet';
 import { ERC20_ABI, WitnessData } from '@mistcash/config';
-import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
+import {
+  onchainWrite,
+  toolResult,
+  starknetTokenAddresses,
+} from '@kasarlabs/ask-starknet-core';
 import { CHAMBER_ABI } from '@mistcash/config';
+
 export async function withdrawFromChamber(
   onchainWrite: onchainWrite,
   params: WithdrawFromChamberParams
 ): Promise<toolResult> {
   try {
-    const { claimingKey, recipientAddress, tokenAddress, amount } = params;
+    const { claimingKey, recipientAddress, symbol, amount } = params;
+
+    // Resolve token symbol to address
+    const tokenAddress = starknetTokenAddresses[symbol];
+    if (!tokenAddress) {
+      throw new Error(`Token symbol ${symbol} is not supported`);
+    }
+    console.error(`Using token ${symbol} at address: ${tokenAddress}`);
     const { account } = onchainWrite;
     const chamberContract = getChamber(account);
 
@@ -117,6 +129,7 @@ export async function withdrawFromChamber(
             message: 'Successfully withdrawn from chamber',
             data: {
               recipientAddress,
+              symbol,
               tokenAddress,
               amount: amount, // User-friendly amount (e.g., "1")
               amountInWei: amountInWei.toString(), // Wei amount (e.g., "1000000")

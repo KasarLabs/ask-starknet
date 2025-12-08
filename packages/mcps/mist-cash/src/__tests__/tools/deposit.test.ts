@@ -21,7 +21,7 @@ describe('depositToChamber - Integration Tests', () => {
     }
 
     const params: DepositToChamberParams = {
-      tokenAddress: context.testTokenAddress,
+      symbol: context.testTokenSymbol,
       amount: context.testAmount,
       recipientAddress: context.testRecipientAddress,
     };
@@ -46,7 +46,7 @@ describe('depositToChamber - Integration Tests', () => {
     expect(parsedResult.data.recipientAddress).toBe(
       context.testRecipientAddress
     );
-    expect(parsedResult.data.tokenAddress).toBe(context.testTokenAddress);
+    expect(parsedResult.data.symbol).toBe(context.testTokenSymbol);
     expect(parsedResult.data.amount).toBe(context.testAmount);
 
     console.log('✅ Deposit successful:', {

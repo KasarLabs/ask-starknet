@@ -3,7 +3,13 @@ import { getChamber } from '@mistcash/sdk';
 import { txSecret } from '@mistcash/crypto';
 import { Contract } from 'starknet';
 import { ERC20_ABI } from '@mistcash/config';
-import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
+import {
+  onchainWrite,
+  toolResult,
+  starknetTokenAddresses,
+  getStarknetTokenAbi,
+  type StarknetTokenSymbol,
+} from '@kasarlabs/ask-starknet-core';
 import { randomBytes } from 'crypto';
 
 /**
@@ -35,8 +41,18 @@ export async function depositToChamber(
   params: DepositToChamberParams
 ): Promise<toolResult> {
   try {
-    const { tokenAddress, amount, recipientAddress } = params;
+    const { symbol, amount, recipientAddress } = params;
     let { claimingKey } = params;
+
+    // Resolve token symbol to address
+    const tokenAddress = starknetTokenAddresses[symbol];
+    if (!tokenAddress) {
+      throw new Error(
+        `Token address not found for symbol: ${symbol}. Supported tokens: ETH, STRK, USDC, USDT, WBTC, SWSS`
+      );
+    }
+
+    console.error(`Using token ${symbol} at address: ${tokenAddress}`);
 
     // Generate claiming key if not provided
     if (!claimingKey) {
@@ -50,8 +66,10 @@ export async function depositToChamber(
 
     const chamberContract = getChamber(account);
 
+    // Get the appropriate ABI for the token
+    const tokenAbi = getStarknetTokenAbi(symbol as StarknetTokenSymbol);
     const tokenContract = new Contract({
-      abi: ERC20_ABI,
+      abi: tokenAbi,
       address: tokenAddress,
       providerOrAccount: account,
     });
@@ -114,6 +132,7 @@ export async function depositToChamber(
             data: {
               claimingKey,
               recipientAddress,
+              symbol,
               tokenAddress,
               amount: amount, // User-friendly amount (e.g., "1")
               amountInWei: amountInWei.toString(), // Wei amount (e.g., "1000000")

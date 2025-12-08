@@ -5,12 +5,16 @@ export default {
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.js$': '$1',
     '^@/(.*)$': '<rootDir>/src/$1',
+    '^@kasarlabs/ask-starknet-core$': '<rootDir>/../../core/src/index.ts',
   },
   transform: {
     '^.+\\.tsx?$': [
       'ts-jest',
       {
         useESM: true,
+        diagnostics: {
+          ignoreCodes: [151002],
+        },
       },
     ],
   },
