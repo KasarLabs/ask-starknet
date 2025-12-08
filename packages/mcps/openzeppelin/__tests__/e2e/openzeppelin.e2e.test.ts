@@ -7,7 +7,11 @@ import {
   Account,
   Call,
 } from 'starknet';
-import { getOnchainRead, getOnchainWrite, ERC20_ABI } from '@kasarlabs/ask-starknet-core';
+import {
+  getOnchainRead,
+  getOnchainWrite,
+  ERC20_ABI,
+} from '@kasarlabs/ask-starknet-core';
 import { CreateOZAccount } from '../../src/tools/createAccount.js';
 import { DeployOZAccount } from '../../src/tools/deployAccount.js';
 
