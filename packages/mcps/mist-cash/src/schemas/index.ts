@@ -8,7 +8,7 @@ export const depositToChamberSchema = z.object({
   amount: z
     .string()
     .describe(
-      'The amount to deposit (in token units, e.g., "1000000" for 1 USDC with 6 decimals)'
+      'The amount to deposit in standard units (e.g., "1" for 1 USDC, "0.5" for 0.5 ETH)'
     ),
   claimingKey: z
     .string()
@@ -43,7 +43,7 @@ export const withdrawFromChamberSchema = z.object({
   amount: z
     .string()
     .describe(
-      'The amount to deposit (in token units, e.g., "1000000" for 1 USDC with 6 decimals)'
+      'The amount to withdraw in standard units (e.g., "1" for 1 USDC, "0.5" for 0.5 ETH)'
     ),
 });
 

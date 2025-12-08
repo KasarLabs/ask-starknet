@@ -48,6 +48,8 @@ describe('withdrawFromChamber - Integration Tests', () => {
     expect(parsedResult.message).toBe('Successfully withdrawn from chamber');
     expect(parsedResult.data).toHaveProperty('transactionHash');
     expect(parsedResult.data).toHaveProperty('merkleProofLength');
+    expect(parsedResult.data).toHaveProperty('amountInWei');
+    expect(parsedResult.data).toHaveProperty('decimals');
     expect(parsedResult.data.recipientAddress).toBe(
       context.testAccount.address
     );
@@ -56,7 +58,10 @@ describe('withdrawFromChamber - Integration Tests', () => {
 
     console.log('✅ Withdrawal successful:', {
       transactionHash: parsedResult.data.transactionHash,
-      amount: parsedResult.data.formattedAmount,
+      amount: parsedResult.data.amount,
+      amountInWei: parsedResult.data.amountInWei,
+      formattedAmount: parsedResult.data.formattedAmount,
+      decimals: parsedResult.data.decimals,
       merkleProofLength: parsedResult.data.merkleProofLength,
     });
   }, 120000);

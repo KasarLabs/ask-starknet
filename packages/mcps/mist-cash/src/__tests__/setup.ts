@@ -25,7 +25,7 @@ export function setupTestContext(): TestContext | null {
   const testTokenAddress =
     process.env.TEST_TOKEN_ADDRESS ||
     '0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7';
-  const testAmount = process.env.TEST_AMOUNT || '1000000000000000'; // Default: 0.001 tokens
+  const testAmount = process.env.TEST_AMOUNT || '0.0001'; // Default: 0.0001 tokens (in standard units)
   const testRecipientAddress = process.env.TEST_RECIPIENT_ADDRESS;
   if (!privateKey || !accountAddress || !rpcUrl || !testRecipientAddress) {
     console.warn(

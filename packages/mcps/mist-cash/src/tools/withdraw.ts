@@ -24,24 +24,35 @@ export async function withdrawFromChamber(
       address: tokenAddress,
       providerOrAccount: account,
     });
-    // Get token decimals for better display
-    let decimals = 18;
+
+    // Fetch decimals from the token contract - this is required
+    let decimals: number;
     try {
-      decimals = await tokenContract.decimals();
+      const decimalsResult = await tokenContract.decimals();
+      decimals = Number(decimalsResult);
+      console.error(`Fetched decimals for token: ${decimals}`);
     } catch (e) {
-      console.error('Could not fetch decimals, defaulting to 18');
+      throw new Error(
+        `Failed to fetch decimals from token contract at ${tokenAddress}. ` +
+          `The token contract must implement the decimals() function. Error: ${e instanceof Error ? e.message : String(e)}`
+      );
     }
 
+    // Convert standard amount to wei (smallest token units)
+    // For example: "1" USDC with 6 decimals becomes "1000000"
+    const amountInWei = BigInt(
+      Math.floor(parseFloat(amount) * Math.pow(10, decimals))
+    );
+    console.error(
+      `Converting ${amount} tokens to ${amountInWei.toString()} wei (${decimals} decimals)`
+    );
+
     console.error('Fetching transaction tree and merkle root...');
-    console.log(claimingKey);
-    console.log(recipientAddress);
-    console.log(tokenAddress);
-    console.log(amount);
     const tx_hash = await txHash(
       claimingKey,
       recipientAddress,
       tokenAddress,
-      amount
+      amountInWei.toString()
     );
     console.error('Transaction Hash:', tx_hash.toString());
 
@@ -51,7 +62,7 @@ export async function withdrawFromChamber(
       claimingKey,
       recipientAddress,
       tokenAddress,
-      amount
+      amountInWei.toString()
     );
     if (txIndex === -1) {
       throw new Error('Transaction not found in merkle tree');
@@ -68,7 +79,6 @@ export async function withdrawFromChamber(
       .slice(0, merkleProofWRoot.length - 1)
       .map((bi) => {
         if (bi) {
-          console.log(bi);
           return bi.toString();
         }
         return '0';
@@ -81,13 +91,13 @@ export async function withdrawFromChamber(
       throw new Error('Merkle proof could not be generated');
     }
     console.error('Merkle Proof:', formattedMerkleProof);
-    const formattedAmount = fmtAmount(BigInt(amount), Number(decimals));
+    const formattedAmount = fmtAmount(amountInWei, decimals);
 
     const withdrawTx = await chamberContract.withdraw_no_zk(
       BigInt(claimingKey),
       account.address,
       {
-        amount: BigInt(amount),
+        amount: amountInWei,
         addr: tokenAddress,
       },
       formattedMerkleProof
@@ -108,9 +118,10 @@ export async function withdrawFromChamber(
             data: {
               recipientAddress,
               tokenAddress,
-              amount: amount.toString(),
+              amount: amount, // User-friendly amount (e.g., "1")
+              amountInWei: amountInWei.toString(), // Wei amount (e.g., "1000000")
               formattedAmount,
-              decimals: Number(decimals),
+              decimals: decimals,
               transactionHash: withdrawTx.transaction_hash,
               merkleProofLength: merkleProof.length,
             },

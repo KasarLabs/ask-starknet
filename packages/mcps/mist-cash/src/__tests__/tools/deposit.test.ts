@@ -41,6 +41,8 @@ describe('depositToChamber - Integration Tests', () => {
     expect(parsedResult.data).toHaveProperty('claimingKey');
     expect(parsedResult.data).toHaveProperty('transactionHash');
     expect(parsedResult.data).toHaveProperty('secret');
+    expect(parsedResult.data).toHaveProperty('amountInWei');
+    expect(parsedResult.data).toHaveProperty('decimals');
     expect(parsedResult.data.recipientAddress).toBe(
       context.testRecipientAddress
     );
@@ -51,6 +53,8 @@ describe('depositToChamber - Integration Tests', () => {
       claimingKey: parsedResult.data.claimingKey,
       transactionHash: parsedResult.data.transactionHash,
       amount: parsedResult.data.amount,
+      amountInWei: parsedResult.data.amountInWei,
+      decimals: parsedResult.data.decimals,
     });
   }, 120000);
 });

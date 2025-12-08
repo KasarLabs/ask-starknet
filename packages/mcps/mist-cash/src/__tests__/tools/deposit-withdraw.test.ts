@@ -44,11 +44,15 @@ describe('Deposit and Withdraw - End-to-End Integration Tests', () => {
     expect(depositParsed.success).toBe(true);
     expect(depositParsed.data).toHaveProperty('claimingKey');
     expect(depositParsed.data).toHaveProperty('transactionHash');
+    expect(depositParsed.data).toHaveProperty('amountInWei');
+    expect(depositParsed.data).toHaveProperty('decimals');
 
     console.log('✅ Deposit successful:', {
       claimingKey: depositParsed.data.claimingKey,
       transactionHash: depositParsed.data.transactionHash,
       amount: depositParsed.data.amount,
+      amountInWei: depositParsed.data.amountInWei,
+      decimals: depositParsed.data.decimals,
     });
 
     // Step 2: Wait a bit for the transaction to be fully processed
@@ -77,6 +81,8 @@ describe('Deposit and Withdraw - End-to-End Integration Tests', () => {
     expect(withdrawParsed.message).toBe('Successfully withdrawn from chamber');
     expect(withdrawParsed.data).toHaveProperty('transactionHash');
     expect(withdrawParsed.data).toHaveProperty('merkleProofLength');
+    expect(withdrawParsed.data).toHaveProperty('amountInWei');
+    expect(withdrawParsed.data).toHaveProperty('decimals');
     expect(withdrawParsed.data.recipientAddress).toBe(
       context.testAccount.address
     );
@@ -85,7 +91,10 @@ describe('Deposit and Withdraw - End-to-End Integration Tests', () => {
 
     console.log('✅ Withdrawal successful:', {
       transactionHash: withdrawParsed.data.transactionHash,
-      amount: withdrawParsed.data.formattedAmount,
+      amount: withdrawParsed.data.amount,
+      amountInWei: withdrawParsed.data.amountInWei,
+      formattedAmount: withdrawParsed.data.formattedAmount,
+      decimals: withdrawParsed.data.decimals,
       merkleProofLength: withdrawParsed.data.merkleProofLength,
     });
 
