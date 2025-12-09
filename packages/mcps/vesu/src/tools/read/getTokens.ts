@@ -55,7 +55,7 @@ export const getTokens = async (
         const padded = withoutPrefix.padStart(64, '0');
         return `0x${padded}`.toLowerCase();
       };
-      
+
       const normalizedInputAddress = normalizeAddress(params.address);
       tokens = tokens.filter((token) => {
         const normalizedTokenAddress = normalizeAddress(token.address);

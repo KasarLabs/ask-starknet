@@ -23,13 +23,30 @@ export const launchOnEkubo = async (
   try {
     const { account, provider } = env;
     const token_info = QUOTE_TOKEN_INFO[params.quoteToken];
+    if (!token_info) {
+      throw new Error(`Unsupported quote token: ${params.quoteToken}`);
+    }
+
+    if (params.initialHolders.length !== params.initialHoldersAmounts.length) {
+      throw new Error(
+        'initialHolders and initialHoldersAmounts must have equal lengths'
+      );
+    }
 
     const teamAllocations = params.initialHolders.map((address, index) => ({
       address,
       amount: params.initialHoldersAmounts[index],
     }));
+    let quoteTokenPrice = new Fraction(1, 1);
+    if (params.quoteToken === 'USDC') {
+      quoteTokenPrice = await getPairPrice(provider);
+    } else {
+      quoteTokenPrice = await getPairPrice(provider, {
+        address: token_info.router_address!,
+        reversed: false,
+      });
+    }
 
-    const quoteTokenPrice = await getPairPrice(provider);
     const feeBigInt = Math.round(parseFloat(params.fee) * 100);
     const fees_percent = new Percent(feeBigInt, 10000);
     const fees = fees_percent

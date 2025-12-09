@@ -47,7 +47,7 @@ export const launchOnEkuboSchema = z
       .min(0)
       .max(100)
       .describe(
-        'Maximum percentage of total supply that can be bought by a single address at launch. Range: 1-100'
+        'Maximum percentage of total supply that can be bought by a single address at launch. Range: 0-100'
       ),
 
     // Quote token (STRK, ETH, or USDC)

@@ -55,6 +55,12 @@ export const execute = async (
 export const decimalsScale = (decimals: number) =>
   `1${Array(decimals).fill('0').join('')}`;
 
+/**
+ * Calculates the starting tick for a given initial price in an Ekubo pool.
+ * @param initialPrice - The initial price (must be positive)
+ * @returns The starting tick aligned to EKUBO_TICK_SPACING
+ * @throws {Error} If initialPrice is not a positive number
+ */
 export const getStartingTick = (initialPrice: number) =>
   Math.floor(
     Math.log(initialPrice) / EKUBO_TICK_SIZE_LOG / EKUBO_TICK_SPACING
@@ -69,9 +75,15 @@ export const getStartingTick = (initialPrice: number) =>
  * @returns The combined 256-bit value as a bigint
  */
 const uint256HexToBigInt = (lowHex: string, highHex: string): bigint => {
-  const low = BigInt(lowHex);
-  const high = BigInt(highHex);
-  return (high << 128n) + low;
+  try {
+    const low = BigInt(lowHex);
+    const high = BigInt(highHex);
+    return (high << 128n) + low;
+  } catch (error) {
+    throw new Error(
+      `Failed to convert Uint256 to bigint. Invalid hex values: low="${lowHex}", high="${highHex}"`
+    );
+  }
 };
 
 /**
