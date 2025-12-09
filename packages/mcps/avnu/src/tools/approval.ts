@@ -48,7 +48,7 @@ export class ApprovalService {
       const transactionMonitor = new TransactionMonitor(this.env.provider);
 
       const contract = contractInteractor.createContract(
-        erc20Abi,
+        [...erc20Abi] as any[],
         tokenAddress,
         account
       );
