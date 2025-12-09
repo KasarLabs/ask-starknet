@@ -27,21 +27,11 @@ async function ensureTokenAllowance(
     walletAddress,
     bridgeAddress
   );
-  console.error(
-    `Current allowance: ${ethers.formatUnits(currentAllowance, decimals)} ${symbol}`
-  );
 
   // If allowance is insufficient, approve the bridge
   if (currentAllowance < tokenAmount) {
-    console.error(
-      `Approving bridge to spend ${ethers.formatUnits(tokenAmount, decimals)} ${symbol}...`
-    );
     const approveTx = await tokenContract.approve(bridgeAddress, tokenAmount);
-    console.error('Approval transaction hash:', approveTx.hash);
     await approveTx.wait();
-    console.error('Approval confirmed.');
-  } else {
-    console.error('Sufficient allowance already exists, skipping approval.');
   }
 }
 
@@ -61,9 +51,6 @@ async function validateTokenBalance(
   symbol: string
 ): Promise<void> {
   const tokenBalance = await tokenContract.balanceOf(walletAddress);
-  console.error(
-    `Token balance: ${ethers.formatUnits(tokenBalance, decimals)} ${symbol}`
-  );
 
   if (tokenBalance < tokenAmount) {
     throw new Error(
@@ -92,8 +79,6 @@ export async function depositFromEthToStarknet(
       throw new Error(`Unsupported token: ${symbol}`);
     }
 
-    console.error(`Using ${symbol} bridge: ${bridgeAddress}`);
-
     // Create bridge contract instance
     const bridgeContract = new ethers.Contract(
       bridgeAddress,
@@ -115,10 +100,6 @@ export async function depositFromEthToStarknet(
 
     // Get the deposit fee
     const estimateDepositFeeWei = await bridgeContract.estimateDepositFeeWei();
-    console.error(
-      'Estimated deposit fee (wei):',
-      estimateDepositFeeWei.toString()
-    );
 
     let depositTx;
     let totalValue = estimateDepositFeeWei;
@@ -129,11 +110,6 @@ export async function depositFromEthToStarknet(
 
       // For ETH, value = amount + fees
       totalValue = tokenAmount + estimateDepositFeeWei;
-
-      console.error('Total transaction value (wei):', totalValue.toString());
-      console.error(
-        `Depositing ${amount} ${symbol} to Starknet address ${toAddress} from Ethereum address ${wallet.address}`
-      );
 
       depositTx = await bridgeContract['deposit(uint256,uint256)'](
         tokenAmount,
@@ -148,21 +124,10 @@ export async function depositFromEthToStarknet(
         // Fetch decimals from the Ethereum token contract
         const fetchedDecimals = await tokenContract.decimals();
         decimals = Number(fetchedDecimals);
-        console.error(`Fetched decimals for ${symbol}: ${decimals}`);
       } catch (error) {
-        console.error(
-          `Failed to fetch decimals for ${symbol}, using default (18):`,
-          error
-        );
+        // Using default (18) if fetch fails
       }
       tokenAmount = ethers.parseUnits(amount, decimals);
-
-      console.error(`Token amount (${symbol}):`, tokenAmount.toString());
-      console.error(`Token decimals: ${decimals}`);
-      console.error('Deposit fee (wei):', estimateDepositFeeWei.toString());
-      console.error(
-        `Depositing ${amount} ${symbol} to Starknet address ${toAddress} from Ethereum address ${wallet.address}`
-      );
 
       // Check ETH balance for fees
       const ethBalance = await provider.getBalance(wallet.address);
@@ -202,10 +167,7 @@ export async function depositFromEthToStarknet(
       );
     }
 
-    console.error('Deposit transaction hash:', depositTx.hash);
-
     await depositTx.wait();
-    console.error('Deposit transaction confirmed on L1.');
 
     return {
       status: 'success',
@@ -235,13 +197,10 @@ export async function bridgeL1toL2(
   ethEnv: ethereumWrite | bitcoinWrite | solanaWrite,
   params: BridgeL1toL2Params
 ): Promise<toolResult> {
-  console.error('Starting L1 to L2 bridge operation...');
-  console.error(JSON.stringify(params, null, 2));
   const result = await depositFromEthToStarknet(
     ethEnv as ethereumWrite,
     params
   );
   await new Promise((resolve) => setTimeout(resolve, 3000)); // Wait for 3 seconds
-  console.error('Bridging completed.');
   return result;
 }

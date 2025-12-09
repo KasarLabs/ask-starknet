@@ -33,10 +33,12 @@ export const getDetailedQuote = async (
       queryParams.append('slippage', slippageDecimal);
     }
     const endpoint = `/api/v2/detailed_quote?${queryParams.toString()}`;
-    const quote: any = await apiClient.get<any>(endpoint);
+    const response: any = await apiClient.get<any>(endpoint);
+    // Extract the inner data property to avoid double nesting
+    const data = response?.data !== undefined ? response.data : response;
     return {
       status: 'success',
-      data: quote,
+      data: data,
     };
   } catch (error) {
     return {

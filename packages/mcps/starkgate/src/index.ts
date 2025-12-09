@@ -29,7 +29,6 @@ const registerTools = (BridgeToolRegistry: any[]) => {
     description: 'Bridge ERC20 from Ethereum L1 to Starknet L2',
     schema: bridgeL1toL2Schema,
     execute: async (params: any) => {
-      console.error('Executing bridge_l1_to_l2 with params:', params);
       const ethEnv = getEthereumWrite();
       return await bridgeL1toL2(ethEnv, params);
     },
