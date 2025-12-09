@@ -1,23 +1,8 @@
 import { describe, it, expect } from '@jest/globals';
-import { getOnchainWrite } from '@kasarlabs/ask-starknet-core';
+import { getOnchainWrite, getDataAsRecord } from '@kasarlabs/ask-starknet-core';
 import { simulateDeployTransaction } from '../../src/tools/simulateTransaction.js';
 import { SimulateDeployTransactionParams } from '../../src/lib/types/simulateTransactionTypes.js';
 import { hash } from 'starknet';
-
-function isRecord(
-  data: Record<string, any> | Array<any>
-): data is Record<string, any> {
-  return !Array.isArray(data) && typeof data === 'object' && data !== null;
-}
-
-function getDataAsRecord(
-  data: Record<string, any> | Array<any> | undefined
-): Record<string, any> {
-  if (!data || !isRecord(data)) {
-    throw new Error('Expected data to be a Record object');
-  }
-  return data;
-}
 
 describe('Transaction MCP - Simulate Deploy Transaction E2E Tests', () => {
   const ERC20_CLASS_HASH =

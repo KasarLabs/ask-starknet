@@ -1,24 +1,9 @@
 import { describe, it, expect } from '@jest/globals';
-import { getOnchainRead } from '@kasarlabs/ask-starknet-core';
+import { getOnchainRead, getDataAsRecord } from '@kasarlabs/ask-starknet-core';
 import { getChainId } from '../../src/tools/getChainId.js';
 import { getBlockNumber } from '../../src/tools/getBlockNumber.js';
 import { getSpecVersion } from '../../src/tools/getSpecVersion.js';
 import { getSyncingStats } from '../../src/tools/getSyncingStats.js';
-
-function isRecord(
-  data: Record<string, any> | Array<any>
-): data is Record<string, any> {
-  return !Array.isArray(data) && typeof data === 'object' && data !== null;
-}
-
-function getDataAsRecord(
-  data: Record<string, any> | Array<any> | undefined
-): Record<string, any> {
-  if (!data || !isRecord(data)) {
-    throw new Error('Expected data to be a Record object');
-  }
-  return data;
-}
 
 describe('Starknet RPC - Blockchain Info E2E Tests', () => {
   describe('getChainId', () => {

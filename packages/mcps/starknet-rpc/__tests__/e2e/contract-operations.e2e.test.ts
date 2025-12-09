@@ -1,25 +1,10 @@
 import { describe, it, expect, beforeAll } from '@jest/globals';
-import { getOnchainRead } from '@kasarlabs/ask-starknet-core';
+import { getOnchainRead, getDataAsRecord } from '@kasarlabs/ask-starknet-core';
 import { getClass } from '../../src/tools/getClass.js';
 import { getClassAt } from '../../src/tools/getClassAt.js';
 import { getClassHashAt } from '../../src/tools/getClassHashAt.js';
 import { getStorageAt } from '../../src/tools/getStorageAt.js';
 import { getNonceForAddress } from '../../src/tools/getNonceForAddress.js';
-
-function isRecord(
-  data: Record<string, any> | Array<any>
-): data is Record<string, any> {
-  return !Array.isArray(data) && typeof data === 'object' && data !== null;
-}
-
-function getDataAsRecord(
-  data: Record<string, any> | Array<any> | undefined
-): Record<string, any> {
-  if (!data || !isRecord(data)) {
-    throw new Error('Expected data to be a Record object');
-  }
-  return data;
-}
 
 describe('Starknet RPC - Contract Operations E2E Tests', () => {
   const ETH_TOKEN_ADDRESS =

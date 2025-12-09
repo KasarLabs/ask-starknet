@@ -1,5 +1,9 @@
 import { describe, beforeAll, it, expect, afterEach } from '@jest/globals';
-import { getOnchainRead, getOnchainWrite } from '@kasarlabs/ask-starknet-core';
+import {
+  getOnchainRead,
+  getOnchainWrite,
+  getDataAsRecord,
+} from '@kasarlabs/ask-starknet-core';
 import { isMemecoin } from '../../src/tools/isMemecoin.js';
 import { getLockedLiquidity } from '../../src/tools/getLockedLiquidity.js';
 import { createMemecoin } from '../../src/tools/createMemecoin.js';
@@ -10,21 +14,6 @@ let accountAddress: string;
 
 const FACTORY_ADDRESS =
   '0x01a46467a9246f45c8c340f1f155266a26a71c07bd55d36e8d1c7d0d438a2dbc';
-
-function isRecord(
-  data: Record<string, any> | Array<any>
-): data is Record<string, any> {
-  return !Array.isArray(data) && typeof data === 'object' && data !== null;
-}
-
-function getDataAsRecord(
-  data: Record<string, any> | Array<any> | undefined
-): Record<string, any> {
-  if (!data || !isRecord(data)) {
-    throw new Error('Expected data to be a Record object');
-  }
-  return data;
-}
 
 describe('Unruggable E2E Tests', () => {
   beforeAll(async () => {

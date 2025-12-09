@@ -1,6 +1,10 @@
 import { describe, beforeAll, it, expect, afterEach } from '@jest/globals';
-import { RpcProvider, validateAndParseAddress } from 'starknet';
-import { getOnchainRead, getOnchainWrite } from '@kasarlabs/ask-starknet-core';
+import {
+  getOnchainRead,
+  getOnchainWrite,
+  getDataAsRecord,
+  getERC20Balance,
+} from '@kasarlabs/ask-starknet-core';
 import { getPoolInfo } from '../../src/tools/read/getPoolInfo.js';
 import { getTokenPrice } from '../../src/tools/read/getTokenPrice.js';
 import { swap } from '../../src/tools/write/swap.js';
@@ -8,75 +12,12 @@ import { createPosition } from '../../src/tools/write/createPosition.js';
 import { addLiquidity } from '../../src/tools/write/addLiquidity.js';
 import { withdrawLiquidity } from '../../src/tools/write/withdrawLiquidity.js';
 import { getPosition } from '../../src/tools/read/getPosition.js';
+import { RpcProvider } from 'starknet';
 
 const STRK_ADDRESS =
   '0x4718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d';
 const USDC_ADDRESS =
   '0x053c91253bc9682c04929ca02ed00b3e423f6710d2ee7e0d5ebb06f3ecf368a8';
-
-function isRecord(
-  data: Record<string, any> | Array<any>
-): data is Record<string, any> {
-  return !Array.isArray(data) && typeof data === 'object' && data !== null;
-}
-
-function getDataAsRecord(
-  data: Record<string, any> | Array<any> | undefined
-): Record<string, any> {
-  if (!data || !isRecord(data)) {
-    throw new Error('Expected data to be a Record object');
-  }
-  return data;
-}
-
-async function getERC20Balance(
-  provider: RpcProvider,
-  tokenAddress: string,
-  accountAddress: string
-): Promise<bigint> {
-  const contractAddress = validateAndParseAddress(tokenAddress);
-  const account = validateAndParseAddress(accountAddress);
-
-  const entrypoints: Array<'balance_of' | 'balanceOf'> = [
-    'balance_of',
-    'balanceOf',
-  ];
-
-  let lastErr: unknown = null;
-
-  for (const entrypoint of entrypoints) {
-    try {
-      const res = await provider.callContract({
-        contractAddress,
-        entrypoint,
-        calldata: [account],
-      });
-
-      const out: string[] = Array.isArray((res as any)?.result)
-        ? (res as any).result
-        : Array.isArray(res)
-          ? (res as any)
-          : [];
-
-      if (out.length >= 2) {
-        const low = BigInt(out[0]);
-        const high = BigInt(out[1]);
-        return (high << 128n) + low;
-      }
-
-      if (out.length === 1) {
-        return BigInt(out[0]);
-      }
-    } catch (e) {
-      lastErr = e;
-    }
-  }
-
-  throw new Error(
-    `Failed to read balance on ${contractAddress} for ${account}` +
-      (lastErr instanceof Error ? ` (last error: ${lastErr.message})` : '')
-  );
-}
 
 function formatBalance(balance: bigint, decimals: number): string {
   const divisor = BigInt(10 ** decimals);

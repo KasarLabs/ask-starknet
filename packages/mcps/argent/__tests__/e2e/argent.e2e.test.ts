@@ -1,16 +1,12 @@
 import { describe, beforeAll, it, expect } from '@jest/globals';
 import {
-  Contract,
-  RpcProvider,
-  validateAndParseAddress,
-  cairo,
-  Account,
-  Call,
-} from 'starknet';
-import {
   getOnchainRead,
   getOnchainWrite,
-  ERC20_ABI,
+  getDataAsRecord,
+  getERC20Balance,
+  parseFormattedBalance,
+  executeV3Transaction,
+  transferERC20,
 } from '@kasarlabs/ask-starknet-core';
 import { CreateArgentAccount } from '../../src/tools/createAccount.js';
 import { DeployArgentAccount } from '../../src/tools/deployAccount.js';
@@ -24,137 +20,6 @@ let contractAddress: string;
 let owner: string;
 let publicKey: string;
 let privateKey: string;
-
-function isRecord(
-  data: Record<string, any> | Array<any>
-): data is Record<string, any> {
-  return !Array.isArray(data) && typeof data === 'object' && data !== null;
-}
-
-function getDataAsRecord(
-  data: Record<string, any> | Array<any> | undefined
-): Record<string, any> {
-  if (!data || !isRecord(data)) {
-    throw new Error('Expected data to be a Record object');
-  }
-  return data;
-}
-
-function parseFormattedBalance(formatted: string, decimals: number): bigint {
-  const [whole, fraction = ''] = formatted.split('.');
-  const paddedFraction = fraction.padEnd(decimals, '0').slice(0, decimals);
-  return BigInt(whole + paddedFraction);
-}
-
-/**
- * Reads ERC20 token balance for an account
- */
-async function getERC20Balance(
-  provider: RpcProvider,
-  tokenAddress: string,
-  accountAddress: string
-): Promise<bigint> {
-  const contractAddress = validateAndParseAddress(tokenAddress);
-  const account = validateAndParseAddress(accountAddress);
-
-  // Try balance_of first, then balanceOf
-  const entrypoints: Array<'balance_of' | 'balanceOf'> = [
-    'balance_of',
-    'balanceOf',
-  ];
-
-  let lastErr: unknown = null;
-
-  for (const entrypoint of entrypoints) {
-    try {
-      const res = await provider.callContract({
-        contractAddress,
-        entrypoint,
-        calldata: [account],
-      });
-
-      const out: string[] = Array.isArray((res as any)?.result)
-        ? (res as any).result
-        : Array.isArray(res)
-          ? (res as any)
-          : [];
-
-      // Uint256 is returned as [low, high] pair
-      if (out.length >= 2) {
-        const low = BigInt(out[0]);
-        const high = BigInt(out[1]);
-        return (high << 128n) + low;
-      }
-
-      if (out.length === 1) {
-        return BigInt(out[0]);
-      }
-    } catch (e) {
-      lastErr = e;
-    }
-  }
-
-  throw new Error(
-    `Failed to read balance on ${contractAddress} for ${account}` +
-      (lastErr instanceof Error ? ` (last error: ${lastErr.message})` : '')
-  );
-}
-
-/**
- * Executes a V3 transaction
- */
-async function executeV3Transaction({
-  call,
-  account,
-}: {
-  call: Call;
-  account: Account;
-}): Promise<string> {
-  const { transaction_hash } = await account.execute(call);
-
-  const receipt = await account.waitForTransaction(transaction_hash);
-  if (!receipt.isSuccess()) {
-    throw new Error('Transaction confirmed but failed');
-  }
-
-  return transaction_hash;
-}
-
-/**
- * Transfers ERC20 tokens
- */
-async function transferERC20(
-  account: Account,
-  tokenAddress: string,
-  recipientAddress: string,
-  amount: string
-): Promise<string> {
-  const contract = new Contract({
-    abi: ERC20_ABI,
-    address: tokenAddress,
-    providerOrAccount: account,
-  });
-
-  const [whole, fraction = ''] = amount.split('.');
-  const paddedFraction = fraction
-    .padEnd(STRK_DECIMALS, '0')
-    .slice(0, STRK_DECIMALS);
-  const amountStr = whole + paddedFraction;
-  const amountBigInt = BigInt(amountStr);
-  const amountUint256 = cairo.uint256(amountBigInt);
-
-  const calldata = contract.populate('transfer', {
-    recipient: validateAndParseAddress(recipientAddress),
-    amount: amountUint256,
-  });
-
-  const txHash = await executeV3Transaction({
-    call: calldata,
-    account: account,
-  });
-
-  return txHash;
-}
 
 describe('Argent E2E Tests', () => {
   beforeAll(async () => {
@@ -207,7 +72,8 @@ describe('Argent E2E Tests', () => {
         onchainWrite.account,
         STRK_ADDRESS,
         contractAddress,
-        transferAmount
+        transferAmount,
+        STRK_DECIMALS
       );
 
       expect(transactionHash).toBeDefined();

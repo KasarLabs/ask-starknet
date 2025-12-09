@@ -1,6 +1,10 @@
 import { describe, beforeAll, it, expect, afterEach } from '@jest/globals';
-import { RpcProvider, validateAndParseAddress } from 'starknet';
-import { getOnchainRead, getOnchainWrite } from '@kasarlabs/ask-starknet-core';
+import {
+  getOnchainRead,
+  getOnchainWrite,
+  getDataAsRecord,
+  getERC20Balance,
+} from '@kasarlabs/ask-starknet-core';
 import { getLstStats } from '../../src/tools/read/getLstStats.js';
 import { getTotalStaked } from '../../src/tools/read/getTotalStaked.js';
 import { getUserBalance } from '../../src/tools/read/getUserBalance.js';
@@ -14,73 +18,6 @@ import { parseUnits, formatUnits } from '../../src/lib/utils/formatting.js';
 import { getTokenDecimals } from '../../src/lib/utils/contracts.js';
 
 let accountAddress: string;
-
-function isRecord(
-  data: Record<string, any> | Array<any>
-): data is Record<string, any> {
-  return !Array.isArray(data) && typeof data === 'object' && data !== null;
-}
-
-function getDataAsRecord(
-  data: Record<string, any> | Array<any> | undefined
-): Record<string, any> {
-  if (!data || !isRecord(data)) {
-    throw new Error('Expected data to be a Record object');
-  }
-  return data;
-}
-
-/**
- * Reads ERC20 token balance for an account
- */
-async function getERC20Balance(
-  provider: RpcProvider,
-  tokenAddress: string,
-  accountAddress: string
-): Promise<bigint> {
-  const contractAddress = validateAndParseAddress(tokenAddress);
-  const account = validateAndParseAddress(accountAddress);
-
-  const entrypoints: Array<'balance_of' | 'balanceOf'> = [
-    'balance_of',
-    'balanceOf',
-  ];
-
-  let lastErr: unknown = null;
-
-  for (const entrypoint of entrypoints) {
-    try {
-      const res = await provider.callContract({
-        contractAddress,
-        entrypoint,
-        calldata: [account],
-      });
-
-      const out: string[] = Array.isArray((res as any)?.result)
-        ? (res as any).result
-        : Array.isArray(res)
-          ? (res as any)
-          : [];
-
-      if (out.length >= 2) {
-        const low = BigInt(out[0]);
-        const high = BigInt(out[1]);
-        return (high << 128n) + low;
-      }
-
-      if (out.length === 1) {
-        return BigInt(out[0]);
-      }
-    } catch (e) {
-      lastErr = e;
-    }
-  }
-
-  throw new Error(
-    `Failed to read balance on ${contractAddress} for ${account}` +
-      (lastErr instanceof Error ? ` (last error: ${lastErr.message})` : '')
-  );
-}
 
 describe('Endurfi E2E Tests', () => {
   beforeAll(async () => {

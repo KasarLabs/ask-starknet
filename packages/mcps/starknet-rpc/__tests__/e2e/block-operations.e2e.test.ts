@@ -1,26 +1,11 @@
 import { describe, it, expect } from '@jest/globals';
-import { getOnchainRead } from '@kasarlabs/ask-starknet-core';
+import { getOnchainRead, getDataAsRecord } from '@kasarlabs/ask-starknet-core';
 import { getBlockWithTxHashes } from '../../src/tools/getBlockWithTxHashes.js';
 import { getBlockWithReceipts } from '../../src/tools/getBlockWithReceipts.js';
 import { getBlockWithTxs } from '../../src/tools/getBlockWithTxs.js';
 import { getBlockTransactionCount } from '../../src/tools/getBlockTransactionCount.js';
 import { getBlockStateUpdate } from '../../src/tools/getBlockStateUpdate.js';
 import { getBlockNumber } from '../../src/tools/getBlockNumber.js';
-
-function isRecord(
-  data: Record<string, any> | Array<any>
-): data is Record<string, any> {
-  return !Array.isArray(data) && typeof data === 'object' && data !== null;
-}
-
-function getDataAsRecord(
-  data: Record<string, any> | Array<any> | undefined
-): Record<string, any> {
-  if (!data || !isRecord(data)) {
-    throw new Error('Expected data to be a Record object');
-  }
-  return data;
-}
 
 describe('Starknet RPC - Block Operations E2E Tests', () => {
   let testBlockNumber: string;

@@ -1,23 +1,9 @@
 import { describe, it, expect } from '@jest/globals';
+import { getDataAsRecord } from '@kasarlabs/ask-starknet-core';
 import { explainArchitecture } from '../../src/tools/explainArchitecture.js';
 import { listCapabilities } from '../../src/tools/listCapabilities.js';
 import { suggestProjects } from '../../src/tools/suggestProjects.js';
 import { getHelp } from '../../src/tools/getHelp.js';
-
-function isRecord(
-  data: Record<string, any> | Array<any>
-): data is Record<string, any> {
-  return !Array.isArray(data) && typeof data === 'object' && data !== null;
-}
-
-function getDataAsRecord(
-  data: Record<string, any> | Array<any> | undefined
-): Record<string, any> {
-  if (!data || !isRecord(data)) {
-    throw new Error('Expected data to be a Record object');
-  }
-  return data;
-}
 
 describe('MCP Doc E2E Tests', () => {
   describe('Explain Architecture tool', () => {

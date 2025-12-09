@@ -1,9 +1,9 @@
 import { describe, beforeAll, it, expect } from '@jest/globals';
-import { RpcProvider, Account } from 'starknet';
 import {
   getOnchainRead,
   getOnchainWrite,
-  onchainWrite,
+  getDataAsRecord,
+  createOnchainWriteWithAccount,
 } from '@kasarlabs/ask-starknet-core';
 import { deployERC721Contract } from '../../src/tools/write/deployERC721.js';
 import { getBalance } from '../../src/tools/read/balanceOf.js';
@@ -23,43 +23,6 @@ let spender_address: string;
 let spender_private_key: string;
 let totalSupply: number;
 let firstTokenId: string;
-
-function isRecord(
-  data: Record<string, any> | Array<any>
-): data is Record<string, any> {
-  return !Array.isArray(data) && typeof data === 'object' && data !== null;
-}
-
-function getDataAsRecord(
-  data: Record<string, any> | Array<any> | undefined
-): Record<string, any> {
-  if (!data || !isRecord(data)) {
-    throw new Error('Expected data to be a Record object');
-  }
-  return data;
-}
-
-function createOnchainWriteWithAccount(
-  address: string,
-  privateKey: string
-): onchainWrite {
-  const rpcUrl = process.env.STARKNET_RPC_URL;
-  if (!rpcUrl) {
-    throw new Error('Missing required environment variable: STARKNET_RPC_URL');
-  }
-
-  const provider = new RpcProvider({ nodeUrl: rpcUrl });
-  const account = new Account({
-    provider: provider,
-    address: address,
-    signer: privateKey,
-  });
-
-  return {
-    provider,
-    account,
-  };
-}
 
 describe('ERC721 E2E Tests', () => {
   beforeAll(async () => {

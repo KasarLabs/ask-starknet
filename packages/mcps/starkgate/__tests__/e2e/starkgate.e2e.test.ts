@@ -1,9 +1,11 @@
 import { describe, beforeAll, it, expect } from '@jest/globals';
-import { RpcProvider, validateAndParseAddress } from 'starknet';
 import {
   getOnchainRead,
   getOnchainWrite,
   ethTokenAddresses,
+  getDataAsRecord,
+  getERC20Balance,
+  parseFormattedBalance,
 } from '@kasarlabs/ask-starknet-core';
 import { bridgeL2toL1 } from '../../src/tools/bridgeL2toL1.js';
 import { getEthereumWrite } from '../../src/lib/utils.js';
@@ -16,81 +18,6 @@ const STRK_DECIMALS = 18;
 
 let starknetAccountAddress: string;
 let ethereumRecipientAddress: string;
-
-function isRecord(
-  data: Record<string, any> | Array<any>
-): data is Record<string, any> {
-  return !Array.isArray(data) && typeof data === 'object' && data !== null;
-}
-
-function getDataAsRecord(
-  data: Record<string, any> | Array<any> | undefined
-): Record<string, any> {
-  if (!data || !isRecord(data)) {
-    throw new Error('Expected data to be a Record object');
-  }
-  return data;
-}
-
-/**
- * Reads ERC20 token balance for an account
- */
-async function getERC20Balance(
-  provider: RpcProvider,
-  tokenAddress: string,
-  accountAddress: string
-): Promise<bigint> {
-  const contractAddress = validateAndParseAddress(tokenAddress);
-  const account = validateAndParseAddress(accountAddress);
-
-  // Try balance_of first, then balanceOf
-  const entrypoints: Array<'balance_of' | 'balanceOf'> = [
-    'balance_of',
-    'balanceOf',
-  ];
-
-  let lastErr: unknown = null;
-
-  for (const entrypoint of entrypoints) {
-    try {
-      const res = await provider.callContract({
-        contractAddress,
-        entrypoint,
-        calldata: [account],
-      });
-
-      const out: string[] = Array.isArray((res as any)?.result)
-        ? (res as any).result
-        : Array.isArray(res)
-          ? (res as any)
-          : [];
-
-      // Uint256 is returned as [low, high] pair
-      if (out.length >= 2) {
-        const low = BigInt(out[0]);
-        const high = BigInt(out[1]);
-        return (high << 128n) + low;
-      }
-
-      if (out.length === 1) {
-        return BigInt(out[0]);
-      }
-    } catch (e) {
-      lastErr = e;
-    }
-  }
-
-  throw new Error(
-    `Failed to read balance on ${contractAddress} for ${account}` +
-      (lastErr instanceof Error ? ` (last error: ${lastErr.message})` : '')
-  );
-}
-
-function parseFormattedBalance(formatted: string, decimals: number): bigint {
-  const [whole, fraction = ''] = formatted.split('.');
-  const paddedFraction = fraction.padEnd(decimals, '0').slice(0, decimals);
-  return BigInt(whole + paddedFraction);
-}
 
 /**
  * Reads ERC20 token balance for an account on Ethereum

@@ -1,5 +1,5 @@
 import { describe, beforeAll, it, expect } from '@jest/globals';
-import { getOnchainWrite } from '@kasarlabs/ask-starknet-core';
+import { getOnchainWrite, getDataAsRecord } from '@kasarlabs/ask-starknet-core';
 import { getRoute } from '../../src/tools/fetchRoute.js';
 import { swapTokens } from '../../src/tools/swap.js';
 
@@ -9,21 +9,6 @@ const USDC_ADDRESS =
   '0x053c91253bc9682c04929ca02ed00b3e423f6710d2ee7e0d5ebb06f3ecf368a8';
 const STRK_ADDRESS =
   '0x4718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d';
-
-function isRecord(
-  data: Record<string, any> | Array<any>
-): data is Record<string, any> {
-  return !Array.isArray(data) && typeof data === 'object' && data !== null;
-}
-
-function getDataAsRecord(
-  data: Record<string, any> | Array<any> | undefined
-): Record<string, any> {
-  if (!data || !isRecord(data)) {
-    throw new Error('Expected data to be a Record object');
-  }
-  return data;
-}
 
 describe('AVNU E2E Tests', () => {
   beforeAll(async () => {

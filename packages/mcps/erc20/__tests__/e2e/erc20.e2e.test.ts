@@ -1,9 +1,11 @@
 import { describe, beforeAll, it, expect } from '@jest/globals';
-import { RpcProvider, Account } from 'starknet';
+import { RpcProvider } from 'starknet';
 import {
   getOnchainRead,
   getOnchainWrite,
-  onchainWrite,
+  getDataAsRecord,
+  parseFormattedBalance,
+  createOnchainWriteWithAccount,
 } from '@kasarlabs/ask-starknet-core';
 import { deployERC20Contract } from '../../src/tools/deployERC20.js';
 import { getSymbol } from '../../src/tools/getSymbol.js';
@@ -22,12 +24,6 @@ let spender_address: string;
 let spender_private_key: string;
 let tokenDecimals: number;
 
-function parseFormattedBalance(formatted: string, decimals: number): bigint {
-  const [whole, fraction = ''] = formatted.split('.');
-  const paddedFraction = fraction.padEnd(decimals, '0').slice(0, decimals);
-  return BigInt(whole + paddedFraction);
-}
-
 async function getTokenDecimals(
   provider: RpcProvider,
   address: string
@@ -39,43 +35,6 @@ async function getTokenDecimals(
     );
   }
   return token.decimals;
-}
-
-function isRecord(
-  data: Record<string, any> | Array<any>
-): data is Record<string, any> {
-  return !Array.isArray(data) && typeof data === 'object' && data !== null;
-}
-
-function getDataAsRecord(
-  data: Record<string, any> | Array<any> | undefined
-): Record<string, any> {
-  if (!data || !isRecord(data)) {
-    throw new Error('Expected data to be a Record object');
-  }
-  return data;
-}
-
-function createOnchainWriteWithAccount(
-  address: string,
-  privateKey: string
-): onchainWrite {
-  const rpcUrl = process.env.STARKNET_RPC_URL;
-  if (!rpcUrl) {
-    throw new Error('Missing required environment variable: STARKNET_RPC_URL');
-  }
-
-  const provider = new RpcProvider({ nodeUrl: rpcUrl });
-  const account = new Account({
-    provider: provider,
-    address: address,
-    signer: privateKey,
-  });
-
-  return {
-    provider,
-    account,
-  };
 }
 
 describe('ERC20 E2E Tests', () => {
