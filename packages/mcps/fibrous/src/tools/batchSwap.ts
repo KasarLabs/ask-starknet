@@ -1,4 +1,4 @@
-import { Account, Call, constants } from 'starknet';
+import { Account, Call } from 'starknet';
 
 import { ApprovalService } from './approval.js';
 
@@ -72,12 +72,12 @@ export class BatchSwapService {
       // Get routes for each swap individually instead of batch
       const routes = [];
       for (let i = 0; i < swapParams.sellAmounts.length; i++) {
-        const route = await this.router.getBestRoute(
-          swapParams.sellAmounts[i],
-          swapParams.sellTokenAddresses[i],
-          swapParams.buyTokenAddresses[i],
-          'starknet'
-        );
+        const route = await this.router.getBestRoute({
+          amount: swapParams.sellAmounts[i].toString(),
+          tokenInAddress: swapParams.sellTokenAddresses[i],
+          tokenOutAddress: swapParams.buyTokenAddresses[i],
+          chainName: 'starknet'
+        });
         routes.push(route);
       }
 
@@ -94,28 +94,29 @@ export class BatchSwapService {
       }
       const destinationAddress = account.address; // !!! Destination address is the address of the account that will receive the tokens might be the any address
 
-      const swapCalls = await this.router.buildBatchTransaction(
-        swapParams.sellAmounts as BigNumber[],
-        swapParams.sellTokenAddresses,
-        swapParams.buyTokenAddresses,
-        SLIPPAGE_PERCENTAGE,
-        destinationAddress,
-        'starknet'
-      );
-      if (!swapCalls) {
+      const swapCalls = await this.router.buildBatchTransaction({
+        inputAmounts: swapParams.sellAmounts.map(amount => amount.toString()),
+        tokenInAddresses: swapParams.sellTokenAddresses,
+        tokenOutAddresses: swapParams.buyTokenAddresses,
+        slippage: SLIPPAGE_PERCENTAGE,
+        destination: destinationAddress,
+        chainName: 'starknet'
+      });
+      if (!swapCalls || !Array.isArray(swapCalls)) {
         throw new Error('Calldata not available for this swap');
       }
+      const routerAddress = await this.router.getRouterAddress('starknet');
       let calldata: Call[] = [];
       for (let i = 0; i < swapCalls.length; i++) {
         const approveCall = await this.approvalService.checkAndGetApproveToken(
           account,
           swapParams.sellTokenAddresses[i],
-          this.router.STARKNET_ROUTER_ADDRESS,
+          routerAddress,
           swapParams.sellAmounts[i].toString()
         );
         if (approveCall) {
           calldata = [approveCall, swapCalls[i]];
-        } else {
+          } else {
           calldata = [swapCalls[i]];
         }
       }

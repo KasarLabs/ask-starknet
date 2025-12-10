@@ -1,6 +1,5 @@
 import { TokenService } from './fetchTokens.js';
 import { Router as FibrousRouter, RouteResponse } from 'fibrous-router-sdk';
-import { BigNumber } from '@ethersproject/bignumber';
 import { RouteSchemaType } from '../schemas/index.js';
 
 export interface RouteResult {
@@ -31,14 +30,14 @@ export class RouteFetchService {
         params.buyTokenSymbol
       );
 
-      const formattedAmount = BigInt(params.sellAmount.toString());
+      const formattedAmount = params.sellAmount.toString();
 
-      const route = await this.router.getBestRoute(
-        BigNumber.from(formattedAmount.toString()),
-        sellToken.address,
-        buyToken.address,
-        'starknet'
-      );
+      const route = await this.router.getBestRoute({
+        amount: formattedAmount,
+        tokenInAddress: sellToken.address,
+        tokenOutAddress: buyToken.address,
+        chainName: 'starknet'
+      });
 
       if (!route?.success) {
         return {

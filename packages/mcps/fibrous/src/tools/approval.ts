@@ -1,7 +1,6 @@
 import { Account, Call, Contract } from 'starknet';
 import { ERC20_ABI } from '../lib/abis/erc20Abi.js';
 import { Router } from 'fibrous-router-sdk';
-import { BigNumber } from '@ethersproject/bignumber';
 
 export class ApprovalService {
   private fibrous: Router;
@@ -44,7 +43,7 @@ export class ApprovalService {
 
       if (currentAllowance < requiredAmount) {
         const calldata = await this.fibrous.buildApproveStarknet(
-          BigNumber.from(amount),
+          amount,
           tokenAddress
         );
 

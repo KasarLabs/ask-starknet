@@ -21,7 +21,7 @@
     "@langchain/core": "^0.3.42",
     "@modelcontextprotocol/sdk": "1.22.0",
     "dotenv": "^16.4.7",
-    "fibrous-router-sdk": "0.4.3",
+    "fibrous-router-sdk": "^1.0.1",
     "starknet": "8.6.0",
     "winston": "^3.17.0",
     "zod": "^3.24.2"

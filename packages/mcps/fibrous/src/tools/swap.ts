@@ -1,11 +1,10 @@
-import { Account, Call, constants } from 'starknet';
+import { Account, Call } from 'starknet';
 import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 import { ApprovalService } from './approval.js';
 
 import { SLIPPAGE_PERCENTAGE } from '../lib/constants/index.js';
 import { TokenService } from './fetchTokens.js';
 import { Router as FibrousRouter } from 'fibrous-router-sdk';
-import { BigNumber } from '@ethersproject/bignumber';
 import { SwapResult, SwapParams } from '../lib/types/index.js';
 import { getV3DetailsPayload } from '../lib/utils/utils.js';
 import { ContractInteractor } from '../lib/utils/contractInteractor.js';
@@ -46,51 +45,51 @@ export class SwapService {
         params.buyTokenSymbol
       );
 
-      const formattedAmount = BigNumber.from(
-        contractInteractor.formatTokenAmount(
-          params.sellAmount.toString(),
-          sellToken.decimals
-        )
+      const formattedAmount = contractInteractor.formatTokenAmount(
+        params.sellAmount.toString(),
+        Number(sellToken.decimals)
       );
-      const route = await this.router.getBestRoute(
-        BigNumber.from(formattedAmount.toString()),
-        sellToken.address,
-        buyToken.address,
-        'starknet'
-      );
+      
+      const route = await this.router.getBestRoute({
+        amount: formattedAmount,
+        tokenInAddress: sellToken.address,
+        tokenOutAddress: buyToken.address,
+        chainName: 'starknet'
+      });
 
       if (!route?.success) {
         throw new Error('No routes available for this swap');
       }
 
       const destinationAddress = account.address; // !!! Destination address is the address of the account that will receive the tokens might be the any address
-      const swapCall = await this.router.buildTransaction(
-        formattedAmount,
-        sellToken.address,
-        buyToken.address,
-        SLIPPAGE_PERCENTAGE,
-        destinationAddress,
-        'starknet'
-      );
+      const swapCall = await this.router.buildTransaction({
+        inputAmount: formattedAmount,
+        tokenInAddress: sellToken.address,
+        tokenOutAddress: buyToken.address,
+        slippage: SLIPPAGE_PERCENTAGE,
+        destination: destinationAddress,
+        chainName: 'starknet'
+      });
 
       if (!swapCall) {
         throw new Error('Calldata not available for this swap');
       }
 
+      const routerAddress = await this.router.getRouterAddress('starknet');
       const approveCalldata =
         await this.approvalService.checkAndGetApproveToken(
           account,
           sellToken.address,
-          this.router.STARKNET_ROUTER_ADDRESS,
-          formattedAmount.toString()
+          routerAddress,
+          formattedAmount
         );
 
       let calldata: Call[] = [];
 
       if (approveCalldata) {
-        calldata = [approveCalldata, swapCall];
+        calldata = [approveCalldata, swapCall as Call];
       } else {
-        calldata = [swapCall];
+        calldata = [swapCall as Call];
       }
 
       const swapResult = await account.execute(calldata, getV3DetailsPayload());
