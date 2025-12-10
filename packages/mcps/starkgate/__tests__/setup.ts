@@ -4,4 +4,4 @@ import { dirname, resolve } from 'path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-config({ path: resolve(__dirname, '../.env') });
+config({ path: resolve(__dirname, '../../../../.env') });

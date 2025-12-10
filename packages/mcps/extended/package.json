@@ -10,13 +10,7 @@
     "build": "tsc && chmod 755 build/index.js",
     "clean": "rm -rf build",
     "clean:all": "rm -rf build node_modules",
-    "start": "node build/index.js",
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
-    "test:e2e": "NODE_OPTIONS=--experimental-vm-modules jest __tests__/e2e",
-    "test:read:account": "NODE_OPTIONS=--experimental-vm-modules jest __tests__/e2e/read_account_management.e2e.test.ts",
-    "test:read:market": "NODE_OPTIONS=--experimental-vm-modules jest __tests__/e2e/read_market_data.e2e.test.ts",
-    "test:read:bridge": "NODE_OPTIONS=--experimental-vm-modules jest __tests__/e2e/read_bridge.e2e.test.ts",
-    "test:write:trading": "NODE_OPTIONS=--experimental-vm-modules jest __tests__/e2e/write_trading.e2e.test.ts"
+    "start": "node build/index.js"
   },
   "files": [
     "build"

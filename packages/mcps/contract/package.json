@@ -10,9 +10,7 @@
     "build": "tsc && chmod 755 build/index.js",
     "clean": "rm -rf build",
     "clean:all": "rm -rf build node_modules",
-    "start": "node build/index.js",
-    "test": "jest",
-    "test:e2e": "jest __tests__/e2e"
+    "start": "node build/index.js"
   },
   "files": [
     "build"

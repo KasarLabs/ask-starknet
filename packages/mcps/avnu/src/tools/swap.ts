@@ -140,7 +140,7 @@ export class SwapService {
     const transactionMonitor = new TransactionMonitor(this.env.provider);
     const receipt = await transactionMonitor.waitForTransaction(
       txHash,
-      (status) => console.error('Swap status:', status)
+      (status) => console.info('Swap status:', status)
     );
 
     const events = await transactionMonitor.getTransactionEvents(txHash);

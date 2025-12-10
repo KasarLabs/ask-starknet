@@ -56,10 +56,10 @@ describe('OKX E2E Tests', () => {
       expect(contractAddress.startsWith('0x')).toBe(true);
     });
 
-    it('should transfer 0.005 STRK to the created account and verify balance', async () => {
+    it('should transfer 0.015 STRK to the created account and verify balance', async () => {
       const onchainRead = getOnchainRead();
       const onchainWrite = getOnchainWrite();
-      const transferAmount = '0.005';
+      const transferAmount = '0.015';
 
       const balanceBefore = await getERC20Balance(
         onchainRead.provider,

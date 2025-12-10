@@ -57,10 +57,10 @@ describe('OpenZeppelin E2E Tests', () => {
       expect(contractAddress.startsWith('0x')).toBe(true);
     });
 
-    it('should transfer 0.005 STRK to the created account and verify balance', async () => {
+    it('should transfer 0.015 STRK to the created account and verify balance', async () => {
       const onchainRead = getOnchainRead();
       const onchainWrite = getOnchainWrite();
-      const transferAmount = '0.005';
+      const transferAmount = '0.015';
 
       // Get initial balance of the created account
       const balanceBefore = await getERC20Balance(
@@ -90,6 +90,7 @@ describe('OpenZeppelin E2E Tests', () => {
         STRK_ADDRESS,
         contractAddress
       );
+      console.info('Balance after transfer:', contractAddress);
 
       const transferAmountBigInt = parseFormattedBalance(
         transferAmount,
