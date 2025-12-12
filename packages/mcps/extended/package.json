@@ -28,7 +28,7 @@
     "dotenv": "^16.4.7",
     "json-custom-numbers": "^3.1.1",
     "lodash-es": "^4.17.21",
-    "starknet": "8.6.0",
+    "starknet": "~8.9.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {
