@@ -61,8 +61,8 @@ importers:
   packages/core:
     dependencies:
       starknet:
-        specifier: 8.6.0
-        version: 8.6.0
+        specifier: ^8.9.0
+        version: 8.9.1
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -130,7 +130,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.75
-        version: 0.3.75(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(ws@7.5.10(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: 1.22.0
         version: 1.22.0(@cfworker/json-schema@4.1.1)
@@ -138,8 +138,8 @@ importers:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: 8.6.0
-        version: 8.6.0
+        specifier: ^8.9.0
+        version: 8.9.1
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -161,7 +161,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.75(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(ws@7.5.10(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: 1.22.0
         version: 1.22.0(@cfworker/json-schema@4.1.1)
@@ -172,8 +172,8 @@ importers:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: 8.6.0
-        version: 8.6.0
+        specifier: ^8.9.0
+        version: 8.9.1
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -192,13 +192,13 @@ importers:
     dependencies:
       '@avnu/avnu-sdk':
         specifier: ^3.1.1
-        version: 3.1.1(ethers@6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(moment@2.30.1)(qs@6.14.0)(starknet@8.6.0)
+        version: 3.1.1(ethers@6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(moment@2.30.1)(qs@6.14.0)(starknet@8.9.1)
       '@kasarlabs/ask-starknet-core':
         specifier: workspace:*
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.75
-        version: 0.3.75(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(ws@7.5.10(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: 1.22.0
         version: 1.22.0(@cfworker/json-schema@4.1.1)
@@ -206,8 +206,8 @@ importers:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: 8.6.0
-        version: 8.6.0
+        specifier: ^8.9.0
+        version: 8.9.1
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -229,7 +229,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.75
-        version: 0.3.75(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(ws@7.5.10(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: 1.22.0
         version: 1.22.0(@cfworker/json-schema@4.1.1)
@@ -237,8 +237,8 @@ importers:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: 8.6.0
-        version: 8.6.0
+        specifier: ^8.9.0
+        version: 8.9.1
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -296,8 +296,8 @@ importers:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: 8.6.0
-        version: 8.6.0
+        specifier: ^8.9.0
+        version: 8.9.1
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -327,8 +327,8 @@ importers:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: 8.6.0
-        version: 8.6.0
+        specifier: ^8.9.0
+        version: 8.9.1
       zod:
         specifier: ^3.24.2
         version: 3.25.76
@@ -352,8 +352,8 @@ importers:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: 8.6.0
-        version: 8.6.0
+        specifier: ^8.9.0
+        version: 8.9.1
       zod:
         specifier: ^3.24.2
         version: 3.25.76
@@ -372,7 +372,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.75(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(ws@7.5.10(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: 1.22.0
         version: 1.22.0(@cfworker/json-schema@4.1.1)
@@ -380,8 +380,8 @@ importers:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: 8.6.0
-        version: 8.6.0
+        specifier: ^8.9.0
+        version: 8.9.1
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -403,7 +403,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.75(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(ws@7.5.10(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: 1.22.0
         version: 1.22.0(@cfworker/json-schema@4.1.1)
@@ -411,8 +411,8 @@ importers:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: 8.6.0
-        version: 8.6.0
+        specifier: ^8.9.0
+        version: 8.9.1
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -457,8 +457,8 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       starknet:
-        specifier: 8.6.0
-        version: 8.6.0
+        specifier: ^8.9.0
+        version: 8.9.1
       zod:
         specifier: ^3.24.2
         version: 3.25.76
@@ -483,7 +483,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.75(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(ws@7.5.10(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: 1.22.0
         version: 1.22.0(@cfworker/json-schema@4.1.1)
@@ -494,8 +494,8 @@ importers:
         specifier: 0.4.3
         version: 0.4.3(bufferutil@4.0.9)(encoding@0.1.13)(utf-8-validate@5.0.10)
       starknet:
-        specifier: 8.6.0
-        version: 8.6.0
+        specifier: ^8.9.0
+        version: 8.9.1
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -517,7 +517,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.75
-        version: 0.3.75(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(ws@7.5.10(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: ^1.11.2
         version: 1.22.0(@cfworker/json-schema@4.1.1)
@@ -563,6 +563,58 @@ importers:
         specifier: ^5.8.2
         version: 5.9.2
 
+  packages/mcps/mist-cash:
+    dependencies:
+      '@jest/globals':
+        specifier: ^30.2.0
+        version: 30.2.0
+      '@kasarlabs/ask-starknet-core':
+        specifier: workspace:*
+        version: link:../../core
+      '@langchain/core':
+        specifier: ^0.3.42
+        version: 0.3.75(openai@5.12.2(ws@7.5.10(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
+      '@mistcash/config':
+        specifier: ^0.2.2
+        version: 0.2.2
+      '@mistcash/crypto':
+        specifier: ^0.2.2
+        version: 0.2.2
+      '@mistcash/sdk':
+        specifier: ^0.2.2
+        version: 0.2.2
+      '@modelcontextprotocol/sdk':
+        specifier: ^1.11.2
+        version: 1.22.0(@cfworker/json-schema@4.1.1)
+      dotenv:
+        specifier: ^16.4.7
+        version: 16.5.0
+      starknet:
+        specifier: ^8.9.0
+        version: 8.9.1
+      winston:
+        specifier: ^3.17.0
+        version: 3.17.0
+      zod:
+        specifier: ^3.24.2
+        version: 3.25.76
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.5.12
+        version: 29.5.14
+      '@types/node':
+        specifier: ^22.13.10
+        version: 22.15.17
+      jest:
+        specifier: ^29.7.0
+        version: 29.7.0(@types/node@22.15.17)
+      ts-jest:
+        specifier: ^29.1.2
+        version: 29.4.5(@babel/core@7.28.4)(@jest/transform@30.2.0)(@jest/types@30.2.0)(babel-jest@29.7.0(@babel/core@7.28.4))(jest-util@30.2.0)(jest@29.7.0(@types/node@22.15.17))(typescript@5.9.2)
+      typescript:
+        specifier: ^5.8.2
+        version: 5.9.2
+
   packages/mcps/okx:
     dependencies:
       '@kasarlabs/ask-starknet-core':
@@ -570,7 +622,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.75
-        version: 0.3.75(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(ws@7.5.10(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: 1.22.0
         version: 1.22.0(@cfworker/json-schema@4.1.1)
@@ -578,8 +630,8 @@ importers:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: 8.6.0
-        version: 8.6.0
+        specifier: ^8.9.0
+        version: 8.9.1
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -601,7 +653,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.75(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(ws@7.5.10(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: 1.22.0
         version: 1.22.0(@cfworker/json-schema@4.1.1)
@@ -609,8 +661,8 @@ importers:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: 8.6.0
-        version: 8.6.0
+        specifier: ^8.9.0
+        version: 8.9.1
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -632,7 +684,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.75(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(ws@7.5.10(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: 1.22.0
         version: 1.22.0(@cfworker/json-schema@4.1.1)
@@ -643,8 +695,8 @@ importers:
         specifier: ^6.15.0
         version: 6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       starknet:
-        specifier: 8.6.0
-        version: 8.6.0
+        specifier: ^8.9.0
+        version: 8.9.1
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -720,8 +772,8 @@ importers:
         specifier: ^6.13.4
         version: 6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       starknet:
-        specifier: 8.6.0
-        version: 8.6.0
+        specifier: ^8.9.0
+        version: 8.9.1
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -774,7 +826,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.75(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(ws@7.5.10(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: 1.22.0
         version: 1.22.0(@cfworker/json-schema@4.1.1)
@@ -782,8 +834,8 @@ importers:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: 8.6.0
-        version: 8.6.0
+        specifier: ^8.9.0
+        version: 8.9.1
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -805,7 +857,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.75(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(ws@7.5.10(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: 1.22.0
         version: 1.22.0(@cfworker/json-schema@4.1.1)
@@ -813,8 +865,8 @@ importers:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: 8.6.0
-        version: 8.6.0
+        specifier: ^8.9.0
+        version: 8.9.1
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -836,7 +888,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.75
-        version: 0.3.75(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(ws@7.5.10(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: 1.22.0
         version: 1.22.0(@cfworker/json-schema@4.1.1)
@@ -864,7 +916,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.75(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(ws@7.5.10(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: 1.22.0
         version: 1.22.0(@cfworker/json-schema@4.1.1)
@@ -872,8 +924,8 @@ importers:
         specifier: ^16.4.7
         version: 16.5.0
       starknet:
-        specifier: 8.6.0
-        version: 8.6.0
+        specifier: ^8.9.0
+        version: 8.9.1
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -898,7 +950,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.75(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
+        version: 0.3.75(openai@5.12.2(ws@7.5.10(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: 1.22.0
         version: 1.22.0(@cfworker/json-schema@4.1.1)
@@ -909,8 +961,8 @@ importers:
         specifier: ^6.13.5
         version: 6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       starknet:
-        specifier: 8.6.0
-        version: 8.6.0
+        specifier: ^8.9.0
+        version: 8.9.1
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -2046,17 +2098,33 @@ packages:
     resolution: {integrity: sha512-aQIfHDq33ExsN4jP1NWGXhxgQ/wixs60gDiKO+XVMd8Mn0NWPWgc34ZQDTb2jKaUWQ7MuwoitXAsN2XVXNMpAw==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
+  '@jest/environment@30.2.0':
+    resolution: {integrity: sha512-/QPTL7OBJQ5ac09UDRa3EQes4gt1FTEG/8jZ/4v5IVzx+Cv7dLxlVIvfvSVRiiX2drWyXeBjkMSR8hvOWSog5g==}
+    engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
+
   '@jest/expect-utils@29.7.0':
     resolution: {integrity: sha512-GlsNBWiFQFCVi9QVSx7f5AgMeLxe9YCCs5PuP2O2LdjDAA8Jh9eX7lA1Jq/xdXw3Wb3hyvlFNfZIfcRetSzYcA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+
+  '@jest/expect-utils@30.2.0':
+    resolution: {integrity: sha512-1JnRfhqpD8HGpOmQp180Fo9Zt69zNtC+9lR+kT7NVL05tNXIi+QC8Csz7lfidMoVLPD3FnOtcmp0CEFnxExGEA==}
+    engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
 
   '@jest/expect@29.7.0':
     resolution: {integrity: sha512-8uMeAMycttpva3P1lBHB8VciS9V0XAr3GymPpipdyQXbBcuhkLQOSe8E/p92RyAdToS6ZD1tFkX+CkhoECE0dQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
+  '@jest/expect@30.2.0':
+    resolution: {integrity: sha512-V9yxQK5erfzx99Sf+7LbhBwNWEZ9eZay8qQ9+JSC0TrMR1pMDHLMY+BnVPacWU6Jamrh252/IKo4F1Xn/zfiqA==}
+    engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
+
   '@jest/fake-timers@29.7.0':
     resolution: {integrity: sha512-q4DH1Ha4TTFPdxLsqDXK1d3+ioSL7yL5oCMJZgDYm6i+6CygW5E5xVr/D1HdsGxjt1ZWSfUAs9OxSB/BNelWrQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+
+  '@jest/fake-timers@30.2.0':
+    resolution: {integrity: sha512-HI3tRLjRxAbBy0VO8dqqm7Hb2mIa8d5bg/NJkyQcOk7V118ObQML8RC5luTF/Zsg4474a+gDvhce7eTnP4GhYw==}
+    engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
 
   '@jest/get-type@30.1.0':
     resolution: {integrity: sha512-eMbZE2hUnx1WV0pmURZY9XoXPkUYjpc55mb0CrhtdWLtzMQPFvu/rZkTLZFTsdaVQa+Tr4eWAteqcUzoawq/uA==}
@@ -2065,6 +2133,14 @@ packages:
   '@jest/globals@29.7.0':
     resolution: {integrity: sha512-mpiz3dutLbkW2MNFubUGUEVLkTGiqW6yLVTA+JbP6fI6J5iL9Y0Nlg8k95pcF8ctKwCS7WVxteBs29hhfAotzQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+
+  '@jest/globals@30.2.0':
+    resolution: {integrity: sha512-b63wmnKPaK+6ZZfpYhz9K61oybvbI1aMcIs80++JI1O1rR1vaxHUCNqo3ITu6NU0d4V34yZFoHMn/uoKr/Rwfw==}
+    engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
+
+  '@jest/pattern@30.0.1':
+    resolution: {integrity: sha512-gWp7NfQW27LaBQz3TITS8L7ZCQ0TLvtmI//4OwlQRx4rnWxcPNIYjxZpDcN4+UlGxgm3jS5QPz8IPTCkb59wZA==}
+    engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
 
   '@jest/reporters@29.7.0':
     resolution: {integrity: sha512-DApq0KJbJOEzAFYjHADNNxAE3KbhxQB1y5Kplb5Waqw6zVbuWatSnMjE5gs8FUgEPmNsnZA3NCWl9NG0ia04Pg==}
@@ -2083,6 +2159,10 @@ packages:
     resolution: {integrity: sha512-DmdYgtezMkh3cpU8/1uyXakv3tJRcmcXxBOcO0tbaozPwpmh4YMsnWrQm9ZmZMfa5ocbxzbFk6O4bDPEc/iAnA==}
     engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
 
+  '@jest/snapshot-utils@30.2.0':
+    resolution: {integrity: sha512-0aVxM3RH6DaiLcjj/b0KrIBZhSX1373Xci4l3cW5xiUWPctZ59zQ7jj4rqcJQ/Z8JuN/4wX3FpJSa3RssVvCug==}
+    engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
+
   '@jest/source-map@29.6.3':
     resolution: {integrity: sha512-MHjT95QuipcPrpLM+8JMSzFx6eHp5Bm+4XeFDJlwsvVBjmKNiIAvasGK2fxz2WbGRlnvqehFbh07MMa7n3YJnw==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -2099,9 +2179,17 @@ packages:
     resolution: {integrity: sha512-ok/BTPFzFKVMwO5eOHRrvnBVHdRy9IrsrW1GpMaQ9MCnilNLXQKmAX8s1YXDFaai9xJpac2ySzV0YeRRECr2Vw==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
+  '@jest/transform@30.2.0':
+    resolution: {integrity: sha512-XsauDV82o5qXbhalKxD7p4TZYYdwcaEXC77PPD2HixEFF+6YGppjrAAQurTl2ECWcEomHBMMNS9AH3kcCFx8jA==}
+    engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
+
   '@jest/types@29.6.3':
     resolution: {integrity: sha512-u3UPsIilWKOM3F9CXtrG8LEJmNxwoCQC/XVj4IKYXvvpx7QIi/Kg1LI5uDmDpKlac62NUtX7eLjRh+jVZcLOzw==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+
+  '@jest/types@30.2.0':
+    resolution: {integrity: sha512-H9xg1/sfVvyfU7o3zMfBEjQ1gcsdeTMgqHoYdN79tuLqfTtuu7WckRA1R5whDwOzxaZAeMKTYWqP+WCAi0CHsg==}
+    engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
 
   '@jridgewell/gen-mapping@0.3.13':
     resolution: {integrity: sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA==}
@@ -2604,6 +2692,15 @@ packages:
       '@nomicfoundation/hardhat-verify': ^2.0.8
       hardhat: ^2.22.5
 
+  '@mistcash/config@0.2.2':
+    resolution: {integrity: sha512-kdWbF2DM9/EEchmLTfeFrbpychL8XsmlT++jACQtC5qrgDccHbtbCMNc+l9Y4zCsaZScVXTEBbZatYzv6pclVA==}
+
+  '@mistcash/crypto@0.2.2':
+    resolution: {integrity: sha512-8C5FDdIolcdaQh4Cjj+/UwQHYWTHriTZgf62mhSXgARTW6l1KSQWW+WAgrNwOGz0AIWWE+4BAU6VGtC4dTF24w==}
+
+  '@mistcash/sdk@0.2.2':
+    resolution: {integrity: sha512-iYCq12uN3Bkli1tS9nMT5h5QlmL4KawLty1aEY3XaLApAhoda0BGONU/xokKNFp1Ab/ZRm1TbcN9lM2zi4AYaA==}
+
   '@modelcontextprotocol/sdk@1.17.5':
     resolution: {integrity: sha512-QakrKIGniGuRVfWBdMsDea/dx1PNE739QJ7gCM41s9q+qaCYTHCdsIBXQVVXry3mfWAiaM9kT22Hyz53Uw8mfg==}
     engines: {node: '>=18'}
@@ -3040,6 +3137,10 @@ packages:
 
   '@pkgr/core@0.2.4':
     resolution: {integrity: sha512-ROFF39F6ZrnzSUEmQQZUar0Jt4xVoP9WnDRdWwF4NNcXs3xBTLgBUDoOwW141y1jP+S8nahIbdxbFC7IShw9Iw==}
+    engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
+
+  '@pkgr/core@0.2.9':
+    resolution: {integrity: sha512-QNqXyfVS2wm9hweSYD2O7F0G06uurj9kZ96TRQE5Y9hU7+tgdZwIkbAKc5Ocy1HxEY2kuDQa6cQ1WRs/O5LFKA==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
 
   '@playwright/test@1.55.0':
@@ -4195,6 +4296,10 @@ packages:
     resolution: {integrity: sha512-Y1IQok9821cC9onCx5otgFfRm7Lm+I+wwxOx738M/WLPZ9Q42m4IG5W0FNX8WLL2gYMZo3JkuXIH2DOpWM+qwA==}
     engines: {node: '>=8'}
 
+  babel-plugin-istanbul@7.0.1:
+    resolution: {integrity: sha512-D8Z6Qm8jCvVXtIRkBnqNHX0zJ37rQcFJ9u8WOS6tkYOsRdHBzypCstaxWiu5ZIlqQtviRYbgnRLSoCEvjqcqbA==}
+    engines: {node: '>=12'}
+
   babel-plugin-jest-hoist@29.6.3:
     resolution: {integrity: sha512-ESAc/RJvGTFEzRwOTT4+lNDk/GNHMkKbNzsvT0qKRfDyyYTskxB5rnU2njIDYVxXCBHHEI1c0YwHob3WaYujOg==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -4320,6 +4425,10 @@ packages:
     resolution: {integrity: sha512-ECFzp6uFOSB+dcZ5BK/IBaGWssbSYBHvuMeMt3MMFyhI0Z8SqGgEkBLARgpRH3hutIgPVsALcMwbDrJqPxQ65A==}
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
+
+  bs-logger@0.2.6:
+    resolution: {integrity: sha512-pd8DCoxmbgc7hyPKOvxtqNcjYoOsABPQdcCUjGp3d42VR2CX1ORhk2A87oqqu5R1kk+76nsxZupkmyd+MVtCog==}
+    engines: {node: '>= 6'}
 
   bs58@4.0.1:
     resolution: {integrity: sha512-Ok3Wdf5vOIlBrgCvTq96gBkJw+JUEzdBgyaza5HLtPm7yTHkjRy8+JzNyHF7BHa0bNWOQIp3m5YF0nnFcOIKLw==}
@@ -5166,6 +5275,10 @@ packages:
     resolution: {integrity: sha512-2Zks0hf1VLFYI1kbh0I5jP3KHHyCHpkfyHBzsSXRFgl/Bg9mWYfMW8oD+PdMPlEwy5HNsR9JutYy6pMeOh61nw==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
+  expect@30.2.0:
+    resolution: {integrity: sha512-u/feCi0GPsI+988gU2FLcsHyAHTU0MX1Wg68NhAnN7z/+C5wqG+CY8J53N9ioe8RXgaoz0nBR/TYMf3AycUuPw==}
+    engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
+
   exponential-backoff@3.1.3:
     resolution: {integrity: sha512-ZgEeZXj30q+I0EN+CbSSpIyPaJ5HVQD18Z1m+u1FXbAeT94mr1zw50q4q6jiiC447Nl/YTcIYSAftiGqetwXCA==}
 
@@ -5414,6 +5527,9 @@ packages:
 
   function-bind@1.1.2:
     resolution: {integrity: sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==}
+
+  garaga@0.18.2:
+    resolution: {integrity: sha512-pf/IWXx5lXbhAQBG9z/gp4HdC1q96pX2Q+KflfCjz2qqeMhkUSxx4e87sJq7ubSubc3aZuX3k285aGO03iDUvw==}
 
   gensync@1.0.0-beta.2:
     resolution: {integrity: sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==}
@@ -6005,6 +6121,10 @@ packages:
     resolution: {integrity: sha512-fP8u2pyfqx0K1rGn1R9pyE0/KTn+G7PxktWidOBTqFPLYX0b9ksaMFkhK5vrS3DVun09pckLdlx90QthlW7AmA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
+  jest-haste-map@30.2.0:
+    resolution: {integrity: sha512-sQA/jCb9kNt+neM0anSj6eZhLZUIhQgwDt7cPGjumgLM4rXsfb9kpnlacmvZz3Q5tb80nS+oG/if+NBKrHC+Xw==}
+    engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
+
   jest-leak-detector@29.7.0:
     resolution: {integrity: sha512-kYA8IJcSYtST2BY9I+SMC32nDpBT3J2NvWJx8+JCuCdl/CR1I4EKUJROiP8XtCcxqgTTBGJNdbB1A8XRKbTetw==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -6013,13 +6133,25 @@ packages:
     resolution: {integrity: sha512-sBkD+Xi9DtcChsI3L3u0+N0opgPYnCRPtGcQYrgXmR+hmt/fYfWAL0xRXYU8eWOdfuLgBe0YCW3AFtnRLagq/g==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
+  jest-matcher-utils@30.2.0:
+    resolution: {integrity: sha512-dQ94Nq4dbzmUWkQ0ANAWS9tBRfqCrn0bV9AMYdOi/MHW726xn7eQmMeRTpX2ViC00bpNaWXq+7o4lIQ3AX13Hg==}
+    engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
+
   jest-message-util@29.7.0:
     resolution: {integrity: sha512-GBEV4GRADeP+qtB2+6u61stea8mGcOT4mCtrYISZwfu9/ISHFJ/5zOMXYbpBE9RsS5+Gb63DW4FgmnKJ79Kf6w==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
+  jest-message-util@30.2.0:
+    resolution: {integrity: sha512-y4DKFLZ2y6DxTWD4cDe07RglV88ZiNEdlRfGtqahfbIjfsw1nMCPx49Uev4IA/hWn3sDKyAnSPwoYSsAEdcimw==}
+    engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
+
   jest-mock@29.7.0:
     resolution: {integrity: sha512-ITOMZn+UkYS4ZFh83xYAOzWStloNzJFO2s8DWrE4lhtGD+AorgnbkiKERe4wQVBydIGPx059g6riW5Btp6Llnw==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+
+  jest-mock@30.2.0:
+    resolution: {integrity: sha512-JNNNl2rj4b5ICpmAcq+WbLH83XswjPbjH4T7yvGzfAGCPh1rw+xVNbtk+FnRslvt9lkCcdn9i1oAoKUuFsOxRw==}
+    engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
 
   jest-pnp-resolver@1.2.3:
     resolution: {integrity: sha512-+3NpwQEnRoIBtx4fyhblQDPgJI0H1IEIkX7ShLUjPGA7TtUTvI1oiKi3SR4oBR0hQhQR80l4WAe5RrXBwWMA8w==}
@@ -6033,6 +6165,10 @@ packages:
   jest-regex-util@29.6.3:
     resolution: {integrity: sha512-KJJBsRCyyLNWCNBOvZyRDnAIfUiRJ8v+hOBQYGn8gDyF3UegwiP4gwRR3/SDa42g1YbVycTidUF3rKjyLFDWbg==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+
+  jest-regex-util@30.0.1:
+    resolution: {integrity: sha512-jHEQgBXAgc+Gh4g0p3bCevgRCVRkB4VB70zhoAE48gxeSr1hfUOsM/C2WoJgVL7Eyg//hudYENbm3Ne+/dRVVA==}
+    engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
 
   jest-resolve-dependencies@29.7.0:
     resolution: {integrity: sha512-un0zD/6qxJ+S0et7WxeI3H5XSe9lTBBR7bOHCHXkKR6luG5mwDDlIzVQ0V5cZCuoTgEdcdwzTghYkTWfubi+nA==}
@@ -6054,9 +6190,17 @@ packages:
     resolution: {integrity: sha512-Rm0BMWtxBcioHr1/OX5YCP8Uov4riHvKPknOGs804Zg9JGZgmIBkbtlxJC/7Z4msKYVbIJtfU+tKb8xlYNfdkw==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
+  jest-snapshot@30.2.0:
+    resolution: {integrity: sha512-5WEtTy2jXPFypadKNpbNkZ72puZCa6UjSr/7djeecHWOu7iYhSXSnHScT8wBz3Rn8Ena5d5RYRcsyKIeqG1IyA==}
+    engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
+
   jest-util@29.7.0:
     resolution: {integrity: sha512-z6EbKajIpqGKU56y5KBUgy1dt1ihhQJgWzUlZHArA/+X2ad7Cb5iF+AK1EWVL/Bo7Rz9uurpqw6SiBCefUbCGA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+
+  jest-util@30.2.0:
+    resolution: {integrity: sha512-QKNsM0o3Xe6ISQU869e+DhG+4CK/48aHYdJZGlFQVTjnbvgpcKyxpzk29fGiO7i/J8VENZ+d2iGnSsvmuHywlA==}
+    engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
 
   jest-validate@29.7.0:
     resolution: {integrity: sha512-ZB7wHqaRGVw/9hST/OuFUReG7M8vKeq0/J2egIGLdvjHCmYqGARhzXmtgi+gVeZ5uXFF219aOc3Ls2yLg27tkw==}
@@ -6069,6 +6213,10 @@ packages:
   jest-worker@29.7.0:
     resolution: {integrity: sha512-eIz2msL/EzL9UFTFFx7jBTkeZfku0yUAyZZZmJ93H2TYEiroIx2PQjEXcwYtYl8zXCxb+PAmA2hLIt/6ZEkPHw==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+
+  jest-worker@30.2.0:
+    resolution: {integrity: sha512-0Q4Uk8WF7BUwqXHuAjc23vmopWJw5WH7w2tqBoUOZpOjW/ZnR44GXXd1r82RvnmI2GZge3ivrYXk/BE2+VtW2g==}
+    engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
 
   jest@29.7.0:
     resolution: {integrity: sha512-NIy3oAFp9shda19hy4HK0HRTWKtPJmGdnvywu01nOqNC2vZg+Z+fvJDxpMQA88eb2I9EcafcdjYgsDthnYTvGw==}
@@ -6380,6 +6528,9 @@ packages:
   lodash.isstring@4.0.1:
     resolution: {integrity: sha512-0wJxfxH1wgO3GrbuP+dTTk7op+6L41QCXbGINEmD+ny/G/eCqGzxyCsh7159S+mgDDcoarnBw6PC1PS5+wUGgw==}
 
+  lodash.memoize@4.1.2:
+    resolution: {integrity: sha512-t7j+NzmgnQzTAYXcsHYLgimltOV1MXHtlOWf6GjL9Kj8GK5FInw5JotxvbOs+IvV1/Dzo04/fCGfLVs7aXb4Ag==}
+
   lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
 
@@ -6442,6 +6593,9 @@ packages:
   make-dir@4.0.0:
     resolution: {integrity: sha512-hXdUTZYIVOt1Ex//jAQi+wTZZpUpwBj/0QsOzqegb3rGMMeJiSEu5xLHnYfBrRV4RH2+OCSOO95Is/7x1WJ4bw==}
     engines: {node: '>=10'}
+
+  make-error@1.3.6:
+    resolution: {integrity: sha512-s8UhlNe7vPKomQhC1qFelMokr/Sc3AgNbso3n74mVPA5LTZwkB9NlXf4XPamLxJE8h0gh73rM94xvwRT2CVInw==}
 
   make-fetch-happen@14.0.3:
     resolution: {integrity: sha512-QMjGbFTP0blj97EeidG5hk/QhKQ3T4ICckQGLgz38QF7Vgbk6e6FTARN8KhKxyBbWn8R0HU+bnw8aSoFPD4qtQ==}
@@ -7730,8 +7884,8 @@ packages:
     resolution: {integrity: sha512-FB20IaLCDbh/XomkB+19f5jmNxG+RzNdRO7QUhm7nfH81UPIt2C/MyWAlHCYkbv2wznSEb73wpxbp9tytokTgQ==}
     engines: {node: '>=22'}
 
-  starknet@8.6.0:
-    resolution: {integrity: sha512-5rDiJPnc3GpH7KA8B/TqCzKgdpZbxaA52clf/OEhDKhMbbJpWeRcDqKKC8u+kFD9Nd/Rt6y2hwmZ32u82Ycurg==}
+  starknet@8.9.1:
+    resolution: {integrity: sha512-8ybImGx182WyVg2FeM4VwGZYCucFEVD8nsQd1U7oLckWqNE8ivE6Cbn2XDfmg7bxgLvpi/oluFAAPI/RRgOg6Q==}
     engines: {node: '>=22'}
 
   statuses@2.0.1:
@@ -7826,6 +7980,10 @@ packages:
   symbol-observable@2.0.3:
     resolution: {integrity: sha512-sQV7phh2WCYAn81oAkakC5qjq2Ml0g8ozqz03wOGnx9dDlG1de6yrF+0RAzSJD8fPUow3PTSMf2SAbOGxb93BA==}
     engines: {node: '>=0.10'}
+
+  synckit@0.11.11:
+    resolution: {integrity: sha512-MeQTA1r0litLUf0Rp/iisCaL8761lKAZHaimlbGK4j0HysC4PLfqygQj9srcs0m2RdtDYnF8UuYyKpbjHYp7Jw==}
+    engines: {node: ^14.18.0 || >=16.0.0}
 
   synckit@0.11.4:
     resolution: {integrity: sha512-Q/XQKRaJiLiFIBNN+mndW7S/RHxvwzuZS6ZwmRzUBqJBv/5QIKCEwkBC8GBf8EQJKYnaFs0wOZbKTXBPj8L9oQ==}
@@ -7967,6 +8125,33 @@ packages:
   ts-error@1.0.6:
     resolution: {integrity: sha512-tLJxacIQUM82IR7JO1UUkKlYuUTmoY9HBJAmNWFzheSlDS5SPMcNIepejHJa4BpPQLAcbRhRf3GDJzyj6rbKvA==}
 
+  ts-jest@29.4.5:
+    resolution: {integrity: sha512-HO3GyiWn2qvTQA4kTgjDcXiMwYQt68a1Y8+JuLRVpdIzm+UOLSHgl/XqR4c6nzJkq5rOkjc02O2I7P7l/Yof0Q==}
+    engines: {node: ^14.15.0 || ^16.10.0 || ^18.0.0 || >=20.0.0}
+    hasBin: true
+    peerDependencies:
+      '@babel/core': '>=7.0.0-beta.0 <8'
+      '@jest/transform': ^29.0.0 || ^30.0.0
+      '@jest/types': ^29.0.0 || ^30.0.0
+      babel-jest: ^29.0.0 || ^30.0.0
+      esbuild: '*'
+      jest: ^29.0.0 || ^30.0.0
+      jest-util: ^29.0.0 || ^30.0.0
+      typescript: '>=4.3 <6'
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
+      '@jest/transform':
+        optional: true
+      '@jest/types':
+        optional: true
+      babel-jest:
+        optional: true
+      esbuild:
+        optional: true
+      jest-util:
+        optional: true
+
   ts-mixer@6.0.4:
     resolution: {integrity: sha512-ufKpbmrugz5Aou4wcr5Wc1UUFWOLhq+Fm6qa6P0w0K5Qw2yhaUoiWszhCVuNQyNwrlGiscHOmqYoAox1PtvgjA==}
 
@@ -8079,6 +8264,10 @@ packages:
   type-fest@0.8.1:
     resolution: {integrity: sha512-4dbzIzqvjtgiM5rw1k5rEHtBANKmdudhGyBEajN01fEyhaAIhsoKNy6y7+IN93IfpFtwY9iqi7kD+xwKhQsNJA==}
     engines: {node: '>=8'}
+
+  type-fest@4.41.0:
+    resolution: {integrity: sha512-TeTSQ6H5YHvpqVwBRcnLDCBnDOHWYu7IvGbHT6N8AOymcr9PJGjc1GTtiWZTYg0NCgYwvnYWEkVChQAr9bjfwA==}
+    engines: {node: '>=16'}
 
   type-is@2.0.1:
     resolution: {integrity: sha512-OZs6gsjF4vMp32qrCbiVSkrFmXtG/AZhY3t0iAMrMBiAZyV9oALtXO8hsrHbMXF9x6L3grlFuwW2oAz7cav+Gw==}
@@ -8621,12 +8810,12 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@avnu/avnu-sdk@3.1.1(ethers@6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(moment@2.30.1)(qs@6.14.0)(starknet@8.6.0)':
+  '@avnu/avnu-sdk@3.1.1(ethers@6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(moment@2.30.1)(qs@6.14.0)(starknet@8.9.1)':
     dependencies:
       ethers: 6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       moment: 2.30.1
       qs: 6.14.0
-      starknet: 8.6.0
+      starknet: 8.9.1
 
   '@aws-crypto/crc32@5.2.0':
     dependencies:
@@ -10613,14 +10802,32 @@ snapshots:
       '@types/node': 22.15.17
       jest-mock: 29.7.0
 
+  '@jest/environment@30.2.0':
+    dependencies:
+      '@jest/fake-timers': 30.2.0
+      '@jest/types': 30.2.0
+      '@types/node': 22.15.17
+      jest-mock: 30.2.0
+
   '@jest/expect-utils@29.7.0':
     dependencies:
       jest-get-type: 29.6.3
+
+  '@jest/expect-utils@30.2.0':
+    dependencies:
+      '@jest/get-type': 30.1.0
 
   '@jest/expect@29.7.0':
     dependencies:
       expect: 29.7.0
       jest-snapshot: 29.7.0
+    transitivePeerDependencies:
+      - supports-color
+
+  '@jest/expect@30.2.0':
+    dependencies:
+      expect: 30.2.0
+      jest-snapshot: 30.2.0
     transitivePeerDependencies:
       - supports-color
 
@@ -10633,6 +10840,15 @@ snapshots:
       jest-mock: 29.7.0
       jest-util: 29.7.0
 
+  '@jest/fake-timers@30.2.0':
+    dependencies:
+      '@jest/types': 30.2.0
+      '@sinonjs/fake-timers': 13.0.5
+      '@types/node': 22.15.17
+      jest-message-util: 30.2.0
+      jest-mock: 30.2.0
+      jest-util: 30.2.0
+
   '@jest/get-type@30.1.0': {}
 
   '@jest/globals@29.7.0':
@@ -10643,6 +10859,20 @@ snapshots:
       jest-mock: 29.7.0
     transitivePeerDependencies:
       - supports-color
+
+  '@jest/globals@30.2.0':
+    dependencies:
+      '@jest/environment': 30.2.0
+      '@jest/expect': 30.2.0
+      '@jest/types': 30.2.0
+      jest-mock: 30.2.0
+    transitivePeerDependencies:
+      - supports-color
+
+  '@jest/pattern@30.0.1':
+    dependencies:
+      '@types/node': 22.15.17
+      jest-regex-util: 30.0.1
 
   '@jest/reporters@29.7.0':
     dependencies:
@@ -10680,6 +10910,13 @@ snapshots:
   '@jest/schemas@30.0.5':
     dependencies:
       '@sinclair/typebox': 0.34.41
+
+  '@jest/snapshot-utils@30.2.0':
+    dependencies:
+      '@jest/types': 30.2.0
+      chalk: 4.1.2
+      graceful-fs: 4.2.11
+      natural-compare: 1.4.0
 
   '@jest/source-map@29.6.3':
     dependencies:
@@ -10721,9 +10958,39 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@jest/transform@30.2.0':
+    dependencies:
+      '@babel/core': 7.28.4
+      '@jest/types': 30.2.0
+      '@jridgewell/trace-mapping': 0.3.31
+      babel-plugin-istanbul: 7.0.1
+      chalk: 4.1.2
+      convert-source-map: 2.0.0
+      fast-json-stable-stringify: 2.1.0
+      graceful-fs: 4.2.11
+      jest-haste-map: 30.2.0
+      jest-regex-util: 30.0.1
+      jest-util: 30.2.0
+      micromatch: 4.0.8
+      pirates: 4.0.7
+      slash: 3.0.0
+      write-file-atomic: 5.0.1
+    transitivePeerDependencies:
+      - supports-color
+
   '@jest/types@29.6.3':
     dependencies:
       '@jest/schemas': 29.6.3
+      '@types/istanbul-lib-coverage': 2.0.6
+      '@types/istanbul-reports': 3.0.4
+      '@types/node': 22.15.17
+      '@types/yargs': 17.0.33
+      chalk: 4.1.2
+
+  '@jest/types@30.2.0':
+    dependencies:
+      '@jest/pattern': 30.0.1
+      '@jest/schemas': 30.0.5
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
       '@types/node': 22.15.17
@@ -10836,26 +11103,6 @@ snapshots:
       decamelize: 1.2.0
       js-tiktoken: 1.0.20
       langsmith: 0.3.67(openai@5.12.2(ws@7.5.10(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
-      mustache: 4.2.0
-      p-queue: 6.6.2
-      p-retry: 4.6.2
-      uuid: 10.0.0
-      zod: 3.25.76
-      zod-to-json-schema: 3.24.5(zod@3.25.76)
-    transitivePeerDependencies:
-      - '@opentelemetry/api'
-      - '@opentelemetry/exporter-trace-otlp-proto'
-      - '@opentelemetry/sdk-trace-base'
-      - openai
-
-  '@langchain/core@0.3.75(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))':
-    dependencies:
-      '@cfworker/json-schema': 4.1.1
-      ansi-styles: 5.2.0
-      camelcase: 6.3.0
-      decamelize: 1.2.0
-      js-tiktoken: 1.0.20
-      langsmith: 0.3.67(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
       mustache: 4.2.0
       p-queue: 6.6.2
       p-retry: 4.6.2
@@ -11067,6 +11314,20 @@ snapshots:
     transitivePeerDependencies:
       - encoding
       - supports-color
+
+  '@mistcash/config@0.2.2':
+    dependencies:
+      starknet: 8.9.1
+
+  '@mistcash/crypto@0.2.2':
+    dependencies:
+      garaga: 0.18.2
+
+  '@mistcash/sdk@0.2.2':
+    dependencies:
+      '@mistcash/config': 0.2.2
+      '@mistcash/crypto': 0.2.2
+      starknet: 8.9.1
 
   '@modelcontextprotocol/sdk@1.17.5':
     dependencies:
@@ -11325,7 +11586,7 @@ snapshots:
       promise-all-reject-late: 1.0.1
       promise-call-limit: 3.0.2
       read-package-json-fast: 4.0.0
-      semver: 7.7.2
+      semver: 7.7.3
       ssri: 12.0.0
       treeverse: 3.0.0
       walk-up-path: 4.0.0
@@ -11334,7 +11595,7 @@ snapshots:
 
   '@npmcli/fs@4.0.0':
     dependencies:
-      semver: 7.7.2
+      semver: 7.7.3
 
   '@npmcli/git@6.0.3':
     dependencies:
@@ -11344,7 +11605,7 @@ snapshots:
       npm-pick-manifest: 10.0.0
       proc-log: 5.0.0
       promise-retry: 2.0.1
-      semver: 7.7.2
+      semver: 7.7.3
       which: 5.0.0
 
   '@npmcli/installed-package-contents@3.0.0':
@@ -11365,7 +11626,7 @@ snapshots:
       json-parse-even-better-errors: 5.0.0
       pacote: 21.0.1
       proc-log: 6.0.0
-      semver: 7.7.2
+      semver: 7.7.3
     transitivePeerDependencies:
       - supports-color
 
@@ -11380,7 +11641,7 @@ snapshots:
       hosted-git-info: 8.1.0
       json-parse-even-better-errors: 4.0.0
       proc-log: 5.0.0
-      semver: 7.7.2
+      semver: 7.7.3
       validate-npm-package-license: 3.0.4
 
   '@npmcli/package-json@7.0.0':
@@ -11390,7 +11651,7 @@ snapshots:
       hosted-git-info: 9.0.2
       json-parse-even-better-errors: 4.0.0
       proc-log: 5.0.0
-      semver: 7.7.2
+      semver: 7.7.3
       validate-npm-package-license: 3.0.4
 
   '@npmcli/promise-spawn@8.0.3':
@@ -11432,7 +11693,7 @@ snapshots:
       ignore: 5.3.2
       minimatch: 9.0.3
       nx: 21.6.6
-      semver: 7.7.2
+      semver: 7.7.3
       tslib: 2.8.1
       yargs-parser: 21.1.1
 
@@ -11648,6 +11909,8 @@ snapshots:
     optional: true
 
   '@pkgr/core@0.2.4': {}
+
+  '@pkgr/core@0.2.9': {}
 
   '@playwright/test@1.55.0':
     dependencies:
@@ -13415,6 +13678,16 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  babel-plugin-istanbul@7.0.1:
+    dependencies:
+      '@babel/helper-plugin-utils': 7.27.1
+      '@istanbuljs/load-nyc-config': 1.1.0
+      '@istanbuljs/schema': 0.1.3
+      istanbul-lib-instrument: 6.0.3
+      test-exclude: 6.0.0
+    transitivePeerDependencies:
+      - supports-color
+
   babel-plugin-jest-hoist@29.6.3:
     dependencies:
       '@babel/template': 7.27.2
@@ -13586,6 +13859,10 @@ snapshots:
       electron-to-chromium: 1.5.218
       node-releases: 2.0.21
       update-browserslist-db: 1.1.3(browserslist@4.26.2)
+
+  bs-logger@0.2.6:
+    dependencies:
+      fast-json-stable-stringify: 2.1.0
 
   bs58@4.0.1:
     dependencies:
@@ -13964,7 +14241,7 @@ snapshots:
       handlebars: 4.7.8
       json-stringify-safe: 5.0.1
       meow: 8.1.2
-      semver: 7.7.2
+      semver: 7.7.3
       split: 1.0.1
 
   conventional-commits-filter@3.0.0:
@@ -14597,6 +14874,15 @@ snapshots:
       jest-message-util: 29.7.0
       jest-util: 29.7.0
 
+  expect@30.2.0:
+    dependencies:
+      '@jest/expect-utils': 30.2.0
+      '@jest/get-type': 30.1.0
+      jest-matcher-utils: 30.2.0
+      jest-message-util: 30.2.0
+      jest-mock: 30.2.0
+      jest-util: 30.2.0
+
   exponential-backoff@3.1.3: {}
 
   expr-eval@2.0.2: {}
@@ -14881,6 +15167,8 @@ snapshots:
 
   function-bind@1.1.2: {}
 
+  garaga@0.18.2: {}
+
   gensync@1.0.0-beta.2: {}
 
   get-caller-file@2.0.5: {}
@@ -14938,7 +15226,7 @@ snapshots:
   git-semver-tags@5.0.1:
     dependencies:
       meow: 8.1.2
-      semver: 7.7.2
+      semver: 7.7.3
 
   git-up@7.0.0:
     dependencies:
@@ -15226,7 +15514,7 @@ snapshots:
       isstream: 0.1.2
       jsonwebtoken: 9.0.2
       mime-types: 2.1.35
-      retry-axios: 2.6.0(axios@1.12.2)
+      retry-axios: 2.6.0(axios@1.12.2(debug@4.4.1))
       tough-cookie: 4.1.4
     transitivePeerDependencies:
       - supports-color
@@ -15293,7 +15581,7 @@ snapshots:
       npm-package-arg: 13.0.0
       promzard: 2.0.0
       read: 4.1.0
-      semver: 7.7.2
+      semver: 7.7.3
       validate-npm-package-license: 3.0.4
       validate-npm-package-name: 6.0.2
 
@@ -15440,7 +15728,7 @@ snapshots:
       '@babel/parser': 7.28.4
       '@istanbuljs/schema': 0.1.3
       istanbul-lib-coverage: 3.2.2
-      semver: 7.7.2
+      semver: 7.7.3
     transitivePeerDependencies:
       - supports-color
 
@@ -15633,6 +15921,21 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.2
 
+  jest-haste-map@30.2.0:
+    dependencies:
+      '@jest/types': 30.2.0
+      '@types/node': 22.15.17
+      anymatch: 3.1.3
+      fb-watchman: 2.0.2
+      graceful-fs: 4.2.11
+      jest-regex-util: 30.0.1
+      jest-util: 30.2.0
+      jest-worker: 30.2.0
+      micromatch: 4.0.8
+      walker: 1.0.8
+    optionalDependencies:
+      fsevents: 2.3.3
+
   jest-leak-detector@29.7.0:
     dependencies:
       jest-get-type: 29.6.3
@@ -15644,6 +15947,13 @@ snapshots:
       jest-diff: 29.7.0
       jest-get-type: 29.6.3
       pretty-format: 29.7.0
+
+  jest-matcher-utils@30.2.0:
+    dependencies:
+      '@jest/get-type': 30.1.0
+      chalk: 4.1.2
+      jest-diff: 30.2.0
+      pretty-format: 30.2.0
 
   jest-message-util@29.7.0:
     dependencies:
@@ -15657,17 +15967,37 @@ snapshots:
       slash: 3.0.0
       stack-utils: 2.0.6
 
+  jest-message-util@30.2.0:
+    dependencies:
+      '@babel/code-frame': 7.27.1
+      '@jest/types': 30.2.0
+      '@types/stack-utils': 2.0.3
+      chalk: 4.1.2
+      graceful-fs: 4.2.11
+      micromatch: 4.0.8
+      pretty-format: 30.2.0
+      slash: 3.0.0
+      stack-utils: 2.0.6
+
   jest-mock@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
       '@types/node': 22.15.17
       jest-util: 29.7.0
 
+  jest-mock@30.2.0:
+    dependencies:
+      '@jest/types': 30.2.0
+      '@types/node': 22.15.17
+      jest-util: 30.2.0
+
   jest-pnp-resolver@1.2.3(jest-resolve@29.7.0):
     optionalDependencies:
       jest-resolve: 29.7.0
 
   jest-regex-util@29.6.3: {}
+
+  jest-regex-util@30.0.1: {}
 
   jest-resolve-dependencies@29.7.0:
     dependencies:
@@ -15762,7 +16092,33 @@ snapshots:
       jest-util: 29.7.0
       natural-compare: 1.4.0
       pretty-format: 29.7.0
-      semver: 7.7.2
+      semver: 7.7.3
+    transitivePeerDependencies:
+      - supports-color
+
+  jest-snapshot@30.2.0:
+    dependencies:
+      '@babel/core': 7.28.4
+      '@babel/generator': 7.28.3
+      '@babel/plugin-syntax-jsx': 7.27.1(@babel/core@7.28.4)
+      '@babel/plugin-syntax-typescript': 7.27.1(@babel/core@7.28.4)
+      '@babel/types': 7.28.4
+      '@jest/expect-utils': 30.2.0
+      '@jest/get-type': 30.1.0
+      '@jest/snapshot-utils': 30.2.0
+      '@jest/transform': 30.2.0
+      '@jest/types': 30.2.0
+      babel-preset-current-node-syntax: 1.2.0(@babel/core@7.28.4)
+      chalk: 4.1.2
+      expect: 30.2.0
+      graceful-fs: 4.2.11
+      jest-diff: 30.2.0
+      jest-matcher-utils: 30.2.0
+      jest-message-util: 30.2.0
+      jest-util: 30.2.0
+      pretty-format: 30.2.0
+      semver: 7.7.3
+      synckit: 0.11.11
     transitivePeerDependencies:
       - supports-color
 
@@ -15774,6 +16130,15 @@ snapshots:
       ci-info: 3.9.0
       graceful-fs: 4.2.11
       picomatch: 2.3.1
+
+  jest-util@30.2.0:
+    dependencies:
+      '@jest/types': 30.2.0
+      '@types/node': 22.15.17
+      chalk: 4.1.2
+      ci-info: 4.3.1
+      graceful-fs: 4.2.11
+      picomatch: 4.0.3
 
   jest-validate@29.7.0:
     dependencies:
@@ -15799,6 +16164,14 @@ snapshots:
     dependencies:
       '@types/node': 22.15.17
       jest-util: 29.7.0
+      merge-stream: 2.0.0
+      supports-color: 8.1.1
+
+  jest-worker@30.2.0:
+    dependencies:
+      '@types/node': 22.15.17
+      '@ungap/structured-clone': 1.3.0
+      jest-util: 30.2.0
       merge-stream: 2.0.0
       supports-color: 8.1.1
 
@@ -16090,7 +16463,7 @@ snapshots:
       npm-package-arg: 12.0.2
       npm-registry-fetch: 18.0.2
       proc-log: 5.0.0
-      semver: 7.7.2
+      semver: 7.7.3
       sigstore: 3.1.0
       ssri: 12.0.0
     transitivePeerDependencies:
@@ -16158,6 +16531,8 @@ snapshots:
 
   lodash.isstring@4.0.1: {}
 
+  lodash.memoize@4.1.2: {}
+
   lodash.merge@4.6.2: {}
 
   lodash.once@4.1.1: {}
@@ -16217,7 +16592,9 @@ snapshots:
 
   make-dir@4.0.0:
     dependencies:
-      semver: 7.7.2
+      semver: 7.7.3
+
+  make-error@1.3.6: {}
 
   make-fetch-happen@14.0.3:
     dependencies:
@@ -16519,7 +16896,7 @@ snapshots:
       make-fetch-happen: 14.0.3
       nopt: 8.1.0
       proc-log: 5.0.0
-      semver: 7.7.2
+      semver: 7.7.3
       tar: 7.5.1
       tinyglobby: 0.2.12
       which: 5.0.0
@@ -16551,7 +16928,7 @@ snapshots:
     dependencies:
       hosted-git-info: 4.1.0
       is-core-module: 2.16.1
-      semver: 7.7.2
+      semver: 7.7.3
       validate-npm-package-license: 3.0.4
 
   normalize-path@3.0.0: {}
@@ -16562,7 +16939,7 @@ snapshots:
 
   npm-install-checks@7.1.2:
     dependencies:
-      semver: 7.7.2
+      semver: 7.7.3
 
   npm-normalize-package-bin@4.0.0: {}
 
@@ -16570,14 +16947,14 @@ snapshots:
     dependencies:
       hosted-git-info: 8.1.0
       proc-log: 5.0.0
-      semver: 7.7.2
+      semver: 7.7.3
       validate-npm-package-name: 6.0.2
 
   npm-package-arg@13.0.0:
     dependencies:
       hosted-git-info: 9.0.2
       proc-log: 5.0.0
-      semver: 7.7.2
+      semver: 7.7.3
       validate-npm-package-name: 6.0.2
 
   npm-packlist@10.0.1:
@@ -16589,7 +16966,7 @@ snapshots:
       npm-install-checks: 7.1.2
       npm-normalize-package-bin: 4.0.0
       npm-package-arg: 12.0.2
-      semver: 7.7.2
+      semver: 7.7.3
 
   npm-registry-fetch@18.0.2:
     dependencies:
@@ -16648,7 +17025,7 @@ snapshots:
       open: 8.4.2
       ora: 5.3.0
       resolve.exports: 2.0.3
-      semver: 7.7.2
+      semver: 7.7.3
       string-width: 4.2.3
       tar-stream: 2.2.0
       tmp: 0.2.5
@@ -17353,7 +17730,7 @@ snapshots:
       onetime: 5.1.2
       signal-exit: 3.0.7
 
-  retry-axios@2.6.0(axios@1.12.2):
+  retry-axios@2.6.0(axios@1.12.2(debug@4.4.1)):
     dependencies:
       axios: 1.12.2(debug@4.4.1)
 
@@ -17721,11 +18098,11 @@ snapshots:
       pako: 2.1.0
       ts-mixer: 6.0.4
 
-  starknet@8.6.0:
+  starknet@8.9.1:
     dependencies:
       '@noble/curves': 1.7.0
       '@noble/hashes': 1.6.0
-      '@scure/base': 1.2.6
+      '@scure/base': 1.2.1
       '@scure/starknet': 1.1.0
       '@starknet-io/starknet-types-08': '@starknet-io/types-js@0.8.4'
       '@starknet-io/starknet-types-09': '@starknet-io/types-js@0.9.2'
@@ -17816,6 +18193,10 @@ snapshots:
   supports-preserve-symlinks-flag@1.0.0: {}
 
   symbol-observable@2.0.3: {}
+
+  synckit@0.11.11:
+    dependencies:
+      '@pkgr/core': 0.2.9
 
   synckit@0.11.4:
     dependencies:
@@ -17974,6 +18355,26 @@ snapshots:
 
   ts-error@1.0.6: {}
 
+  ts-jest@29.4.5(@babel/core@7.28.4)(@jest/transform@30.2.0)(@jest/types@30.2.0)(babel-jest@29.7.0(@babel/core@7.28.4))(jest-util@30.2.0)(jest@29.7.0(@types/node@22.15.17))(typescript@5.9.2):
+    dependencies:
+      bs-logger: 0.2.6
+      fast-json-stable-stringify: 2.1.0
+      handlebars: 4.7.8
+      jest: 29.7.0(@types/node@22.15.17)
+      json5: 2.2.3
+      lodash.memoize: 4.1.2
+      make-error: 1.3.6
+      semver: 7.7.3
+      type-fest: 4.41.0
+      typescript: 5.9.2
+      yargs-parser: 21.1.1
+    optionalDependencies:
+      '@babel/core': 7.28.4
+      '@jest/transform': 30.2.0
+      '@jest/types': 30.2.0
+      babel-jest: 29.7.0(@babel/core@7.28.4)
+      jest-util: 30.2.0
+
   ts-mixer@6.0.4: {}
 
   tsconfig-paths@4.2.0:
@@ -18067,6 +18468,8 @@ snapshots:
   type-fest@0.7.1: {}
 
   type-fest@0.8.1: {}
+
+  type-fest@4.41.0: {}
 
   type-is@2.0.1:
     dependencies:
