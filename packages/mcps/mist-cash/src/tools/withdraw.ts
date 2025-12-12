@@ -107,7 +107,7 @@ export async function withdrawFromChamber(
 
     const withdrawTx = await chamberContract.withdraw_no_zk(
       BigInt(claimingKey),
-      account.address,
+      params.recipientAddress,
       {
         amount: amountInWei,
         addr: tokenAddress,
