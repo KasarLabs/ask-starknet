@@ -11,7 +11,7 @@ import { swap } from '../../src/tools/write/swap.js';
 import { createPosition } from '../../src/tools/write/createPosition.js';
 import { addLiquidity } from '../../src/tools/write/addLiquidity.js';
 import { withdrawLiquidity } from '../../src/tools/write/withdrawLiquidity.js';
-import { getPosition } from '../../src/tools/read/getPosition.js';
+import { getPositions } from '../../src/tools/read/getPosition.js';
 import { RpcProvider } from 'starknet';
 
 const STRK_ADDRESS =
@@ -389,19 +389,27 @@ describe('Ekubo E2E Tests', () => {
       const data = getDataAsRecord(createResult.data);
       expect(data.transaction_hash).toBeDefined();
       expect(data.position_id).toBeDefined();
-      createdPositionId = data.position_id as number;
+      createdPositionId = Number(data.position_id);
 
       await new Promise((resolve) => setTimeout(resolve, 5000));
 
       const onchainReadForPosition = getOnchainRead();
-      const positionResult = await getPosition(onchainReadForPosition, {
+      const positionResult = await getPositions(onchainReadForPosition, {
         position_id: createdPositionId,
+        page: 1,
+        pageSize: 50,
+        state: 'opened',
       });
 
       expect(positionResult.status).toBe('success');
       expect(positionResult.data).toBeDefined();
 
-      const positionData = getDataAsRecord(positionResult.data);
+      const positionsData = getDataAsRecord(positionResult.data);
+      expect(positionsData.positions).toBeDefined();
+      expect(Array.isArray(positionsData.positions)).toBe(true);
+      expect(positionsData.positions.length).toBeGreaterThan(0);
+      
+      const positionData = getDataAsRecord(positionsData.positions[0]);
       const liquidityAmount = positionData.liquidity as string;
 
       const balanceBeforeWithdraw = await getERC20Balance(
@@ -416,6 +424,10 @@ describe('Ekubo E2E Tests', () => {
         fees_only: false,
         collect_fees: true,
       });
+      if (withdrawResult.status === 'failure') {
+        console.error(withdrawResult.error);
+        throw new Error('Failed to withdraw liquidity: ' + withdrawResult.error);
+      }
 
       expect(withdrawResult.status).toBe('success');
 
@@ -454,12 +466,18 @@ describe('Ekubo E2E Tests', () => {
 
       const onchainWrite = getOnchainWrite();
 
+      // Position was closed in previous test, need to specify state: 'closed'
       const addResult = await addLiquidity(onchainWrite, {
         position_id: createdPositionId,
         amount0: '0.05',
         amount1: '0.05',
+        state: 'closed',
       });
 
+      if (addResult.status === 'failure') {
+        console.error(addResult.error);
+        throw new Error('Failed to add liquidity: ' + addResult.error);
+      }
       expect(addResult.status).toBe('success');
       expect(addResult.data).toBeDefined();
 
@@ -468,15 +486,24 @@ describe('Ekubo E2E Tests', () => {
 
       await new Promise((resolve) => setTimeout(resolve, 5000));
 
+      // Position is now opened after adding liquidity
       const onchainReadForPosition = getOnchainRead();
-      const positionResult = await getPosition(onchainReadForPosition, {
+      const positionResult = await getPositions(onchainReadForPosition, {
         position_id: createdPositionId,
+        page: 1,
+        pageSize: 50,
+        state: 'opened',
       });
 
       expect(positionResult.status).toBe('success');
       expect(positionResult.data).toBeDefined();
 
-      const positionData = getDataAsRecord(positionResult.data);
+      const positionsData = getDataAsRecord(positionResult.data);
+      expect(positionsData.positions).toBeDefined();
+      expect(Array.isArray(positionsData.positions)).toBe(true);
+      expect(positionsData.positions.length).toBeGreaterThan(0);
+      
+      const positionData = getDataAsRecord(positionsData.positions[0]);
       const liquidityAmount = positionData.liquidity as string;
 
       const balanceBeforeWithdraw = await getERC20Balance(
@@ -528,19 +555,28 @@ describe('Ekubo E2E Tests', () => {
       }
 
       const onchainRead = getOnchainRead();
-      const result = await getPosition(onchainRead, {
+      // Position is closed after withdrawing all liquidity in previous test
+      const result = await getPositions(onchainRead, {
         position_id: createdPositionId,
+        page: 1,
+        pageSize: 50,
+        state: 'closed',
       });
 
       expect(result.status).toBe('success');
       expect(result.data).toBeDefined();
 
       const data = getDataAsRecord(result.data);
-      expect(data.position_id).toBe(createdPositionId);
-      expect(data.owner_address).toBeDefined();
-      expect(data.liquidity).toBeDefined();
-      expect(data.token0).toBeDefined();
-      expect(data.token1).toBeDefined();
+      expect(data.positions).toBeDefined();
+      expect(Array.isArray(data.positions)).toBe(true);
+      expect(data.positions.length).toBeGreaterThan(0);
+
+      const position = getDataAsRecord(data.positions[0]);
+      expect(position.position_id).toBe(createdPositionId);
+      expect(position.owner_address).toBeDefined();
+      expect(position.liquidity).toBeDefined();
+      expect(position.token0).toBeDefined();
+      expect(position.token1).toBeDefined();
     });
   });
 
