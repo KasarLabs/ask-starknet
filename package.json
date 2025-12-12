@@ -31,6 +31,7 @@
     "clean:all": "turbo run clean:all && pnpm clean",
     "build": "turbo build",
     "build:mcps": "turbo build --filter \"./packages/mcps/*\"",
+    "test:mcps:e2e": "pnpm -r --filter './packages/mcps/**' --workspace-concurrency=1 run test:e2e --passWithNoTests",
     "lint": "pnpm -r run lint",
     "lint:fix": "pnpm -r run lint:fix",
     "lint:all": "eslint packages/{mcps,mcp}/**/*.{ts,tsx,js,jsx}",

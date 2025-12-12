@@ -22,6 +22,10 @@ export const DeployBraavosAccount = async (
   env: onchainRead,
   params: z.infer<typeof accountDetailsSchema>
 ): Promise<toolResult> => {
+  return {
+    status: 'failure',
+    error: 'Tool under maintenance',
+  };
   try {
     const provider = env.provider;
 

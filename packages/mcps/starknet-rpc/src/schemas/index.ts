@@ -42,9 +42,6 @@ export const getClassAtSchema = z.object({
       "The block identifier. Can be 'latest', 'pending', a block hash, or a block number as string."
     ),
   contractAddress: z.string().describe('The address of the contract'),
-  key: z
-    .string()
-    .describe('The class for the given contract at the given block'),
 });
 
 export const getClassHashAtSchema = z.object({
@@ -54,11 +51,6 @@ export const getClassHashAtSchema = z.object({
       "The block identifier. Can be 'latest', 'pending', a block hash, or a block number as string."
     ),
   contractAddress: z.string().describe('The address of the contract'),
-  key: z
-    .string()
-    .describe(
-      'The class hash for the given contract at the given block need to be a real class hash'
-    ),
 });
 
 export const getTransactionByBlockIdAndIndexSchema = z.object({

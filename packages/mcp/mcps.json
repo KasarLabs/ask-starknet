@@ -128,7 +128,7 @@
   "troves": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/troves@latest"],
+      "args": ["-y", "@kasarlabs/troves-mcp@latest"],
       "transport": "stdio"
     },
     "description": "Troves strategies API for Starknet",

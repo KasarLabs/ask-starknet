@@ -27,7 +27,9 @@ export const getSwapRouteLimits = async (
     }
     const endpoint = `/api/v2/limits?${queryParams.toString()}`;
 
-    const limits: any = await apiClient.get<any>(endpoint);
+    const response: any = await apiClient.get<any>(endpoint);
+    // Extract the inner data property to avoid double nesting
+    const limits = response?.data || response;
     return {
       status: 'success',
       data: limits,

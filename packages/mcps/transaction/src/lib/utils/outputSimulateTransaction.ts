@@ -23,7 +23,7 @@ export const TransactionReponseFormat = (
   };
 }> => {
   const transactionDetails = transactionResponse.map((transaction, index) => {
-    const overall_fee = transaction.overall_fee;
+    const overall_fee = transaction.overall_fee.toString();
     const resourceBounds = transaction.resourceBounds;
 
     return {
