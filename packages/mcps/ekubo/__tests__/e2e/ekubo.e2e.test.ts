@@ -408,7 +408,7 @@ describe('Ekubo E2E Tests', () => {
       expect(positionsData.positions).toBeDefined();
       expect(Array.isArray(positionsData.positions)).toBe(true);
       expect(positionsData.positions.length).toBeGreaterThan(0);
-      
+
       const positionData = getDataAsRecord(positionsData.positions[0]);
       const liquidityAmount = positionData.liquidity as string;
 
@@ -426,7 +426,9 @@ describe('Ekubo E2E Tests', () => {
       });
       if (withdrawResult.status === 'failure') {
         console.error(withdrawResult.error);
-        throw new Error('Failed to withdraw liquidity: ' + withdrawResult.error);
+        throw new Error(
+          'Failed to withdraw liquidity: ' + withdrawResult.error
+        );
       }
 
       expect(withdrawResult.status).toBe('success');
@@ -502,7 +504,7 @@ describe('Ekubo E2E Tests', () => {
       expect(positionsData.positions).toBeDefined();
       expect(Array.isArray(positionsData.positions)).toBe(true);
       expect(positionsData.positions.length).toBeGreaterThan(0);
-      
+
       const positionData = getDataAsRecord(positionsData.positions[0]);
       const liquidityAmount = positionData.liquidity as string;
 
