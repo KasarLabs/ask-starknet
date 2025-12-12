@@ -120,16 +120,13 @@ export const addLiquidity = async (
       { contract_address: transferToken1.address },
     ]);
 
-    const { transaction_hash } = await account.execute(
-      [
-        transfer0Calldata,
-        transfer1Calldata,
-        depositCalldata,
-        clearToken0Calldata,
-        clearToken1Calldata,
-      ],
-      { tip: 0 }
-    );
+    const { transaction_hash } = await account.execute([
+      transfer0Calldata,
+      transfer1Calldata,
+      depositCalldata,
+      clearToken0Calldata,
+      clearToken1Calldata,
+    ]);
 
     const receipt = await account.waitForTransaction(transaction_hash);
     if (!receipt.isSuccess()) {

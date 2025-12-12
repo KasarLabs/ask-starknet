@@ -127,10 +127,11 @@ export const createPosition = async (
       [poolKey, bounds, minLiquidity]
     );
 
-    const executeResult = await account.execute(
-      [transfer0Calldata, transfer1Calldata, mintCalldata],
-      { tip: 0 }
-    );
+    const executeResult = await account.execute([
+      transfer0Calldata,
+      transfer1Calldata,
+      mintCalldata,
+    ]);
 
     const receipt = await account.waitForTransaction(
       executeResult.transaction_hash

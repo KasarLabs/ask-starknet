@@ -93,10 +93,11 @@ export const withdrawLiquidity = async (
       { contract_address: token1.address },
     ]);
 
-    const { transaction_hash } = await account.execute(
-      [withdrawCalldata, clearToken0Calldata, clearToken1Calldata],
-      { tip: 0 }
-    );
+    const { transaction_hash } = await account.execute([
+      withdrawCalldata,
+      clearToken0Calldata,
+      clearToken1Calldata,
+    ]);
 
     const receipt = await account.waitForTransaction(transaction_hash);
     if (!receipt.isSuccess()) {
