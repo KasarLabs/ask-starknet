@@ -79,11 +79,11 @@ class DojoAssistantMCPServer {
 
   /**
    * Sets up the tool handlers for the MCP server
-   * Configures the assist_with_dojo tool
+   * Configures the assist-with-dojo tool
    */
   private setupToolHandlers(): void {
     this.server.tool(
-      'assist_with_dojo',
+      'assist-with-dojo',
       `Provides expert responses to queries about Dojo and all its components.
 
 Call this tool when the user needs to:
