@@ -4,31 +4,27 @@ import 'dotenv/config';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import packageJson from '../package.json' with { type: 'json' };
-import {
-  starknetGeneralKnowledgeSchema,
-  type StarknetGeneralKnowledgeInput,
-} from './schemas.js';
+import { assistWithDojoSchema, type AssistWithDojoInput } from './schemas.js';
 
 /**
- * Represents a message in the Cairo Coder conversation
+ * Represents a message in the Dojo assistant conversation
  */
-interface CairoCoderMessage {
+interface DojoAssistantMessage {
   role: 'user' | 'assistant' | 'system';
   content: string;
 }
 
 /**
- * Request payload for the Cairo Coder API
+ * Request payload for the Dojo assistant API
  */
-interface CairoCoderRequest {
-  messages: CairoCoderMessage[];
-  streaming: boolean;
+interface DojoAssistantRequest {
+  messages: DojoAssistantMessage[];
 }
 
 /**
- * Response from the Cairo Coder API
+ * Response from the Dojo assistant API
  */
-interface CairoCoderResponse {
+interface DojoAssistantResponse {
   choices: Array<{
     message: {
       content: string;
@@ -38,17 +34,17 @@ interface CairoCoderResponse {
 }
 
 /**
- * MCP Server implementation for Cairo Coder API integration
- * Provides AI-powered assistance for Cairo and Starknet development
+ * MCP Server implementation for Dojo assistant API integration
+ * Provides AI-powered assistance for Dojo development
  */
-class CairoCoderMCPServer {
+class DojoAssistantMCPServer {
   private server: McpServer;
   private apiKey: string;
   private apiUrl: string;
   private isLocalMode: boolean;
 
   /**
-   * Initializes the Cairo Coder MCP Server
+   * Initializes the Dojo Assistant MCP Server
    * @throws {Error} If CAIRO_CODER_API_KEY environment variable is not set when using public API
    */
   constructor() {
@@ -66,16 +62,15 @@ class CairoCoderMCPServer {
       this.apiUrl = `${localEndpoint}/v1/chat/completions`;
       this.apiKey = '';
       console.error(
-        `assist-with-dojo MCP server configured for local mode: ${this.apiUrl}`
+        `Assist-with-dojo MCP server configured for local mode: ${this.apiUrl}`
       );
     } else {
       // Public API mode: use official endpoint, API key required
       this.isLocalMode = false;
-      this.apiUrl =
-        'https://api.cairo-coder.com/v1/agents/dojo-agent/chat/completions';
+      this.apiUrl = 'https://api.cairo-coder.com/v1/chat/completions';
       this.apiKey = process.env.CAIRO_CODER_API_KEY || '';
       console.error(
-        'assist-with-dojo MCP server configured for public API mode'
+        'Assist-with-dojo MCP server configured for public API mode'
       );
     }
 
@@ -84,33 +79,35 @@ class CairoCoderMCPServer {
 
   /**
    * Sets up the tool handlers for the MCP server
-   * Configures both assist_with_cairo and assist-with-dojo tools
+   * Configures the assist_with_dojo tool
    */
   private setupToolHandlers(): void {
     this.server.tool(
-      'assist-with-dojo',
-      `Provides general knowledge about the Starknet ecosystem, protocol concepts, recent updates, and news.
+      'assist_with_dojo',
+      `Provides expert responses to queries about Dojo and all its components.
 
 Call this tool when the user needs to:
-- **Understand Starknet concepts** (account abstraction, sequencers, STARK proofs, etc.)
-- **Discover ecosystem projects** and integrations
-- **Get information from the Starknet blog**
-- **Understand high-level architecture** and design decisions
+- **Understand Dojo core concepts** and architecture
+- **Work with Dojo components**: Katana (local development node), Torii (indexer), Sozo (CLI tool), Saya (settlement layer), Cainome (bindings generator)
+- **Learn about Dojo SDKs**: dojo.js, dojo.c, dojo.unity, dojo.rust, dojo.godot, dojo.bevy, dojo.unreal
+- **Use Dojo libraries**: Origami (game primitives) and Alexandria (standard library)
+- **Build onchain games** with the Dojo framework
+- **Deploy and manage** Dojo worlds and contracts
 
-This tool has access to Starknet blog posts, conceptual documentation, and ecosystem information.`,
-      starknetGeneralKnowledgeSchema.shape,
-      async (args: StarknetGeneralKnowledgeInput) => {
-        return await this.handleGeneralKnowledge(args);
+This tool has access to comprehensive Dojo documentation, component guides, SDK references, and library documentation.`,
+      assistWithDojoSchema.shape,
+      async (args: AssistWithDojoInput) => {
+        return await this.handleDojoAssistance(args);
       }
     );
   }
 
   /**
-   * Handles general Starknet knowledge requests by calling the Cairo Coder API
+   * Handles Dojo assistance requests by calling the Dojo assistant API
    * @param args - The arguments containing query and optional conversation history
-   * @returns The response from the Cairo Coder API or an error message
+   * @returns The response from the Dojo assistant API or an error message
    */
-  private async handleGeneralKnowledge(args: StarknetGeneralKnowledgeInput) {
+  private async handleDojoAssistance(args: AssistWithDojoInput) {
     try {
       const { query, history } = args;
 
@@ -125,21 +122,20 @@ This tool has access to Starknet blog posts, conceptual documentation, and ecosy
         );
       }
 
-      // Add context to guide the backend towards general knowledge responses
-      let contextualMessage = `As a Dojo Expert can you explain to the user about this request :\n\n${query}`;
+      // Add context to guide the backend towards Dojo-specific responses
+      let contextualMessage = `As a Dojo expert, answer the following question:\n\n${query}`;
 
       if (history && history.length > 0) {
         contextualMessage = `Previous conversation context:\n${history.join('\n')}\n\nCurrent query: ${contextualMessage}`;
       }
 
-      const requestBody: CairoCoderRequest = {
+      const requestBody: DojoAssistantRequest = {
         messages: [
           {
             role: 'user',
             content: contextualMessage,
           },
         ],
-        streaming: false,
       };
 
       // Prepare headers based on mode
@@ -166,10 +162,10 @@ This tool has access to Starknet blog posts, conceptual documentation, and ecosy
         );
       }
 
-      const data = (await response.json()) as CairoCoderResponse;
+      const data = (await response.json()) as DojoAssistantResponse;
 
       if (!data.choices || data.choices.length === 0) {
-        throw new Error('No response received from Cairo Coder API');
+        throw new Error('No response received from Dojo assistant API');
       }
 
       const assistantResponse = data.choices[0].message.content;
@@ -204,7 +200,7 @@ This tool has access to Starknet blog posts, conceptual documentation, and ecosy
    */
   async run(): Promise<void> {
     const transport = new StdioServerTransport();
-    console.error('assist-with-dojo MCP server running on stdio');
+    console.error('AssistWithDojo server running on stdio');
     await this.server.connect(transport);
 
     // Handle graceful shutdown
@@ -217,10 +213,10 @@ This tool has access to Starknet blog posts, conceptual documentation, and ecosy
 
 /**
  * Main entry point for the application
- * Creates and starts the Cairo Coder MCP server
+ * Creates and starts the Dojo Assistant MCP server
  */
 async function main() {
-  const server = new CairoCoderMCPServer();
+  const server = new DojoAssistantMCPServer();
   await server.run();
 }
 
@@ -229,4 +225,4 @@ main().catch((error) => {
   process.exit(1);
 });
 
-export default CairoCoderMCPServer;
+export default DojoAssistantMCPServer;

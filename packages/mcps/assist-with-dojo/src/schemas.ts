@@ -4,7 +4,7 @@ import { z } from 'zod';
  * Schema for the assist-with-dojo tool
  * Specialized for general Starknet ecosystem knowledge, concepts, and news
  */
-export const starknetGeneralKnowledgeSchema = z.object({
+export const assistWithDojoSchema = z.object({
   query: z
     .string()
     .describe(
@@ -18,6 +18,4 @@ export const starknetGeneralKnowledgeSchema = z.object({
     ),
 });
 
-export type StarknetGeneralKnowledgeInput = z.infer<
-  typeof starknetGeneralKnowledgeSchema
->;
+export type AssistWithDojoInput = z.infer<typeof assistWithDojoSchema>;
