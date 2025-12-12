@@ -122,12 +122,10 @@ export const swap = async (
       { contract_address: tokenOut.address },
     ]);
 
-    const { transaction_hash } = await account.execute([
-      transferCalldata,
-      swapCalldata,
-      clearMinimumCalldata,
-      clearCalldata,
-    ]);
+    const { transaction_hash } = await account.execute(
+      [transferCalldata, swapCalldata, clearMinimumCalldata, clearCalldata],
+      { tip: 0 }
+    );
 
     const receipt = await account.waitForTransaction(transaction_hash);
     if (!receipt.isSuccess()) {

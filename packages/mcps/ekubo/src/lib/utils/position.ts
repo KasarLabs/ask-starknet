@@ -1,75 +1,80 @@
-import { EKUBO_API_URL } from '../constants/index.js';
+import { EKUBO_API_URL, STARKNET_CHAIN_ID } from '../constants/index.js';
 
 /**
- * Fetches position owner from the Ekubo state API
- * @param positionId - The position ID to fetch
- * @returns The owner address of the position
+ * Position data structure from the new API format
  */
-export async function fetchPositionOwner(positionId: number): Promise<string> {
-  const url = `${EKUBO_API_URL}/${positionId}/state`;
-
-  let response: Response;
-  try {
-    response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-      },
-    });
-  } catch (error) {
-    // Handle network errors (DNS failures, connection refused, etc.)
-    if (error instanceof TypeError && error.message.includes('fetch')) {
-      throw new Error(
-        `Network error while fetching position owner: ${error.message}. This may be due to DNS resolution failure or connection refused.`
-      );
+export interface PositionData {
+  id: string;
+  chain_id: string;
+  positions_address: string;
+  pool_key: {
+    token0: string;
+    token1: string;
+    fee: string;
+    tick_spacing: string;
+    extension: string;
+  };
+  bounds: {
+    lower: number;
+    upper: number;
+  };
+  metadata_url?: string;
+  image?: string;
+  liquidity: string;
+  pool_state?: {
+    sqrt_ratio: string;
+    tick: number;
+    liquidity: string;
+  };
+  rewards?: Record<
+    string,
+    {
+      amount: string;
+      pending: string;
     }
-    throw new Error(
-      `Failed to fetch position owner: ${error instanceof Error ? error.message : String(error)}`
-    );
-  }
-
-  if (!response.ok) {
-    throw new Error(
-      `Failed to fetch position owner: ${response.status} ${response.statusText}`
-    );
-  }
-
-  let data: any;
-  try {
-    data = await response.json();
-  } catch (error) {
-    throw new Error(
-      `Failed to parse JSON response while fetching position owner: ${error instanceof Error ? error.message : String(error)}`
-    );
-  }
-
-  // Extract owner from the response
-  // The API returns 'last_owner' field
-  const owner =
-    data.last_owner || data.owner || data.owner_address || data.ownerAddress;
-
-  if (!owner) {
-    throw new Error(`Owner not found in API response: ${JSON.stringify(data)}`);
-  }
-
-  return String(owner);
+  >;
 }
 
 /**
- * Fetches position data from the Ekubo API
- * @param positionId - The position ID to fetch
- * @returns Position data including tick_lower, tick_upper, tick_spacing, extension, fee, token0, token1
+ * API response structure with pagination
  */
-export async function fetchPositionData(positionId: number): Promise<{
-  tick_lower: string;
-  tick_upper: string;
-  tick_spacing: string;
-  extension: string;
-  fee: string;
-  token0: string;
-  token1: string;
-}> {
-  const url = `${EKUBO_API_URL}/${positionId}`;
+export interface PositionsApiResponse {
+  data: PositionData[];
+  pagination: {
+    page: number;
+    pageSize: number;
+    totalPages: number;
+    totalItems: number;
+  };
+}
+
+/**
+ * Fetches positions data from the Ekubo API
+ * @param ownerAddress - The owner address to fetch positions for
+ * @param page - The page number (default: 1)
+ * @param pageSize - The number of items per page (default: 50)
+ * @param state - The state of positions to fetch: "opened" or "closed" (default: "opened")
+ * @returns Positions data with pagination
+ */
+export async function fetchPositionData(
+  ownerAddress: string | bigint,
+  page: number = 1,
+  pageSize: number = 50,
+  state: 'opened' | 'closed' = 'opened'
+): Promise<PositionsApiResponse> {
+  // Convert ownerAddress to hex string if it's a bigint or number
+  let normalizedAddress: string;
+  if (typeof ownerAddress === 'bigint') {
+    normalizedAddress = '0x' + ownerAddress.toString(16).padStart(64, '0');
+  } else if (typeof ownerAddress === 'string') {
+    normalizedAddress = ownerAddress.startsWith('0x')
+      ? ownerAddress
+      : '0x' + ownerAddress;
+  } else {
+    normalizedAddress = String(ownerAddress);
+  }
+
+  const url = `${EKUBO_API_URL}/positions/${normalizedAddress}?state=${state}&chainId=${STARKNET_CHAIN_ID}&pageSize=${pageSize}&page=${page}`;
 
   let response: Response;
   try {
@@ -97,7 +102,7 @@ export async function fetchPositionData(positionId: number): Promise<{
     );
   }
 
-  let data: any;
+  let data: PositionsApiResponse;
   try {
     data = await response.json();
   } catch (error) {
@@ -106,45 +111,62 @@ export async function fetchPositionData(positionId: number): Promise<{
     );
   }
 
-  // Extract data from attributes array
-  const attributes = data.attributes || [];
-  const attributeMap: Record<string, string> = {};
+  return data;
+}
 
-  for (const attr of attributes) {
-    if (attr.trait_type && attr.value !== undefined) {
-      attributeMap[attr.trait_type] = attr.value;
-    }
-  }
+/**
+ * Legacy function to fetch position data by position_id
+ * This is used by addLiquidity and withdrawLiquidity tools
+ * @param provider - The RPC provider
+ * @param positionsNFTContract - The positions NFT contract instance
+ * @param positionId - The position ID to fetch
+ * @param state - The state of positions to fetch: "opened" or "closed" (default: "opened")
+ * @returns Position data in the old format (tick_lower, tick_upper, etc.)
+ */
+export async function fetchPositionDataById(
+  provider: any,
+  positionsNFTContract: any,
+  positionId: number,
+  state: 'opened' | 'closed' = 'opened'
+): Promise<{
+  tick_lower: string;
+  tick_upper: string;
+  tick_spacing: string;
+  extension: string;
+  fee: string;
+  token0: string;
+  token1: string;
+}> {
+  // Get owner address
+  const ownerResponse = await positionsNFTContract.ownerOf(positionId);
+  const ownerAddress =
+    typeof ownerResponse === 'bigint'
+      ? '0x' + ownerResponse.toString(16).padStart(64, '0')
+      : ownerResponse.toString();
 
-  const tick_lower = attributeMap.tick_lower;
-  const tick_upper = attributeMap.tick_upper;
-  const tick_spacing = attributeMap.tick_spacing;
-  const extension = attributeMap.extension;
-  const fee = attributeMap.fee;
-  const token0 = attributeMap.token0;
-  const token1 = attributeMap.token1;
+  // Fetch all positions for this owner with the specified state
+  const apiResponse = await fetchPositionData(ownerAddress, 1, 100, state);
 
-  if (
-    tick_lower === undefined ||
-    tick_upper === undefined ||
-    tick_spacing === undefined ||
-    extension === undefined ||
-    fee === undefined ||
-    token0 === undefined ||
-    token1 === undefined
-  ) {
+  // Find the position with matching ID
+  const targetPositionHex = '0x' + BigInt(positionId).toString(16);
+  const position = apiResponse.data.find(
+    (pos) => pos.id.toLowerCase() === targetPositionHex.toLowerCase()
+  );
+
+  if (!position) {
     throw new Error(
-      `Missing required position data from API response: ${JSON.stringify(attributeMap)}`
+      `Position with ID ${positionId} (${targetPositionHex}) not found for owner ${ownerAddress} with state "${state}"`
     );
   }
 
+  // Convert to old format
   return {
-    tick_lower: String(tick_lower),
-    tick_upper: String(tick_upper),
-    tick_spacing: String(tick_spacing),
-    extension: String(extension),
-    fee: String(fee),
-    token0: String(token0),
-    token1: String(token1),
+    tick_lower: position.bounds.lower.toString(),
+    tick_upper: position.bounds.upper.toString(),
+    tick_spacing: BigInt(position.pool_key.tick_spacing).toString(),
+    extension: position.pool_key.extension,
+    fee: BigInt(position.pool_key.fee).toString(),
+    token0: position.pool_key.token0,
+    token1: position.pool_key.token1,
   };
 }
