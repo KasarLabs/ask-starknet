@@ -1,6 +1,6 @@
 {
   "name": "@kasarlabs/ask-starknet-mcp",
-  "version": "0.1.5",
+  "version": "0.1.7",
   "main": "build/index.js",
   "type": "module",
   "bin": {
@@ -15,6 +15,7 @@
   "files": [
     "build",
     "mcps.json",
+    "categories.json",
     "README.md"
   ],
   "description": "Starknet MCP Server - Model Context Protocol server for Starknet blockchain",
