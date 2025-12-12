@@ -21,7 +21,9 @@ export const transferPosition = async (
       cairo.uint256(params.position_id),
     ]);
 
-    const { transaction_hash } = await account.execute([transferCalldata]);
+    const { transaction_hash } = await account.execute([transferCalldata], {
+      tip: 0,
+    });
 
     const receipt = await account.waitForTransaction(transaction_hash);
     if (!receipt.isSuccess()) {

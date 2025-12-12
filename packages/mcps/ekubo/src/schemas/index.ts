@@ -205,6 +205,13 @@ export const addLiquiditySchema = z.object({
     .describe(
       'The amount of token1 to add (in human decimals, e.g., "1" for 1 USDC)'
     ),
+  state: z
+    .enum(['opened', 'closed'])
+    .optional()
+    .default('opened')
+    .describe(
+      'The state of the position to filter by: "opened" for active positions, "closed" for closed positions (defaults to "opened")'
+    ),
 });
 
 export type AddLiquiditySchema = z.infer<typeof addLiquiditySchema>;
@@ -322,12 +329,44 @@ export const createPositionSchema = z
 
 export type CreatePositionSchema = z.infer<typeof createPositionSchema>;
 
-export const getPositionSchema = z.object({
-  position_id: z
-    .number()
-    .int()
-    .min(1)
-    .describe('The NFT position ID (u64) to get liquidity information for'),
-});
+export const getPositionsSchema = z
+  .object({
+    owner_address: z
+      .string()
+      .optional()
+      .describe('The owner address to fetch positions for'),
+    position_id: z
+      .number()
+      .int()
+      .min(1)
+      .optional()
+      .describe('The NFT position ID (u64) to get liquidity information for'),
+    page: z
+      .number()
+      .int()
+      .min(1)
+      .optional()
+      .default(1)
+      .describe('The page number for pagination (default: 1)'),
+    pageSize: z
+      .number()
+      .int()
+      .min(1)
+      .max(100)
+      .optional()
+      .default(50)
+      .describe('The number of items per page (default: 50, max: 100)'),
+    state: z
+      .enum(['opened', 'closed'])
+      .optional()
+      .default('opened')
+      .describe(
+        'The state of the position to filter by: "opened" for active positions, "closed" for closed positions (defaults to "opened")'
+      ),
+  })
+  .refine((data) => data.owner_address || data.position_id, {
+    message: 'Either owner_address or position_id must be provided',
+    path: ['owner_address'],
+  });
 
-export type GetPositionSchema = z.infer<typeof getPositionSchema>;
+export type GetPositionsSchema = z.infer<typeof getPositionsSchema>;

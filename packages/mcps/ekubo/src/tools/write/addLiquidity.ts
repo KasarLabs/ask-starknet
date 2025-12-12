@@ -6,7 +6,7 @@ import {
   convertTickSpacingExponentToPercent,
   convertFeeU128ToPercent,
 } from '../../lib/utils/math.js';
-import { fetchPositionData } from '../../lib/utils/position.js';
+import { fetchPositionDataById } from '../../lib/utils/position.js';
 import { formatTokenAmount } from '../../lib/utils/token.js';
 import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 
@@ -17,9 +17,18 @@ export const addLiquidity = async (
   try {
     const account = env.account;
     const positionsContract = await getContract(env.provider, 'positions');
+    const positionsNFTContract = await getContract(
+      env.provider,
+      'positionsNFT'
+    );
 
     // Fetch position data from API
-    const positionData = await fetchPositionData(params.position_id);
+    const positionData = await fetchPositionDataById(
+      env.provider,
+      positionsNFTContract,
+      params.position_id,
+      params.state
+    );
 
     // Use API data
     const token0_address = positionData.token0;
