@@ -2,19 +2,19 @@ import { z } from 'zod';
 
 /**
  * Schema for the assist-with-dojo tool
- * Specialized for general Starknet ecosystem knowledge, concepts, and news
+ * Specialized for Dojo game engine, its components, SDKs, and onchain game development
  */
 export const assistWithDojoSchema = z.object({
   query: z
     .string()
     .describe(
-      "The user's question about Starknet ecosystem, concepts, recent updates, or general knowledge. This is for understanding the Starknet protocol, ecosystem projects, news, and high-level concepts (e.g., 'What are the latest updates in Starknet?' or 'Explain account abstraction in Starknet')."
+      "The user's question about Dojo game engine and its ecosystem. Use this for understanding Dojo core concepts, components (Katana, Torii, Sozo, Saya, Cainome), SDKs (dojo.js, dojo.c, dojo.unity, dojo.rust, dojo.godot, dojo.bevy, dojo.unreal), libraries (Origami, Alexandria), building onchain games, and deploying Dojo worlds (e.g., 'How do I use Katana for local development?' or 'Explain Dojo's ECS architecture')."
     ),
   history: z
     .array(z.string())
     .optional()
     .describe(
-      'Optional: The preceding conversation history. This can help the tool understand the context of the discussion and provide more accurate answers.'
+      'Optional: The preceding conversation history about Dojo. This can help the tool understand the context of the discussion and provide more accurate answers.'
     ),
 });
 
