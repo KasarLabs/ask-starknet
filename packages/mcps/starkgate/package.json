@@ -27,7 +27,7 @@
     "bitcoinjs-lib": "^7.0.0",
     "dotenv": "^16.4.7",
     "ethers": "^6.13.4",
-    "starknet": "8.6.0",
+    "starknet": "~8.9.0",
     "winston": "^3.17.0",
     "zod": "^3.24.2"
   },
