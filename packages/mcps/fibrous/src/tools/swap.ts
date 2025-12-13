@@ -49,12 +49,12 @@ export class SwapService {
         params.sellAmount.toString(),
         Number(sellToken.decimals)
       );
-      
+
       const route = await this.router.getBestRoute({
         amount: formattedAmount,
         tokenInAddress: sellToken.address,
         tokenOutAddress: buyToken.address,
-        chainName: 'starknet'
+        chainName: 'starknet',
       });
 
       if (!route?.success) {
@@ -68,7 +68,7 @@ export class SwapService {
         tokenOutAddress: buyToken.address,
         slippage: SLIPPAGE_PERCENTAGE,
         destination: destinationAddress,
-        chainName: 'starknet'
+        chainName: 'starknet',
       });
 
       if (!swapCall) {

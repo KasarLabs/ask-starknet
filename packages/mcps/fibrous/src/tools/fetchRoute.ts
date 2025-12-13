@@ -36,7 +36,7 @@ export class RouteFetchService {
         amount: formattedAmount,
         tokenInAddress: sellToken.address,
         tokenOutAddress: buyToken.address,
-        chainName: 'starknet'
+        chainName: 'starknet',
       });
 
       if (!route?.success) {

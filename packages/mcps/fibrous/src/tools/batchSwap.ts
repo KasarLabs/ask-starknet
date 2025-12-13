@@ -76,7 +76,7 @@ export class BatchSwapService {
           amount: swapParams.sellAmounts[i].toString(),
           tokenInAddress: swapParams.sellTokenAddresses[i],
           tokenOutAddress: swapParams.buyTokenAddresses[i],
-          chainName: 'starknet'
+          chainName: 'starknet',
         });
         routes.push(route);
       }
@@ -95,12 +95,12 @@ export class BatchSwapService {
       const destinationAddress = account.address; // !!! Destination address is the address of the account that will receive the tokens might be the any address
 
       const swapCalls = await this.router.buildBatchTransaction({
-        inputAmounts: swapParams.sellAmounts.map(amount => amount.toString()),
+        inputAmounts: swapParams.sellAmounts.map((amount) => amount.toString()),
         tokenInAddresses: swapParams.sellTokenAddresses,
         tokenOutAddresses: swapParams.buyTokenAddresses,
         slippage: SLIPPAGE_PERCENTAGE,
         destination: destinationAddress,
-        chainName: 'starknet'
+        chainName: 'starknet',
       });
       if (!swapCalls || !Array.isArray(swapCalls)) {
         throw new Error('Calldata not available for this swap');
@@ -116,7 +116,7 @@ export class BatchSwapService {
         );
         if (approveCall) {
           calldata = [approveCall, swapCalls[i]];
-          } else {
+        } else {
           calldata = [swapCalls[i]];
         }
       }
