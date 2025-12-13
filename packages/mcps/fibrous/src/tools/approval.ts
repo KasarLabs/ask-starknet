@@ -1,5 +1,5 @@
 import { Account, Call, Contract } from 'starknet';
-import { ERC20_ABI } from '../lib/abis/erc20Abi.js';
+import { ERC20_ABI } from '@kasarlabs/ask-starknet-core';
 import { Router } from 'fibrous-router-sdk';
 
 export class ApprovalService {

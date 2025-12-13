@@ -1,6 +1,6 @@
 import { constants, Contract, RpcProvider } from 'starknet';
+import { erc20Abi } from '@kasarlabs/ask-starknet-core';
 import { abbotAbi } from '../abis/abbotAbi.js';
-import { erc20Abi } from '../abis/erc20Abi.js';
 import { shrineAbi } from '../abis/shrineAbi.js';
 import { sentinelAbi } from '../abis/sentinelAbi.js';
 import { getOpusContractAddress } from '../constant/index.js';

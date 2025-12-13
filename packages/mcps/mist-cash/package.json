@@ -1,0 +1,52 @@
+{
+  "name": "@kasarlabs/mist-cash-mcp",
+  "version": "0.1.0",
+  "main": "index.js",
+  "type": "module",
+  "bin": {
+    "mist-cash-mcp": "./bin/mist-cash-mcp.js"
+  },
+  "scripts": {
+    "build": "tsc && chmod 755 build/index.js",
+    "clean": "rm -rf build",
+    "clean:all": "rm -rf build node_modules",
+    "start": "node build/index.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "files": [
+    "build"
+  ],
+  "dependencies": {
+    "@jest/globals": "^30.2.0",
+    "@kasarlabs/ask-starknet-core": "workspace:*",
+    "@langchain/core": "^0.3.42",
+    "@mistcash/config": "^0.2.2",
+    "@mistcash/crypto": "^0.2.2",
+    "@mistcash/sdk": "^0.2.2",
+    "@modelcontextprotocol/sdk": "^1.11.2",
+    "dotenv": "^16.4.7",
+    "starknet": "~8.9.0",
+    "winston": "^3.17.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@types/node": "^22.13.10",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
+    "typescript": "^5.8.2"
+  },
+  "keywords": [
+    "mcp",
+    "starknet",
+    "mist-cash"
+  ],
+  "author": "kasarlabs",
+  "license": "MIT",
+  "description": "MCP server for interacting with the Mist Cash protocol on Starknet",
+  "publishConfig": {
+    "access": "public"
+  }
+}

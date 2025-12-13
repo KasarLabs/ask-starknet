@@ -6,6 +6,7 @@ import {
   formatContractError,
   ContractManager,
 } from '../lib/index.js';
+import { hash } from 'starknet';
 
 /**
  * Declare a contract on Starknet using file path approach
@@ -32,19 +33,16 @@ export const declareContract = async (
     const declareResponse = await contractManager.declareContract();
 
     // Calculate class hash locally to ensure it's always returned
-    const contractManagerForHash = new ContractManager(account);
-    await contractManagerForHash.loadContractCompilationFiles(
-      params.sierraFilePath,
-      params.casmFilePath
+    const calculatedClassHash = hash.computeContractClassHash(
+      contractManager.compiledSierra
     );
-    const { classHash: calculatedClassHash } =
-      await contractManagerForHash.isContractDeclared();
 
     return {
       status: 'success',
       data: {
         transactionHash: declareResponse.transaction_hash || '',
-        classHash: declareResponse.class_hash || calculatedClassHash,
+        classHash:
+          declareResponse.class_hash?.toString() || calculatedClassHash,
         sierraFilePath: params.sierraFilePath,
         casmFilePath: params.casmFilePath,
         message: 'Contract declared successfully',

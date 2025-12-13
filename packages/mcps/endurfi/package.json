@@ -11,11 +11,8 @@
     "clean": "rm -rf build",
     "clean:all": "rm -rf build node_modules",
     "start": "node build/index.js",
-    "test:e2e": "node __tests__/e2e/read.test.js",
-    "test:e2e:read": "node __tests__/e2e/read.test.js",
-    "test:e2e:stake": "node __tests__/e2e/stakeStrk.test.js",
-    "test:e2e:unstake": "node __tests__/e2e/unstakeXstrkQueue.test.js",
-    "test:e2e:claim": "node __tests__/e2e/claimUnstakeRequest.test.js"
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "test:e2e": "NODE_OPTIONS=--experimental-vm-modules jest __tests__/e2e"
   },
   "files": [
     "build"
@@ -24,11 +21,15 @@
     "@kasarlabs/ask-starknet-core": "workspace:*",
     "@modelcontextprotocol/sdk": "1.22.0",
     "dotenv": "^16.4.7",
-    "starknet": "8.6.0",
+    "starknet": "~8.9.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@jest/globals": "^29.7.0",
+    "@types/jest": "^29.5.12",
     "@types/node": "^22.13.10",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
     "typescript": "^5.8.2"
   },
   "keywords": [

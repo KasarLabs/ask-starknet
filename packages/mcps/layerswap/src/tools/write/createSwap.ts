@@ -121,35 +121,15 @@ export const createSwap = async (
           }
         } else {
           // No call_data found - log warning but don't fail the swap creation
-          console.error('No call_data found in deposit_actions[0]');
-          console.error(
-            'Swap created successfully, but onchain execution skipped'
-          );
         }
-      } else {
-        console.error('No deposit_actions found or empty array');
-      }
-    } else {
-      if (!env) {
-        console.error('No onchainWrite environment provided');
-      } else if (!swap.swap.id) {
-        console.error('No swap ID in response');
-      } else if (
-        sourceAddress &&
-        env.account.address &&
-        sourceAddress.toLowerCase() !== env.account.address.toLowerCase()
-      ) {
-        console.error(
-          `Source address (${sourceAddress}) differs from environment account address (${env.account.address}). On-chain execution skipped.`
-        );
       }
     }
 
     return {
       status: 'success',
       data: {
-        ...swap,
         ...(transactionHash && { deposit_transaction_hash: transactionHash }),
+        ...swap,
       },
     } as toolResult;
   } catch (error) {

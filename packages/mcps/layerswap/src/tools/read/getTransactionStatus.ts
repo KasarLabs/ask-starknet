@@ -11,10 +11,12 @@ export const getTransactionStatus = async (
     queryParams.append('network', params.network.toUpperCase());
     queryParams.append('transaction_id', params.transaction_id);
     const endpoint = `/api/v2/transaction_status?${queryParams.toString()}`;
-    const status: any = await apiClient.get<any>(endpoint);
+    const response: any = await apiClient.get<any>(endpoint);
+    // Extract the inner data property to avoid double nesting
+    const data = response?.data !== undefined ? response.data : response;
     return {
       status: 'success',
-      data: status,
+      data: data,
     } as toolResult;
   } catch (error) {
     return {
