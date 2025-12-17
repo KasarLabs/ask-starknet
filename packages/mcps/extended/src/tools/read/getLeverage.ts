@@ -16,11 +16,11 @@ export const getLeverage = async (
 
     const endpoint = `/api/v1/user/leverage${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
 
-    const data = await apiGet<LeverageSetting[]>(env, endpoint, true);
+    const response = await apiGet<LeverageSetting[]>(env, endpoint, true);
 
     return {
       status: 'success',
-      data,
+      data: response,
     };
   } catch (error: any) {
     console.error('Error getting leverage:', error);

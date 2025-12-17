@@ -3,9 +3,17 @@ import { apiGet } from '../../lib/utils/api.js';
 import { GetFundingPaymentsSchema } from '../../schemas/index.js';
 
 interface FundingPayment {
-  market_id: string;
-  payment: string;
-  timestamp: number;
+  accountId: number;
+  fundingFee: string;
+  fundingRate: string;
+  id: number;
+  markPrice: string;
+  market: string;
+  paidTime: number;
+  positionId: number;
+  side: string;
+  size: string;
+  value: string;
 }
 
 export const getFundingPayments = async (
@@ -20,11 +28,11 @@ export const getFundingPayments = async (
 
     const endpoint = `/api/v1/user/funding/history?${queryParams.toString()}`;
 
-    const data = await apiGet<FundingPayment[]>(env, endpoint, true);
+    const response = await apiGet<FundingPayment[]>(env, endpoint, true);
 
     return {
       status: 'success',
-      data,
+      data: response,
     };
   } catch (error: any) {
     console.error('Error getting funding payments:', error);

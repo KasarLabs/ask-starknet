@@ -17,7 +17,7 @@ export const getMarketTrades = async (
   params: GetMarketTradesSchema
 ): Promise<ExtendedApiResponse<MarketTrade[]>> => {
   try {
-    const data = await apiGet<MarketTrade[]>(
+    const response = await apiGet<MarketTrade[]>(
       env,
       `/api/v1/info/markets/${params.market}/trades`,
       false // Public endpoint, no auth required
@@ -25,7 +25,7 @@ export const getMarketTrades = async (
 
     return {
       status: 'success',
-      data,
+      data: response,
     };
   } catch (error: any) {
     console.error('Error getting market trades:', error);

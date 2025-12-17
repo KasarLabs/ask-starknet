@@ -23,7 +23,7 @@ This MCP provides the following tools:
 - **extended_get_open_orders**: Get all currently open orders including limit, market, conditional, and TP/SL orders
 - **extended_get_order_by_id**: Get a specific order by its Extended-assigned order ID
 - **extended_get_trades_history**: Get historical trades executed by the account with optional filters for market, type, and side
-- **extended_get_orders_history**: Get historical orders (filled, canceled, or rejected) with optional filters
+- **extended_get_orders_history**: Get historical orders (filled, cancelled, rejected, or expired) with optional filters
 - **extended_get_positions_history**: Get historical closed positions with realized PnL
 - **extended_get_funding_payments**: Get historical funding payments made or received for perpetual positions
 - **extended_get_leverage**: Get current leverage settings for all markets

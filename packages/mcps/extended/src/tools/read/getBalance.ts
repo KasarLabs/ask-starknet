@@ -11,11 +11,10 @@ export const getBalance = async (
   params: GetBalanceSchema
 ): Promise<ExtendedApiResponse<Balance>> => {
   try {
-    const data = await apiGet<Balance>(env, '/api/v1/user/balance', true);
-
+    const response = await apiGet<Balance>(env, '/api/v1/user/balance', true);
     return {
       status: 'success',
-      data,
+      data: response,
     };
   } catch (error: any) {
     console.error('Error getting balance:', error);

@@ -26,7 +26,6 @@ export const cancelOrder = async (
       data: response,
     };
   } catch (error: any) {
-    console.error('Error canceling order:', error);
     return {
       status: 'failure',
       error: error.message || 'Failed to cancel order',

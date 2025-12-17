@@ -65,7 +65,7 @@ export const getMarkets = async (
       endpoint = `${endpoint}?${queryParams}`;
     }
 
-    const data = await apiGet<MarketInfo[]>(
+    const response = await apiGet<MarketInfo[]>(
       env,
       endpoint,
       false // Public endpoint, no auth required
@@ -73,7 +73,7 @@ export const getMarkets = async (
 
     return {
       status: 'success',
-      data,
+      data: response,
     };
   } catch (error: any) {
     console.error('Error getting markets:', error);

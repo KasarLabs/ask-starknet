@@ -26,7 +26,7 @@ export const getCandlesHistory = async (
       queryParams.append('endTime', params.endTime.toString());
     }
 
-    const data = await apiGet<Candle[]>(
+    const response = await apiGet<Candle[]>(
       env,
       `/api/v1/info/candles/${params.market}/${params.candleType}?${queryParams.toString()}`,
       false // Public endpoint, no auth required
@@ -34,7 +34,7 @@ export const getCandlesHistory = async (
 
     return {
       status: 'success',
-      data,
+      data: response,
     };
   } catch (error: any) {
     console.error('Error getting candles:', error);

@@ -114,7 +114,7 @@ export const addPositionTpSl = async (
       ctx,
     });
 
-    const data = await apiPost<OrderReturn>(
+    const response = await apiPost<OrderReturn>(
       env,
       '/api/v1/user/order',
       orderPayload
@@ -122,7 +122,7 @@ export const addPositionTpSl = async (
 
     return {
       status: 'success',
-      data,
+      data: response,
     };
   } catch (error: any) {
     console.error('Error creating position TP/SL:', error);

@@ -96,18 +96,16 @@ export const createLimitOrder = async (
       ctx,
     });
 
-    const data = await apiPost<OrderReturn>(
+    const response = await apiPost<OrderReturn>(
       env,
       '/api/v1/user/order',
       orderPayload
     );
-
     return {
       status: 'success',
-      data,
+      data: response,
     };
   } catch (error: any) {
-    console.error('Error creating limit order:', error);
     return {
       status: 'failure',
       error: error.message || 'Failed to create limit order',

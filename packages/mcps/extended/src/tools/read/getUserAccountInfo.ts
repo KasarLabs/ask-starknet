@@ -11,7 +11,7 @@ export const getUserAccountInfo = async (
   params: GetUserAccountInfoSchema
 ): Promise<ExtendedApiResponse<AccountInfo>> => {
   try {
-    const data = await apiGet<AccountInfo>(
+    const response = await apiGet<AccountInfo>(
       env,
       '/api/v1/user/account/info',
       true
@@ -19,7 +19,7 @@ export const getUserAccountInfo = async (
 
     return {
       status: 'success',
-      data,
+      data: response,
     };
   } catch (error: any) {
     console.error('Error getting user account info:', error);

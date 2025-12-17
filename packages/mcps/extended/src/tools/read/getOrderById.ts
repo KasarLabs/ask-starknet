@@ -11,7 +11,8 @@ export const getOrderById = async (
   params: GetOrderByIdSchema
 ): Promise<ExtendedApiResponse<OrderReturn>> => {
   try {
-    const data = await apiGet<OrderReturn>(
+    // Ensure order_id is treated as a string to preserve precision for large numbers
+    const response = await apiGet<OrderReturn>(
       env,
       `/api/v1/user/orders/${params.order_id}`,
       true
@@ -19,7 +20,7 @@ export const getOrderById = async (
 
     return {
       status: 'success',
-      data,
+      data: response,
     };
   } catch (error: any) {
     console.error('Error getting order by ID:', error);

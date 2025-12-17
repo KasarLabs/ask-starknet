@@ -125,7 +125,7 @@ export const createLimitOrderWithTpSl = async (
       ctx,
     });
 
-    const data = await apiPost<OrderReturn>(
+    const response = await apiPost<OrderReturn>(
       env,
       '/api/v1/user/order',
       orderPayload
@@ -133,7 +133,7 @@ export const createLimitOrderWithTpSl = async (
 
     return {
       status: 'success',
-      data,
+      data: response,
     };
   } catch (error: any) {
     console.error('Error creating limit order with TP/SL:', error);

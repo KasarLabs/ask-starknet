@@ -20,7 +20,6 @@ export const updateLeverage = async (
       market: params.market_id,
       leverage: params.leverage,
     };
-
     const response = await apiPatch<UpdateLeverageResponse>(
       env,
       '/api/v1/user/leverage',
@@ -32,7 +31,6 @@ export const updateLeverage = async (
       data: response,
     };
   } catch (error: any) {
-    console.error('Error updating leverage:', error);
     return {
       status: 'failure',
       error: error.message || 'Failed to update leverage',

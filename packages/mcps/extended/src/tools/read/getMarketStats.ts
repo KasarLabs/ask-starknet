@@ -36,7 +36,7 @@ export const getMarketStats = async (
   params: GetMarketStatsSchema
 ): Promise<ExtendedApiResponse<MarketStatsData>> => {
   try {
-    const data = await apiGet<MarketStatsData>(
+    const response = await apiGet<MarketStatsData>(
       env,
       `/api/v1/info/markets/${params.market}/stats`,
       false // Public endpoint, no auth required
@@ -44,7 +44,7 @@ export const getMarketStats = async (
 
     return {
       status: 'success',
-      data,
+      data: response,
     };
   } catch (error: any) {
     console.error('Error getting market stats:', error);

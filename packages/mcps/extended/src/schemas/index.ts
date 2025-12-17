@@ -80,16 +80,13 @@ export type GetTradesHistorySchema = z.infer<typeof GetTradesHistorySchema>;
 
 /**
  * Schema for getting orders history
+ * Note: Orders history only contains orders with status: FILLED, CANCELLED, REJECTED, or EXPIRED
  */
 export const GetOrdersHistorySchema = z.object({
   market_id: z
     .string()
     .optional()
     .describe('Filter by market ID (e.g., "BTC-USD")'),
-  status: z
-    .enum(['FILLED', 'CANCELED', 'REJECTED'])
-    .optional()
-    .describe('Filter by order status'),
   start_time: z
     .number()
     .optional()
