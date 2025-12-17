@@ -46,13 +46,6 @@ export class RouteFetchService {
         };
       }
 
-      if (!route) {
-        return {
-          status: 'failure',
-          error: 'No valid route found in quote',
-        };
-      }
-
       return {
         status: 'success',
         route,

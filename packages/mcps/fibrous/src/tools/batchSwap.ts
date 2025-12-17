@@ -4,7 +4,6 @@ import { ApprovalService } from './approval.js';
 
 import { TokenService } from './fetchTokens.js';
 import { Router as FibrousRouter, RouteSuccess } from 'fibrous-router-sdk';
-import { BigNumber } from '@ethersproject/bignumber';
 import { getV3DetailsPayload } from '../lib/utils/utils.js';
 import { TransactionMonitor } from '../lib/utils/transactionMonitor.js';
 import { BatchSwapParams } from '../lib/types/index.js';
@@ -33,18 +32,18 @@ export class BatchSwapService {
   extractBatchSwapParams(params: BatchSwapParams): {
     sellTokenAddresses: string[];
     buyTokenAddresses: string[];
-    sellAmounts: BigNumber[];
+    sellAmounts: string[];
   } {
     const sellTokens: string[] = [];
     const buyTokens: string[] = [];
-    const sellAmounts: BigNumber[] = [];
+    const sellAmounts: string[] = [];
     for (let i = 0; i < params.sellTokenSymbols.length; i++) {
       const { sellToken, buyToken } = this.tokenService.validateTokenPair(
         params.sellTokenSymbols[i],
         params.buyTokenSymbols[i]
       );
 
-      const sellAmount = BigNumber.from(params.sellAmounts[i]);
+      const sellAmount = params.sellAmounts[i].toString();
       sellTokens.push(sellToken.address);
       buyTokens.push(buyToken.address);
       sellAmounts.push(sellAmount);
@@ -73,7 +72,7 @@ export class BatchSwapService {
       const routes = [];
       for (let i = 0; i < swapParams.sellAmounts.length; i++) {
         const route = await this.router.getBestRoute({
-          amount: swapParams.sellAmounts[i].toString(),
+          amount: swapParams.sellAmounts[i],
           tokenInAddress: swapParams.sellTokenAddresses[i],
           tokenOutAddress: swapParams.buyTokenAddresses[i],
           chainName: 'starknet',
@@ -95,7 +94,7 @@ export class BatchSwapService {
       const destinationAddress = account.address; // !!! Destination address is the address of the account that will receive the tokens might be the any address
 
       const swapCalls = await this.router.buildBatchTransaction({
-        inputAmounts: swapParams.sellAmounts.map((amount) => amount.toString()),
+        inputAmounts: swapParams.sellAmounts,
         tokenInAddresses: swapParams.sellTokenAddresses,
         tokenOutAddresses: swapParams.buyTokenAddresses,
         slippage: SLIPPAGE_PERCENTAGE,
@@ -112,13 +111,12 @@ export class BatchSwapService {
           account,
           swapParams.sellTokenAddresses[i],
           routerAddress,
-          swapParams.sellAmounts[i].toString()
+          swapParams.sellAmounts[i]
         );
         if (approveCall) {
-          calldata = [approveCall, swapCalls[i]];
-        } else {
-          calldata = [swapCalls[i]];
+          calldata.push(approveCall);
         }
+        calldata.push(swapCalls[i]);
       }
 
       const swapResult = await account.execute(calldata, getV3DetailsPayload());

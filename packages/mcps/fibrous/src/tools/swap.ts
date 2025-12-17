@@ -21,7 +21,6 @@ export class SwapService {
   ) {
     this.tokenService = new TokenService();
     this.approvalService = new ApprovalService();
-    this.router = new FibrousRouter();
   }
 
   async initialize(): Promise<void> {
@@ -62,7 +61,7 @@ export class SwapService {
       }
 
       const destinationAddress = account.address; // !!! Destination address is the address of the account that will receive the tokens might be the any address
-      const swapCall = await this.router.buildTransaction({
+      const swapCall: Call | any = await this.router.buildTransaction({
         inputAmount: formattedAmount,
         tokenInAddress: sellToken.address,
         tokenOutAddress: buyToken.address,
