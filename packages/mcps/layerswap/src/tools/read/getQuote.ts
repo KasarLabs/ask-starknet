@@ -35,11 +35,12 @@ export const getQuote = async (
       queryParams.append('refuel', params.refuel.toString());
     }
     const endpoint = `/api/v2/quote?${queryParams.toString()}`;
-    console.error('endpoint', endpoint);
-    const quote: any = await apiClient.get<any>(endpoint);
+    const response: any = await apiClient.get<any>(endpoint);
+    // Extract the inner data property to avoid double nesting
+    const data = response?.data !== undefined ? response.data : response;
     return {
       status: 'success',
-      data: quote as any,
+      data: data,
     } as toolResult;
   } catch (error) {
     return {

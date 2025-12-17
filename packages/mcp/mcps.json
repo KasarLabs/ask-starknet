@@ -128,7 +128,7 @@
   "troves": {
     "client": {
       "command": "npx",
-      "args": ["-y", "@kasarlabs/troves@latest"],
+      "args": ["-y", "@kasarlabs/troves-mcp@latest"],
       "transport": "stdio"
     },
     "description": "Troves strategies API for Starknet",
@@ -365,7 +365,7 @@
         "get_pool_liquidity",
         "get_pool_fees_per_liquidity",
         "get_token_price",
-        "get_position",
+        "get_positions",
         "swap",
         "create_position",
         "add_liquidity",

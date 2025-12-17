@@ -6,7 +6,7 @@ import {
   convertTickSpacingExponentToPercent,
   convertFeeU128ToPercent,
 } from '../../lib/utils/math.js';
-import { fetchPositionData } from '../../lib/utils/position.js';
+import { fetchPositionDataById } from '../../lib/utils/position.js';
 import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 
 export const withdrawLiquidity = async (
@@ -20,9 +20,18 @@ export const withdrawLiquidity = async (
       'positions',
       account
     );
+    const positionsNFTContract = await getContract(
+      env.provider,
+      'positionsNFT'
+    );
 
-    // Fetch position data from API
-    const positionData = await fetchPositionData(params.position_id);
+    // Fetch position data from API (always 'opened' since closed positions have no liquidity)
+    const positionData = await fetchPositionDataById(
+      env.provider,
+      positionsNFTContract,
+      params.position_id,
+      'opened'
+    );
 
     // Use API data
     const token0_address = positionData.token0;

@@ -7,6 +7,9 @@
     },
     "clean:all": {
       "cache": false
+    },
+    "test:e2e": {
+      "cache": false
     }
   }
 }

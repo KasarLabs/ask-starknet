@@ -1,85 +1,56 @@
 import { CreateMemecoinParams } from '../schemas/index.js';
-import { stark, uint256 } from 'starknet';
-import { execute, decimalsScale } from '../lib/utils/helper.js';
+import { stark, uint256, validateAndParseAddress, Contract } from 'starknet';
+import { decimalsScale } from '../lib/utils/helper.js';
+import { FACTORY_ABI } from '../lib/abis/unruggableFactory.js';
+import { FACTORY_ADDRESS, MEMECOIN_DECIMALS } from '../lib/constants/index.js';
+import { extractMemecoinAddressFromReceipt } from '../lib/utils/events.js';
 import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 
-/**
- * Creates a new memecoin using the Unruggable Factory.
- *
- * This function deploys a new memecoin contract with specified parameters through the
- * Unruggable Factory. It handles the creation process including proper decimal scaling
- * and salt generation for the contract address.
- *
- * @param {CreateMemecoinParams} params - Parameters for the memecoin creation
- * @param {string} privateKey - Private key for transaction signing
- * @returns {Promise<string | CreateMemecoinErrorResponse>} JSON string for success or error object
- *
- * @example
- * ```typescript
- * // Create a new memecoin
- * const result = await createMemecoin({
- *   owner: "0x123...",  // Owner address
- *   name: "Pepe Token", // Token name
- *   symbol: "PEPE",     // Token symbol
- *   initialSupply: "1000000" // 1 million tokens (will be scaled by decimals)
- * }, "your_private_key");
- *
- * // Handle the response
- * try {
- *   const response = typeof result === 'string'
- *     ? JSON.parse(result)
- *     : result;
- *
- *   if (response.status === 'success') {
- *     logger.info('Transaction hash:', response.transactionHash);
- *     logger.info('View transaction: https://voyager.online/tx/' + response.transactionHash);
- *   } else {
- *     console.error('Creation failed:', response.error);
- *   }
- * } catch (error) {
- *   console.error('Error parsing response:', error);
- * }
- * ```
- *
- * @throws Will return error response if:
- * - Invalid owner address format
- * - Invalid token name or symbol format
- * - Initial supply is not a valid number
- * - Transaction signing fails
- * - Contract deployment fails
- *
- * @note
- * - Initial supply is automatically scaled by 18 decimals
- * - A random salt is generated for contract address
- * - The function waits for transaction confirmation
- * - Owner address must be a valid Starknet address
- * - Name and symbol should follow token naming conventions
- */
 export const createMemecoin = async (
   env: onchainWrite,
   params: CreateMemecoinParams
 ): Promise<toolResult> => {
   try {
-    const provider = env.provider;
+    validateAndParseAddress(params.owner);
+
+    const { account, provider } = env;
     const salt = stark.randomAddress();
-    const { transaction_hash } = await execute('create_memecoin', env, [
+
+    const contract = new Contract({
+      abi: FACTORY_ABI,
+      address: FACTORY_ADDRESS,
+      providerOrAccount: account,
+    });
+
+    const initialSupplyUint256 = uint256.bnToUint256(
+      BigInt(params.initialSupply) * BigInt(decimalsScale(MEMECOIN_DECIMALS))
+    );
+
+    const { transaction_hash } = await contract.invoke('create_memecoin', [
       params.owner,
       params.name,
       params.symbol,
-      uint256.bnToUint256(
-        BigInt(params.initialSupply) * BigInt(decimalsScale(18))
-      ),
+      initialSupplyUint256,
       salt,
     ]);
 
     await provider.waitForTransaction(transaction_hash);
 
+    const receipt = await provider.getTransactionReceipt(transaction_hash);
+    const memecoinAddress = extractMemecoinAddressFromReceipt(receipt);
+
+    if (!memecoinAddress) {
+      throw new Error('Could not extract memecoin address from transaction');
+    }
+
     return {
       status: 'success',
-      data: { transactionHash: transaction_hash },
+      data: {
+        transactionHash: transaction_hash,
+        memecoinAddress: memecoinAddress,
+      },
     };
   } catch (error) {
-    console.error('Error creating memecoin:', error);
     return {
       status: 'failure',
       error: error instanceof Error ? error.message : 'Unknown error',

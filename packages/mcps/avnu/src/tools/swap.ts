@@ -140,7 +140,7 @@ export class SwapService {
     const transactionMonitor = new TransactionMonitor(this.env.provider);
     const receipt = await transactionMonitor.waitForTransaction(
       txHash,
-      (status) => console.error('Swap status:', status)
+      (status) => console.info('Swap status:', status)
     );
 
     const events = await transactionMonitor.getTransactionEvents(txHash);
@@ -164,6 +164,14 @@ export const swapTokens = async (
   try {
     const swapService = createSwapService(env);
     const result = await swapService.executeSwapTransaction(params);
+
+    if (result.status === 'failure') {
+      return {
+        status: 'failure',
+        error: result.error || 'Swap transaction failed',
+      };
+    }
+
     return {
       status: 'success',
       data: result,

@@ -30,10 +30,6 @@ async function validateStarknetTokenBalance(
   const balance = await tokenContract.balanceOf(accountAddress);
   const tokenBalance = BigInt(balance.toString());
 
-  console.error(
-    `Token balance: ${ethers.formatUnits(tokenBalance, decimals)} ${symbol}`
-  );
-
   if (tokenBalance < tokenAmount) {
     throw new Error(
       `Insufficient ${symbol} balance. Required: ${ethers.formatUnits(tokenAmount, decimals)} ${symbol}, Available: ${ethers.formatUnits(tokenBalance, decimals)} ${symbol}`
@@ -65,23 +61,12 @@ async function ensureStarknetTokenAllowance(
   );
   const currentAllowance = BigInt(allowance.toString());
 
-  console.error(
-    `Current allowance: ${ethers.formatUnits(currentAllowance, decimals)} ${symbol}`
-  );
-
   // If allowance is insufficient, approve the bridge
   if (currentAllowance < tokenAmount) {
-    console.error(
-      `Approving bridge to spend ${ethers.formatUnits(tokenAmount, decimals)} ${symbol}...`
-    );
     const approveTx = await tokenContract.approve(bridgeAddress, tokenAmount);
-    console.error('Approval transaction hash:', approveTx.transaction_hash);
     await tokenContract.providerOrAccount.waitForTransaction(
       approveTx.transaction_hash
     );
-    console.error('Approval confirmed.');
-  } else {
-    console.error('Sufficient allowance already exists, skipping approval.');
   }
 }
 
@@ -105,8 +90,6 @@ export async function withdrawToEthereum(
       throw new Error(`Unsupported token: ${symbol}`);
     }
 
-    console.error(`Using ${symbol} bridge: ${bridgeAddress}`);
-
     const withdrawContract = new Contract({
       address: bridgeAddress,
       abi: L2_BRIDGE_ABI_MAP[symbol],
@@ -119,11 +102,6 @@ export async function withdrawToEthereum(
       const weiWithdrawAmount = ethers.parseEther(amount);
       const withdrawAmount = BigInt(weiWithdrawAmount.toString());
 
-      console.error(
-        `Withdrawing ${amount} ETH (${withdrawAmount.toString()} wei) from Starknet address ${account.address} to Ethereum address ${toAddress}`
-      );
-
-      console.error('Using initiate_withdraw for native ETH');
       withdrawTx = await withdrawContract.initiate_withdraw(
         toAddress,
         withdrawAmount
@@ -148,22 +126,12 @@ export async function withdrawToEthereum(
       try {
         const fetchedDecimals = await tokenContract.decimals();
         decimals = Number(fetchedDecimals);
-        console.error(`Fetched decimals for ${symbol}: ${decimals}`);
       } catch (error) {
-        console.error(
-          `Failed to fetch decimals for ${symbol}, using default (18):`,
-          error
-        );
+        // Using default (18) if fetch fails
       }
 
       const tokenAmount = ethers.parseUnits(amount, decimals);
       const withdrawAmount = BigInt(tokenAmount.toString());
-
-      console.error(`Token amount (${symbol}):`, withdrawAmount.toString());
-      console.error(`Token decimals: ${decimals}`);
-      console.error(
-        `Withdrawing ${amount} ${symbol} from Starknet address ${account.address} to Ethereum address ${toAddress}`
-      );
 
       // Validate token balance
       await validateStarknetTokenBalance(
@@ -191,7 +159,6 @@ export async function withdrawToEthereum(
       }
 
       // Use initiate_token_withdraw for ERC20: initiate_token_withdraw(l1_token, l1_recipient, amount)
-      console.error('Using initiate_token_withdraw for ERC20 token');
       withdrawTx = await withdrawContract.initiate_token_withdraw(
         l1TokenAddress,
         toAddress,
@@ -199,13 +166,8 @@ export async function withdrawToEthereum(
       );
     }
 
-    console.error('Withdraw transaction hash:', withdrawTx.transaction_hash);
-
     // Wait for transaction confirmation
-    const receipt = await provider.waitForTransaction(
-      withdrawTx.transaction_hash
-    );
-    console.error('Withdraw transaction confirmed on L2.', receipt);
+    await provider.waitForTransaction(withdrawTx.transaction_hash);
 
     return {
       status: 'success',
@@ -235,8 +197,6 @@ export async function bridgeL2toL1(
   starknetEnv: onchainWrite,
   params: BridgeL2toL1Params
 ): Promise<toolResult> {
-  console.error('Bridging from Starknet to Ethereum...');
   const result = await withdrawToEthereum(starknetEnv, params);
-  console.error('Bridging completed.');
   return result;
 }

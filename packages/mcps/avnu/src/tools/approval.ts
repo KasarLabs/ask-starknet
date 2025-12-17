@@ -48,7 +48,7 @@ export class ApprovalService {
       const transactionMonitor = new TransactionMonitor(this.env.provider);
 
       const contract = contractInteractor.createContract(
-        erc20Abi,
+        [...erc20Abi] as any[],
         tokenAddress,
         account
       );
@@ -79,7 +79,7 @@ export class ApprovalService {
           uint256.bnToUint256(amount)
         );
 
-        console.error(
+        console.info(
           'Approve transaction sent:',
           this.safeStringify(approveCall)
         );
@@ -90,7 +90,7 @@ export class ApprovalService {
 
         await transactionMonitor.waitForTransaction(
           approveCall.transaction_hash,
-          (status) => console.error('Approve status:', status)
+          (status) => console.info('Approve status:', status)
         );
       }
     } catch (error) {

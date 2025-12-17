@@ -105,3 +105,5 @@ export const getOnchainWrite = (): onchainWrite => {
     account,
   };
 };
+
+export * from './test-helpers.js';

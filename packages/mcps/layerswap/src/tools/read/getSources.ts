@@ -48,10 +48,12 @@ export const getSources = async (
     }
     const queryString = queryParams.toString();
     const endpoint = `/api/v2/sources${queryString ? `?${queryString}` : ''}`;
-    const sources: any = await apiClient.get<any>(endpoint);
+    const response: any = await apiClient.get<any>(endpoint);
+    // Extract the inner data property to avoid double nesting
+    const data = response?.data !== undefined ? response.data : response;
     return {
       status: 'success',
-      data: sources,
+      data: data,
     } as toolResult;
   } catch (error) {
     return {

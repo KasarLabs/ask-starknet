@@ -21,13 +21,13 @@ export const getBridgeConfig = async (
   try {
     const response = await apiGet<{
       status: string;
-      data: { chains: BridgeChain[] };
+      data: any;
     }>(env, '/api/v1/user/bridge/config', true);
 
     return {
       status: 'success',
       data: {
-        chains: response.data.chains,
+        chains: response.data,
       },
     };
   } catch (error: any) {
