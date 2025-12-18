@@ -1,4 +1,7 @@
-import { Token, Router as FibrousRouter } from 'fibrous-router-sdk';
+import type { Token, Router as FibrousRouter } from 'fibrous-router-sdk';
+import { getFibrousRouterCtor } from '../lib/utils/fibrousRouterSdk.js';
+
+const FibrousRouterCtor = getFibrousRouterCtor();
 
 export class TokenService {
   private tokens: Map<string, Token>;
@@ -9,7 +12,7 @@ export class TokenService {
 
   async initializeTokens(): Promise<void> {
     try {
-      const fibrous = new FibrousRouter();
+      const fibrous: FibrousRouter = new FibrousRouterCtor();
       const tokens = await fibrous.supportedTokens('starknet');
       this.tokens =
         tokens instanceof Map

@@ -1,7 +1,13 @@
 import { TokenService } from './fetchTokens.js';
-import { Router as FibrousRouter, RouteResponse } from 'fibrous-router-sdk';
+import type {
+  Router as FibrousRouter,
+  RouteResponse,
+} from 'fibrous-router-sdk';
 import { RouteSchemaType } from '../schemas/index.js';
 import { formatToBaseUnits } from '../lib/utils/amount.js';
+import { getFibrousRouterCtor } from '../lib/utils/fibrousRouterSdk.js';
+
+const FibrousRouterCtor = getFibrousRouterCtor();
 
 export interface RouteResult {
   status: 'success' | 'failure';
@@ -15,7 +21,7 @@ export class RouteFetchService {
 
   constructor() {
     this.tokenService = new TokenService();
-    this.router = new FibrousRouter();
+    this.router = new FibrousRouterCtor();
   }
 
   async initialize(): Promise<void> {

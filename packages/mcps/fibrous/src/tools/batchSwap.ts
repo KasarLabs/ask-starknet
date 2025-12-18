@@ -3,13 +3,16 @@ import { Account, Call } from 'starknet';
 import { ApprovalService } from './approval.js';
 
 import { TokenService } from './fetchTokens.js';
-import { Router as FibrousRouter, RouteSuccess } from 'fibrous-router-sdk';
+import type { Router as FibrousRouter, RouteSuccess } from 'fibrous-router-sdk';
 import { getV3DetailsPayload } from '../lib/utils/utils.js';
 import { TransactionMonitor } from '../lib/utils/transactionMonitor.js';
 import { BatchSwapParams } from '../lib/types/index.js';
 import { DEFAULT_SLIPPAGE_PERCENTAGE } from '../lib/constants/index.js';
 import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 import { formatToBaseUnits } from '../lib/utils/amount.js';
+import { getFibrousRouterCtor } from '../lib/utils/fibrousRouterSdk.js';
+
+const FibrousRouterCtor = getFibrousRouterCtor();
 
 export class BatchSwapService {
   private tokenService: TokenService;
@@ -23,7 +26,7 @@ export class BatchSwapService {
   ) {
     this.tokenService = new TokenService();
     this.approvalService = new ApprovalService();
-    this.router = routerInstance || new FibrousRouter();
+    this.router = routerInstance || new FibrousRouterCtor();
   }
 
   async initialize(): Promise<void> {

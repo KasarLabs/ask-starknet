@@ -4,11 +4,14 @@ import { ApprovalService } from './approval.js';
 
 import { DEFAULT_SLIPPAGE_PERCENTAGE } from '../lib/constants/index.js';
 import { TokenService } from './fetchTokens.js';
-import { Router as FibrousRouter } from 'fibrous-router-sdk';
+import type { Router as FibrousRouter } from 'fibrous-router-sdk';
 import { SwapResult, SwapParams } from '../lib/types/index.js';
 import { getV3DetailsPayload } from '../lib/utils/utils.js';
 import { TransactionMonitor } from '../lib/utils/transactionMonitor.js';
 import { formatToBaseUnits } from '../lib/utils/amount.js';
+import { getFibrousRouterCtor } from '../lib/utils/fibrousRouterSdk.js';
+
+const FibrousRouterCtor = getFibrousRouterCtor();
 
 export class SwapService {
   private tokenService: TokenService;
@@ -133,7 +136,7 @@ export const createSwapService = (
     throw new Error('Wallet address not configured');
   }
 
-  return new SwapService(env, walletAddress, new FibrousRouter());
+  return new SwapService(env, walletAddress, new FibrousRouterCtor());
 };
 
 export const swapTokensFibrous = async (

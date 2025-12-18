@@ -1,11 +1,14 @@
 import { Account, Call, Contract } from 'starknet';
 import { ERC20_ABI } from '@kasarlabs/ask-starknet-core';
-import { Router } from 'fibrous-router-sdk';
+import type { Router } from 'fibrous-router-sdk';
+import { getFibrousRouterCtor } from '../lib/utils/fibrousRouterSdk.js';
+
+const FibrousRouterCtor = getFibrousRouterCtor();
 
 export class ApprovalService {
   private fibrous: Router;
   constructor() {
-    this.fibrous = new Router();
+    this.fibrous = new FibrousRouterCtor();
   }
 
   async checkAndGetApproveToken(
