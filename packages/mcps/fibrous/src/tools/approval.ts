@@ -43,7 +43,7 @@ export class ApprovalService {
 
       if (currentAllowance < requiredAmount) {
         const calldata = await this.fibrous.buildApproveStarknet(
-          amount,
+          BigInt(amount),
           tokenAddress
         );
 

@@ -1,6 +1,7 @@
 import { TokenService } from './fetchTokens.js';
 import { Router as FibrousRouter, RouteResponse } from 'fibrous-router-sdk';
 import { RouteSchemaType } from '../schemas/index.js';
+import { formatToBaseUnits } from '../lib/utils/amount.js';
 
 export interface RouteResult {
   status: 'success' | 'failure';
@@ -30,8 +31,11 @@ export class RouteFetchService {
         params.buyTokenSymbol
       );
 
-      const formattedAmount = params.sellAmount.toString();
-
+      // Fibrous API expects base units
+      const formattedAmount = formatToBaseUnits(
+        params.sellAmount,
+        Number(sellToken.decimals)
+      );
       const route = await this.router.getBestRoute({
         amount: formattedAmount,
         tokenInAddress: sellToken.address,
@@ -63,13 +67,6 @@ export const getRouteFibrous = async (
   params: RouteSchemaType
 ): Promise<RouteResult> => {
   try {
-    return {
-      status: 'failure',
-      error: 'This tool is currently under maintenance. ',
-    };
-
-    const tokenService = new TokenService();
-    await tokenService.initializeTokens();
     const routeService = new RouteFetchService();
     return routeService.fetchRoute(params);
   } catch (error) {

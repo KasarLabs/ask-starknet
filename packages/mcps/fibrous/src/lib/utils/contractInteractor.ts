@@ -153,10 +153,13 @@ export class ContractInteractor implements BaseUtilityClass {
   }
 
   formatTokenAmount(amount: string | number, decimals: number = 18): string {
+    if (decimals < 0) {
+      throw new Error('Decimals must be non-negative');
+    }
     const value = typeof amount === 'string' ? amount : amount.toString();
     const [whole, fraction = ''] = value.split('.');
-    const paddedFraction = fraction.padEnd(decimals, '0');
-    return whole + paddedFraction;
+    const truncatedFraction = fraction.slice(0, decimals).padEnd(decimals, '0');
+    return whole + truncatedFraction;
   }
 
   parseTokenAmount(amount: string, decimals: number = 18): string {

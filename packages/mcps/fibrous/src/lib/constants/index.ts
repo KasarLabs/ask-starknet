@@ -1,2 +1,2 @@
-export const SLIPPAGE_PERCENTAGE = 0.5;
+export const DEFAULT_SLIPPAGE_PERCENTAGE = 1;
 export const DEFAULT_QUOTE_SIZE = 1;

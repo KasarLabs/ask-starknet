@@ -2,13 +2,13 @@ import { Account, Call } from 'starknet';
 import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
 import { ApprovalService } from './approval.js';
 
-import { SLIPPAGE_PERCENTAGE } from '../lib/constants/index.js';
+import { DEFAULT_SLIPPAGE_PERCENTAGE } from '../lib/constants/index.js';
 import { TokenService } from './fetchTokens.js';
 import { Router as FibrousRouter } from 'fibrous-router-sdk';
 import { SwapResult, SwapParams } from '../lib/types/index.js';
 import { getV3DetailsPayload } from '../lib/utils/utils.js';
-import { ContractInteractor } from '../lib/utils/contractInteractor.js';
 import { TransactionMonitor } from '../lib/utils/transactionMonitor.js';
+import { formatToBaseUnits } from '../lib/utils/amount.js';
 
 export class SwapService {
   private tokenService: TokenService;
@@ -32,7 +32,6 @@ export class SwapService {
       await this.initialize();
 
       const provider = this.env.provider;
-      const contractInteractor = new ContractInteractor(provider);
       const account = new Account({
         provider,
         address: this.walletAddress,
@@ -44,31 +43,24 @@ export class SwapService {
         params.buyTokenSymbol
       );
 
-      const formattedAmount = contractInteractor.formatTokenAmount(
-        params.sellAmount.toString(),
+      const inputAmount = formatToBaseUnits(
+        params.sellAmount,
         Number(sellToken.decimals)
       );
 
-      const route = await this.router.getBestRoute({
-        amount: formattedAmount,
-        tokenInAddress: sellToken.address,
-        tokenOutAddress: buyToken.address,
-        chainName: 'starknet',
-      });
+      const destinationAddress = account.address;
 
-      if (!route?.success) {
-        throw new Error('No routes available for this swap');
-      }
-
-      const destinationAddress = account.address; // !!! Destination address is the address of the account that will receive the tokens might be the any address
-      const swapCall: Call | any = await this.router.buildTransaction({
-        inputAmount: formattedAmount,
-        tokenInAddress: sellToken.address,
-        tokenOutAddress: buyToken.address,
-        slippage: SLIPPAGE_PERCENTAGE,
+      const batchCalls = await this.router.buildBatchTransaction({
+        inputAmounts: [inputAmount],
+        tokenInAddresses: [sellToken.address],
+        tokenOutAddresses: [buyToken.address],
+        slippage: params.slippage ?? DEFAULT_SLIPPAGE_PERCENTAGE,
         destination: destinationAddress,
         chainName: 'starknet',
       });
+      const swapCall: Call | any = Array.isArray(batchCalls)
+        ? batchCalls[0]
+        : null;
 
       if (!swapCall) {
         throw new Error('Calldata not available for this swap');
@@ -80,7 +72,7 @@ export class SwapService {
           account,
           sellToken.address,
           routerAddress,
-          formattedAmount
+          inputAmount
         );
 
       let calldata: Call[] = [];
@@ -125,7 +117,7 @@ export class SwapService {
     const transactionMonitor = new TransactionMonitor(this.env.provider);
     const receipt = await transactionMonitor.waitForTransaction(
       txHash,
-      (status) => console.error('Swap status:', status)
+      (status) => console.info('Swap status:', status)
     );
 
     const events = await transactionMonitor.getTransactionEvents(txHash);
@@ -148,11 +140,6 @@ export const swapTokensFibrous = async (
   env: onchainWrite,
   params: SwapParams
 ): Promise<toolResult> => {
-  return {
-    status: 'failure',
-    error: 'This tool is currently under maintenance. ',
-  };
-
   const accountAddress = env.account?.address;
 
   try {

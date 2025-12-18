@@ -11,6 +11,7 @@ export interface SwapParams {
   sellTokenSymbol: string;
   buyTokenSymbol: string;
   sellAmount: number;
+  slippage?: number;
 }
 
 /**
@@ -23,6 +24,7 @@ export interface BatchSwapParams {
   sellTokenSymbols: string[];
   buyTokenSymbols: string[];
   sellAmounts: number[] | BigNumber[];
+  slippage?: number;
 }
 /**
  * Token information structure

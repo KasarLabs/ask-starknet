@@ -2,19 +2,27 @@ import { Token, Router as FibrousRouter } from 'fibrous-router-sdk';
 
 export class TokenService {
   private tokens: Map<string, Token>;
+  private readonly aliases: Record<string, string> = {
+    // Fibrous uses bridged USDC symbol on Starknet.
+    usdc: 'usdc.e',
+  };
 
   async initializeTokens(): Promise<void> {
     try {
       const fibrous = new FibrousRouter();
-      const tokensRecord = await fibrous.supportedTokens('starknet');
-      this.tokens = new Map(Object.entries(tokensRecord));
+      const tokens = await fibrous.supportedTokens('starknet');
+      this.tokens =
+        tokens instanceof Map
+          ? (tokens as Map<string, Token>)
+          : new Map(Object.entries(tokens));
     } catch (error) {
       throw new Error(`Failed to initialize tokens: ${error.message}`);
     }
   }
 
   getToken(symbol: string): Token | undefined {
-    return this.tokens.get(symbol.toLowerCase());
+    const key = symbol.toLowerCase();
+    return this.tokens.get(key) ?? this.tokens.get(this.aliases[key]);
   }
 
   validateTokenPair(
