@@ -18,7 +18,7 @@ export const getMarketOrderbook = async (
   params: GetMarketOrderbookSchema
 ): Promise<ExtendedApiResponse<OrderbookData>> => {
   try {
-    const data = await apiGet<OrderbookData>(
+    const response = await apiGet<OrderbookData>(
       env,
       `/api/v1/info/markets/${params.market}/orderbook`,
       false // Public endpoint, no auth required
@@ -26,7 +26,7 @@ export const getMarketOrderbook = async (
 
     return {
       status: 'success',
-      data,
+      data: response,
     };
   } catch (error: any) {
     console.error('Error getting market orderbook:', error);

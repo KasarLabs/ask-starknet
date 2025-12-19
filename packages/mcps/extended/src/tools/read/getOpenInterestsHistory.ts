@@ -27,7 +27,7 @@ export const getOpenInterestsHistory = async (
     const endpoint = `/api/v1/info/${params.market}/open-interests?${queryParams.toString()}`;
     console.error('Calling open interests endpoint:', endpoint);
 
-    const data = await apiGet<OpenInterest[]>(
+    const response = await apiGet<OpenInterest[]>(
       env,
       endpoint,
       false // Public endpoint, no auth required
@@ -35,7 +35,7 @@ export const getOpenInterestsHistory = async (
 
     return {
       status: 'success',
-      data,
+      data: response,
     };
   } catch (error: any) {
     console.error('Error getting open interests:', error);

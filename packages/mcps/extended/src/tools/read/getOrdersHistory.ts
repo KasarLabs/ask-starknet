@@ -13,7 +13,6 @@ export const getOrdersHistory = async (
   try {
     const queryParams = new URLSearchParams();
     if (params.market_id) queryParams.append('market_id', params.market_id);
-    if (params.status) queryParams.append('status', params.status);
     if (params.start_time)
       queryParams.append('start_time', params.start_time.toString());
     if (params.end_time)
@@ -22,11 +21,11 @@ export const getOrdersHistory = async (
 
     const endpoint = `/api/v1/user/orders/history${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
 
-    const data = await apiGet<OrderReturn[]>(env, endpoint, true);
+    const response = await apiGet<OrderReturn[]>(env, endpoint, true);
 
     return {
       status: 'success',
-      data,
+      data: response,
     };
   } catch (error: any) {
     console.error('Error getting orders history:', error);

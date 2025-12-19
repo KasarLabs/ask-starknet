@@ -183,7 +183,7 @@ const registerTools = (tools: mcpTool[]) => {
   tools.push({
     name: 'extended_get_orders_history',
     description:
-      'Get historical orders (filled, canceled, or rejected) with optional filters',
+      'Get historical orders (filled, cancelled, rejected, or expired) with optional filters',
     schema: GetOrdersHistorySchema,
     execute: async (params) => {
       const env = createApiEnv();

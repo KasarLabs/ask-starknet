@@ -74,13 +74,16 @@ export type OrderSide = 'BUY' | 'SELL';
 export type OrderStatus =
   | 'NEW'
   | 'PARTIALLY_FILLED'
+  | 'UNTRIGGERED'
   | 'FILLED'
-  | 'CANCELED'
-  | 'REJECTED';
+  | 'CANCELLED'
+  | 'REJECTED'
+  | 'EXPIRED'
+  | 'TRIGGERED';
 export type TimeInForce = 'GTC' | 'IOC' | 'FOK' | 'GTT';
 
 export interface OrderReturn {
-  id: number;
+  id: string | number; // Can be string to preserve precision for very large numbers (> Number.MAX_SAFE_INTEGER)
   accountId: number;
   externalId: string;
   market: string;

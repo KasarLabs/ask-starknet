@@ -24,15 +24,14 @@ export const getBridgeQuote = async (
       amount: params.amount.toString(),
     });
 
-    const response = await apiGet<{ status: string; data: BridgeQuote }>(
+    const response = await apiGet<BridgeQuote>(
       env,
       `/api/v1/user/bridge/quote?${queryParams.toString()}`,
       true
     );
-
     return {
       status: 'success',
-      data: response.data,
+      data: response,
     };
   } catch (error: any) {
     console.error('Error getting bridge quote:', error);

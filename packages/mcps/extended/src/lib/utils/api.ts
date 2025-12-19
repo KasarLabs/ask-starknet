@@ -1,6 +1,27 @@
 import { ExtendedApiEnv } from '../types/index.js';
 
 /**
+ * Preserves precision for large numbers (like order IDs) by converting them to strings
+ * This prevents JavaScript from losing precision when parsing numbers > Number.MAX_SAFE_INTEGER
+ */
+function preserveLargeNumberPrecision(jsonText: string): string {
+  // Convert numeric IDs (16+ digits) to string IDs to preserve precision
+  // This handles cases where IDs exceed Number.MAX_SAFE_INTEGER (9007199254740991)
+  return jsonText.replace(
+    /"id"\s*:\s*(\d{16,})/g,
+    (match, idValue) => `"id":"${idValue}"`
+  );
+}
+
+/**
+ * Parses JSON response while preserving precision for large numbers
+ */
+function parseJsonWithPrecision(jsonText: string): any {
+  const preservedJsonText = preserveLargeNumberPrecision(jsonText);
+  return JSON.parse(preservedJsonText);
+}
+
+/**
  * Makes a GET request to the Extended API
  * Automatically extracts the 'data' field from Extended API responses
  */
@@ -30,7 +51,9 @@ export async function apiGet<T>(
     );
   }
 
-  const jsonResponse = await response.json();
+  // Get raw response text to preserve precision for large numbers
+  const responseText = await response.text();
+  const jsonResponse = parseJsonWithPrecision(responseText);
 
   // Extended API wraps responses in {"status": "OK", "data": ...}
   // Extract and return the data field directly
@@ -57,11 +80,7 @@ export async function apiPost<T>(
     'X-Api-Key': env.apiKey as string,
     'Content-Type': 'application/json',
   };
-  console.error(url, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify(body),
-  });
+
   const response = await fetch(url, {
     method: 'POST',
     headers,
@@ -75,7 +94,9 @@ export async function apiPost<T>(
     );
   }
 
-  const jsonResponse = await response.json();
+  // Get raw response text to preserve precision for large numbers
+  const responseText = await response.text();
+  const jsonResponse = parseJsonWithPrecision(responseText);
 
   // Extended API wraps responses in {"status": "OK", "data": ...}
   // Extract and return the data field directly
@@ -116,7 +137,9 @@ export async function apiPut<T>(
     );
   }
 
-  const jsonResponse = await response.json();
+  // Get raw response text to preserve precision for large numbers
+  const responseText = await response.text();
+  const jsonResponse = parseJsonWithPrecision(responseText);
 
   // Extended API wraps responses in {"status": "OK", "data": ...}
   // Extract and return the data field directly
@@ -157,7 +180,9 @@ export async function apiPatch<T>(
     );
   }
 
-  const jsonResponse = await response.json();
+  // Get raw response text to preserve precision for large numbers
+  const responseText = await response.text();
+  const jsonResponse = parseJsonWithPrecision(responseText);
 
   // Extended API wraps responses in {"status": "OK", "data": ...}
   // Extract and return the data field directly
@@ -195,7 +220,9 @@ export async function apiDelete<T>(
     );
   }
 
-  const jsonResponse = await response.json();
+  // Get raw response text to preserve precision for large numbers
+  const responseText = await response.text();
+  const jsonResponse = parseJsonWithPrecision(responseText);
 
   // Extended API wraps responses in {"status": "OK", "data": ...}
   // Extract and return the data field directly
