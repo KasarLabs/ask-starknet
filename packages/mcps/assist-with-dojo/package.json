@@ -1,0 +1,71 @@
+{
+  "name": "@kasarlabs/assist-with-dojo-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for Starknet ecosystem knowledge and documentation",
+  "type": "module",
+  "main": "build/index.js",
+  "exports": {
+    ".": {
+      "import": "./build/index.js",
+      "types": "./build/index.d.ts"
+    }
+  },
+  "bin": {
+    "assist-with-dojo-mcp": "./build/index.js"
+  },
+  "files": [
+    "build",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc && chmod +x build/index.js",
+    "start": "node build/index.js",
+    "dev": "tsx src/index.ts",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix",
+    "clean": "rm -rf build node_modules",
+    "prepublishOnly": "npm run clean && npm install && npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "mcp",
+    "starknet",
+    "knowledge",
+    "documentation",
+    "ecosystem",
+    "blockchain",
+    "cli",
+    "npx"
+  ],
+  "author": "KasarLabs",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.22.0",
+    "dotenv": "^16.5.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kasarlabs/ask-starknet",
+    "directory": "packages/mcps/assist-with-dojo"
+  },
+  "bugs": {
+    "url": "https://github.com/kasarlabs/ask-starknet/issues"
+  },
+  "homepage": "https://github.com/kasarlabs/ask-starknet/tree/main/packages/mcps/assist-with-dojo#readme"
+}

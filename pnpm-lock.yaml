@@ -200,6 +200,37 @@ importers:
         specifier: ^5.8.2
         version: 5.9.3
 
+  packages/mcps/assist-with-dojo:
+    dependencies:
+      '@modelcontextprotocol/sdk':
+        specifier: 1.22.0
+        version: 1.22.0(@cfworker/json-schema@4.1.1)
+      dotenv:
+        specifier: ^16.5.0
+        version: 16.6.1
+      zod:
+        specifier: ^3.24.2
+        version: 3.25.76
+    devDependencies:
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.26
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^6.0.0
+        version: 6.21.0(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.9.3))(eslint@8.57.1)(typescript@5.9.3)
+      '@typescript-eslint/parser':
+        specifier: ^6.0.0
+        version: 6.21.0(eslint@8.57.1)(typescript@5.9.3)
+      eslint:
+        specifier: ^8.0.0
+        version: 8.57.1
+      tsx:
+        specifier: ^4.7.0
+        version: 4.21.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
   packages/mcps/avnu:
     dependencies:
       '@avnu/avnu-sdk':
