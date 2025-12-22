@@ -1,7 +1,13 @@
 import { TokenService } from './fetchTokens.js';
-import { Router as FibrousRouter, RouteResponse } from 'fibrous-router-sdk';
-import { BigNumber } from '@ethersproject/bignumber';
+import type {
+  Router as FibrousRouter,
+  RouteResponse,
+} from 'fibrous-router-sdk';
 import { RouteSchemaType } from '../schemas/index.js';
+import { formatToBaseUnits } from '../lib/utils/amount.js';
+import { getFibrousRouterCtor } from '../lib/utils/fibrousRouterSdk.js';
+
+const FibrousRouterCtor = getFibrousRouterCtor();
 
 export interface RouteResult {
   status: 'success' | 'failure';
@@ -15,7 +21,7 @@ export class RouteFetchService {
 
   constructor() {
     this.tokenService = new TokenService();
-    this.router = new FibrousRouter();
+    this.router = new FibrousRouterCtor();
   }
 
   async initialize(): Promise<void> {
@@ -31,26 +37,22 @@ export class RouteFetchService {
         params.buyTokenSymbol
       );
 
-      const formattedAmount = BigInt(params.sellAmount.toString());
-
-      const route = await this.router.getBestRoute(
-        BigNumber.from(formattedAmount.toString()),
-        sellToken.address,
-        buyToken.address,
-        'starknet'
+      // Fibrous API expects base units
+      const formattedAmount = formatToBaseUnits(
+        params.sellAmount,
+        Number(sellToken.decimals)
       );
+      const route = await this.router.getBestRoute({
+        amount: formattedAmount,
+        tokenInAddress: sellToken.address,
+        tokenOutAddress: buyToken.address,
+        chainName: 'starknet',
+      });
 
       if (!route?.success) {
         return {
           status: 'failure',
           error: 'No routes available for this swap',
-        };
-      }
-
-      if (!route) {
-        return {
-          status: 'failure',
-          error: 'No valid route found in quote',
         };
       }
 
@@ -71,13 +73,6 @@ export const getRouteFibrous = async (
   params: RouteSchemaType
 ): Promise<RouteResult> => {
   try {
-    return {
-      status: 'failure',
-      error: 'This tool is currently under maintenance. ',
-    };
-
-    const tokenService = new TokenService();
-    await tokenService.initializeTokens();
     const routeService = new RouteFetchService();
     return routeService.fetchRoute(params);
   } catch (error) {

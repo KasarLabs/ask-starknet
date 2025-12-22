@@ -1,15 +1,18 @@
-import { Account, Call, constants } from 'starknet';
+import { Account, Call } from 'starknet';
 
 import { ApprovalService } from './approval.js';
 
 import { TokenService } from './fetchTokens.js';
-import { Router as FibrousRouter, RouteSuccess } from 'fibrous-router-sdk';
-import { BigNumber } from '@ethersproject/bignumber';
+import type { Router as FibrousRouter, RouteSuccess } from 'fibrous-router-sdk';
 import { getV3DetailsPayload } from '../lib/utils/utils.js';
 import { TransactionMonitor } from '../lib/utils/transactionMonitor.js';
 import { BatchSwapParams } from '../lib/types/index.js';
-import { SLIPPAGE_PERCENTAGE } from '../lib/constants/index.js';
+import { DEFAULT_SLIPPAGE_PERCENTAGE } from '../lib/constants/index.js';
 import { onchainWrite, toolResult } from '@kasarlabs/ask-starknet-core';
+import { formatToBaseUnits } from '../lib/utils/amount.js';
+import { getFibrousRouterCtor } from '../lib/utils/fibrousRouterSdk.js';
+
+const FibrousRouterCtor = getFibrousRouterCtor();
 
 export class BatchSwapService {
   private tokenService: TokenService;
@@ -23,7 +26,7 @@ export class BatchSwapService {
   ) {
     this.tokenService = new TokenService();
     this.approvalService = new ApprovalService();
-    this.router = routerInstance || new FibrousRouter();
+    this.router = routerInstance || new FibrousRouterCtor();
   }
 
   async initialize(): Promise<void> {
@@ -33,18 +36,21 @@ export class BatchSwapService {
   extractBatchSwapParams(params: BatchSwapParams): {
     sellTokenAddresses: string[];
     buyTokenAddresses: string[];
-    sellAmounts: BigNumber[];
+    sellAmounts: string[];
   } {
     const sellTokens: string[] = [];
     const buyTokens: string[] = [];
-    const sellAmounts: BigNumber[] = [];
+    const sellAmounts: string[] = [];
     for (let i = 0; i < params.sellTokenSymbols.length; i++) {
       const { sellToken, buyToken } = this.tokenService.validateTokenPair(
         params.sellTokenSymbols[i],
         params.buyTokenSymbols[i]
       );
 
-      const sellAmount = BigNumber.from(params.sellAmounts[i]);
+      const sellAmount = formatToBaseUnits(
+        params.sellAmounts[i],
+        Number(sellToken.decimals)
+      );
       sellTokens.push(sellToken.address);
       buyTokens.push(buyToken.address);
       sellAmounts.push(sellAmount);
@@ -66,58 +72,48 @@ export class BatchSwapService {
         address: this.walletAddress,
         signer: this.env.account.signer,
       });
-
       const swapParams = this.extractBatchSwapParams(params);
 
-      // Get routes for each swap individually instead of batch
-      const routes = [];
-      for (let i = 0; i < swapParams.sellAmounts.length; i++) {
-        const route = await this.router.getBestRoute(
-          swapParams.sellAmounts[i],
-          swapParams.sellTokenAddresses[i],
-          swapParams.buyTokenAddresses[i],
-          'starknet'
-        );
-        routes.push(route);
-      }
-
-      for (let i = 0; i < routes.length; i++) {
-        console.error(`${i}. Route information: `, {
-          sellToken: params.sellTokenSymbols[i],
-          buyToken: params.buyTokenSymbols[i],
-          sellAmount: params.sellAmounts[i],
-          buyAmount:
-            routes[i] && routes[i].success
-              ? (routes[i] as RouteSuccess).outputAmount
-              : 'N/A',
-        });
-      }
-      const destinationAddress = account.address; // !!! Destination address is the address of the account that will receive the tokens might be the any address
-
-      const swapCalls = await this.router.buildBatchTransaction(
-        swapParams.sellAmounts as BigNumber[],
-        swapParams.sellTokenAddresses,
-        swapParams.buyTokenAddresses,
-        SLIPPAGE_PERCENTAGE,
-        destinationAddress,
-        'starknet'
-      );
-      if (!swapCalls) {
+      const destinationAddress = account.address;
+      const swapCalls = await this.router.buildBatchTransaction({
+        inputAmounts: swapParams.sellAmounts,
+        tokenInAddresses: swapParams.sellTokenAddresses,
+        tokenOutAddresses: swapParams.buyTokenAddresses,
+        slippage: params.slippage ?? DEFAULT_SLIPPAGE_PERCENTAGE,
+        destination: destinationAddress,
+        chainName: 'starknet',
+      });
+      if (!swapCalls || !Array.isArray(swapCalls)) {
         throw new Error('Calldata not available for this swap');
       }
+
+      const approvalsByToken = new Map<string, bigint>();
+      for (let i = 0; i < swapParams.sellTokenAddresses.length; i++) {
+        const tokenAddr = swapParams.sellTokenAddresses[i];
+        const amount = BigInt(swapParams.sellAmounts[i]);
+        approvalsByToken.set(
+          tokenAddr,
+          (approvalsByToken.get(tokenAddr) || 0n) + amount
+        );
+      }
+
+      const routerAddress = await this.router.getRouterAddress('starknet');
       let calldata: Call[] = [];
-      for (let i = 0; i < swapCalls.length; i++) {
+
+      for (const [tokenAddr, totalAmount] of approvalsByToken) {
         const approveCall = await this.approvalService.checkAndGetApproveToken(
           account,
-          swapParams.sellTokenAddresses[i],
-          this.router.STARKNET_ROUTER_ADDRESS,
-          swapParams.sellAmounts[i].toString()
+          tokenAddr,
+          routerAddress,
+          totalAmount.toString()
         );
         if (approveCall) {
-          calldata = [approveCall, swapCalls[i]];
-        } else {
-          calldata = [swapCalls[i]];
+          calldata.push(approveCall);
         }
+      }
+
+      for (const swapCall of swapCalls) {
+        calldata.push(swapCall);
       }
 
       const swapResult = await account.execute(calldata, getV3DetailsPayload());
@@ -146,7 +142,7 @@ export class BatchSwapService {
     const transactionMonitor = new TransactionMonitor(this.env.provider);
     const receipt = await transactionMonitor.waitForTransaction(
       txHash,
-      (status) => console.error('Swap status:', status)
+      (status) => console.info('Swap status:', status)
     );
 
     const events = await transactionMonitor.getTransactionEvents(txHash);
@@ -169,20 +165,15 @@ export const batchSwapTokens = async (
   env: onchainWrite,
   params: BatchSwapParams
 ): Promise<toolResult> => {
-  return {
-    status: 'failure',
-    error: 'This tool is currently under maintenance. ',
-  };
-
   const accountAddress = env.account?.address;
 
   try {
     const swapService = createSwapService(env, accountAddress);
     const result = await swapService.executeSwapTransaction(params);
-    return {
-      status: 'success',
-      data: result,
-    };
+    if (result.status === 'failure') {
+      return { status: 'failure', error: result.error ?? 'Batch swap failed' };
+    }
+    return { status: 'success', data: result };
   } catch (error) {
     return {
       status: 'failure',
