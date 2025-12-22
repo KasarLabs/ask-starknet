@@ -20,8 +20,8 @@ const STRK_ADDRESS =
 
 // Multiply test constants
 const MULTIPLY_DEPOSIT_AMOUNT = '350'; // xSTRK amount
-const MULTIPLY_TARGET_LTV = '50'; // 50% LTV
-const MULTIPLY_UPDATE_LTV_LOW = '25'; // 25% LTV for update test
+const MULTIPLY_TARGET_LTV = '65'; // 50% LTV
+const MULTIPLY_UPDATE_LTV_LOW = '35'; // 25% LTV for update test
 const MULTIPLY_UPDATE_LTV_HIGH = '80'; // 80% LTV for update test (with ±1% tolerance)
 
 function getDataAsArray(
