@@ -262,6 +262,7 @@ export const depositMultiplyPosition = async (
         },
       };
     } else {
+      console.error('Deposit multiply error:', result.error);
       return {
         status: 'failure',
         error: result.error || 'Unknown error',
