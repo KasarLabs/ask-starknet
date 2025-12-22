@@ -41,11 +41,8 @@ export class DepositMultiplyService {
     env: onchainWrite
   ): Promise<DepositMultiplyResult> {
     try {
-      const account = new Account({
-        provider: this.env.provider,
-        address: this.walletAddress,
-        signer: this.env.account.signer,
-      });
+      // Use the account from env directly instead of creating a new one
+      const account = env.account;
       // For v2, poolId is the address of the pool contract
       const poolId = (params.poolId || GENESIS_POOLID) as Hex;
       const pool = await getPool(poolId);
@@ -141,7 +138,6 @@ export class DepositMultiplyService {
         toBN(debtPrice.value);
 
       const provider = env.provider;
-      const wallet = env.account;
 
       // Use Ekubo API to get quote and automatically extract pool parameters
       // For deposit: swap debt -> collateral, so order is debtToken/collateralToken
@@ -188,7 +184,7 @@ export class DepositMultiplyService {
         calldata: call.calldata,
       }));
 
-      const tx = await wallet.execute(calls);
+      const tx = await account.execute(calls);
 
       await provider.waitForTransaction(tx.transaction_hash);
 
@@ -262,6 +258,7 @@ export const depositMultiplyPosition = async (
         },
       };
     } else {
+      console.error('Deposit multiply error:', result.error);
       return {
         status: 'failure',
         error: result.error || 'Unknown error',

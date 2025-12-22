@@ -24,7 +24,7 @@ export async function getEkuboQuoteFromAPI(
 ): Promise<EkuboQuote> {
   // Use API to get quote with pool parameters
   const baseUrl =
-    ekuboQuoterUrl || 'https://starknet-mainnet-quoter-api.ekubo.org';
+    ekuboQuoterUrl || 'https://prod-api-quoter.ekubo.org/23448594291968334';
 
   const apiAmount = isExactIn ? amount : -amount;
   const url = `${baseUrl}/${apiAmount}/${tokenIn.address}/${tokenOut.address}`;
