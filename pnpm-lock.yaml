@@ -130,7 +130,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.75
-        version: 0.3.79(openai@5.12.2(zod@3.25.76))
+        version: 0.3.79(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: 1.22.0
         version: 1.22.0(@cfworker/json-schema@4.1.1)
@@ -173,7 +173,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.79(openai@5.12.2(zod@3.25.76))
+        version: 0.3.79(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: 1.22.0
         version: 1.22.0(@cfworker/json-schema@4.1.1)
@@ -241,7 +241,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.75
-        version: 0.3.79(openai@5.12.2(zod@3.25.76))
+        version: 0.3.79(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: 1.22.0
         version: 1.22.0(@cfworker/json-schema@4.1.1)
@@ -284,7 +284,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.75
-        version: 0.3.79(openai@5.12.2(zod@3.25.76))
+        version: 0.3.79(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: 1.22.0
         version: 1.22.0(@cfworker/json-schema@4.1.1)
@@ -478,7 +478,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.79(openai@5.12.2(zod@3.25.76))
+        version: 0.3.79(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: 1.22.0
         version: 1.22.0(@cfworker/json-schema@4.1.1)
@@ -521,7 +521,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.79(openai@5.12.2(zod@3.25.76))
+        version: 0.3.79(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: 1.22.0
         version: 1.22.0(@cfworker/json-schema@4.1.1)
@@ -631,7 +631,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.79(openai@5.12.2(zod@3.25.76))
+        version: 0.3.79(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: 1.22.0
         version: 1.22.0(@cfworker/json-schema@4.1.1)
@@ -651,9 +651,21 @@ importers:
         specifier: ^3.24.2
         version: 3.25.76
     devDependencies:
+      '@jest/globals':
+        specifier: ^29.7.0
+        version: 29.7.0
+      '@types/jest':
+        specifier: ^29.5.12
+        version: 29.5.14
       '@types/node':
         specifier: ^22.13.10
         version: 22.19.2
+      jest:
+        specifier: ^29.7.0
+        version: 29.7.0(@types/node@22.19.2)
+      ts-jest:
+        specifier: ^29.1.2
+        version: 29.4.6(@babel/core@7.28.5)(@jest/transform@30.2.0)(@jest/types@30.2.0)(babel-jest@29.7.0(@babel/core@7.28.5))(jest-util@30.2.0)(jest@29.7.0(@types/node@22.19.2))(typescript@5.9.3)
       typescript:
         specifier: ^5.8.2
         version: 5.9.3
@@ -665,7 +677,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.75
-        version: 0.3.79(openai@5.12.2(zod@3.25.76))
+        version: 0.3.79(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: ^1.11.2
         version: 1.22.0(@cfworker/json-schema@4.1.1)
@@ -745,7 +757,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.79(openai@5.12.2(zod@3.25.76))
+        version: 0.3.79(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
       '@mistcash/config':
         specifier: ^0.2.2
         version: 0.2.2
@@ -794,7 +806,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.75
-        version: 0.3.79(openai@5.12.2(zod@3.25.76))
+        version: 0.3.79(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: 1.22.0
         version: 1.22.0(@cfworker/json-schema@4.1.1)
@@ -837,7 +849,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.79(openai@5.12.2(zod@3.25.76))
+        version: 0.3.79(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: 1.22.0
         version: 1.22.0(@cfworker/json-schema@4.1.1)
@@ -880,7 +892,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.79(openai@5.12.2(zod@3.25.76))
+        version: 0.3.79(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: 1.22.0
         version: 1.22.0(@cfworker/json-schema@4.1.1)
@@ -1034,7 +1046,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.79(openai@5.12.2(zod@3.25.76))
+        version: 0.3.79(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: 1.22.0
         version: 1.22.0(@cfworker/json-schema@4.1.1)
@@ -1077,7 +1089,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.79(openai@5.12.2(zod@3.25.76))
+        version: 0.3.79(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: 1.22.0
         version: 1.22.0(@cfworker/json-schema@4.1.1)
@@ -1120,7 +1132,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.75
-        version: 0.3.79(openai@5.12.2(zod@3.25.76))
+        version: 0.3.79(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: 1.22.0
         version: 1.22.0(@cfworker/json-schema@4.1.1)
@@ -1148,7 +1160,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.79(openai@5.12.2(zod@3.25.76))
+        version: 0.3.79(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: 1.22.0
         version: 1.22.0(@cfworker/json-schema@4.1.1)
@@ -1197,7 +1209,7 @@ importers:
         version: link:../../core
       '@langchain/core':
         specifier: ^0.3.42
-        version: 0.3.79(openai@5.12.2(zod@3.25.76))
+        version: 0.3.79(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
       '@modelcontextprotocol/sdk':
         specifier: 1.22.0
         version: 1.22.0(@cfworker/json-schema@4.1.1)
@@ -10148,14 +10160,14 @@ snapshots:
       - '@opentelemetry/sdk-trace-base'
       - openai
 
-  '@langchain/core@0.3.79(openai@5.12.2(zod@3.25.76))':
+  '@langchain/core@0.3.79(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))':
     dependencies:
       '@cfworker/json-schema': 4.1.1
       ansi-styles: 5.2.0
       camelcase: 6.3.0
       decamelize: 1.2.0
       js-tiktoken: 1.0.21
-      langsmith: 0.3.86(openai@5.12.2(zod@3.25.76))
+      langsmith: 0.3.86(openai@5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76))
       mustache: 4.2.0
       p-queue: 6.6.2
       p-retry: 4.6.2
@@ -13900,7 +13912,7 @@ snapshots:
       isstream: 0.1.2
       jsonwebtoken: 9.0.3
       mime-types: 2.1.35
-      retry-axios: 2.6.0(axios@1.13.2(debug@4.4.3))
+      retry-axios: 2.6.0(axios@1.13.2)
       tough-cookie: 4.1.4
     transitivePeerDependencies:
       - supports-color
@@ -14677,17 +14689,6 @@ snapshots:
       uuid: 10.0.0
     optionalDependencies:
       openai: 5.12.2(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76)
-
-  langsmith@0.3.86(openai@5.12.2(zod@3.25.76)):
-    dependencies:
-      '@types/uuid': 10.0.0
-      chalk: 4.1.2
-      console-table-printer: 2.15.0
-      p-queue: 6.6.2
-      semver: 7.7.3
-      uuid: 10.0.0
-    optionalDependencies:
-      openai: 5.12.2(ws@7.5.10(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76)
 
   lerna@9.0.3(@types/node@22.19.2):
     dependencies:
@@ -15882,7 +15883,7 @@ snapshots:
       onetime: 5.1.2
       signal-exit: 3.0.7
 
-  retry-axios@2.6.0(axios@1.13.2(debug@4.4.3)):
+  retry-axios@2.6.0(axios@1.13.2):
     dependencies:
       axios: 1.13.2(debug@4.4.3)
 
