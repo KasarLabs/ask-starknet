@@ -1,9 +1,9 @@
 import { Contract, RpcProvider } from 'starknet';
 import { Address } from '../../interfaces/index.js';
+import { erc20Abi } from '@kasarlabs/ask-starknet-core';
 import { vTokenAbi } from '../abis/vTokenAbi.js';
 import { singletonAbi } from '../abis/singletonAbi.js';
 import { extensionAbi } from '../abis/extensionAbi.js';
-import { erc20Abi } from '@kasarlabs/ask-starknet-core';
 import { multiplyAbi } from '../abis/multiplyAbi.js';
 import { poolAbi } from '../abis/poolAbi.js';
 
